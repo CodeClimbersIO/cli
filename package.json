@@ -3,6 +3,12 @@
   "productName": "Test",
   "version": "1.0.0",
   "description": "Test CLI",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  ],
   "scripts": {
     "build:server": "tsc",
     "build:app": "vite build",
