@@ -1,0 +1,36 @@
+{
+  "name": "test",
+  "productName": "Test",
+  "version": "1.0.0",
+  "description": "Test CLI",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "start": "node dist/server.js",
+    "lint": "eslint --ext .ts,.tsx .",
+    "db:migrate": "knex migrate:latest",
+    "db:migrate:make": "knex migrate:make"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.25.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.3.2",
+    "ts-node": "^10.0.0",
+    "typescript": "~4.5.4",
+    "typescript-eslint": "^7.13.0"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Paul Hovley",
+    "email": "rphovley@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
