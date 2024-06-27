@@ -1,21 +1,24 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import AppRouter from './routes'
-import './index.css'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import './index.css'
+import AppRouter from './routes'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import theme from './config/theme'
-
+const queryClient = new QueryClient()
 function AppRender() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppRouter />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppRouter />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 
