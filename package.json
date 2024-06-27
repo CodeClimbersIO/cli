@@ -8,6 +8,7 @@
     "dev": "tsc-watch --noClear --onSuccess \"npm run start\"",
     "start": "node dist/server.js",
     "lint": "eslint --ext .ts,.tsx .",
+    "test": "vitest",
     "db:migrate": "knex migrate:latest",
     "db:migrate:make": "knex migrate:make"
   },
@@ -36,6 +37,8 @@
   "license": "MIT",
   "dependencies": {
     "bunyan": "^1.8.15",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7"
   }
 }

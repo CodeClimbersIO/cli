@@ -1,2 +1,7 @@
+# build artifacts
 dist
 node_modules
+
+codeclimber.sqlite
+
+.DS_Store
