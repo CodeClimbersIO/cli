@@ -15,5 +15,3 @@ export async function startServer() {
     AppLogger.error(`[server]: Error starting server: ${e}`)
   }
 }
-
-startServer()

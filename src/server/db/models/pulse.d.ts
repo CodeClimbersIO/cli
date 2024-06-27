@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace CodeClimbers {
+declare namespace CodeClimbers {
   export interface Pulse {
     id: number
     userId: string

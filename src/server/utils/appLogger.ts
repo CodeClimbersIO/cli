@@ -1,5 +1,5 @@
 import * as bunyan from 'bunyan'
-import stream, { Writable } from 'stream'
+import { Writable } from 'stream'
 
 interface LogRecord {
   name: string
@@ -15,7 +15,7 @@ const debugStream = new Writable({
   objectMode: true, // This is crucial for handling objects
   write(
     log: LogRecord,
-    encoding: string,
+    _: string,
     callback: (error?: Error | null) => void,
   ): void {
     console.log(`\x1b[32mCodeClimbers Log:\x1b[0m \x1b[34m${log.msg}\x1b[0m`)
