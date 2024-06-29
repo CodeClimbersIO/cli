@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "experimentalDecorators": true,
     "jsx": "react-jsx",
   },
   "include": [

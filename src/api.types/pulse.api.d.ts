@@ -1,5 +1,5 @@
 declare namespace CodeClimbersApi {
-  export interface PulseDto {
+  export interface PulseDao {
     id: number
     userId: string
     entity: string

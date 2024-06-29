@@ -8,7 +8,7 @@ export function useLatestPulses() {
       url: `${BASE_API_URL}/pulse/latest`,
       method: 'GET',
     })
-  return useBetterQuery<CodeClimbersApi.PulseDto[], Error>({
+  return useBetterQuery<CodeClimbersApi.PulseDao[], Error>({
     queryKey: pulseKeys.latestPulses,
     queryFn,
   })
