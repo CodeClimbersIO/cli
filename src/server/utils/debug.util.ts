@@ -1,4 +1,4 @@
-import AppLogger from './appLogger'
+import AppLogger from './appLogger.util'
 interface Reg {
   fast_slash: boolean
 }

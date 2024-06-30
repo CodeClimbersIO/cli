@@ -1,23 +1,26 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class WakatimePulse {
+  constructor(data: Partial<WakatimePulse>) {
+    Object.assign(this, data)
+  }
   @IsString()
   userId?: string
 
   @IsString()
-  entity = ''
+  entity!: string
 
   @IsString()
-  type = ''
+  type!: string
 
   @IsString()
   category?: string
 
   @IsString()
-  project = ''
+  project!: string
 
   @IsString()
-  branch = ''
+  branch!: string
 
   @IsOptional()
   @IsString()
@@ -40,16 +43,16 @@ export class WakatimePulse {
   user_agent?: string
 
   @IsNumber()
-  time: number | string = 0
+  time!: number | string
 
   @IsString()
   hash?: string
 
   @IsString()
-  origin?: string = ''
+  origin?: string
 
   @IsString()
-  origin_id?: string = ''
+  origin_id?: string
 
   @IsString()
   description?: string

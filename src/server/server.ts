@@ -1,6 +1,6 @@
 import express from 'express'
 import { bootstrap } from './bootstrap'
-import AppLogger from './utils/appLogger'
+import AppLogger from './utils/appLogger.util'
 
 const app = express()
 const port = process.env.PORT || 8080

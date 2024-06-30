@@ -1,4 +1,4 @@
-import AppLogger from '../utils/appLogger'
+import AppLogger from '../utils/appLogger.util'
 import { db } from './knex'
 
 export const initMigrations = async () => {
