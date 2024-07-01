@@ -1,0 +1,6 @@
+declare namespace CodeClimbers {
+  export interface Body {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any
+  }
+}

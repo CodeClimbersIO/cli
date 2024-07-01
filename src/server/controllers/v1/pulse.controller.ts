@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import Router from 'express-promise-router'
-import meService from '../../services/pulse.service'
+import activitiesService from '../../services/activities.service'
 const pulseController = Router()
 
 pulseController.get('/latest', async (_: Request, res: Response) => {
-  const pulse = await meService.getLatestPulses()
+  const pulse = await activitiesService.getLatestPulses()
   res.send({ message: 'success', data: pulse })
 })
 

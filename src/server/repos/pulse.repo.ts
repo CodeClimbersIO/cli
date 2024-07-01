@@ -15,7 +15,13 @@ const createPulse = async (pulse: CodeClimbers.Pulse) => {
   return res
 }
 
+const createPulses = async (pulses: CodeClimbers.Pulse[]) => {
+  const res = await pulseDb.insert(pulses)
+  return res
+}
+
 export default {
   getLatestPulses,
   createPulse,
+  createPulses,
 }

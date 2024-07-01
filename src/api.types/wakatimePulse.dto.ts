@@ -1,8 +1,8 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export namespace CodeClimbersApi {
-  export class WakatimePulseDto {
-    constructor(data: Partial<WakatimePulseDto>) {
+  export class CreateWakatimePulseDto {
+    constructor(data: Partial<CreateWakatimePulseDto>) {
       Object.assign(this, data)
     }
     @IsString()

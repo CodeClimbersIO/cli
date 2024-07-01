@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
 import Router from 'express-promise-router'
-import { CodeClimbersApi } from '../../../api.types/wakatimePulse.dto'
+import activitiesService from '../../services/activities.service'
 import AppLogger from '../../utils/appLogger.util'
-import { validateDto } from '../../utils/validation.util'
 const wakatimeProxyController = Router()
 
 wakatimeProxyController.get(
@@ -15,8 +14,8 @@ wakatimeProxyController.get(
 
 wakatimeProxyController.post(
   '/users/current/heartbeats',
-  (req: Request, res: Response) => {
-    AppLogger.info('heartbeats', req.body)
+  async (req: Request, res: Response) => {
+    activitiesService.createPulse(req.body)
     res.status(201).send({ message: 'success', data: 'heartbeats' })
   },
 )
@@ -24,10 +23,7 @@ wakatimeProxyController.post(
 wakatimeProxyController.post(
   '/users/current/heartbeats.bulk',
   async (req: Request, res: Response) => {
-    AppLogger.info('heartbeats.bulk', req.body)
-    const wakatimePulse = new CodeClimbersApi.WakatimePulseDto(req.body)
-
-    await validateDto(wakatimePulse)
+    activitiesService.createPulses(req.body)
     res.status(201).send({ message: 'success', data: 'heartbeats.bulk' })
   },
 )
