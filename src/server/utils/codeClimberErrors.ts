@@ -1,3 +1,5 @@
+import { ValidationError } from 'class-validator'
+
 /**
  * Custom Errors are used when a developer wants the error to be displayed to the end user
  * All other errors are reported internally
@@ -14,16 +16,17 @@ export class CodeClimberError extends Error {
   }
 }
 
-
-export namespace ValidationErrors {
-  export class MissingBodyError extends CodeClimberError {
-    constructor(message?: string) {
-      super(message || 'Body missing from request', 422)
+export namespace CodeClimberError {
+  class ValidationErr extends CodeClimberError {
+    validationErrors?: ValidationError[]
+    public constructor(message: string, validationErrors?: ValidationError[]) {
+      super(message, 422)
+      this.validationErrors = validationErrors
     }
   }
-  export class MissingFieldError extends CodeClimberError {
-    constructor(message?: string) {
-      super(message || 'Body required missing field', 422)
+  export class InvalidBody extends ValidationErr {
+    constructor(validationErrors: ValidationError[], message?: string) {
+      super(message || 'Expected request body was invalid', validationErrors)
     }
   }
 }

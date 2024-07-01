@@ -1,8 +1,9 @@
-import { validate, ValidatorOptions } from 'class-validator'
+import { validate, ValidationError, ValidatorOptions } from 'class-validator'
+import { CodeClimberError } from './codeClimberErrors'
 
 export const validateDto = async (dto: object, validatorOptions?: ValidatorOptions) => {
-  const errors = await validate(dto, validatorOptions)
+  const errors: ValidationError[] = await validate(dto, validatorOptions)
   if (errors.length > 0) {
-    throw new Error(errors.toString())
+    throw new CodeClimberError.InvalidBody(errors)
   }
 }
