@@ -23,22 +23,22 @@ declare namespace CodeClimbersApi {
   }
 
   export interface CreateWakatimePulseDto {
-      userId?: string
-      entity: string
-      type: string
-      category?: string
-      project: string
-      branch: string
-      language?: string
-      is_write?: boolean
-      editor?: string
-      operating_system?: string
-      machine?: string
-      user_agent?: string
-      time: number | string
-      hash?: string
-      origin?: string
-      origin_id?: string
-      description?: string
+    userId?: string
+    entity: string
+    type: string
+    category?: string
+    project: string
+    branch: string
+    language?: string
+    is_write?: boolean
+    editor?: string
+    operating_system?: string
+    machine?: string
+    user_agent?: string
+    time: number | string
+    hash?: string
+    origin?: string
+    origin_id?: string
+    description?: string
   }
 }

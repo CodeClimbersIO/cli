@@ -12,11 +12,11 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "plugin:prettier/recommended",
   ],
   ignorePatterns: [".eslintrc.js", "migrations", "dist"],
   rules: {
-    semi: ["error", "never"],
-    quotes: ["error", "single"],
+    "prettier/prettier": ["error", {semi: false, singleQuote: true}],
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

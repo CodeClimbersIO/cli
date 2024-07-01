@@ -8,11 +8,14 @@ import { printRoutes } from './utils/debug.util'
 
 function initErrorHandling(app: Express): void {
   app.use((err: Error, _: Request, res: Response, next: NextFunction) => {
-    if (err instanceof CodeClimberError) { // Errors designed by developers to go to the end user are of type BaseError
+    if (err instanceof CodeClimberError) {
+      // Errors designed by developers to go to the end user are of type BaseError
       res.status(err.status).send({ message: err.message, err })
     } else {
-      AppLogger.error(err) 
-      res.status(500).send({ message: err.message || 'Internal Server Error', err })
+      AppLogger.error(err)
+      res
+        .status(500)
+        .send({ message: err.message || 'Internal Server Error', err })
     }
     next()
   })
