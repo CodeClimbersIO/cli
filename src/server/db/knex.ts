@@ -56,8 +56,8 @@ const knexConfig = {
     filename: './codeclimber.sqlite',
   },
   useNullAsDefault: true,
-  // postProcessResponse, // Stuff coming back from the DB
-  // wrapIdentifier, // Anything going into the DB
+  postProcessResponse, // Stuff coming back from the DB
+  wrapIdentifier, // Anything going into the DB
 }
 
 export const db = Knex(knexConfig)
