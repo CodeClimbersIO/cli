@@ -15,16 +15,16 @@ wakatimeProxyController.get(
 wakatimeProxyController.post(
   '/users/current/heartbeats',
   async (req: Request, res: Response) => {
-    activitiesService.createPulse(req.body)
-    res.status(201).send({ message: 'success', data: 'heartbeats' })
+    const result = await activitiesService.createPulse(req.body)
+    res.status(201).send(result)
   },
 )
 
 wakatimeProxyController.post(
   '/users/current/heartbeats.bulk',
   async (req: Request, res: Response) => {
-    activitiesService.createPulses(req.body)
-    res.status(201).send({ message: 'success', data: 'heartbeats.bulk' })
+    const result = await activitiesService.createPulses(req.body)
+    res.status(201).send(result)
   },
 )
 

@@ -1,6 +1,6 @@
 declare namespace CodeClimbersApi {
   export interface PulseDao {
-    id: number
+    id?: number
     userId: string
     entity: string
     type: string

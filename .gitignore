@@ -3,6 +3,7 @@ dist
 node_modules
 
 codeclimber.sqlite
+codeclimber.sqlite*
 
 .DS_Store
 

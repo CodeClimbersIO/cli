@@ -1,4 +1,5 @@
 import { db } from '../db/knex'
+import AppLogger from '../utils/appLogger.util'
 
 const tableName = 'activities_pulse'
 const pulseDb = db<CodeClimbers.Pulse>(tableName)
@@ -17,6 +18,7 @@ const createPulse = async (pulse: CodeClimbers.Pulse) => {
 
 const createPulses = async (pulses: CodeClimbers.Pulse[]) => {
   const res = await pulseDb.insert(pulses)
+  AppLogger.info(`[pulse.repo]: created ${pulses.length} pulses`)
   return res
 }
 
