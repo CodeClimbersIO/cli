@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect } from 'vitest'
-import { forOwn, isPlainObject, snakeCase, camelCase } from '../helpers.util'
+import {
+  forOwn,
+  isPlainObject,
+  snakeCase,
+  camelCase,
+  maxBy,
+  minBy,
+  groupBy,
+} from '../helpers.util'
 
 describe('forOwn', () => {
   it('should iterate over own enumerable properties', () => {
@@ -73,5 +81,66 @@ describe('camelCase', () => {
   it('should handle non-string inputs', () => {
     expect(camelCase(null as any)).toBe('')
     expect(camelCase(123 as any)).toBe('')
+  })
+})
+
+describe('maxBy', () => {
+  it('should return the maximum value by the given key', () => {
+    const arr = [
+      { a: 1, b: 2 },
+      { a: 2, b: 1 },
+      { a: 3, b: 3 },
+    ]
+
+    expect(maxBy(arr, 'a' as any)).toEqual({ a: 3, b: 3 })
+    expect(maxBy(arr, 'b' as any)).toEqual({ a: 1, b: 2 })
+  })
+
+  it('should return undefined for empty arrays', () => {
+    expect(maxBy([], 'a' as any)).toBeUndefined()
+  })
+})
+
+describe('minBy', () => {
+  it('should return the minimum value by the given key', () => {
+    const arr = [
+      { a: 1, b: 2 },
+      { a: 2, b: 1 },
+      { a: 3, b: 3 },
+    ]
+
+    expect(minBy(arr, 'a' as any)).toEqual({ a: 1, b: 2 })
+    expect(minBy(arr, 'b' as any)).toEqual({ a: 2, b: 1 })
+  })
+
+  it('should return undefined for empty arrays', () => {
+    expect(minBy([], 'a' as any)).toBeUndefined()
+  })
+})
+
+describe('groupBy', () => {
+  it('should group items by the given key', () => {
+    const arr = [
+      { a: 1, b: 2 },
+      { a: 2, b: 1 },
+      { a: 1, b: 3 },
+    ]
+
+    const result = groupBy(arr, 'a' as any)
+
+    expect(result).toEqual({
+      1: [
+        { a: 1, b: 2 },
+        { a: 1, b: 3 },
+      ],
+      2: [{ a: 2, b: 1 }],
+    })
+  })
+
+  it('should handle empty arrays', () => {
+    const arr: any[] = []
+    const result = groupBy(arr, 'a' as any)
+
+    expect(result).toEqual({})
   })
 })

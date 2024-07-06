@@ -1,9 +1,18 @@
 import { db } from '../db/knex'
 import AppLogger from '../utils/appLogger.util'
+import sqlReaderUtil from '../utils/sqlReader.util'
 
 const tableName = 'activities_pulse'
 const pulseDb = db<CodeClimbers.Pulse>(tableName)
 
+const getStatusBarDetails = async (): Promise<
+  CodeClimbers.WakatimePulseStatusDao[]
+> => {
+  const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
+    'getStatusBarDetails.sql',
+  )
+  return db.raw(getTimeQuery)
+}
 const getLatestPulses = async (): Promise<
   CodeClimbersApi.PulseDao[] | undefined
 > => {
@@ -23,6 +32,7 @@ const createPulses = async (pulses: CodeClimbers.Pulse[]) => {
 }
 
 export default {
+  getStatusBarDetails,
   getLatestPulses,
   createPulse,
   createPulses,

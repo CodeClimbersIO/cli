@@ -93,3 +93,39 @@ export function camelCase(str: string): string {
 
   return result.join('')
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function maxBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
+  if (!arr || arr.length === 0) return undefined
+  return arr.reduce((acc, item) => {
+    const value = iteratee(item)
+    if (value > iteratee(acc)) return item
+    return acc
+  }, arr[0])
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function minBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
+  if (!arr || arr.length === 0) return undefined
+  return arr.reduce((acc, item) => {
+    const value = iteratee(item)
+    if (value < iteratee(acc)) return item
+    return acc
+  }, arr[0])
+}
+
+// groupBy function that takes an array and groups it by a key
+export function groupBy<T>(arr: T[], key: string): Record<string, T[]> {
+  return arr.reduce(
+    (acc, item) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const keyValue = (item as Record<string, any>)[key]
+      if (!acc[keyValue]) {
+        acc[keyValue] = []
+      }
+      acc[keyValue].push(item)
+      return acc
+    },
+    {} as Record<string, T[]>,
+  )
+}

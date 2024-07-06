@@ -1,14 +1,20 @@
-import { CodeClimbersApi } from '../../api.types/wakatimePulse.dto'
+import { CodeClimbersApiDtos } from '../../api.types/wakatimePulse.dto'
 import pulseRepo from '../repos/pulse.repo'
 import activitiesUtil from '../utils/activities.util'
 import AppLogger from '../utils/appLogger.util'
 import validationUtil from '../utils/validation.util'
 
+const getActivityStatusBar =
+  async (): Promise<CodeClimbersApi.ActivitiesStatusBar> => {
+    const statusBarRaw = await pulseRepo.getStatusBarDetails()
+    const statusBar = activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
+    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
+  }
 const createPulse = async (pulseBody: CodeClimbers.Body) => {
   // process the pulse
   const dto = await validationUtil.validateBodyObject(
     pulseBody,
-    CodeClimbersApi.CreateWakatimePulseDto,
+    CodeClimbersApiDtos.CreateWakatimePulseDto,
   )
   const pulse: CodeClimbers.Pulse = mapDtoToPulse(dto)
   await pulseRepo.createPulse(pulse)
@@ -19,7 +25,7 @@ const createPulses = async (pulseBody: CodeClimbers.Body[]) => {
   AppLogger.info(JSON.stringify(pulseBody))
   const dtos = await validationUtil.validateBodyArray(
     pulseBody,
-    CodeClimbersApi.CreateWakatimePulseDto,
+    CodeClimbersApiDtos.CreateWakatimePulseDto,
   )
   const pulses: CodeClimbers.Pulse[] = dtos.map(mapDtoToPulse)
   const uniquePulses = activitiesUtil.filterUniqueByHash(pulses)
@@ -29,7 +35,7 @@ const createPulses = async (pulseBody: CodeClimbers.Body[]) => {
 }
 
 const mapDtoToPulse = (
-  dto: CodeClimbersApi.CreateWakatimePulseDto,
+  dto: CodeClimbersApiDtos.CreateWakatimePulseDto,
 ): CodeClimbers.Pulse => {
   return {
     userId: 'local',
@@ -55,6 +61,7 @@ const getLatestPulses = async (): Promise<CodeClimbers.Pulse[] | undefined> => {
 }
 
 export default {
+  getActivityStatusBar,
   getLatestPulses,
   createPulse,
   createPulses,

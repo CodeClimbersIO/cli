@@ -23,4 +23,16 @@ declare namespace CodeClimbers {
     source?: string
     description?: string
   }
+
+  export interface WakatimePulseStatusDao {
+    project: string
+    language: string
+    editor: string
+    operatingSystem: string
+    machine: string
+    branch: string
+    seconds: number | string
+    maxHeartbeatTime: string
+    minHeartbeatTime: string
+  }
 }

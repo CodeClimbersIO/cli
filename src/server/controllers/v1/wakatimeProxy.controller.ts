@@ -6,9 +6,10 @@ const wakatimeProxyController = Router()
 
 wakatimeProxyController.get(
   '/users/current/statusbar/today',
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     AppLogger.info(req.body)
-    res.send({ message: 'success', data: 'statusbar' })
+    const result = await activitiesService.getActivityStatusBar()
+    res.send(result)
   },
 )
 

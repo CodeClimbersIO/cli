@@ -3,7 +3,7 @@ import { bootstrap } from './bootstrap'
 import AppLogger from './utils/appLogger.util'
 
 const app = express()
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8000
 
 export async function startServer() {
   try {

@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { DateTime } from 'luxon'
+import { groupBy, maxBy, minBy } from './helpers.util'
 const cyrb53 = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
     h2 = 0x41c6ce57 ^ seed
@@ -18,6 +19,7 @@ const cyrb53 = (str: string, seed = 0) => {
 const calculatePulseHash = (
   pulse: CodeClimbersApi.CreateWakatimePulseDto,
 ): number => {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const {
     editor, // do not include these fields in hash
     user_agent,
@@ -52,7 +54,130 @@ function pulseSuccessResponse(n: number) {
   }
 }
 
+function defaultStatusBar(): CodeClimbersApi.ActivitiesStatusBar {
+  const now = DateTime.now()
+  return {
+    data: {
+      categories: [],
+      dependencies: [],
+      editors: [],
+      languages: [],
+      machines: [],
+      operating_systems: [],
+      projects: [],
+      branches: null,
+      entities: null,
+      grand_total: {
+        digital: '0:0',
+        hours: 0,
+        minutes: 0,
+        text: '0 hrs 0 mins',
+        total_seconds: 0,
+      },
+      range: {
+        date: now.toISO(),
+        end: now.toISO(),
+        start: now.startOf('day').toISO(),
+        text: '',
+        timezone: 'UTC',
+      },
+    },
+    cached_at: now.toISO(),
+  }
+}
+function getStatusByKey(
+  data: CodeClimbers.WakatimePulseStatusDao[],
+  key: string,
+): CodeClimbersApi.ActivitiesDetail[] {
+  const groupedData = groupBy(data, key)
+  const keysTotalSeconds = data.reduce(
+    (acc, x) => acc + parseInt(x.seconds as string),
+    0,
+  )
+
+  const totalSeconds = Object.keys(groupedData).map((key: string) => {
+    const group = groupedData[key]
+    const totalSeconds = data.reduce(
+      (acc, x) => acc + parseInt(x.seconds as string),
+      0,
+    )
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = Math.floor(totalSeconds % 60)
+    return {
+      digital: `${hours}:${minutes}:${seconds}`,
+      hours,
+      minutes,
+      name:
+        (group[0][
+          key as keyof CodeClimbers.WakatimePulseStatusDao
+        ] as string) || 'unknown',
+      percent: Math.round((totalSeconds / keysTotalSeconds) * 100),
+      seconds,
+      text: `${hours} hrs ${seconds >= 30 ? minutes + 1 : minutes} mins`,
+      total_seconds: totalSeconds,
+    }
+  })
+  return totalSeconds
+}
+
+function mapStatusBarRawToDto(
+  statusBarRaw: CodeClimbers.WakatimePulseStatusDao[],
+): CodeClimbersApi.ActivitiesStatusBar {
+  if (statusBarRaw.length <= 0) return defaultStatusBar()
+  const now = new Date()
+
+  const statusbar: CodeClimbersApi.ActivitiesStatusBar = {
+    cached_at: '',
+    data: {
+      branches: null,
+      entities: null,
+    },
+  }
+
+  statusbar.data.editors = getStatusByKey(statusBarRaw, 'editors')
+  statusbar.data.languages = getStatusByKey(statusBarRaw, 'languages')
+  statusbar.data.machines = getStatusByKey(statusBarRaw, 'machines')
+  statusbar.data.operating_systems = getStatusByKey(
+    statusBarRaw,
+    'operating_systems',
+  )
+  statusbar.data.projects = getStatusByKey(statusBarRaw, 'projects')
+
+  // const grandTotalSeconds = sumBy(statusBarRaw, (x) => parseInt(x.seconds))
+  const grandTotalSeconds = statusBarRaw.reduce(
+    (acc, x) => acc + parseInt(x.seconds as string),
+    0,
+  )
+  const hours = Math.floor(grandTotalSeconds / 3600)
+  const minutes = Math.floor((grandTotalSeconds % 3600) / 60)
+  const seconds = Math.floor(grandTotalSeconds % 60)
+  statusbar.data.grand_total = {
+    digital: `${hours}:${minutes}`,
+    hours,
+    minutes,
+    text: `${hours} hrs ${seconds >= 30 ? minutes + 1 : minutes} mins`,
+    total_seconds: grandTotalSeconds,
+  }
+  const end = maxBy(statusBarRaw, (item) => new Date(item.maxHeartbeatTime))
+
+  statusbar.data.range = {
+    date: new Date().toISOString(),
+    end:
+      maxBy(statusBarRaw, (item) => new Date(item.maxHeartbeatTime))
+        ?.maxHeartbeatTime || '',
+    start:
+      minBy(statusBarRaw, (item) => new Date(item.minHeartbeatTime))
+        ?.minHeartbeatTime || '',
+    text: '',
+    timezone: 'UTC',
+  }
+  statusbar.cached_at = new Date().toISOString()
+  return statusbar
+}
+
 export default {
+  mapStatusBarRawToDto,
   calculatePulseHash,
   filterUniqueByHash,
   pulseSuccessResponse,
