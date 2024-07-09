@@ -7,7 +7,6 @@ import validationUtil from '../utils/validation.util'
 const getActivityStatusBar =
   async (): Promise<CodeClimbersApi.ActivitiesStatusBar> => {
     const statusBarRaw = await pulseRepo.getStatusBarDetails()
-    const statusBar = activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
     return activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
   }
 const createPulse = async (pulseBody: CodeClimbers.Body) => {

@@ -8,3 +8,6 @@ codeclimber.sqlite*
 .DS_Store
 
 .vscode
+
+# oclif directory for caching build resources
+tmp
