@@ -92,9 +92,6 @@ function getStatusByKey(
   const keyWithoutS = dataKey.replace(/s$/, '')
   const groupedData = groupBy(data, keyWithoutS)
   return Object.keys(groupedData).map((key: string) => {
-    if (keyWithoutS === 'project') {
-      console.log('key', key, groupedData[key])
-    }
     const group = groupedData[key]
     const totalSeconds = group.reduce(
       (acc, x) => acc + parseInt(x.seconds as string),
@@ -158,7 +155,6 @@ function mapStatusBarRawToDto(
     total_seconds: grandTotalSeconds,
   }
 
-  // console.log('statusBarRaw', statusBarRaw)
   const dates = statusBarRaw.map((x) => new Date(x.maxHeartbeatTime))
   statusbar.data.range = {
     date: new Date().toISOString(),
