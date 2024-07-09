@@ -3,9 +3,9 @@ import { bootstrap } from './bootstrap'
 import AppLogger from './utils/appLogger.util'
 
 const app = express()
-const port = process.env.PORT || 8000
 
 export async function startServer() {
+  const port = process.env.PORT || 8000
   try {
     await bootstrap(app)
     app.listen(port, () => {
