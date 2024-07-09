@@ -87,17 +87,16 @@ function defaultStatusBar(): CodeClimbersApi.ActivitiesStatusBar {
 }
 function getStatusByKey(
   data: CodeClimbers.WakatimePulseStatusDao[],
-  key: string,
+  dataKey: string,
 ): CodeClimbersApi.ActivitiesDetail[] {
-  const groupedData = groupBy(data, key)
-  const keysTotalSeconds = data.reduce(
-    (acc, x) => acc + parseInt(x.seconds as string),
-    0,
-  )
-
-  const totalSeconds = Object.keys(groupedData).map((key: string) => {
+  const keyWithoutS = dataKey.replace(/s$/, '')
+  const groupedData = groupBy(data, keyWithoutS)
+  return Object.keys(groupedData).map((key: string) => {
+    if (keyWithoutS === 'project') {
+      console.log('key', key, groupedData[key])
+    }
     const group = groupedData[key]
-    const totalSeconds = data.reduce(
+    const totalSeconds = group.reduce(
       (acc, x) => acc + parseInt(x.seconds as string),
       0,
     )
@@ -108,17 +107,16 @@ function getStatusByKey(
       digital: `${hours}:${minutes}:${seconds}`,
       hours,
       minutes,
-      name:
-        (group[0][
-          key as keyof CodeClimbers.WakatimePulseStatusDao
-        ] as string) || 'unknown',
-      percent: Math.round((totalSeconds / keysTotalSeconds) * 100),
+      name: key || 'unknown',
+      percent: 100,
       seconds,
       text: `${hours} hrs ${seconds >= 30 ? minutes + 1 : minutes} mins`,
-      total_seconds: totalSeconds,
+      total_seconds: data.reduce(
+        (acc, x) => acc + parseInt(x.seconds as string),
+        0,
+      ),
     }
   })
-  return totalSeconds
 }
 
 function mapStatusBarRawToDto(
@@ -159,8 +157,9 @@ function mapStatusBarRawToDto(
     text: `${hours} hrs ${seconds >= 30 ? minutes + 1 : minutes} mins`,
     total_seconds: grandTotalSeconds,
   }
-  const end = maxBy(statusBarRaw, (item) => new Date(item.maxHeartbeatTime))
 
+  // console.log('statusBarRaw', statusBarRaw)
+  const dates = statusBarRaw.map((x) => new Date(x.maxHeartbeatTime))
   statusbar.data.range = {
     date: new Date().toISOString(),
     end:
@@ -173,6 +172,7 @@ function mapStatusBarRawToDto(
     timezone: 'UTC',
   }
   statusbar.cached_at = new Date().toISOString()
+
   return statusbar
 }
 

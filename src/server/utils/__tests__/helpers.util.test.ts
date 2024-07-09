@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect } from 'vitest'
 import {
   forOwn,
   isPlainObject,
@@ -92,12 +91,16 @@ describe('maxBy', () => {
       { a: 3, b: 3 },
     ]
 
-    expect(maxBy(arr, 'a' as any)).toEqual({ a: 3, b: 3 })
-    expect(maxBy(arr, 'b' as any)).toEqual({ a: 1, b: 2 })
+    expect(maxBy(arr, (x) => x.a)).toEqual({ a: 3, b: 3 })
+    expect(maxBy(arr, (x) => x.b)).toEqual({ a: 1, b: 2 })
   })
 
   it('should return undefined for empty arrays', () => {
-    expect(maxBy([], 'a' as any)).toBeUndefined()
+    expect(
+      maxBy([], () => {
+        return
+      }),
+    ).toBeUndefined()
   })
 })
 
@@ -109,12 +112,16 @@ describe('minBy', () => {
       { a: 3, b: 3 },
     ]
 
-    expect(minBy(arr, 'a' as any)).toEqual({ a: 1, b: 2 })
-    expect(minBy(arr, 'b' as any)).toEqual({ a: 2, b: 1 })
+    expect(minBy(arr, (x) => x.a)).toEqual({ a: 1, b: 2 })
+    expect(minBy(arr, (x) => x.b)).toEqual({ a: 2, b: 1 })
   })
 
   it('should return undefined for empty arrays', () => {
-    expect(minBy([], 'a' as any)).toBeUndefined()
+    expect(
+      minBy([], () => {
+        return
+      }),
+    ).toBeUndefined()
   })
 })
 
