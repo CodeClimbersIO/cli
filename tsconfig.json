@@ -20,4 +20,7 @@
     "node_modules",
     "dist"
   ],
+  "types": [
+    "vite/client"
+  ]
 }

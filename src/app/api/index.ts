@@ -1,8 +1,14 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query'
 
 export const BASE_API_URL = '/api/v1'
 
-export const useBetterQuery = <T, Error>(options: UseQueryOptions<T, Error>): UseQueryResult<T, Error> & { isEmpty: boolean } => {
+export const useBetterQuery = <T, Error>(
+  options: UseQueryOptions<T, Error>,
+): UseQueryResult<T, Error> & { isEmpty: boolean } => {
   const queryResult = useQuery<T, Error>(options)
 
   // Determine if the data is "empty"

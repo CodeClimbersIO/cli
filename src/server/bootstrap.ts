@@ -25,7 +25,7 @@ export async function bootstrap(app: Express) {
   const apiRoutes = buildApiRoutes()
   app.use(cors())
   app.use(express.json())
-  app.use('/', express.static('dist/app'))
+  app.use('/', express.static('../dist/app'))
   app.use('/api', apiRoutes)
   initErrorHandling(app)
   app._router.stack.forEach(printRoutes.bind(null, []))

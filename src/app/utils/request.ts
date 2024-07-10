@@ -1,4 +1,6 @@
-const BASE_URL = 'http://localhost:8080'
+import { isBrowserCli } from './environment'
+
+const BASE_URL = isBrowserCli ? '' : 'http://localhost:8000'
 
 export class ApiError extends Error {
   statusCode: number
@@ -10,7 +12,7 @@ export class ApiError extends Error {
 }
 
 export function getUrlParameters(
-  data: Record<string, string | number | boolean | undefined>
+  data: Record<string, string | number | boolean | undefined>,
 ) {
   const ret = []
   for (const d in data) {
@@ -31,6 +33,7 @@ export async function apiRequest({
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   body?: object
 }) {
+  console.log(`${BASE_URL}${url}`)
   return fetch(`${BASE_URL}${url}`, {
     method: method,
     headers: {
@@ -38,7 +41,7 @@ export async function apiRequest({
     },
     ...(body && { body: JSON.stringify(body || {}) }),
   })
-    .then(async response => {
+    .then(async (response) => {
       if (!response.ok) {
         const responseObject = await response.json()
         throw new ApiError(responseObject?.message, response.status)
@@ -53,7 +56,8 @@ export async function apiRequest({
         }
       }
       return ''
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err)
       throw err
     })

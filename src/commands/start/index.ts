@@ -17,7 +17,7 @@ export default class Start extends Command {
   async run(): Promise<void> {
     const { args } = await this.parse(Start)
     process.env.PORT = args.port || '14400' // number of minutes in a day times 10
-    process.env.COMMAND_CONTEXT = 'cli'
+    process.env.APP_CONTEXT = 'cli'
     startServer()
   }
 }

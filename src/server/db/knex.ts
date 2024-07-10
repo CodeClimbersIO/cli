@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Knex from 'knex'
+import Knex, { Knex as KnexTypes } from 'knex'
 import {
   camelCase,
   forOwn,
   isPlainObject,
   snakeCase,
 } from '../utils/helpers.util'
+import { isCli } from '../utils/environment.util'
 
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
@@ -50,8 +51,13 @@ const camelCaseKeys = (obj: any) => {
   }
 }
 
-const knexConfig = {
+const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
+  migrations: isCli
+    ? {}
+    : {
+        directory: './bin/migrations',
+      },
   connection: {
     filename: './codeclimber.sqlite',
   },
