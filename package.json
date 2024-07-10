@@ -74,6 +74,10 @@
     "name": "Paul Hovley",
     "email": "rphovley@gmail.com"
   },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
   "license": "MIT",
   "bin": {
     "codeclimbers": "./bin/run.js"

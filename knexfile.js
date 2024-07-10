@@ -1,10 +1,11 @@
 module.exports = {
-  client: "sqlite3",
+  client: 'sqlite3',
   useNullAsDefault: true,
+  directory: './bin/migrations',
   connection: {
-    filename: "./codeclimber.sqlite",
+    filename: './codeclimber.sqlite',
   },
   migrations: {
-    stub: "migrations/example/stub.js",
+    stub: 'migrations/example/stub.js',
   },
-};
+}
