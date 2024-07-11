@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { Args, Command } from '@oclif/core'
-import { startServer } from '../../server/server'
+import { startServer } from '../../server-old/server'
 
 export default class Start extends Command {
   static args = {

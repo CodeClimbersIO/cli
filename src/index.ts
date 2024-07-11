@@ -1,5 +1,5 @@
-import { startServer } from './server/server'
-import { isCli } from './server/utils/environment.util'
+import { startServer } from './server-old/server'
+import { isCli } from './server-old/utils/environment.util'
 
 // eslint-disable-next-line import/no-unresolved
 export { run } from '@oclif/core'

@@ -24,23 +24,6 @@
     "db:migrate:make": "knex migrate:make"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fontsource/roboto": "^5.0.13",
-    "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.15.20",
-    "@oclif/core": "^4.0.7",
-    "@tanstack/react-query": "^5.48.0",
-    "bunyan": "^1.8.15",
-    "class-validator": "^0.14.1",
-    "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "express-promise-router": "^4.1.1",
-    "knex": "^3.1.0",
-    "luxon": "^3.4.4",
-    "react": "^18.3.1",
-    "react-router-dom": "^6.24.0",
-    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
@@ -53,7 +36,6 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "@vitejs/plugin-react": "^4.3.1",
     "copyfiles": "^2.4.1",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
