@@ -1,4 +1,4 @@
-declare namespace CodeClimbersApi {
+declare namespace CodeClimbers {
   interface ActivitiesDetail {
     digital: string
     hours: number
