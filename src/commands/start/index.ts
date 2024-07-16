@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { Args, Command } from '@oclif/core'
-import { startServer } from '../../server-old/server'
+import { bootstrap } from '../../../dist/server/src/main'
 
 export default class Start extends Command {
   static args = {
@@ -18,6 +18,6 @@ export default class Start extends Command {
     const { args } = await this.parse(Start)
     process.env.PORT = args.port || '14400' // number of minutes in a day times 10
     process.env.APP_CONTEXT = 'cli'
-    startServer()
+    bootstrap()
   }
 }

@@ -10,10 +10,11 @@
     }
   ],
   "scripts": {
-    "copy": "copyfiles -u 1 \"src/**/*.sql\" dist",
-    "build:server": "npm run copy && tsc",
-    "build:app": "vite build",
-    "build": "shx rm -rf dist && npm run build:server && npm run build:app",
+    "build:app": "cd ./src/app && npm run build",
+    "build:server": "cd ./src/server && npm run build",
+    "build:command": "tsc",
+    "install:all": "npm install ./src/app && npm install ./src/server && npm install",
+    "build": "shx rm -rf dist && npm run install:all && npm run build:app && npm run build:server && npm run build:command",
     "dev:server": "tsc-watch --noClear --onSuccess \"npm run start\"",
     "dev:app": "vite",
     "start": "npm run copy && node dist/index.js --inspect",
@@ -24,6 +25,9 @@
     "db:migrate:make": "knex migrate:make"
   },
   "dependencies": {
+    "@oclif/core": "^4.0.12",
+    "server": "file:src/server",
+    "test": "file:src/app"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",

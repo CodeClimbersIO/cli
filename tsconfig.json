@@ -11,16 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "jsx": "react-jsx"
   },
-  "include": [
-    "src/**/*"
-  ],
   "exclude": [
     "node_modules",
-    "dist"
-  ],
-  "types": [
-    "vite/client"
+    "src/app",
+    "src/server"
   ]
 }
