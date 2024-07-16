@@ -11,10 +11,14 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
+    "jsx": "react-jsx"
   },
+  "include": [
+    "src/**/*",
+    "../server/src/**/*"
+  ],
   "exclude": [
     "node_modules",
-    "src/app",
-    "src/server"
+    "dist"
   ]
 }

@@ -17,7 +17,7 @@ const cyrb53 = (str: string, seed = 0) => {
 }
 
 const calculatePulseHash = (
-  pulse: CodeClimbersApi.CreateWakatimePulseDto,
+  pulse: CodeClimbers.CreateWakatimePulseDto,
 ): number => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const {
@@ -54,7 +54,7 @@ function pulseSuccessResponse(n: number) {
   }
 }
 
-function defaultStatusBar(): CodeClimbersApi.ActivitiesStatusBar {
+function defaultStatusBar(): CodeClimbers.ActivitiesStatusBar {
   const now = DateTime.now()
   return {
     data: {
@@ -88,7 +88,7 @@ function defaultStatusBar(): CodeClimbersApi.ActivitiesStatusBar {
 function getStatusByKey(
   data: CodeClimbers.WakatimePulseStatusDao[],
   dataKey: string,
-): CodeClimbersApi.ActivitiesDetail[] {
+): CodeClimbers.ActivitiesDetail[] {
   const keyWithoutS = dataKey.replace(/s$/, '')
   const groupedData = groupBy(data, keyWithoutS)
   return Object.keys(groupedData).map((key: string) => {
@@ -118,11 +118,11 @@ function getStatusByKey(
 
 function mapStatusBarRawToDto(
   statusBarRaw: CodeClimbers.WakatimePulseStatusDao[],
-): CodeClimbersApi.ActivitiesStatusBar {
+): CodeClimbers.ActivitiesStatusBar {
   if (statusBarRaw.length <= 0) return defaultStatusBar()
   const now = new Date()
 
-  const statusbar: CodeClimbersApi.ActivitiesStatusBar = {
+  const statusbar: CodeClimbers.ActivitiesStatusBar = {
     cached_at: '',
     data: {
       branches: null,
