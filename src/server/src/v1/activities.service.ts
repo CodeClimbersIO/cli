@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import activitiesUtil from '../../utils/activities.util'
 import { CreateWakatimePulseDto } from './dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../db/pulse.repo'
+import { DateTime } from 'luxon'
 
 @Injectable()
 export class ActivitiesService {
@@ -14,13 +15,14 @@ export class ActivitiesService {
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
+    Logger.log(JSON.stringify(pulseDto), 'activities.service')
     const pulse: CodeClimbers.Pulse = this.mapDtoToPulse(pulseDto)
     await this.pulseRepo.createPulse(pulse)
     return activitiesUtil.pulseSuccessResponse(1)
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
-    Logger.log(JSON.stringify(pulsesDto))
+    Logger.log(JSON.stringify(pulsesDto), 'activities.service')
     const pulses: CodeClimbers.Pulse[] = pulsesDto.map(this.mapDtoToPulse)
     const uniquePulses = activitiesUtil.filterUniqueByHash(pulses)
 
@@ -44,12 +46,12 @@ export class ActivitiesService {
       operatingSystem: dto.operating_system || '',
       machine: dto.machine || '',
       userAgent: dto.user_agent || '',
-      time: new Date((dto.time as number) * 1000).toISOString(),
+      time: DateTime.fromMillis(dto.time as number).toISO(),
       hash: `${activitiesUtil.calculatePulseHash(dto)}`,
       origin: dto.origin || '',
       originId: dto.origin_id || '',
       category: dto.category || '',
-      createdAt: new Date().toISOString(),
+      createdAt: DateTime.now().toISO(),
     }
   }
 }

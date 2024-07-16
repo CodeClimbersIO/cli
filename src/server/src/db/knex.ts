@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Knex, { Knex as KnexTypes } from 'knex'
-import { isCli } from '../../utils/environment.util'
+import { Knex as KnexTypes } from 'knex'
 import {
   forOwn,
   isPlainObject,
@@ -53,13 +52,8 @@ const camelCaseKeys = (obj: any) => {
   }
 }
 
-const knexConfig: KnexTypes.Config = {
+export const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
-  migrations: isCli
-    ? {}
-    : {
-        directory: './bin/migrations',
-      },
   connection: {
     filename: './codeclimber.sqlite',
   },

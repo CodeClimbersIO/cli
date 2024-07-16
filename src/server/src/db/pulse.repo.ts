@@ -27,7 +27,7 @@ export class PulseRepo {
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
     const res = await this.pulseDb.insert(pulses)
-    Logger.log(`[pulse.repo]: created ${pulses.length} pulses`)
+    Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
     return res
   }
 }

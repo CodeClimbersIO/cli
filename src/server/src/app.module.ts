@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { V1Module } from './v1/v1.module'
-import { RouterModule } from '@nestjs/core'
+import { APP_FILTER, RouterModule } from '@nestjs/core'
 import { DbModule } from './db/knex'
+import { AllExceptionsFilter } from '../utils/allExceptions.filter'
+import { RequestLoggerMiddleware } from './middleware/requestlogger.middleware'
 
 @Module({
   imports: [
@@ -16,7 +16,15 @@ import { DbModule } from './db/knex'
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*')
+  }
+}
