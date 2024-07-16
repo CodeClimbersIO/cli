@@ -16,17 +16,25 @@ export class PulseRepo {
     return this.knex.raw(getTimeQuery)
   }
   async getLatestPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
-    const res = await this.pulseDb.orderBy('created_at', 'desc').limit(10)
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+      .orderBy('created_at', 'desc')
+      .limit(10)
     return res
   }
 
   async createPulse(pulse: CodeClimbers.Pulse) {
-    const res = await this.pulseDb.insert(pulse)
+    Logger.log('Creating pulse', 'pulse.repo')
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
+      pulse,
+    )
     return res
   }
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
-    const res = await this.pulseDb.insert(pulses)
+    Logger.log('Creating pulses', 'pulse.repo')
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
+      pulses,
+    )
     Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
     return res
   }

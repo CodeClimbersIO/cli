@@ -60,6 +60,21 @@ export const knexConfig: KnexTypes.Config = {
   useNullAsDefault: true,
   postProcessResponse, // Stuff coming back from the DB
   wrapIdentifier, // Anything going into the DB
+  // debug: true,
+  // log: {
+  //   warn(message) {
+  //     console.log(message)
+  //   },
+  //   error(message) {
+  //     console.log(message)
+  //   },
+  //   deprecate(message) {
+  //     console.log(message)
+  //   },
+  //   debug(message) {
+  //     console.log(message)
+  //   },
+  // },
 }
 
 const knexModule = KnexModule.forRoot({

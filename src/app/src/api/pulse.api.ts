@@ -5,10 +5,10 @@ import { pulseKeys } from './keys'
 export function useLatestPulses() {
   const queryFn = () =>
     apiRequest({
-      url: `${BASE_API_URL}/pulse/latest`,
+      url: `${BASE_API_URL}/pulses/latest`,
       method: 'GET',
     })
-  return useBetterQuery<CodeClimbersApi.PulseDao[], Error>({
+  return useBetterQuery<CodeClimbers.Pulse[], Error>({
     queryKey: pulseKeys.latestPulses,
     queryFn,
   })

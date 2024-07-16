@@ -30,13 +30,13 @@ export const LatestPulsesComponent = () => {
       <h2>Latest Pulses</h2>
       {isError && <div>Failed to fetch pulses</div>}
       {isEmpty && <div>No pulses found</div>}
-      {/* {pulses &&
+      {pulses &&
         pulses.map((pulse) => (
           <div key={pulse.id}>
             <h3>{pulse.time}</h3>
             <p>{pulse.entity}</p>
           </div>
-        ))} */}
+        ))}
     </div>
   )
 }

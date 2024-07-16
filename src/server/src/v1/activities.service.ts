@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import activitiesUtil from '../../utils/activities.util'
 import { CreateWakatimePulseDto } from './dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../db/pulse.repo'
@@ -15,14 +15,12 @@ export class ActivitiesService {
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
-    Logger.log(JSON.stringify(pulseDto), 'activities.service')
     const pulse: CodeClimbers.Pulse = this.mapDtoToPulse(pulseDto)
     await this.pulseRepo.createPulse(pulse)
     return activitiesUtil.pulseSuccessResponse(1)
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
-    Logger.log(JSON.stringify(pulsesDto), 'activities.service')
     const pulses: CodeClimbers.Pulse[] = pulsesDto.map(this.mapDtoToPulse)
     const uniquePulses = activitiesUtil.filterUniqueByHash(pulses)
 
