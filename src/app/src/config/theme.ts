@@ -90,14 +90,6 @@ export const dark = createTheme(darkOptions)
 const lightOptions: ThemeOptions = {
   palette: {
     mode: 'light',
-    // primary: {
-    //   main: '#CA9FFC',
-    //   contrastText: '#000000',
-    // },
-    // secondary: {
-    //   main: '#51D982',
-    //   contrastText: '#000000',
-    // },
     background: {
       default: '#F5F5F5',
     },
