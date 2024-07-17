@@ -16,16 +16,20 @@ function BaseLayout({ children, changeTheme }: BaseLayoutProps) {
       <Box>{children || <Outlet />}</Box>
       <Box
         sx={{
-          position: 'absolute',
           bottom: 0,
           right: 0,
           display: 'flex',
-          cursor: 'pointer',
-          padding: 2,
+          justifyContent: 'flex-end',
         }}
-        onClick={changeTheme}
       >
-        {isDarkTheme ? <LightModeIcon /> : <DarkMode />}
+        <Box
+          sx={{
+            cursor: 'pointer',
+          }}
+          onClick={changeTheme}
+        >
+          {isDarkTheme ? <LightModeIcon /> : <DarkMode />}
+        </Box>
       </Box>
     </>
   )
