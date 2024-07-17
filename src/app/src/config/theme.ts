@@ -15,31 +15,31 @@ interface ExtendedTypographyOptions extends TypographyOptions {
 const typography = {
   fontFamily: 'Roboto',
   h1: {
-    fontFamily: 'Bai Jamjuree',
+    fontFamily: 'Roboto',
     fontSize: '48px',
     lineHeight: '120%',
     fontWeight: 300,
   },
   h2: {
-    fontFamily: 'Bai Jamjuree',
+    fontFamily: 'Roboto',
     fontSize: '32px',
     lineHeight: '120%',
     fontWeight: 300,
   },
   h3: {
-    fontFamily: 'Bai Jamjuree',
-    fontSize: '20px',
+    fontFamily: 'Roboto',
+    fontSize: '24px',
     lineHeight: '120%',
-    fontWeight: 300,
+    fontWeight: 700,
   },
   h4: {
-    fontFamily: 'Bai Jamjuree',
+    fontFamily: 'Roboto',
     fontSize: '20px',
     lineHeight: '120%',
     fontWeight: 300,
   },
   h5: {
-    fontFamily: 'Bai Jamjuree',
+    fontFamily: 'Roboto',
     textTransform: 'uppercase',
     fontSize: '14px',
     lineHeight: '120%',

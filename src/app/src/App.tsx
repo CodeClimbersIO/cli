@@ -14,7 +14,7 @@ import { dark, light } from './config/theme'
 const queryClient = new QueryClient()
 
 function AppRender() {
-  const [theme, setTheme] = useState(dark)
+  const [theme, setTheme] = useState(light)
 
   const changeTheme = () => {
     switch (theme.palette.mode) {

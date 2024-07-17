@@ -10,7 +10,6 @@ interface BaseLayoutProps {
 
 function BaseLayout({ children, changeTheme }: BaseLayoutProps) {
   const isDarkTheme = useTheme().palette.mode === 'dark'
-  console.log('theme', isDarkTheme)
 
   return (
     <>
