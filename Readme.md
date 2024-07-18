@@ -30,11 +30,14 @@ npm run start
 
 
 ## Contributing
-We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing
+We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing. I talk slowly so you probably want to 2x that bad boy 😛
+
+[![Getting Started Video](https://i9.ytimg.com/vi_webp/Q4EJKXDi3a8/mq1.webp?sqp=CPjy4bQG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACxgWKAgwIABABGGQgZChkMA8=&rs=AOn4CLA2zQqXOcW3g1D-R4nZLLzL8p8m2Q)](https://youtu.be/Q4EJKXDi3a8)
 
 ## Overall guidelines | Suggestions
-- Keep it simple. We don't need optimizations right now. We need features! 
-- Built by devs for devs so if you want to make a change to make things better, do it! Make a PR and let rphovley know to review it. If it's a big change, a heads up before you start will save some heartache.
+- 🙏 Thank you for your help! Your contributions will motivate developers to do greater things! 
+- 🥇 Keep it simple. We don't need optimizations right now. We need features! 
+- 🤖 Built by devs for devs so if you want to make a change to make things better, do it! Make a PR and let rphovley know to review it. If it's a big change, a heads up before you start will save some heartache.
 
 ## Frontend
 A React Single Page Application that uses react-router, material-ui, tanstack to help the user visualize their data
