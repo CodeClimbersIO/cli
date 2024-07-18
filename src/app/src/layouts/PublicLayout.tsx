@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material'
+import { Box, IconButton, useTheme } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import { DarkMode } from '@mui/icons-material'
@@ -15,21 +15,17 @@ function BaseLayout({ children, changeTheme }: BaseLayoutProps) {
     <>
       <Box>{children || <Outlet />}</Box>
       <Box
+        display="flex"
+        justifyContent="flex-end"
+        mt={3}
         sx={{
           bottom: 0,
           right: 0,
-          display: 'flex',
-          justifyContent: 'flex-end',
         }}
       >
-        <Box
-          sx={{
-            cursor: 'pointer',
-          }}
-          onClick={changeTheme}
-        >
+        <IconButton onClick={changeTheme}>
           {isDarkTheme ? <LightModeIcon /> : <DarkMode />}
-        </Box>
+        </IconButton>
       </Box>
     </>
   )

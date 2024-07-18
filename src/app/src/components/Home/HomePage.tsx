@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material'
+import { styled } from '@mui/material'
 import Time from './Time'
 import Challenges from './Challenges'
 import Sources from './Sources'
@@ -9,7 +9,17 @@ const Body = styled('div')(({ theme }) => ({
   flexDirection: 'row',
   gap: 24,
 
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
+  },
+}))
+
+const Wrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+
+  [theme.breakpoints.down(766)]: {
     flexDirection: 'column',
   },
 }))
@@ -19,11 +29,11 @@ export const HomePage = () => {
     <div>
       <HomeHeader />
       <Body>
-        <Box display="flex" flexDirection="column" gap={4} width="100%">
-          <Time />
+        <Time />
+        <Wrapper>
           <Challenges />
-        </Box>
-        <Sources />
+          <Sources />
+        </Wrapper>
       </Body>
     </div>
   )
