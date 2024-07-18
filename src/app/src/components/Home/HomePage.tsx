@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, styled } from '@mui/material'
 
 import { LatestPulsesComponent } from './LatestPulses'
 import Logo from './Logo'
@@ -7,14 +7,35 @@ import Time from './Time'
 import Challenges from './Challenges'
 import Sources from './Sources'
 
+const Header = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+  paddingBottom: 24,
+
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+  },
+}))
+
+const Body = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+  },
+}))
+
 export const HomePage = () => {
   return (
     <div>
-      <Box sx={{ display: 'flex', gap: 6, width: '100%', paddingBottom: 4 }}>
+      <Header>
         <Logo />
         <DeepWork />
-      </Box>
-      <Box sx={{ display: 'flex', gap: 4 }}>
+      </Header>
+      <Body>
         <Box
           sx={{
             display: 'flex',
@@ -27,7 +48,7 @@ export const HomePage = () => {
           <Challenges />
         </Box>
         <Sources />
-      </Box>
+      </Body>
       <LatestPulsesComponent />
     </div>
   )
