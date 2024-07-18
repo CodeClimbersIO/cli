@@ -30,7 +30,7 @@ npm run start
 
 
 ## Contributing
-We welcome contributions! Please reach out on Slack for more details.  
+We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing
 
 ## Overall guidelines | Suggestions
 - Keep it simple. We don't need optimizations right now. We need features! 
