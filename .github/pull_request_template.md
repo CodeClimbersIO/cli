@@ -22,7 +22,7 @@ Please take extra care reviewing...
 - [ ] issues for follow-up tasks have been created
 - [ ] tests have been written for any new functionality
 - [ ] there is no `any` type used
-- [ ] texts have been checked for gramma and spelling issues
+- [ ] texts have been checked for grammar and spelling issues
 
 ## Notes
 
