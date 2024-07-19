@@ -9,7 +9,7 @@ The goal is to allow the user to be able to run the command `codeclimbers start`
 - View progress over time
 
 ## Prerequisites
-- Node.js (v14.0.0 or higher)
+- Node.js (v20.0.0 or higher)
 - npm (v6.0.0 or higher)
 
 ## Quickstart  
