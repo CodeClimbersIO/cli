@@ -31,7 +31,7 @@ jobs:
     - name: Setup Node.js environment
       uses: actions/setup-node@v4.0.3
       with:
-        node-version: 14
+        node-version: 20
     - run: npm ci
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
