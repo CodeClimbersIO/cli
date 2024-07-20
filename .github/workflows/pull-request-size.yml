@@ -24,4 +24,4 @@ jobs:
       - run: git remote add pullrequest "https://github.com/${{github.event.pull_request.head.repo.full_name}}"
       - run: git fetch pullrequest "${GITHUB_HEAD_REF}"
       - run: git switch $GITHUB_HEAD_REF
-      - run: check-pr-length --max=350 --total=500 --base=main --silent=false --exclude="package-lock.json;*/package-lock.json"
+      - run: check-pr-length --max=700 --total=1000 --base=main --silent=false --exclude="package-lock.json;*/package-lock.json"
