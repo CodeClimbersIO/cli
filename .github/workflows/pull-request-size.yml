@@ -1,0 +1,27 @@
+name: pull request size
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'npm'
+          cache-dependency-path: |
+            package-lock.json
+      - run: npm install -g check-pr-length
+      - run: git remote add base https://github.com/CodeClimbersIO/cli.git
+      - run: git config --global user.email "prs@example.com"
+      - run: git config --global user.name "PRS"
+      - run: git fetch base main
+      - run: git switch main
+      - run: git remote add pullrequest "https://github.com/${{github.event.pull_request.head.repo.full_name}}"
+      - run: git fetch pullrequest "${GITHUB_HEAD_REF}"
+      - run: git switch $GITHUB_HEAD_REF
+      - run: check-pr-length --max=700 --total=1000 --base=main --silent=false --exclude="package-lock.json;*/package-lock.json"
