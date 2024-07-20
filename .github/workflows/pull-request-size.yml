@@ -2,7 +2,7 @@ name: pull request size
 on:
   pull_request:
     branches:
-      - the-one
+      - main
 jobs:
   lint:
     runs-on: ubuntu-latest
