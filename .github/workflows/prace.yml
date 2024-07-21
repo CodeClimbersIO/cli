@@ -2,7 +2,7 @@ name: Prace
 on:
   pull_request:
     branches:
-      - the-one
+      - main
     types:
       - opened
       - edited
