@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-unresolved
+// src/commands/start/index.ts
 process.env.APP_CONTEXT = 'cli'
+
 import { Args, Command } from '@oclif/core'
 import { bootstrap } from 'server'
 
