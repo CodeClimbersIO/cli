@@ -1,1 +1,1 @@
-export const isCli = process.env.APP_CONTEXT === 'cli'
+export const isCli = () => process.env.APP_CONTEXT === 'cli'
