@@ -1,8 +1,8 @@
 {
-  "name": "test",
-  "productName": "Test",
+  "name": "code-climbers",
+  "productName": "Code Climbers",
   "version": "1.0.0",
-  "description": "Test CLI",
+  "description": "The Code Climbers CLI",
   "licenses": [
     {
       "type": "MIT",
@@ -12,8 +12,8 @@
   "scripts": {
     "build:app": "cd ./src/app && npm run build",
     "build:server": "cd ./src/server && npm run build",
-    "build:command": "tsc",
-    "install:all": "npm install ./src/app && npm install ./src/server && npm install",
+    "build:command": "cd ./src/commands && tsc -b",
+    "install:all": "npm i ./src/app && npm i ./src/server && npm i",
     "build": "shx rm -rf dist && npm run install:all && npm run build:app && npm run build:server && npm run build:command",
     "dev:server": "tsc-watch --noClear --onSuccess \"npm run start\"",
     "dev:app": "vite",
@@ -26,8 +26,9 @@
   },
   "dependencies": {
     "@oclif/core": "^4.0.12",
-    "server": "file:src/server",
-    "test": "file:src/app"
+    "cli-app": "file:src/app",
+    "cli-server": "file:src/server",
+    "server": "file:dist/server"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
@@ -64,7 +65,6 @@
     "/bin",
     "/dist"
   ],
-  "license": "MIT",
   "bin": {
     "codeclimbers": "./bin/run.js"
   },

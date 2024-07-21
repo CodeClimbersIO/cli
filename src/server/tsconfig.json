@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "composite": true,
     "jsx": "react-jsx",
     "module": "CommonJS",
     "declaration": true,

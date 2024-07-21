@@ -5,7 +5,7 @@ module.exports = {
     filename: './codeclimber.sqlite',
   },
   migrations: {
-    directory: './bin/migrations',
+    directory: '../../bin/migrations',
     stub: 'migrations/example/stub.js',
   },
 }

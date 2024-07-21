@@ -2,8 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "../../dist/commands",
+    "rootDir": "./",
     "strict": true,
     "target": "es2022",
     "moduleResolution": "node",
@@ -12,9 +12,9 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
   },
-  "exclude": [
-    "node_modules",
-    "src/app",
-    "src/server"
+  "references": [
+    {
+      "path": "../server"
+    }
   ]
 }
