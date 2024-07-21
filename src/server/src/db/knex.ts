@@ -53,16 +53,14 @@ const camelCaseKeys = (obj: any) => {
   }
 }
 
-console.log('isCLI: ', isCli())
 export const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
   connection: {
     filename: './codeclimber.sqlite',
   },
   migrations: {
-    directory: isCli() ? './bin/migrations' : './migrations',
-    schemaName: "public",
-    tableName: "knex_migrations"
+    directory: isCli() ? './bin/migrations' : '../../bin/migrations',
+    tableName: 'knex_migrations',
   },
   useNullAsDefault: true,
   postProcessResponse, // Stuff coming back from the DB

@@ -1,8 +1,8 @@
 {
-  "name": "test",
-  "productName": "Test",
+  "name": "cli-app",
+  "productName": "CLI App",
   "version": "1.0.0",
-  "description": "Test CLI",
+  "description": "CLI App",
   "licenses": [
     {
       "type": "MIT",

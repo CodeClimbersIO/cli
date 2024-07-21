@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { Command } from '@oclif/core'
 
 export default class World extends Command {

@@ -6,6 +6,14 @@ module.exports = {
   },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
+  settings: {
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
+  },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
