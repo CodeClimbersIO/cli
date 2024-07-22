@@ -10,6 +10,7 @@ import {
   MenuItem,
   styled,
   Typography,
+  useTheme,
 } from '@mui/material'
 import dayjs from 'dayjs'
 
@@ -63,6 +64,7 @@ const MenuStatsWrapper = styled('div')(({ theme }) => ({
 }))
 
 const HomeHeader = () => {
+  const theme = useTheme()
   const today = dayjs()
   const [selectedDate, setSelectedDate] = useState(dayjs())
 
@@ -147,8 +149,11 @@ const HomeHeader = () => {
           <IconButton onClick={handleClick}>
             <Avatar
               alt="Person"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Andrzej_Person_Kancelaria_Senatu.jpg/300px-Andrzej_Person_Kancelaria_Senatu.jpg"
-            />
+              src=""
+              sx={{ bgcolor: theme.palette.primary.main }}
+            >
+              H
+            </Avatar>
           </IconButton>
         </Box>
       </Header>
