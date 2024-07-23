@@ -26,8 +26,9 @@ export class PulseRepo {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
-    const getTimeQuery =
-      await sqlReaderUtil.getFileContentAsString('getTimeDetails.sql')
+    const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
+      'getTimeOverview.sql',
+    )
     return this.knex.raw(getTimeQuery, { startDate, endDate })
   }
 
