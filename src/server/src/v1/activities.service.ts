@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import activitiesUtil from '../../utils/activities.util'
 import { CreateWakatimePulseDto } from './dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../db/pulse.repo'
@@ -32,11 +32,18 @@ export class ActivitiesService {
     return this.pulseRepo.getLatestPulses()
   }
 
-  async getTimesByDate(
+  async getTimeOverview(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.Time[] | undefined> {
-    return this.pulseRepo.getTimeDetails(startDate, endDate)
+  ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
+    if (
+      new Date(startDate).toString() === 'Invalid Date' ||
+      new Date(endDate).toString() === 'Invalid Date'
+    ) {
+      throw new BadRequestException('Start and End Date must be valid.')
+    }
+
+    return this.pulseRepo.getTimeOverview(startDate, endDate)
   }
 
   private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {

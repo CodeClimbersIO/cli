@@ -33,11 +33,6 @@ declare namespace CodeClimbers {
     data: ActivitiesStatusBarData
   }
 
-  export interface Time {
-    category: string
-    minutes: int
-  }
-
   export interface CreateWakatimePulseDto {
     userId?: string
     entity: string

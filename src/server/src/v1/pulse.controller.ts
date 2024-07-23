@@ -19,8 +19,8 @@ export class PulseController {
   async getTime(
     @Param('startDate') startDate: string,
     @Param('startDate') endDate: string,
-  ): Promise<CodeClimbers.Time[]> {
-    const result = await this.activitiesService.getTimesByDate(
+  ): Promise<CodeClimbers.TimeOverviewDao[]> {
+    const result = await this.activitiesService.getTimeOverview(
       startDate,
       endDate,
     )
