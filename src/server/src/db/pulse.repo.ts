@@ -22,6 +22,15 @@ export class PulseRepo {
     return res
   }
 
+  async getTimeDetails(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.Time[] | undefined> {
+    const getTimeQuery =
+      await sqlReaderUtil.getFileContentAsString('getTimeDetails.sql')
+    return this.knex.raw(getTimeQuery, { startDate, endDate })
+  }
+
   async createPulse(pulse: CodeClimbers.Pulse) {
     Logger.log('Creating pulse', 'pulse.repo')
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(

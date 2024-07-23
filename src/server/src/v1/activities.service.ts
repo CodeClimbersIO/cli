@@ -32,6 +32,13 @@ export class ActivitiesService {
     return this.pulseRepo.getLatestPulses()
   }
 
+  async getTimesByDate(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.Time[] | undefined> {
+    return this.pulseRepo.getTimeDetails(startDate, endDate)
+  }
+
   private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {
     return {
       userId: 'local',
