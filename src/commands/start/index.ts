@@ -2,6 +2,7 @@
 process.env.APP_CONTEXT = 'cli'
 
 import { Args, Command } from '@oclif/core'
+// eslint-disable-next-line import/no-unresolved
 import { bootstrap } from 'server'
 
 export default class Start extends Command {
