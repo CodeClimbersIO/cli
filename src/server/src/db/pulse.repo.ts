@@ -22,12 +22,12 @@ export class PulseRepo {
     return res
   }
 
-  async getTimeOverview(
+  async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'getTimeOverview.sql',
+      'getCategoryTimeOverview.sql',
     )
     return this.knex.raw(getTimeQuery, { startDate, endDate })
   }

@@ -32,7 +32,7 @@ export class ActivitiesService {
     return this.pulseRepo.getLatestPulses()
   }
 
-  async getTimeOverview(
+  async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
@@ -43,7 +43,7 @@ export class ActivitiesService {
       throw new BadRequestException('Start and End Date must be valid.')
     }
 
-    return this.pulseRepo.getTimeOverview(startDate, endDate)
+    return this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
   }
 
   private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {
