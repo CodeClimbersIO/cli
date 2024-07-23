@@ -1,29 +1,25 @@
-import { Box, styled } from '@mui/material'
-
-import { LatestPulsesComponent } from './LatestPulses'
-import Logo from './Logo'
-import DeepWork from './DeepWork'
+import { styled } from '@mui/material'
 import Time from './Time'
 import Challenges from './Challenges'
 import Sources from './Sources'
-
-const Header = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: 24,
-  paddingBottom: 24,
-
-  [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column',
-  },
-}))
+import HomeHeader from './Header'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   gap: 24,
 
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
+  },
+}))
+
+const Wrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+
+  [theme.breakpoints.down(766)]: {
     flexDirection: 'column',
   },
 }))
@@ -31,25 +27,14 @@ const Body = styled('div')(({ theme }) => ({
 export const HomePage = () => {
   return (
     <div>
-      <Header>
-        <Logo />
-        <DeepWork />
-      </Header>
+      <HomeHeader />
       <Body>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            width: '100%',
-          }}
-        >
-          <Time />
+        <Time />
+        <Wrapper>
           <Challenges />
-        </Box>
-        <Sources />
+          <Sources />
+        </Wrapper>
       </Body>
-      <LatestPulsesComponent />
     </div>
   )
 }
