@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { isCli } from '../utils/environment.util'
 
 export async function bootstrap() {
+  const port = process.env.PORT || 8000
   const app = await NestFactory.create(AppModule)
   app.enableCors()
   app.useGlobalPipes(
@@ -16,8 +17,8 @@ export async function bootstrap() {
     }),
   )
   await startMigrations()
-  await app.listen(8000)
+  await app.listen(port)
 }
-if (!isCli) {
+if (!isCli()) {
   bootstrap()
 }
