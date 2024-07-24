@@ -1,4 +1,4 @@
-SELECT MAX(minutes) as longest_day
+SELECT MAX(minutes) as minutes
 FROM (SELECT count() as minutes
       FROM activities_pulse
       WHERE date(activities_pulse.time) BETWEEN :startDate AND :endDate

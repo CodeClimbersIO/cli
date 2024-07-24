@@ -26,41 +26,42 @@ export class PulseRepo {
     return res
   }
 
-  async getLongestDayMinutes(date: string): Promise<number> {
-    const currentDate = new Date(date)
-    const weekStart = new Date(
-      new Date(date).setDate(currentDate.getDate() - 7),
-    )
+  async getLongestDayInRangeMinutes(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<number> {
     const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
       'timeQueries/getLongestDayMinutes.sql',
     )
-    const [longestDayMinutes] = await this.knex.raw<MinutesQuery[]>(
-      weekMinutesQuery,
-      {
-        startDate: weekStart.toISOString(),
-        endDate: currentDate.toISOString(),
-      },
-    )
-    return longestDayMinutes.minutes
+    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    })
+
+    return result.minutes
   }
 
-  async getWeekMinutes(date: string): Promise<number> {
-    const currentDate = new Date(date)
-    const weekStart = new Date(
-      new Date(date).setDate(currentDate.getDate() - 7),
+  async getDateTotalMinutes(date: Date): Promise<number> {
+    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
+      'timeQueries/getDateTotalMinutes.sql',
     )
+    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
+      queryDate: date.toISOString(),
+    })
 
+    return result.minutes
+  }
+
+  async getRangeMinutes(startDate: Date, endDate: Date): Promise<number> {
     const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
       'timeQueries/getRangeTotalMinutes.sql',
     )
-    const [weekMinutes] = await this.knex.raw<MinutesQuery[]>(
-      weekMinutesQuery,
-      {
-        startDate: weekStart.toISOString(),
-        endDate: currentDate.toISOString(),
-      },
-    )
-    return weekMinutes.minutes
+    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    })
+
+    return result.minutes
   }
 
   async getCategoryTimeOverview(
