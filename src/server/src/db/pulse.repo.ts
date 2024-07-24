@@ -2,6 +2,10 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
 import sqlReaderUtil from '../../utils/sqlReader.util'
 
+interface MinutesQuery {
+  minutes: number
+}
+
 @Injectable()
 export class PulseRepo {
   constructor(@InjectKnex() private readonly knex: Knex) {}
@@ -22,12 +26,31 @@ export class PulseRepo {
     return res
   }
 
+  async getWeekMinutes(date: string): Promise<number> {
+    const currentDate = new Date(date)
+    const weekStart = new Date(
+      new Date(date).setDate(currentDate.getDate() - 7),
+    )
+
+    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
+      'timeQueries/getRangeTotalMinutes.sql',
+    )
+    const [weekMinutes] = await this.knex.raw<MinutesQuery[]>(
+      weekMinutesQuery,
+      {
+        startDate: weekStart.toISOString(),
+        endDate: currentDate.toISOString(),
+      },
+    )
+    return weekMinutes.minutes
+  }
+
   async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
+  ): Promise<CodeClimbers.TimeOverviewDao[]> {
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'getCategoryTimeOverview.sql',
+      'timeQueries/getCategoryTimeOverview.sql',
     )
     return this.knex.raw(getTimeQuery, { startDate, endDate })
   }

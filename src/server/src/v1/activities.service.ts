@@ -36,14 +36,12 @@ export class ActivitiesService {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[]> {
-    if (
-      new Date(startDate).toString() === 'Invalid Date' ||
-      new Date(endDate).toString() === 'Invalid Date'
-    ) {
-      throw new BadRequestException('Start and End Date must be valid.')
-    }
+    return await this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+  }
 
-    return this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+  async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverviewDao> {
+    const weekMinutes = await this.pulseRepo.getWeekMinutes(date)
+    return null
   }
 
   private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {
