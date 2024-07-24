@@ -9,6 +9,11 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   ],
+  "jest": {
+    "projects": [
+      "src/server/jest.config.js"
+    ]
+  },
   "scripts": {
     "build:app": "cd ./src/app && npm run build",
     "build:server": "cd ./src/server && npm run build",
