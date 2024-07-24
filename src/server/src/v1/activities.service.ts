@@ -35,7 +35,7 @@ export class ActivitiesService {
   async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
+  ): Promise<CodeClimbers.TimeOverviewDao[]> {
     if (
       new Date(startDate).toString() === 'Invalid Date' ||
       new Date(endDate).toString() === 'Invalid Date'
