@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import activitiesUtil from '../../utils/activities.util'
 import { CreateWakatimePulseDto } from './dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../db/pulse.repo'
