@@ -40,6 +40,7 @@ export class ActivitiesService {
   }
 
   async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverviewDao> {
+    const longestDayMinutes = await this.pulseRepo.getLongestDayMinutes(date)
     const weekMinutes = await this.pulseRepo.getWeekMinutes(date)
     return null
   }

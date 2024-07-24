@@ -26,6 +26,24 @@ export class PulseRepo {
     return res
   }
 
+  async getLongestDayMinutes(date: string): Promise<number> {
+    const currentDate = new Date(date)
+    const weekStart = new Date(
+      new Date(date).setDate(currentDate.getDate() - 7),
+    )
+    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
+      'timeQueries/getLongestDayMinutes.sql',
+    )
+    const [longestDayMinutes] = await this.knex.raw<MinutesQuery[]>(
+      weekMinutesQuery,
+      {
+        startDate: weekStart.toISOString(),
+        endDate: currentDate.toISOString(),
+      },
+    )
+    return longestDayMinutes.minutes
+  }
+
   async getWeekMinutes(date: string): Promise<number> {
     const currentDate = new Date(date)
     const weekStart = new Date(
