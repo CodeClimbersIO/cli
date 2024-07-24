@@ -11,3 +11,4 @@ codeclimber.sqlite*
 
 # oclif directory for caching build resources
 tmp
+.idea/
