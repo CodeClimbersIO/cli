@@ -11,7 +11,6 @@ export class PulseRepo {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
   tableName = 'activities_pulse'
-  pulseDb = this.knex<CodeClimbers.Pulse>(this.tableName)
 
   async getStatusBarDetails(): Promise<CodeClimbers.WakatimePulseStatusDao[]> {
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
@@ -30,36 +29,37 @@ export class PulseRepo {
     startDate: Date,
     endDate: Date,
   ): Promise<number> {
-    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
-      'timeQueries/getLongestDayMinutes.sql',
-    )
-    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    })
-
-    return result.minutes
-  }
-
-  async getDateTotalMinutes(date: Date): Promise<number> {
-    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
-      'timeQueries/getDateTotalMinutes.sql',
-    )
-    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
-      queryDate: date.toISOString(),
-    })
+    const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
+      .with('getMinutes', (db) => {
+        db.count('* as day')
+          .from(this.tableName)
+          .whereBetween('time', [
+            startDate.toISOString(),
+            endDate.toISOString(),
+          ])
+          .groupBy(this.knex.raw("strftime('%s', time) / (60 * 60 * 24)"))
+      })
+      .max('day as minutes')
+      .first()
+      .from('getMinutes')
 
     return result.minutes
   }
 
   async getRangeMinutes(startDate: Date, endDate: Date): Promise<number> {
-    const weekMinutesQuery = await sqlReaderUtil.getFileContentAsString(
-      'timeQueries/getRangeTotalMinutes.sql',
-    )
-    const [result] = await this.knex.raw<MinutesQuery[]>(weekMinutesQuery, {
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    })
+    const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
+      .with('getMinutes', (db) => {
+        db.count()
+          .from(this.tableName)
+          .whereBetween('time', [
+            startDate.toISOString(),
+            endDate.toISOString(),
+          ])
+          .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+      })
+      .count('* as minutes')
+      .first()
+      .from('getMinutes')
 
     return result.minutes
   }
@@ -69,7 +69,7 @@ export class PulseRepo {
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[]> {
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'timeQueries/getCategoryTimeOverview.sql',
+      'getCategoryTimeOverview.sql',
     )
     return this.knex.raw(getTimeQuery, { startDate, endDate })
   }

@@ -41,19 +41,28 @@ export class ActivitiesService {
 
   async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverviewDao> {
     const currentDate = new Date(date)
-    const yesterday = new Date(
-      new Date(date).setDate(currentDate.getDate() - 7),
-    )
     const weekStart = new Date(
       new Date(currentDate).setDate(currentDate.getDate() - 7),
+    )
+    const yesterday = new Date(
+      new Date(date).setDate(currentDate.getDate() - 1),
+    )
+    const ereyesterday = new Date(
+      new Date(yesterday).setDate(yesterday.getDate() - 1),
     )
 
     const longestDayMinutes = await this.pulseRepo.getLongestDayInRangeMinutes(
       weekStart,
       currentDate,
     )
-    const yesterdayMinutes = await this.pulseRepo.getDateTotalMinutes(yesterday)
-    const todayMinutes = await this.pulseRepo.getDateTotalMinutes(currentDate)
+    const yesterdayMinutes = await this.pulseRepo.getRangeMinutes(
+      ereyesterday,
+      yesterday,
+    )
+    const todayMinutes = await this.pulseRepo.getRangeMinutes(
+      yesterday,
+      currentDate,
+    )
     const weekMinutes = await this.pulseRepo.getRangeMinutes(
       weekStart,
       currentDate,
