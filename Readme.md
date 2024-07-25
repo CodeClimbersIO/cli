@@ -72,5 +72,13 @@ A way for the user to interact with the application easily using oclif
 ### Conventions 
 - TBD
 
+## Deployment
+```
+npm run package
+```
+Creates the distribution packages that we use to upload new versions of the application. For more info, check out the oclif documentation on [releasing](https://oclif.io/docs/releasing/)  
+
+_Note: Requires that you have 7zip installed to run_
+
 ## Licensing
 This project is licensed under the MIT License.

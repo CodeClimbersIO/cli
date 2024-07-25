@@ -59,7 +59,7 @@ export const knexConfig: KnexTypes.Config = {
     filename: './codeclimber.sqlite',
   },
   migrations: {
-    directory: isCli() ? './bin/migrations' : '../../bin/migrations',
+    directory: isCli() ? './migrations' : '../../bin/migrations',
     tableName: 'knex_migrations',
   },
   useNullAsDefault: true,
