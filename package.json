@@ -1,7 +1,7 @@
 {
   "name": "code-climbers",
   "productName": "Code Climbers",
-  "version": "1.0.0",
+  "version": "0.0.7",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -15,23 +15,46 @@
     ]
   },
   "scripts": {
-    "build:app": "cd ./src/app && npm run build",
-    "build:server": "cd ./src/server && npm run build",
-    "build:command": "cd ./src/commands && tsc -b",
-    "build": "shx rm -rf dist && npm run ci && npm run build:app && npm run build:server && npm run build:command",
-    "dev:server": "tsc-watch --noClear --onSuccess \"npm run start\"",
-    "dev:app": "vite",
-    "start": "npm run copy && node dist/index.js --inspect",
+    "build:app": "cd src/app && npm run build",
+    "build:server": "cd src/server && npm run build",
+    "build:command": "cd src/commands && tsc -b",
+    "build": "shx rm -rf dist && npm ci && npm run build:app && npm run build:server && npm run build:command",
+    "check-deps": "node scripts/checkDependencies.js",
+    "publish:npm": "npm run check-deps I&& npm run build && npm publish",
+    "package": "npm run build && copyfiles -u 1 \\\"packages/**/*\\\" tmp/codeclimbers/src && oclif pack tarballs",
     "lint": "eslint --ext .ts,.tsx .",
     "test": "jest",
     "test:watch": "jest --watch",
     "db:migrate": "knex migrate:latest",
     "db:migrate:make": "knex migrate:make"
   },
+  "workspaces": [
+    "src/server",
+    "src/app",
+    "src/commands"
+  ],
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/material": "^5.16.4",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.3.10",
+    "@nestjs/platform-express": "^10.0.0",
     "@oclif/core": "^4.0.12",
-    "cli-app": "file:src/app",
-    "cli-server": "file:src/server",
+    "@tanstack/react-query": "^5.48.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dayjs": "^1.11.12",
+    "luxon": "^3.4.4",
+    "nestjs-knex": "^2.0.0",
+    "react": "^18.3.1",
+    "react-router-dom": "^6.24.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.1",
+    "sqlite3": "^5.1.7",
     "server": "file:dist/server"
   },
   "devDependencies": {
@@ -77,6 +100,9 @@
     "bin": "codeclimbers",
     "commands": "./dist/commands",
     "dirname": "codeclimbers",
-    "topicSeparator": ":"
+    "topicSeparator": ":",
+    "update": {
+      "s3": {}
+    }
   }
 }

@@ -8,7 +8,7 @@ import {
 } from '../../utils/helpers.util'
 import { Module } from '@nestjs/common'
 import { KnexModule } from 'nestjs-knex'
-import { isCli } from '../../utils/environment.util'
+import * as path from 'path'
 
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
@@ -52,14 +52,21 @@ const camelCaseKeys = (obj: any) => {
     return deepMapKeys(obj, (v: any, k: any) => camelCase(k))
   }
 }
-
 export const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
   connection: {
     filename: './codeclimber.sqlite',
   },
   migrations: {
-    directory: isCli() ? './migrations' : '../../bin/migrations',
+    directory: path.join(
+      __dirname,
+      '..',
+      '..',
+      '..',
+      '..',
+      'bin',
+      'migrations',
+    ),
     tableName: 'knex_migrations',
   },
   useNullAsDefault: true,
