@@ -25,38 +25,36 @@ export class PulseRepo {
     return res
   }
 
+  getMinutesInRangeQuery(startDate: Date, endDate: Date) {
+    return this.knex<MinutesQuery[]>(this.tableName)
+      .count('* as minutes')
+      .from(this.tableName)
+      .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
+      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+  }
+
   async getLongestDayInRangeMinutes(
     startDate: Date,
     endDate: Date,
   ): Promise<number> {
-    const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
-      .with('getMinutes', (db) => {
-        db.count('* as day')
-          .from(this.tableName)
-          .whereBetween('time', [
-            startDate.toISOString(),
-            endDate.toISOString(),
-          ])
-          .groupBy(this.knex.raw("strftime('%s', time) / (60 * 60 * 24)"))
-      })
-      .max('day as minutes')
-      .first()
-      .from('getMinutes')
+    const getLongestDayMinutesQuery =
+      await sqlReaderUtil.getFileContentAsString(
+        'getLongestDayInRangeMinutes.sql',
+      )
+    const [result] = await this.knex.raw<MinutesQuery[]>(
+      getLongestDayMinutesQuery,
+      {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      },
+    )
 
     return result.minutes
   }
 
   async getRangeMinutes(startDate: Date, endDate: Date): Promise<number> {
     const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
-      .with('getMinutes', (db) => {
-        db.count()
-          .from(this.tableName)
-          .whereBetween('time', [
-            startDate.toISOString(),
-            endDate.toISOString(),
-          ])
-          .groupBy(this.knex.raw("strftime('%s', time) / 60"))
-      })
+      .with('getMinutes', this.getMinutesInRangeQuery(startDate, endDate))
       .count('* as minutes')
       .first()
       .from('getMinutes')
@@ -68,10 +66,17 @@ export class PulseRepo {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[]> {
-    const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'getCategoryTimeOverview.sql',
-    )
-    return this.knex.raw(getTimeQuery, { startDate, endDate })
+    const query = this.knex<MinutesQuery[]>(this.tableName)
+      .select(this.knex.raw('category, count()'))
+      .from(this.tableName)
+      .whereBetween('time', [startDate, endDate])
+      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+
+    return await this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
+      .with('getMinutes', query)
+      .select(this.knex.raw('category, count() as minutes'))
+      .groupBy('category')
+      .from('getMinutes')
   }
 
   async createPulse(pulse: CodeClimbers.Pulse) {

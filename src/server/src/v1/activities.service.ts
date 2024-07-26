@@ -47,7 +47,7 @@ export class ActivitiesService {
     const yesterday = new Date(
       new Date(date).setDate(currentDate.getDate() - 1),
     )
-    const ereyesterday = new Date(
+    const twoDaysAgo = new Date(
       new Date(yesterday).setDate(yesterday.getDate() - 1),
     )
 
@@ -56,7 +56,7 @@ export class ActivitiesService {
       currentDate,
     )
     const yesterdayMinutes = await this.pulseRepo.getRangeMinutes(
-      ereyesterday,
+      twoDaysAgo,
       yesterday,
     )
     const todayMinutes = await this.pulseRepo.getRangeMinutes(
