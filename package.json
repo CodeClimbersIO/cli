@@ -49,7 +49,6 @@
     "class-validator": "^0.14.1",
     "dayjs": "^1.11.12",
     "luxon": "^3.4.4",
-    "moment": "^2.30.1",
     "nestjs-knex": "^2.0.0",
     "react": "^18.3.1",
     "react-router-dom": "^6.24.0",
