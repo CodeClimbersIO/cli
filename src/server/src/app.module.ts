@@ -4,6 +4,8 @@ import { APP_FILTER, RouterModule } from '@nestjs/core'
 import { DbModule } from './v1/pulse/infrastructure/database/knex'
 import { AllExceptionsFilter } from '../utils/allExceptions.filter'
 import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware/requestlogger.middleware'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path'
 
 @Module({
   imports: [
@@ -15,6 +17,9 @@ import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware
         module: V1Module,
       },
     ]),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', '..', 'dist/app'),
+    }),
   ],
   providers: [
     {
