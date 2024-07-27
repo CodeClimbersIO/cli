@@ -55,6 +55,8 @@ const camelCaseKeys = (obj: any) => {
 
 const IS_TEST = process.env.NODE_ENV === 'test'
 const BIN_PATH = path.join(__dirname, '..', '..', '..', '..', 'bin')
+
+// https://github.com/knex/knex/issues/1871#issuecomment-452342526
 export const SQL_LITE_TEST_FILE = 'codeclimber?mode=memory&cache=shared'
 
 export const knexConfig: KnexTypes.Config = {
