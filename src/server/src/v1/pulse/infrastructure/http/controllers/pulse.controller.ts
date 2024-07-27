@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ActivitiesService } from '../../../application/services/activities.service'
 import { GetCategoryTimeOverviewDto } from '../../../application/dtos/getCategoryTimeOverview.dto'
+import { GetWeekOverviewDto } from '../../../application/dtos/getWeekOverview.dto'
 
 @Controller('pulses')
 export class PulseController {
@@ -14,6 +15,14 @@ export class PulseController {
   }> {
     const pulse = await this.activitiesService.getLatestPulses()
     return { message: 'success', data: pulse }
+  }
+
+  @Get('weekOverview')
+  async getWeekOverview(
+    @Query() dto: GetWeekOverviewDto,
+  ): Promise<CodeClimbers.WeekOverviewDao> {
+    const result = await this.activitiesService.getWeekOverview(dto.date)
+    return result
   }
 
   @Get('categoryTimeOverview')
