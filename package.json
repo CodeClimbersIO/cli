@@ -56,7 +56,8 @@
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "server": "file:dist/server",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "find-process": "^1.4.7"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
