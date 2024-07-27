@@ -1,9 +1,9 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { V1Module } from './v1/v1.module'
 import { APP_FILTER, RouterModule } from '@nestjs/core'
-import { DbModule } from './db/knex'
+import { DbModule } from './v1/pulse/infrastructure/database/knex'
 import { AllExceptionsFilter } from '../utils/allExceptions.filter'
-import { RequestLoggerMiddleware } from './middleware/requestlogger.middleware'
+import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware/requestlogger.middleware'
 
 @Module({
   imports: [
