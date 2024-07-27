@@ -4,74 +4,21 @@ import {
   CardContent,
   Divider,
   IconButton,
-  LinearProgress,
   Typography,
 } from '@mui/material'
+import { TimeDataPoint } from './TimeDataPoint'
+import { TimeDataChart } from './TimeDataChart'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 
-interface TimeDataPointProps {
-  title: string
-  time: string
-}
-
-const TimeDataPoint = ({ title, time }: TimeDataPointProps) => (
-  <Grid2 xs={6} md={3} flexDirection="column" gap={0.5} display="flex">
-    <Typography variant="body1" fontWeight="light">
-      {title}
-    </Typography>
-    <Typography variant="body1" fontWeight="bold">
-      {time}
-    </Typography>
-  </Grid2>
-)
-
-interface TimeDataChartProps {
-  title: string
-  color: string
-  time: string
-  // Placeholder for real chart data
-  progress: number
-}
-
-const TimeDataChart = ({
-  title,
-  color,
-  progress,
-  time,
-}: TimeDataChartProps) => (
-  <Grid2 container justifyContent="space-between" gap={3} alignItems="center">
-    <Grid2 sx={{ minWidth: 120 }}>
-      <Typography variant="body1">{title}</Typography>
-    </Grid2>
-    <Grid2 sx={{ flex: 1 }}>
-      <LinearProgress
-        variant="determinate"
-        value={progress}
-        sx={{
-          width: '100%',
-          py: 1.5,
-          borderRadius: 1,
-          backgroundColor: 'transparent',
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: color,
-            opacity: 0.6,
-          },
-        }}
-      />
-    </Grid2>
-    <Grid2>
-      <Typography variant="bod1" fontWeight="bold">
-        {time}
-      </Typography>
-    </Grid2>
-  </Grid2>
-)
-
-const Time = () => {
+export const Time = () => {
   return (
     <Card
       raised={false}
-      sx={{ boxShadow: 'none', borderRadius: 0, height: 500, width: '100%' }}
+      sx={{
+        boxShadow: 'none',
+        borderRadius: 0,
+        width: '100%',
+      }}
     >
       <CardContent
         sx={{
@@ -128,5 +75,3 @@ const Time = () => {
     </Card>
   )
 }
-
-export default Time

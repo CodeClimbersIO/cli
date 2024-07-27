@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import Time from './Time'
+import { Time } from './Time/Time'
 import Challenges from './Challenges'
 import Sources from './Sources'
 import HomeHeader from './Header'
