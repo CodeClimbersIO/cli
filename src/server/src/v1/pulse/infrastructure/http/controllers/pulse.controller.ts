@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { ActivitiesService } from './activities.service'
-import { GetCategoryTimeOverviewDto } from './dtos/getCategoryTimeOverview.dto'
+import { ActivitiesService } from '../../../application/services/activities.service'
+import { GetCategoryTimeOverviewDto } from '../../../application/dtos/getCategoryTimeOverview.dto'
 
 @Controller('pulses')
 export class PulseController {
