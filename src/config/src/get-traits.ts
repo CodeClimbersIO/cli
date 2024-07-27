@@ -9,12 +9,13 @@ export const getTraits = async () => {
   traits['system.platform'] = platform()
   try {
     await (async () => {
-      const lock = await new Promise(resolve => readFile('../../package-lock.json', 'utf8', (error, content) => {
+      const lock = (await new Promise((resolve) =>
+        readFile('../../package-lock.json', 'utf8', (error, content) => {
         if (error) {
           throw error
         }
         resolve(JSON.parse(content))
-      })) as { packages: { [key: string]: { version?: string, resolved: string } } }
+      }))) as { packages: { [key: string]: { version?: string, resolved: string } } }
       for (const pkg of Object.keys(lock.packages)) {
         if (pkg === '') {
           traits['code-climbers.root'] = lock.packages[pkg].version ?? '0.0.0'

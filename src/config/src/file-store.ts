@@ -64,7 +64,11 @@ export class FileStore implements Store {
     return new Promise((resolve) =>
       writeFile(
         file,
-        JSON.stringify({ uuid: this.uuid, flags: this.memory, lastUpdate: this.lastUpdate }),
+        JSON.stringify({
+          uuid: this.uuid,
+          flags: this.memory,
+          lastUpdate: this.lastUpdate,
+        }),
         'utf8',
         () => resolve(undefined),
       ),
