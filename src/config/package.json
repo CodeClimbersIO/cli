@@ -1,23 +1,35 @@
 {
-  "name": "config",
+  "name": "@code-climbers/config",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a configuration microservice accessible via websocket",
+  "keywords": [
+    "websocket",
+    "configuration",
+    "flagsmith",
+    "codeclimbers"
+  ],
+  "license": "MIT",
   "main": "index.js",
   "module": "module",
+  "author": {
+    "name": "Björn 'Idrinth' Büttner",
+    "url": "https://github.com/idrinth"
+  },
   "scripts": {
+    "start": "node index.js",
+    "dev": "tsx index.ts"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/CodeClimbersIO/cli"
   },
   "dependencies": {
-    "flagsmith-nodejs": "^3.3.3",
-    "typescript": "^5.5.4",
-    "ws": "^8.18.0",
-    "tsx": "^4.16.2"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@types/node": "^20.14.12"
-  },
-  "private": true
+    "typescript": "^5.5.4",
+    "@types/node": "^20.14.12",
+    "@types/ws": "^8.5.11",
+    "tsx": "^4.16.2"
+  }
 }

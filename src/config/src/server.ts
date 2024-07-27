@@ -1,31 +1,44 @@
-import Flagsmith, { Flags } from 'flagsmith-nodejs'
-import { WebSocketServer } from 'ws'
-import { type } from 'node:os'
+import WebSocket, { WebSocketServer } from 'ws'
+import { Flagsmith } from './flagsmith.js'
+import { WEBSOCKET_REFRESH_COOLDOWN } from './constants'
+import { FileStore } from './file-store'
+import { getTraits } from './get-traits'
 
 export default async (
   port: number,
   environmentKey: string,
-  serverPort: number,
+  flagsmithAPI: string,
 ) => {
   if (!environmentKey) {
     throw Error(`Invalid environment key.`)
   }
-  const flagsmith = new Flagsmith({
-    environmentKey,
-  })
-  const traits: { [key: string]: number } = {}
-  traits[type()] = 1
-  const identity = await (
-    await fetch(`127.0.0.1:${serverPort}/api/v1/identity`)
-  ).json()
-  const flagsPromise = flagsmith.getIdentityFlags(identity.uuid, traits)
+  const flagsmith = new Flagsmith(
+    {
+      environmentKey,
+      flagsmithAPI,
+    },
+    await getTraits(),
+    new FileStore(),
+  )
   const wss = new WebSocketServer({ port })
-  wss.on('connection', (ws: WebSocketServer) => {
-    let flags: undefined | Flags
-    ws.on(`message`, async (data: string) => {
-      flags = flags ?? (await flagsPromise)
-      ws.send(flags.getFlag(data))
+  wss.on('connection', (ws: WebSocket) => {
+    const requested: { [key: string]: string } = {}
+    const send = async (flag: string) => {
+      const result = await flagsmith.get(flag)
+      const previous = requested[flag] ?? ''
+      requested[flag] = JSON.stringify(result)
+      if (requested[flag] !== previous) {
+        ws.send(requested[flag])
+      }
+    }
+    ws.on(`message`, send)
+    const interval = setInterval(() => {
+      for (const requestedFlag of Object.keys(requested)) {
+        send(requestedFlag)
+      }
+    }, WEBSOCKET_REFRESH_COOLDOWN)
+    ws.on('close', () => {
+      clearInterval(interval)
     })
-    ws.send({ ready: true })
   })
 }

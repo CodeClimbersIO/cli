@@ -5,8 +5,6 @@ import { PulseRepo } from '../db/pulse.repo'
 import { PulseController } from './pulse.controller'
 import { WakatimeController } from './wakatimeProxy.controller'
 import { StartupService } from './startup.service'
-import { IdentityController } from './identity.controller'
-import { FlagStoreRepo } from '../db/flag-store.repo'
 
 @Module({
   imports: [],
@@ -14,8 +12,7 @@ import { FlagStoreRepo } from '../db/flag-store.repo'
     HealthController,
     PulseController,
     WakatimeController,
-    IdentityController,
   ],
-  providers: [ActivitiesService, StartupService, PulseRepo, FlagStoreRepo],
+  providers: [ActivitiesService, StartupService, PulseRepo],
 })
 export class V1Module {}

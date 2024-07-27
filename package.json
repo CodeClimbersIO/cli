@@ -27,6 +27,7 @@
     "@oclif/core": "^4.0.12",
     "cli-app": "file:src/app",
     "cli-server": "file:src/server",
+    "@code-climbers/config": "file:src/config",
     "server": "file:dist/server"
   },
   "devDependencies": {
