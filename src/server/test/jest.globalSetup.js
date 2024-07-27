@@ -1,5 +1,8 @@
 const Knex = require('knex')
-const { knexConfig, SQL_LITE_TEST_FILE } = require('../src/db/knex')
+const {
+  knexConfig,
+  SQL_LITE_TEST_FILE,
+} = require('../src/v1/pulse/infrastructure/database/knex')
 
 const knex = Knex(knexConfig)
 module.exports = async () => {
