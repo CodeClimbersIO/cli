@@ -1,7 +1,7 @@
 {
   "name": "code-climbers",
   "productName": "Code Climbers",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -43,6 +43,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.3.10",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/serve-static": "^4.0.2",
     "@oclif/core": "^4.0.12",
     "@tanstack/react-query": "^5.48.0",
     "class-transformer": "^0.5.1",
@@ -54,9 +55,14 @@
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+<<<<<<< HEAD
     "sqlite3": "^5.1.7",
     "server": "file:dist/server",
     "find-process": "^1.4.7"
+=======
+    "server": "file:dist/server",
+    "sqlite3": "^5.1.7"
+>>>>>>> 56551242e7ed357521623b84cce2340c05d62f2b
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",

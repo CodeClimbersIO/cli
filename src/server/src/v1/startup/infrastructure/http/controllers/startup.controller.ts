@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { Controller, Post } from '@nestjs/common'
-import { StartupService } from './startup.service'
+import { StartupService } from '../../../application/services/startup.service'
 
 @Controller('/startup')
 export class StartupController {
