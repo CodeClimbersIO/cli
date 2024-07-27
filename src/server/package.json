@@ -27,7 +27,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:migrate": "knex migrate:latest",
-    "db:migrate:make": "knex migrate:make"
+    "db:migrate:make": "knex migrate:make",
+    "db:seed": "knex seed:run",
+    "db:seed:make": "knex seed:make $(date +%s)_${npm_config_name}"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
