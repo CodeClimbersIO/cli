@@ -48,14 +48,13 @@ export default class Start extends Command {
 
   async run(): Promise<void> {
     const { args } = await this.parse(Start)
-    const port = args.port || Start.DEFAULT_PORT
-    process.env.PORT = port // number of minutes in a day times 10
+    process.env.PORT = args.port || Start.DEFAULT_PORT
 
-    const [runningInstance] = await find('port', Number(port))
+    const [runningInstance] = await find('port', Number(process.env.PORT))
 
     if (runningInstance) {
       this.error(
-        `A server is already running on port ${port} with process id ${runningInstance.pid}`,
+        `A server is already running on port ${process.env.PORT} with process id ${runningInstance.pid}`,
       )
     }
 
