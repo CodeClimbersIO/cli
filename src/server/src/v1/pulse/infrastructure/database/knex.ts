@@ -5,7 +5,7 @@ import {
   isPlainObject,
   snakeCase,
   camelCase,
-} from '../../utils/helpers.util'
+} from '../../../../../utils/helpers.util'
 import { Module } from '@nestjs/common'
 import { KnexModule } from 'nestjs-knex'
 import * as path from 'path'
@@ -60,6 +60,9 @@ export const knexConfig: KnexTypes.Config = {
   migrations: {
     directory: path.join(
       __dirname,
+      '..',
+      '..',
+      '..',
       '..',
       '..',
       '..',
