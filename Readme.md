@@ -32,7 +32,7 @@ npm run start
 ## Contributing
 We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing. I talk slowly so you probably want to 2x that bad boy 😛
 
-[![Getting Started Video](https://i9.ytimg.com/vi_webp/Q4EJKXDi3a8/mq1.webp?sqp=CPjy4bQG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACxgWKAgwIABABGGQgZChkMA8=&rs=AOn4CLA2zQqXOcW3g1D-R4nZLLzL8p8m2Q)](https://youtu.be/Q4EJKXDi3a8)
+[![Getting Started Video](https://i9.ytimg.com/vi_webp/Q4EJKXDi3a8/mq1.webp?sqp=CPTKhbUG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACxgWKAgwIABABGGQgZChkMA8=&rs=AOn4CLATRoV8G6s9Zl8mY4Pi_mmujrDAww)](https://youtu.be/Q4EJKXDi3a8)
 
 ## Overall guidelines | Suggestions
 - 🙏 Thank you for your help! Your contributions will motivate developers to do greater things! 
@@ -54,7 +54,7 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 - Styling: when needing to do your own work with `Box` for layouts, make use of `flex` instead of other css layout types where possible
 
 ## Backend
-A Node NestJS server with knex and sqllite for generating the functionality of the application
+A Node NestJS server with knex and sqlite for generating the functionality of the application
 
 ### Conventions
 - When writing your endpoint, please include it in the [postman collection](https://app.getpostman.com/join-team?invite_code=9637b029e619749476d15a4c5e1022d7&target_code=6b61a4e2db3eb4abdac588e6cc32a45c). Makes for easier testing for yourself and helps the rest of us understand how to use your endpoint. 
@@ -71,6 +71,14 @@ A way for the user to interact with the application easily using oclif
 
 ### Conventions 
 - TBD
+
+## Deployment
+```
+npm run package
+```
+Creates the distribution packages that we use to upload new versions of the application. For more info, check out the oclif documentation on [releasing](https://oclif.io/docs/releasing/)  
+
+_Note: Requires that you have 7zip installed to run_
 
 ## Licensing
 This project is licensed under the MIT License.

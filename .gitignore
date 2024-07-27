@@ -14,3 +14,7 @@ codeclimbers.identity
 
 # oclif directory for caching build resources
 tmp
+releases
+
+# intellij
+.idea

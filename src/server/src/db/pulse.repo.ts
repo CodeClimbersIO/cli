@@ -22,6 +22,16 @@ export class PulseRepo {
     return res
   }
 
+  async getCategoryTimeOverview(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.TimeOverviewDao[] | undefined> {
+    const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
+      'getCategoryTimeOverview.sql',
+    )
+    return this.knex.raw(getTimeQuery, { startDate, endDate })
+  }
+
   async createPulse(pulse: CodeClimbers.Pulse) {
     Logger.log('Creating pulse', 'pulse.repo')
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(

@@ -86,13 +86,15 @@ describe('camelCase', () => {
 describe('maxBy', () => {
   it('should return the maximum value by the given key', () => {
     const arr = [
-      { a: 1, b: 2 },
+      { a: 1, b: 3 },
       { a: 2, b: 1 },
-      { a: 3, b: 3 },
+      { a: 3, b: 2 },
     ]
 
-    expect(maxBy(arr, (x) => x.a)).toEqual({ a: 3, b: 3 })
-    expect(maxBy(arr, (x) => x.b)).toEqual({ a: 1, b: 2 })
+    // row 3
+    // row 1Î
+    expect(maxBy(arr, (x) => x.a)).toEqual({ a: 3, b: 2 })
+    expect(maxBy(arr, (x) => x.b)).toEqual({ a: 1, b: 3 })
   })
 
   it('should return undefined for empty arrays', () => {
