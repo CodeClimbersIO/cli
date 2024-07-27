@@ -45,9 +45,9 @@ export default class Start extends Command {
   static examples = [`<%= config.bin %> <%= command.id %>`]
 
   async run(): Promise<void> {
-    this.log(WELCOME_MESSAGE)
     const { args } = await this.parse(Start)
     process.env.PORT = args.port || '14400' // number of minutes in a day times 10
+    this.log(WELCOME_MESSAGE)
     bootstrap()
   }
 }
