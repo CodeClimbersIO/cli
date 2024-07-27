@@ -8,4 +8,7 @@ module.exports = {
     directory: '../../bin/migrations',
     stub: 'migrations/example/stub.js',
   },
+  seeds: {
+    directory: '../../bin/seeds',
+  },
 }
