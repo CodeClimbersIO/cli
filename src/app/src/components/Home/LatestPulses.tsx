@@ -23,7 +23,6 @@ export const LatestPulsesComponent = () => {
     }
   }, [])
 
-  console.log(isPending, pulses)
   if (isPending) return <CircularProgress />
   console.log(isError)
   return (
