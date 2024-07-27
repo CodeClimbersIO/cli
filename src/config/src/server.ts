@@ -1,4 +1,4 @@
-import WebSocket, { WebSocketServer } from 'ws'
+import WebSocketConnection, { WebSocketServer } from 'ws'
 import { Flagsmith } from './flagsmith.js'
 import { WEBSOCKET_REFRESH_COOLDOWN } from './constants'
 import { FileStore } from './file-store'
@@ -21,7 +21,7 @@ export default async (
     new FileStore(),
   )
   const wss = new WebSocketServer({ port })
-  wss.on('connection', (ws: WebSocket) => {
+  wss.on('connection', (ws: WebSocketConnection) => {
     const requested: { [key: string]: string } = {}
     const send = async (flag: string) => {
       const result = await flagsmith.get(flag)

@@ -18,7 +18,8 @@ export class Flag {
       this.source = 'CORE'
     } else if (
       envEnabled === this.enabled &&
-      (identityEnabled === undefined || identityEnabled === this.enabled)) {
+      (identityEnabled === undefined || identityEnabled === this.enabled)
+    ) {
       this.source = 'ENV'
     } else if (identityEnabled === this.enabled) {
       this.source = 'ID'

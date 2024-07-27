@@ -8,7 +8,7 @@ const file = './codeclimbers.identity'
 export class FileStore implements Store {
   private readonly memory: { [key: string]: boolean } = {}
   private readonly uuid: string
-  private lastUpdate: number = 0
+  private lastUpdate = 0
   constructor() {
     if (!existsSync(file)) {
       this.uuid = randomUUID()
@@ -50,8 +50,7 @@ export class FileStore implements Store {
   id(): string {
     return this.uuid
   }
-  async mayUpdateOnRestart(): Promise<boolean>
-  {
+  async mayUpdateOnRestart(): Promise<boolean> {
     const now = Date.now()
     if (now > this.lastUpdate + MINIMUM_UPDATE_ON_RESTART_COOLDOWN) {
       this.lastUpdate = now

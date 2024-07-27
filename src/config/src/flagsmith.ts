@@ -20,13 +20,13 @@ export class Flagsmith {
     this.lastUpdated = 0
     for (const flag of this.core) {
       this.storage.has(flag.name)
-        ? this.flags.push(new Flag(flag.name, flag.enabled, this.storage.get(flag.name)))
+        ? this.flags.push(
+            new Flag(flag.name, flag.enabled, this.storage.get(flag.name)),
+          )
         : this.flags.push(new Flag(flag.name, flag.enabled))
       this.storage.put(flag.name, this.flags[this.flags.length - 1].enabled)
     }
-    this
-      .loadFlags()
-      .then(() => this.initialized = true)
+    this.loadFlags().then(() => (this.initialized = true))
   }
   async get(flagName: string) {
     await this.loadFlags()
@@ -39,11 +39,13 @@ export class Flagsmith {
     return new Flag(flagName, false, false, false, false)
   }
   private async loadFlags() {
-    if (!this.initialized && !await this.storage.mayUpdateOnRestart()) {
+    if (!this.initialized && !(await this.storage.mayUpdateOnRestart())) {
       return
     }
     while (!this.initialized && this.lastUpdated !== 0) {
-      await new Promise(resolve => setTimeout(resolve, INITIALIZE_WAIT_TIMEOUT))
+      await new Promise((resolve) =>
+        setTimeout(resolve, INITIALIZE_WAIT_TIMEOUT),
+      )
     }
     if (Date.now() - this.lastUpdated < MINIMUM_UPDATE_COOLDOWN) {
       return
@@ -74,7 +76,10 @@ export class Flagsmith {
     })
     try {
       const data = await Promise.all([base, identity])
-      const [envList, idList] = await Promise.all([data[0].json(), data[1].json()])
+      const [envList, idList] = await Promise.all([
+        data[0].json(),
+        data[1].json(),
+      ])
       console.log(envList, idList)
       const flags: Flag[] = []
       for (const flag of this.core) {
@@ -95,7 +100,10 @@ export class Flagsmith {
                       : id.feature_state_value === 'true',
                   ),
                 )
-                await this.storage.put(flag.name, flags[flags.length - 1].enabled)
+                await this.storage.put(
+                  flag.name,
+                  flags[flags.length - 1].enabled,
+                )
               }
             }
           }

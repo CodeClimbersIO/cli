@@ -8,11 +8,7 @@ import { StartupService } from './startup.service'
 
 @Module({
   imports: [],
-  controllers: [
-    HealthController,
-    PulseController,
-    WakatimeController,
-  ],
+  controllers: [HealthController, PulseController, WakatimeController],
   providers: [ActivitiesService, StartupService, PulseRepo],
 })
 export class V1Module {}
