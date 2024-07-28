@@ -80,7 +80,6 @@ export class Flagsmith {
         data[0].json(),
         data[1].json(),
       ])
-      console.log(envList, idList)
       const flags: Flag[] = []
       for (const flag of this.core) {
         for (const env of envList) {
@@ -113,6 +112,5 @@ export class Flagsmith {
     } catch (error) {
       // @todo logging
     }
-    console.log(this.flags)
   }
 }
