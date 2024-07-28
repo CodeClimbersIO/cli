@@ -55,8 +55,8 @@
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "sqlite3": "^5.1.7",
     "server": "file:dist/server",
+    "sqlite3": "^5.1.7",
     "find-process": "^1.4.7"
   },
   "devDependencies": {
