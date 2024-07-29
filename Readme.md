@@ -1,6 +1,6 @@
 # Code Climbers CLI
 
-A command-line interface tool for climbers to track their daily coding achievements. Made up of 3 pieces. A Node server with a restful api that delivers a Single Page application and a CLI that allows the user to turn the server on and off and control some of their preferences. 
+A command-line interface tool for climbers to track their daily coding achievements. Made up of 3 pieces. A Node server with a restful api that delivers a Single Page application and a CLI that allows the user to turn the server on and off and control some of their preferences.
 
 The goal is to allow the user to be able to run the command `codeclimbers start` after they download and install the CLI and not have to do anything else after that point. They could then view their dashboard from their browser at `codeclimbers.local`
 
@@ -12,7 +12,7 @@ The goal is to allow the user to be able to run the command `codeclimbers start`
 - Node.js (v20.0.0 or higher)
 - npm (v6.0.0 or higher)
 
-## Quickstart  
+## Quickstart
 
 ### Backend
 ```
@@ -28,6 +28,11 @@ npm i
 npm run start
 ```
 
+### CLI
+```
+./bin/dev.js [COMMAND]
+```
+- CLI runs with node --watch mode in place. However, it will only work for changes in the `src/commands` directory. If you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and then restart the CLI.
 
 ## Contributing
 We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing. I talk slowly so you probably want to 2x that bad boy 😛
@@ -35,8 +40,8 @@ We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4
 [![Getting Started Video](https://i9.ytimg.com/vi_webp/Q4EJKXDi3a8/mq1.webp?sqp=CPTKhbUG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYACxgWKAgwIABABGGQgZChkMA8=&rs=AOn4CLATRoV8G6s9Zl8mY4Pi_mmujrDAww)](https://youtu.be/Q4EJKXDi3a8)
 
 ## Overall guidelines | Suggestions
-- 🙏 Thank you for your help! Your contributions will motivate developers to do greater things! 
-- 🥇 Keep it simple. We don't need optimizations right now. We need features! 
+- 🙏 Thank you for your help! Your contributions will motivate developers to do greater things!
+- 🥇 Keep it simple. We don't need optimizations right now. We need features!
 - 🤖 Built by devs for devs so if you want to make a change to make things better, do it! Make a PR and let rphovley know to review it. If it's a big change, a heads up before you start will save some heartache.
 
 ## Frontend
@@ -57,10 +62,10 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 A Node NestJS server with knex and sqlite for generating the functionality of the application
 
 ### Conventions
-- When writing your endpoint, please include it in the [postman collection](https://app.getpostman.com/join-team?invite_code=9637b029e619749476d15a4c5e1022d7&target_code=6b61a4e2db3eb4abdac588e6cc32a45c). Makes for easier testing for yourself and helps the rest of us understand how to use your endpoint. 
+- When writing your endpoint, please include it in the [postman collection](https://app.getpostman.com/join-team?invite_code=9637b029e619749476d15a4c5e1022d7&target_code=6b61a4e2db3eb4abdac588e6cc32a45c). Makes for easier testing for yourself and helps the rest of us understand how to use your endpoint.
 - If there isn't an established pattern for what you are doing, check out the NestJS docs. They probably have something for it or talk to someone on the team.
 - `controller` files are for defining endpoints and controlling user access. Should not contain business logic or database calls.
-- `repo` files are for accessing the database. Should not contain business logic. Should be typically named after the table they are accessing. 
+- `repo` files are for accessing the database. Should not contain business logic. Should be typically named after the table they are accessing.
 - `services` go between the `controller` and the `repo`. Contains only the business logic. i.e. making repo calls, mapping data to be prepared for return, decisioning on creating data, etc...
 - if your `service` has more than a handful of code paths, you should probably make a unit test for it. Once you get the hang of doing these, it will likely make you faster at delivering the first version of the feature
 - when making calls to the database, use the knex query builder where possible for things that are relatively simple. When things are more complicated, use raw sql and make use of the `queries` directory
@@ -69,14 +74,14 @@ A Node NestJS server with knex and sqlite for generating the functionality of th
 ## CLI
 A way for the user to interact with the application easily using oclif
 
-### Conventions 
+### Conventions
 - TBD
 
 ## Deployment
 ```
 npm run package
 ```
-Creates the distribution packages that we use to upload new versions of the application. For more info, check out the oclif documentation on [releasing](https://oclif.io/docs/releasing/)  
+Creates the distribution packages that we use to upload new versions of the application. For more info, check out the oclif documentation on [releasing](https://oclif.io/docs/releasing/)
 
 _Note: Requires that you have 7zip installed to run_
 
