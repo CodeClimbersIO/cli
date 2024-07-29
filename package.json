@@ -31,7 +31,8 @@
   "workspaces": [
     "src/server",
     "src/app",
-    "src/commands"
+    "src/commands",
+    "src/config"
   ],
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -45,6 +46,9 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.2",
     "@oclif/core": "^4.0.12",
+    "cli-app": "file:src/app",
+    "cli-server": "file:src/server",
+    "@code-climbers/config": "file:src/config",
     "@tanstack/react-query": "^5.48.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
