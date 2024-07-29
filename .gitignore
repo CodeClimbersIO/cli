@@ -2,12 +2,15 @@
 dist
 node_modules
 
+# storage
 codeclimber.sqlite
 codeclimber.sqlite*
+codeclimbers.identity
 
 .DS_Store
 
 .vscode
+.idea
 
 # oclif directory for caching build resources
 tmp
