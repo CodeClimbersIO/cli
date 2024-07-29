@@ -32,7 +32,6 @@ npm run start
 ```
 ./bin/dev.js [COMMAND]
 ```
-- CLI runs with node --watch mode in place. However, it will only work for changes in the `src/commands` directory. If you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and then restart the CLI.
 
 ## Contributing
 We welcome contributions! Watch this [Getting Started Video](https://youtu.be/Q4EJKXDi3a8) for how the project is setup and take a look at the conventions below to get started contributing. I talk slowly so you probably want to 2x that bad boy 😛
@@ -73,6 +72,8 @@ A Node NestJS server with knex and sqlite for generating the functionality of th
 
 ## CLI
 A way for the user to interact with the application easily using oclif
+
+- CLI runs with node --watch mode in place. However, it will only work for changes in the `src/commands` directory. If you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and then restart the CLI.
 
 ### Conventions
 - TBD
