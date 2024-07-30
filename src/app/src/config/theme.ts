@@ -56,7 +56,7 @@ const typography = {
   body2: {
     fontFamily: 'Roboto',
     fontSize: '14px',
-    lineHeight: '18px',
+    lineHeight: '20px',
     fontWeight: 400,
   },
   // xsmall
@@ -67,6 +67,9 @@ const typography = {
     fontWeight: 400,
   },
 } as ExtendedTypographyOptions
+
+const BASE_THEME = createTheme({ palette: { mode: 'dark' } })
+const BASE_THEME_GREYS = BASE_THEME.palette.grey
 
 const darkOptions: ThemeOptions = {
   palette: {
@@ -81,6 +84,19 @@ const darkOptions: ThemeOptions = {
     },
     background: {
       default: '#323232',
+    },
+    // Much better readability in dark modes and accessibility
+    grey: {
+      50: BASE_THEME_GREYS[900],
+      100: BASE_THEME_GREYS[800],
+      200: BASE_THEME_GREYS[700],
+      300: BASE_THEME_GREYS[600],
+      400: BASE_THEME_GREYS[500],
+      500: BASE_THEME_GREYS[400],
+      600: BASE_THEME_GREYS[300],
+      700: BASE_THEME_GREYS[200],
+      800: BASE_THEME_GREYS[100],
+      900: BASE_THEME_GREYS[50],
     },
   },
   typography,
