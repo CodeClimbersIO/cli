@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import Time from './Time'
 import Challenges from './Challenges'
-import Sources from './Sources'
+import Sources from './Source/Sources'
 import HomeHeader from './Header'
 
 const Body = styled('div')(({ theme }) => ({

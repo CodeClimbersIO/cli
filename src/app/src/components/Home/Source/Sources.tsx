@@ -10,10 +10,13 @@ import {
 } from '@mui/material'
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
-import { useGetSources } from '../../api/pulse.api'
-import { timeSince } from '../../utils/time'
-import { SourceDetails, supportedSources } from '../../utils/sourceDetails'
+import { useGetSources } from '../../../api/pulse.api'
+import { timeSince } from '../../../utils/time'
+import { SourceDetails, supportedSources } from '../../../utils/sourceDetails'
 import { useState } from 'react'
+import SourcesEmpty from './Sources.empty'
+import SourcesError from './Sources.error'
+import SourcesLoading from './Sources.loading'
 
 const SourceSwitch = styled(Switch)(({ theme }) => ({
   width: 24,
@@ -105,11 +108,10 @@ const Sources = () => {
     isError,
   } = useGetSources()
   const theme = useTheme()
-  const colorMode = theme.palette.mode
 
-  if (isPending) return <Typography>Loading</Typography>
-  if (isEmpty) return <Typography>No sources. Connect one</Typography>
-  if (isError) return <Typography>Error</Typography>
+  if (isPending) return <SourcesLoading />
+  if (isError) return <SourcesError />
+  if (isEmpty) return <SourcesEmpty />
 
   return (
     <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262 }}>
@@ -117,14 +119,15 @@ const Sources = () => {
         <Stack direction="column" justifyContent={'space-between'} flex={1}>
           <div>
             <Stack direction="row" justifyContent="space-between">
-              <Typography variant="h3" alignSelf="center">
+              <Typography variant="h3" alignContent="center" textAlign="left">
                 Sources
               </Typography>
               <Button
                 variant="contained"
                 startIcon={<AddIcon fontSize="small" />}
                 sx={{
-                  backgroundColor: colorMode === 'dark' ? '#EBEBEB' : '#1F2122',
+                  backgroundColor:
+                    theme.palette.mode === 'dark' ? '#EBEBEB' : '#1F2122',
                   borderRadius: '2px',
                   textTransform: 'none',
                   display: 'flex',
@@ -137,7 +140,7 @@ const Sources = () => {
                 Add
               </Button>
             </Stack>
-            <Stack direction="column" marginTop={2}>
+            <Stack direction="column" marginTop="24px">
               {connectedSources.map((source, index) => {
                 const sourceDetails = supportedSources.find(
                   (supportedSource) => supportedSource.name === source.name,
