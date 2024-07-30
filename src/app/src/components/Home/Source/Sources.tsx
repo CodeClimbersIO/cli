@@ -10,13 +10,14 @@ import {
 } from '@mui/material'
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
-import { useGetSources } from '../../../api/pulse.api'
+import { useExportPulses, useGetSources } from '../../../api/pulse.api'
 import { timeSince } from '../../../utils/time'
 import { SourceDetails, supportedSources } from '../../../utils/sourceDetails'
 import { useState } from 'react'
 import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'
 import SourcesLoading from './Sources.loading'
+import { LoadingButton } from '@mui/lab'
 
 const SourceSwitch = styled(Switch)(({ theme }) => ({
   width: 24,
@@ -107,7 +108,21 @@ const Sources = () => {
     isEmpty,
     isError,
   } = useGetSources()
+  const { exportPulses } = useExportPulses()
+  const [exportingPulses, setExportingPulses] = useState(false)
+
   const theme = useTheme()
+
+  const handleExportPulses = async () => {
+    setExportingPulses(true)
+    try {
+      await exportPulses()
+    } catch (error) {
+      console.error('Error exporting pulses:', error)
+    } finally {
+      setExportingPulses(false)
+    }
+  }
 
   if (isPending) return <SourcesLoading />
   if (isError) return <SourcesError />
@@ -158,7 +173,9 @@ const Sources = () => {
               })}
             </Stack>
           </div>
-          <Button
+          <LoadingButton
+            onClick={handleExportPulses}
+            loading={exportingPulses}
             variant="outlined"
             color="inherit"
             startIcon={<SaveAltOutlinedIcon fontSize="small" />}
@@ -172,7 +189,7 @@ const Sources = () => {
             }}
           >
             Export Data
-          </Button>
+          </LoadingButton>
         </Stack>
       </CardContent>
     </Card>

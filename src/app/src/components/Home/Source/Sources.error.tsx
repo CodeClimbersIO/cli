@@ -15,7 +15,7 @@ const SourcesError = () => {
             marginTop="24px"
             color="#B22222"
           >
-            Error getting connected sources. Please try again later.
+            Error getting connected sources.
           </Typography>
         </Stack>
       </CardContent>

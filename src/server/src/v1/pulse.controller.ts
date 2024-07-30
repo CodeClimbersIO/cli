@@ -1,6 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Query, Res } from '@nestjs/common'
 import { ActivitiesService } from './activities.service'
 import { GetCategoryTimeOverviewDto } from './dtos/getCategoryTimeOverview.dto'
+import { Response } from 'express'
 
 @Controller('pulses')
 export class PulseController {
@@ -36,5 +37,21 @@ export class PulseController {
   > {
     const sources = await this.activitiesService.getSources()
     return { message: 'success', data: sources }
+  }
+
+  @Get('export')
+  async exportPulses(@Res() response: Response): Promise<void> {
+    try {
+      const csvBuffer = await this.activitiesService.generatePulsesCSV()
+      response.setHeader('Content-Type', 'text/csv')
+      response.setHeader(
+        'Content-Disposition',
+        'attachment; filename="pulses.csv"',
+      )
+      response.send(csvBuffer)
+    } catch (error) {
+      console.error('Error exporting pulses CSV:', error)
+      response.status(500).send('Failed to export pulses')
+    }
   }
 }

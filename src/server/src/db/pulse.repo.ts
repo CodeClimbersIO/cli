@@ -22,6 +22,14 @@ export class PulseRepo {
     return res
   }
 
+  async getAllPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).orderBy(
+      'created_at',
+      'desc',
+    )
+    return res
+  }
+
   async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
