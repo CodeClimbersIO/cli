@@ -5,6 +5,7 @@ node_modules
 # storage
 codeclimber.sqlite
 codeclimber.sqlite*
+codeclimber.test.sqlite*
 codeclimbers.identity
 
 .DS_Store
