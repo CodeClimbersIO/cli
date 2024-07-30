@@ -48,22 +48,19 @@ export class ActivitiesService {
   async getSources(): Promise<CodeClimbers.Source[]> {
     const userAgentsAndLastActive =
       await this.pulseRepo.getUniqueUserAgentsAndLastActive()
-    // const pluginRegex = /[A-Za-z]+(?:-[A-Za-z]+)+/;
-    const appRegex = /.*?\/.*?\s([^0-9]*)\//
     const sources = new Set<string>()
 
     userAgentsAndLastActive.forEach((userAgent) => {
-      const match = userAgent.userAgent.match(appRegex)
-      if (match) {
-        sources.add(match[1])
+      const source = activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+      if (source) {
+        sources.add(source)
       }
     })
 
     return Array.from(sources).map((source) => {
       const maxLastActive = userAgentsAndLastActive
         .filter((userAgent) => {
-          const match = userAgent.userAgent.match(appRegex)
-          return match && match[1] === source
+          return source === activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
         })
         .reduce((max, userAgent) => {
           return new Date(userAgent.lastActive) > new Date(max)

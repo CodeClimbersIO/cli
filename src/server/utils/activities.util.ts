@@ -172,10 +172,21 @@ function mapStatusBarRawToDto(
   return statusbar
 }
 
+function getSourceFromUserAgent(userAgent: string): string | undefined { 
+  const sourceRegex = /.*?\/.*?\s([^0-9]*)\//
+    const match = userAgent.match(sourceRegex)
+    if (match) {
+      return match[1]
+    }
+
+    return undefined
+}
+
 export default {
   mapStatusBarRawToDto,
   calculatePulseHash,
   filterUniqueByHash,
   pulseSuccessResponse,
   cyrb53,
+  getSourceFromUserAgent
 }
