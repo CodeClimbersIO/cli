@@ -23,6 +23,7 @@
     "dev:app": "vite",
     "start": "npm run copy && node dist/index.js --inspect",
     "lint": "eslint --ext .ts,.tsx .",
+    "lint:fix": "eslint --ext .ts,.tsx --fix .",
     "test": "jest",
     "test:watch": "jest --watch",
     "db:migrate": "knex migrate:latest",
