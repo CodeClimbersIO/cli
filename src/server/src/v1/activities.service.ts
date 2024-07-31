@@ -60,7 +60,10 @@ export class ActivitiesService {
     return Array.from(sources).map((source) => {
       const maxLastActive = userAgentsAndLastActive
         .filter((userAgent) => {
-          return source === activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+          return (
+            source ===
+            activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+          )
         })
         .reduce((max, userAgent) => {
           return new Date(userAgent.lastActive) > new Date(max)

@@ -18,6 +18,7 @@ import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'
 import SourcesLoading from './Sources.loading'
 import { LoadingButton } from '@mui/lab'
+import AddSources from './AddSources'
 
 const SourceSwitch = styled(Switch)(({ theme }) => ({
   width: 24,
@@ -110,6 +111,7 @@ const Sources = () => {
   } = useGetSources()
   const { exportPulses } = useExportPulses()
   const [exportingPulses, setExportingPulses] = useState(false)
+  const [addSourcesOpen, setAddSourcesOpen] = useState(false)
 
   const theme = useTheme()
 
@@ -129,70 +131,77 @@ const Sources = () => {
   if (isEmpty) return <SourcesEmpty />
 
   return (
-    <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262 }}>
-      <CardContent sx={{ padding: '24px', height: '100%', display: 'flex' }}>
-        <Stack direction="column" justifyContent={'space-between'} flex={1}>
-          <div>
-            <Stack direction="row" justifyContent="space-between">
-              <Typography variant="h3" alignContent="center" textAlign="left">
-                Sources
-              </Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon fontSize="small" />}
-                sx={{
-                  backgroundColor:
-                    theme.palette.mode === 'dark' ? '#EBEBEB' : '#1F2122',
-                  borderRadius: '2px',
-                  textTransform: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: 'auto',
-                  height: '32px',
-                  minWidth: 0,
-                }}
-              >
-                Add
-              </Button>
-            </Stack>
-            <Stack direction="column" marginTop="24px">
-              {connectedSources.map((source, index) => {
-                const sourceDetails = supportedSources.find(
-                  (supportedSource) => supportedSource.name === source.name,
-                )
-
-                if (sourceDetails) {
-                  return (
-                    <SourceRow
-                      key={index}
-                      source={sourceDetails}
-                      lastActive={source.lastActive}
-                    />
+    <>
+      <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262 }}>
+        <CardContent sx={{ padding: '24px', height: '100%', display: 'flex' }}>
+          <Stack direction="column" justifyContent={'space-between'} flex={1}>
+            <div>
+              <Stack direction="row" justifyContent="space-between">
+                <Typography variant="h3" alignContent="center" textAlign="left">
+                  Sources
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={() => setAddSourcesOpen(true)}
+                  startIcon={<AddIcon fontSize="small" />}
+                  sx={{
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? '#EBEBEB' : '#1F2122',
+                    borderRadius: '2px',
+                    textTransform: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: 'auto',
+                    height: '32px',
+                    minWidth: 0,
+                  }}
+                >
+                  Add
+                </Button>
+              </Stack>
+              <Stack direction="column" marginTop="24px">
+                {connectedSources.map((source, index) => {
+                  const sourceDetails = supportedSources.find(
+                    (supportedSource) => supportedSource.name === source.name,
                   )
-                }
-              })}
-            </Stack>
-          </div>
-          <LoadingButton
-            onClick={handleExportPulses}
-            loading={exportingPulses}
-            variant="outlined"
-            color="inherit"
-            startIcon={<SaveAltOutlinedIcon fontSize="small" />}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              width: '100%',
-              textTransform: 'none',
-              borderRadius: '8px',
-              borderColor: '#AAADB1',
-            }}
-          >
-            Export Data
-          </LoadingButton>
-        </Stack>
-      </CardContent>
-    </Card>
+
+                  if (sourceDetails) {
+                    return (
+                      <SourceRow
+                        key={index}
+                        source={sourceDetails}
+                        lastActive={source.lastActive}
+                      />
+                    )
+                  }
+                })}
+              </Stack>
+            </div>
+            <LoadingButton
+              onClick={handleExportPulses}
+              loading={exportingPulses}
+              variant="outlined"
+              color="inherit"
+              startIcon={<SaveAltOutlinedIcon fontSize="small" />}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                textTransform: 'none',
+                borderRadius: '8px',
+                borderColor: '#AAADB1',
+              }}
+            >
+              Export Data
+            </LoadingButton>
+          </Stack>
+        </CardContent>
+      </Card>
+      <AddSources
+        open={addSourcesOpen}
+        handleClose={() => setAddSourcesOpen(false)}
+      />
+    </>
   )
 }
 
