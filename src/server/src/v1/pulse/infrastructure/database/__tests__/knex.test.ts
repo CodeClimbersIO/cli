@@ -1,7 +1,5 @@
-import Knex from 'knex'
-import { knexConfig, SQL_LITE_TEST_FILE } from '../knex'
+import { knex, SQL_LITE_TEST_FILE } from '../knex'
 
-const knex = Knex(knexConfig)
 describe('knex', () => {
   it('Should connect successfully', async () => {
     await knex.raw('SELECT 1').catch((e) => {

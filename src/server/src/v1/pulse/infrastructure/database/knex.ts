@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Knex as KnexTypes } from 'knex'
+import Knex, { Knex as KnexTypes } from 'knex'
 import {
   forOwn,
   isPlainObject,
@@ -69,7 +69,7 @@ const BIN_PATH = path.join(
 // https://github.com/knex/knex/issues/1871#issuecomment-452342526
 export const SQL_LITE_TEST_FILE = 'codeclimber?mode=memory&cache=shared'
 
-export const knexConfig: KnexTypes.Config = {
+const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
   connection: {
     filename: IS_TEST ? SQL_LITE_TEST_FILE : './codeclimber.sqlite',
@@ -100,6 +100,8 @@ export const knexConfig: KnexTypes.Config = {
   //   },
   // },
 }
+
+export const knex = Knex(knexConfig)
 
 const knexModule = KnexModule.forRoot({
   config: knexConfig,

@@ -1,8 +1,6 @@
 import { Logger } from '@nestjs/common'
-import Knex from 'knex'
-import { knexConfig } from './knex'
+import { knex } from './knex'
 
-const knex = Knex(knexConfig)
 export const startMigrations = async () => {
   Logger.log('Running Migrations')
 

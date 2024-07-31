@@ -1,8 +1,6 @@
-import Knex from 'knex'
-import { knexConfig } from '../knex'
+import { knex } from '../knex'
 import { PulseRepo } from '../pulse.repo'
 
-const knex = Knex(knexConfig)
 const pulseRepo = new PulseRepo(knex)
 describe('pulse.repo', () => {
   it('Should get latest pulses', async () => {
