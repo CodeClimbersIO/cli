@@ -7,7 +7,7 @@ Some direction on troubleshooting and working with the startup services that the
 Mac makes use of registering plist files for the user that dictates what services to startup when a user logs into their
 computer.
 
-### Recommended Dev
+### Recommended Development
 
 The [startup.plist.ts](../src/server/src/assets/startup.plist.ts) file is what creates the plist file that is dynamic to
 the users' system. I have been testing the process of loading the plist file by doing the following:
@@ -15,8 +15,7 @@ the users' system. I have been testing the process of loading the plist file by 
 1) `launchctl unload ~/Library/LaunchAgents/io.codeclimbers.io` to unload application if it is already registered.
 2) At project root `./bin/dev.js start` to mimic someone running the start command for the first time.
 3) Read logs for issues with start command
-4) `tail -f ~/.codeclimbers/log.err` and `tail -f ~/.codeclimbers/log.out` to log out what the startup agent is logging
-   about the application.
+4) `tail -f ~/.codeclimbers/log.err` and `tail -f ~/.codeclimbers/log.out` for logging from the application.
 
 ### Common Commands
 
