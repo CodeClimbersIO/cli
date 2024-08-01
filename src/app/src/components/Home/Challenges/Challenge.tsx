@@ -1,20 +1,29 @@
-import { SpaceBar } from '@mui/icons-material'
-import { Paper, Typography } from '@mui/material'
+import { Paper, Typography, useTheme } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
+import { DoubleRingIcon } from '../../common/Icons/DoubleRingIcon'
+import { RingIcon } from '../../common/Icons/RingIcon'
 
 // PURE PLACEHOLDER CODE
 export type IconProps = {
   isCompleted: boolean
   color: string
+  doubleRing?: boolean
 }
-const Icon = ({ isCompleted, color }: IconProps) => (
-  <SpaceBar
-    sx={{
-      rotate: 180,
-      color: isCompleted ? 'grey[100]' : color,
-    }}
-  />
-)
+
+const Icon = ({ isCompleted, color, doubleRing }: IconProps) =>
+  doubleRing ? (
+    <DoubleRingIcon
+      fontSize="large"
+      sx={{ fill: isCompleted ? 'gray[100]' : color }}
+    />
+  ) : (
+    <RingIcon
+      fontSize="large"
+      sx={{
+        fill: isCompleted ? 'gray[100]' : color,
+      }}
+    />
+  )
 
 export type ChallengeProps = {
   time: number
@@ -22,6 +31,7 @@ export type ChallengeProps = {
   points: number
   timeGoal: number
   color: string
+  doubleRing?: boolean
 }
 
 export const Challenge = ({
@@ -30,9 +40,14 @@ export const Challenge = ({
   points,
   timeGoal,
   color,
+  doubleRing,
 }: ChallengeProps) => {
   const isCompleted = time >= timeGoal
   const percentage = Math.round((time / timeGoal) * 100)
+
+  const theme = useTheme()
+
+  console.log({ theme }, theme.palette.grey[200])
 
   return (
     <Grid2 container spacing={2}>
@@ -40,16 +55,21 @@ export const Challenge = ({
         <Paper
           elevation={0}
           sx={{
-            backgroundColor: 'gray[100]',
+            bgColor: 'grey[200]',
             width: 40,
             height: 40,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            flexDirection: 'column',
             rounded: 1,
           }}
         >
-          <Icon isCompleted={isCompleted} color={color} />
+          <Icon
+            isCompleted={isCompleted}
+            color={color}
+            doubleRing={doubleRing}
+          />
         </Paper>
       </Grid2>
       <Grid2 flexDirection="column">

@@ -24,6 +24,7 @@ const incompleteChallenges = [
     points: 45,
     type: 'Deep Work',
     color: 'red',
+    doubleRing: true,
   },
   {
     id: 2,
