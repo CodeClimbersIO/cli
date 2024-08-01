@@ -13,3 +13,15 @@ export function useLatestPulses() {
     queryFn,
   })
 }
+
+export function useWeekOverview(date = '') {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/weekOverview?date=${date}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.WeekOverview, Error>({
+    queryKey: pulseKeys.weekOverview,
+    queryFn,
+  })
+}

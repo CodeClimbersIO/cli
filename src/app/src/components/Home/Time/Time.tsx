@@ -9,8 +9,24 @@ import {
 import { TimeDataPoint } from './TimeDataPoint'
 import { TimeDataChart } from './TimeDataChart'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import { useWeekOverview } from '../../../api/pulse.api'
 
 export const Time = () => {
+  const {
+    data: weekOverview = {} as CodeClimbers.WeekOverview,
+    isPending,
+    isEmpty,
+    isError,
+    refetch,
+  } = useWeekOverview('2023-11-29')
+
+  const getHours = (minutes: number) => {
+    const hours = Math.floor(minutes / 60)
+    const minutesRemaining = minutes % 60
+
+    return `${hours}h ${minutesRemaining}m`
+  }
+
   return (
     <Card
       raised={false}
@@ -39,10 +55,22 @@ export const Time = () => {
           </Grid2>
         </Grid2>
         <Grid2 container spacing={2} justifyContent="space-between">
-          <TimeDataPoint title="Week's longest day" time="8h 15m" />
-          <TimeDataPoint title="Yesterday" time="6h 42m" />
-          <TimeDataPoint title="Day's Total" time="1h 43m" />
-          <TimeDataPoint title="Week Total" time="16h 12m" />
+          <TimeDataPoint
+            title="Week's longest day"
+            time={getHours(weekOverview.longestDayMinutes)}
+          />
+          <TimeDataPoint
+            title="Yesterday"
+            time={getHours(weekOverview.yesterdayMinutes)}
+          />
+          <TimeDataPoint
+            title="Day's Total"
+            time={getHours(weekOverview.todayMinutes)}
+          />
+          <TimeDataPoint
+            title="Week Total"
+            time={getHours(weekOverview.weekMinutes)}
+          />
         </Grid2>
         <Divider />
         <TimeDataChart

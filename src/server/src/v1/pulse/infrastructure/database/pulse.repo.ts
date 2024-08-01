@@ -65,7 +65,7 @@ export class PulseRepo {
   async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.TimeOverviewDao[]> {
+  ): Promise<CodeClimbers.TimeOverview[]> {
     const query = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('category, count()'))
       .from(this.tableName)
