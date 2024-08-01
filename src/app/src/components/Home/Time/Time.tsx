@@ -24,6 +24,8 @@ const categories = {
 }
 
 export const Time = () => {
+  const [totalMinutes, setTotalMinutes] = useState(0)
+
   const {
     data: weekOverview = {} as CodeClimbers.WeekOverview,
     isPending,
@@ -34,8 +36,6 @@ export const Time = () => {
 
   const { data: categoryOverview = [] as CodeClimbers.TimeOverview[] } =
     useCategoryTimeOverview('2023-11-28', '2023-11-29')
-
-  const [totalMinutes, setTotalMinutes] = useState(0)
 
   useEffect(() => {
     if (categoryOverview.length > 0)
@@ -55,10 +55,19 @@ export const Time = () => {
 
   const getCategoryMinutes = (category = '') => {
     const item = categoryOverview.find((cat) => cat.category === category)
-    return item?.minutes ?? 0
+    let minutes = item?.minutes ?? 0
+
+    if (category === categories.coding) {
+      const debugItem =
+        categoryOverview.find((cat) => cat.category === categories.debugging) ??
+        ({ minutes: 0 } as CodeClimbers.TimeOverview)
+      minutes += debugItem.minutes
+    }
+
+    return minutes
   }
 
-  const getPercentage = (category = '') => {
+  const getCategoryPercentage = (category = '') => {
     return (getCategoryMinutes(category) / totalMinutes) * 100
   }
 
@@ -118,25 +127,25 @@ export const Time = () => {
         <TimeDataChart
           title="Code"
           time={getHours(getCategoryMinutes(categories.coding))}
-          progress={getPercentage(categories.coding)}
+          progress={getCategoryPercentage(categories.coding)}
           color="blue"
         />
         <TimeDataChart
           title="Communication"
           time={getHours(getCategoryMinutes(categories.communicating))}
-          progress={getPercentage(categories.communicating)}
+          progress={getCategoryPercentage(categories.communicating)}
           color="purple"
         />
         <TimeDataChart
           title="Browsing"
           time={getHours(getCategoryMinutes(categories.browsing))}
-          progress={getPercentage(categories.browsing)}
+          progress={getCategoryPercentage(categories.browsing)}
           color="green"
         />
         <TimeDataChart
           title="Design"
           time={getHours(getCategoryMinutes(categories.designing))}
-          progress={getPercentage(categories.designing)}
+          progress={getCategoryPercentage(categories.designing)}
           color="orange"
         />
       </CardContent>
