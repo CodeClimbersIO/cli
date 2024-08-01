@@ -7,15 +7,16 @@ export class StartupController {
   constructor(private readonly startupService: StartupService) {
     this.startupService = startupService
   }
+
   @Post('/enable')
-  async enableStartup(req: Request, res: Response): Promise<void> {
+  async enableStartup(req: Request, res: Response): Promise<string> {
     await this.startupService.enableStartup()
-    res.send('OK')
+    return 'OK'
   }
 
   @Post('/disable')
-  async disableStartup(req: Request, res: Response): Promise<void> {
+  async disableStartup(req: Request, res: Response): Promise<string> {
     await this.startupService.disableStartup()
-    res.send('OK')
+    return 'OK'
   }
 }

@@ -1,11 +1,12 @@
 // src/commands/start/index.ts
+import { StartupService } from '../../server/src/v1/startup/application/services/startup.service'
+
 process.env.APP_CONTEXT = 'cli'
 
-import { Args, Command } from '@oclif/core'
+import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
-import { bootstrap } from 'server'
 import find from 'find-process'
-import { SERVER_CONSTANTS } from '../../server'
+import { bootstrap, SERVER_CONSTANTS } from '../../server'
 
 // Used https://www.asciiart.eu/image-to-ascii to generate the ASCII art
 const WELCOME_MESSAGE = `
@@ -37,8 +38,8 @@ Visit https://codeclimbers.local to configure your sources
 export default class Start extends Command {
   static DEFAULT_PORT = String(14_400) // number of minutes in a day times 10
   static args = {
-    port: Args.string({
-      description: 'Custom port to run the server on',
+    firstArg: Args.string({
+      description: 'arg to run the server',
       required: false,
     }),
   }
@@ -46,6 +47,13 @@ export default class Start extends Command {
   static description = 'Starts the codeclimbers server on your machine'
 
   static examples = [`<%= config.bin %> <%= command.id %>`]
+  static flags = {
+    port: Flags.string({
+      char: 'p',
+      description: 'Custom port to run the server on',
+      required: false,
+    }),
+  }
 
   async run(): Promise<void> {
     const [codeclimbersInstance] = await find(
@@ -59,8 +67,8 @@ export default class Start extends Command {
       )
     }
 
-    const { args } = await this.parse(Start)
-    process.env.PORT = args.port || Start.DEFAULT_PORT
+    const { args, flags } = await this.parse(Start)
+    process.env.PORT = flags.port || Start.DEFAULT_PORT
 
     const [runningInstance] = await find('port', Number(process.env.PORT))
 
@@ -71,6 +79,12 @@ export default class Start extends Command {
     }
 
     this.log(WELCOME_MESSAGE)
-    bootstrap()
+    const startupService = new StartupService()
+    if (args.firstArg !== 'server') {
+      await startupService.launchAndEnableStartup()
+    }
+    if (args.firstArg === 'server') {
+      await bootstrap()
+    }
   }
 }

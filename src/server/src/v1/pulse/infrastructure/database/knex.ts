@@ -9,6 +9,7 @@ import {
 import { Module } from '@nestjs/common'
 import { KnexModule } from 'nestjs-knex'
 import * as path from 'path'
+import { BIN_PATH, DB_PATH, initDBDir } from '../../../../../utils/node.util'
 
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
@@ -54,17 +55,8 @@ const camelCaseKeys = (obj: any) => {
 }
 
 const IS_TEST = process.env.NODE_ENV === 'test'
-const BIN_PATH = path.join(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  '..',
-  '..',
-  '..',
-  '..',
-  'bin',
-)
+
+initDBDir()
 
 // https://github.com/knex/knex/issues/1871#issuecomment-452342526
 export const SQL_LITE_TEST_FILE = 'codeclimber?mode=memory&cache=shared'
@@ -72,7 +64,7 @@ export const SQL_LITE_TEST_FILE = 'codeclimber?mode=memory&cache=shared'
 const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
   connection: {
-    filename: IS_TEST ? SQL_LITE_TEST_FILE : './codeclimber.sqlite',
+    filename: IS_TEST ? SQL_LITE_TEST_FILE : DB_PATH,
   },
   migrations: {
     directory: path.join(BIN_PATH, 'migrations'),
