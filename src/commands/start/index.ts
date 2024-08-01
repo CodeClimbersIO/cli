@@ -32,7 +32,7 @@ Welcome to Code Climbers!
 ↖↖↖↖↖↖               ↖↖↖↖↖       ←↖↖↖↖↖↖↖   ↖↖↖↖ ↖↖↖↖ ↖↖↖↖ ↖↖↖↖  ↖↖↖↖ ↖↖↖↖↖↖↖↖↖   ↖↖↖↖↖↖↖↖ ↖←↖↖    ↖↖↖↖↖↖↖↖
 
 Code climbers has started and will begin tracking your activity based on the sources you add.
-Visit https://codeclimbers.local to configure your sources
+Visit http://localhost:14400 to configure your sources
 `
 
 export default class Start extends Command {

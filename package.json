@@ -1,7 +1,7 @@
 {
-  "name": "code-climbers",
+  "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.0.9",
+  "version": "0.0.1",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
