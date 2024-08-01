@@ -25,3 +25,15 @@ export function useWeekOverview(date = '') {
     queryFn,
   })
 }
+
+export function useCategoryTimeOverview(startDate = '', endDate = '') {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/categoryTimeOverview?startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.TimeOverview[], Error>({
+    queryKey: pulseKeys.categoryTimeOverview,
+    queryFn,
+  })
+}

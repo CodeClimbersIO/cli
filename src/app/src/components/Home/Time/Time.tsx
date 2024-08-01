@@ -9,7 +9,19 @@ import {
 import { TimeDataPoint } from './TimeDataPoint'
 import { TimeDataChart } from './TimeDataChart'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
-import { useWeekOverview } from '../../../api/pulse.api'
+import {
+  useCategoryTimeOverview,
+  useWeekOverview,
+} from '../../../api/pulse.api'
+import { useEffect, useState } from 'react'
+
+const categories = {
+  coding: 'coding',
+  browsing: 'browsing',
+  debugging: 'debugging',
+  communicating: 'communicating',
+  designing: 'designing', // verify
+}
 
 export const Time = () => {
   const {
@@ -20,11 +32,34 @@ export const Time = () => {
     refetch,
   } = useWeekOverview('2023-11-29')
 
+  const { data: categoryOverview = [] as CodeClimbers.TimeOverview[] } =
+    useCategoryTimeOverview('2023-11-28', '2023-11-29')
+
+  const [totalMinutes, setTotalMinutes] = useState(0)
+
+  useEffect(() => {
+    if (categoryOverview.length > 0)
+      setTotalMinutes(
+        categoryOverview.reduce((a, b) => {
+          return a + b.minutes
+        }, 0),
+      )
+  }, [categoryOverview])
+
   const getHours = (minutes: number) => {
     const hours = Math.floor(minutes / 60)
     const minutesRemaining = minutes % 60
 
     return `${hours}h ${minutesRemaining}m`
+  }
+
+  const getCategoryMinutes = (category = '') => {
+    const item = categoryOverview.find((cat) => cat.category === category)
+    return item?.minutes ?? 0
+  }
+
+  const getPercentage = (category = '') => {
+    return (getCategoryMinutes(category) / totalMinutes) * 100
   }
 
   return (
@@ -80,23 +115,28 @@ export const Time = () => {
           color="red"
         />
         <Divider sx={{ borderStyle: 'dashed' }} />
-        <TimeDataChart title="Code" time="1h 24m" progress={25} color="blue" />
+        <TimeDataChart
+          title="Code"
+          time={getHours(getCategoryMinutes(categories.coding))}
+          progress={getPercentage(categories.coding)}
+          color="blue"
+        />
         <TimeDataChart
           title="Communication"
-          time="3h 40m"
-          progress={40}
+          time={getHours(getCategoryMinutes(categories.communicating))}
+          progress={getPercentage(categories.communicating)}
           color="purple"
         />
         <TimeDataChart
           title="Browsing"
-          time="2h 1m"
-          progress={15}
+          time={getHours(getCategoryMinutes(categories.browsing))}
+          progress={getPercentage(categories.browsing)}
           color="green"
         />
         <TimeDataChart
           title="Design"
-          time="3h 5m"
-          progress={34}
+          time={getHours(getCategoryMinutes(categories.designing))}
+          progress={getPercentage(categories.designing)}
           color="orange"
         />
       </CardContent>

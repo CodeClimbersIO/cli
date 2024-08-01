@@ -38,7 +38,7 @@ export const TimeDataChart = ({
       />
     </Grid2>
     <Grid2>
-      <Typography variant="bod1" fontWeight="bold">
+      <Typography variant="body1" fontWeight="bold">
         {time}
       </Typography>
     </Grid2>
