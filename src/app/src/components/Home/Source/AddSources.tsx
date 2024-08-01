@@ -10,7 +10,10 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useGetSources } from '../../../api/pulse.api'
-import { SourceDetails, supportedSources } from '../../../utils/supportedSources'
+import {
+  SourceDetails,
+  supportedSources,
+} from '../../../utils/supportedSources'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useState } from 'react'
 

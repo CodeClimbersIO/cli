@@ -6,11 +6,11 @@ const Content = styled(Card)(({ theme }) => ({
   gap: 24,
   boxShadow: 'none',
   borderRadius: 0,
-  height: 250,
   minWidth: 400,
 
   [theme.breakpoints.down('lg')]: {
     width: '100%',
+    height: 250,
   },
 }))
 

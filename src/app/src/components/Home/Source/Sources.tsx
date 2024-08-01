@@ -12,7 +12,10 @@ import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
 import { useExportPulses, useGetSources } from '../../../api/pulse.api'
 import { timeSince } from '../../../utils/time'
-import { SourceDetails, supportedSources } from '../../../utils/supportedSources'
+import {
+  SourceDetails,
+  supportedSources,
+} from '../../../utils/supportedSources'
 import { useState } from 'react'
 import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'

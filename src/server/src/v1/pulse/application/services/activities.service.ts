@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import activitiesUtil from '../../utils/activities.util'
-import { CreateWakatimePulseDto } from './dtos/createWakatimePulse.dto'
-import { PulseRepo } from '../db/pulse.repo'
+import { Injectable } from '@nestjs/common'
+import activitiesUtil from '../../../../../utils/activities.util'
+import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
+import { PulseRepo } from '../../infrastructure/database/pulse.repo'
 import { DateTime } from 'luxon'
 @Injectable()
 export class ActivitiesService {
@@ -35,14 +35,44 @@ export class ActivitiesService {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverviewDao[]> {
-    if (
-      new Date(startDate).toString() === 'Invalid Date' ||
-      new Date(endDate).toString() === 'Invalid Date'
-    ) {
-      throw new BadRequestException('Start and End Date must be valid.')
-    }
+    return await this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+  }
 
-    return this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+  async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverviewDao> {
+    const currentDate = new Date(date)
+    const weekStart = new Date(
+      new Date(currentDate).setDate(currentDate.getDate() - 7),
+    )
+    const yesterday = new Date(
+      new Date(date).setDate(currentDate.getDate() - 1),
+    )
+    const twoDaysAgo = new Date(
+      new Date(yesterday).setDate(yesterday.getDate() - 1),
+    )
+
+    const longestDayMinutes = await this.pulseRepo.getLongestDayInRangeMinutes(
+      weekStart,
+      currentDate,
+    )
+    const yesterdayMinutes = await this.pulseRepo.getRangeMinutes(
+      twoDaysAgo,
+      yesterday,
+    )
+    const todayMinutes = await this.pulseRepo.getRangeMinutes(
+      yesterday,
+      currentDate,
+    )
+    const weekMinutes = await this.pulseRepo.getRangeMinutes(
+      weekStart,
+      currentDate,
+    )
+
+    return {
+      longestDayMinutes,
+      yesterdayMinutes,
+      todayMinutes,
+      weekMinutes,
+    }
   }
 
   async getSources(): Promise<CodeClimbers.Source[]> {

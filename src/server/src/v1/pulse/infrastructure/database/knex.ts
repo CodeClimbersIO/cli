@@ -5,10 +5,10 @@ import {
   isPlainObject,
   snakeCase,
   camelCase,
-} from '../../utils/helpers.util'
+} from '../../../../../utils/helpers.util'
 import { Module } from '@nestjs/common'
 import { KnexModule } from 'nestjs-knex'
-import { isCli } from '../../utils/environment.util'
+import * as path from 'path'
 
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
@@ -53,14 +53,33 @@ const camelCaseKeys = (obj: any) => {
   }
 }
 
+const IS_TEST = process.env.NODE_ENV === 'test'
+const BIN_PATH = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  'bin',
+)
+
+// https://github.com/knex/knex/issues/1871#issuecomment-452342526
+export const SQL_LITE_TEST_FILE = 'codeclimber.test.sqlite'
+
 export const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
   connection: {
-    filename: './codeclimber.sqlite',
+    filename: IS_TEST ? SQL_LITE_TEST_FILE : './codeclimber.sqlite',
   },
   migrations: {
-    directory: isCli() ? './migrations' : '../../bin/migrations',
+    directory: path.join(BIN_PATH, 'migrations'),
     tableName: 'knex_migrations',
+  },
+  seeds: {
+    directory: path.join(BIN_PATH, 'seeds'),
   },
   useNullAsDefault: true,
   postProcessResponse, // Stuff coming back from the DB
