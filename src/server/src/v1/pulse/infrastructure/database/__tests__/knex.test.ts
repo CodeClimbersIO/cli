@@ -9,7 +9,7 @@ describe('knex', () => {
     })
   })
 
-  it('Should be using in memory path', () => {
+  it('Should be using test path', () => {
     expect(knex.client.config.connection.filename).toEqual(SQL_LITE_TEST_FILE)
   })
 })

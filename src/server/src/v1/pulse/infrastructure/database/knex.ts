@@ -67,7 +67,7 @@ const BIN_PATH = path.join(
 )
 
 // https://github.com/knex/knex/issues/1871#issuecomment-452342526
-export const SQL_LITE_TEST_FILE = 'codeclimber?mode=memory&cache=shared'
+export const SQL_LITE_TEST_FILE = 'codeclimber.test.sqlite'
 
 export const knexConfig: KnexTypes.Config = {
   client: 'sqlite3',
