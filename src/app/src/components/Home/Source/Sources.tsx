@@ -21,8 +21,7 @@ import SourcesError from './Sources.error'
 import SourcesLoading from './Sources.loading'
 import { LoadingButton } from '@mui/lab'
 import AddSources from './AddSources'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import { getTimeSince } from '../../../utils/time'
 
 const SourceSwitch = styled(Switch)(({ theme }) => ({
   width: 24,
@@ -80,10 +79,6 @@ interface SourceRowProps {
 const SourceRow = ({ source, lastActive }: SourceRowProps) => {
   const [isActive, setIsActive] = useState(false)
 
-  // eslint-disable-next-line import/no-named-as-default-member
-  dayjs.extend(relativeTime)
-  const timeAgo = dayjs(lastActive).fromNow(true)
-
   const toggleActive = () => {
     setIsActive(!isActive)
   }
@@ -101,7 +96,7 @@ const SourceRow = ({ source, lastActive }: SourceRowProps) => {
             {source.displayName}
           </Typography>
           <Typography variant="body2" fontWeight={400}>
-            {`Last pulse ${timeAgo}`}
+            {`Last pulse ${getTimeSince(lastActive)}`}
           </Typography>
         </Stack>
       </Stack>

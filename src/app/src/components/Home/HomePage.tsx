@@ -1,6 +1,6 @@
 import { styled } from '@mui/material'
 import { Time } from './Time/Time'
-import Challenges from './Challenges'
+import { Challenges } from './Challenges/Challenges'
 import Sources from './Source/Sources'
 import HomeHeader from './Header'
 
