@@ -25,6 +25,14 @@ export class PulseRepo {
     return res
   }
 
+  async getAllPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).orderBy(
+      'created_at',
+      'desc',
+    )
+    return res
+  }
+
   getMinutesInRangeQuery(startDate: Date, endDate: Date) {
     return this.knex<MinutesQuery[]>(this.tableName)
       .count('* as minutes')
@@ -93,6 +101,15 @@ export class PulseRepo {
       pulses,
     )
     Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
+    return res
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async getUniqueUserAgentsAndLastActive(): Promise<any[]> {
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+      .select('user_agent', this.knex.raw('MAX(created_At) as last_active'))
+      .groupBy('user_agent')
+      .orderBy('last_active', 'desc')
     return res
   }
 }

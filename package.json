@@ -23,6 +23,7 @@
     "publish:npm": "npm run check-deps I&& npm run build && npm publish",
     "package": "npm run build && copyfiles -u 1 \\\"packages/**/*\\\" tmp/codeclimbers/src && oclif pack tarballs",
     "lint": "eslint --ext .ts,.tsx .",
+    "lint:fix": "eslint --ext .ts,.tsx --fix .",
     "test": "jest",
     "test:watch": "jest --watch",
     "db:migrate": "knex migrate:latest",

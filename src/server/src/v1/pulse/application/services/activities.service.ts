@@ -3,7 +3,6 @@ import activitiesUtil from '../../../../../utils/activities.util'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../../infrastructure/database/pulse.repo'
 import { DateTime } from 'luxon'
-
 @Injectable()
 export class ActivitiesService {
   constructor(private readonly pulseRepo: PulseRepo) {
@@ -76,6 +75,42 @@ export class ActivitiesService {
     }
   }
 
+  async getSources(): Promise<CodeClimbers.Source[]> {
+    const userAgentsAndLastActive =
+      await this.pulseRepo.getUniqueUserAgentsAndLastActive()
+    const sources = new Set<string>()
+
+    userAgentsAndLastActive.forEach((userAgent) => {
+      const source = activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+      if (source) {
+        sources.add(source)
+      }
+    })
+
+    return Array.from(sources).map((source) => {
+      const maxLastActive = userAgentsAndLastActive
+        .filter((userAgent) => {
+          return (
+            source ===
+            activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+          )
+        })
+        .reduce((max, userAgent) => {
+          return new Date(userAgent.lastActive) > new Date(max)
+            ? userAgent.lastActive
+            : max
+        }, new Date(0).toISOString())
+
+      return { name: source, lastActive: maxLastActive }
+    })
+  }
+
+  async generatePulsesCSV(): Promise<Buffer> {
+    const pulses = await this.pulseRepo.getAllPulses()
+    const csvString = this.convertPulsesToCSV(pulses)
+    return Buffer.from(csvString, 'utf-8')
+  }
+
   private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {
     return {
       userId: 'local',
@@ -95,5 +130,57 @@ export class ActivitiesService {
       category: dto.category || '',
       createdAt: DateTime.now().toISO(),
     }
+  }
+
+  private convertPulsesToCSV(pulses: CodeClimbers.Pulse[]): string {
+    const header = [
+      'ID',
+      'User ID',
+      'Entity',
+      'Type',
+      'Category',
+      'Project',
+      'Branch',
+      'Language',
+      'Is Write',
+      'Editor',
+      'Operating System',
+      'Machine',
+      'User Agent',
+      'Time',
+      'Hash',
+      'Origin',
+      'Origin ID',
+      'Created At',
+      'Description',
+    ].join(',')
+
+    const rows = pulses.map((row) =>
+      [
+        row.id,
+        row.userId,
+        row.entity,
+        row.type,
+        row.category,
+        row.project,
+        row.branch,
+        row.language,
+        row.isWrite,
+        row.editor,
+        row.operatingSystem,
+        row.machine,
+        row.userAgent,
+        row.time,
+        row.hash,
+        row.origin,
+        row.originId,
+        row.createdAt,
+        row.description,
+      ]
+        .map((value) => (value === null ? '' : value.toString()))
+        .join(','),
+    )
+
+    return [header, ...rows].join('\n')
   }
 }

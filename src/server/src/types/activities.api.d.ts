@@ -10,4 +10,9 @@ declare namespace CodeClimbers {
     maxHeartbeatTime: string
     minHeartbeatTime: string
   }
+
+  export interface Source {
+    name: string
+    lastActive: string
+  }
 }

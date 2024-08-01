@@ -1,4 +1,4 @@
-import { Paper, Typography, useTheme } from '@mui/material'
+import { Paper, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
 import { DoubleRingIcon } from '../../common/Icons/DoubleRingIcon'
 import { RingIcon } from '../../common/Icons/RingIcon'
@@ -44,10 +44,6 @@ export const Challenge = ({
 }: ChallengeProps) => {
   const isCompleted = time >= timeGoal
   const percentage = Math.round((time / timeGoal) * 100)
-
-  const theme = useTheme()
-
-  console.log({ theme }, theme.palette.grey[200])
 
   return (
     <Grid2 container spacing={2}>

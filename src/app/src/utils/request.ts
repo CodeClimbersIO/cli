@@ -28,10 +28,12 @@ export async function apiRequest({
   url,
   method = 'GET',
   body,
+  responseType = 'json',
 }: {
   url: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   body?: object
+  responseType?: 'json' | 'text' | 'blob' | 'arraybuffer'
 }) {
   console.log(`${BASE_URL}${url}`)
   return fetch(`${BASE_URL}${url}`, {
@@ -46,16 +48,28 @@ export async function apiRequest({
         const responseObject = await response.json()
         throw new ApiError(responseObject?.message, response.status)
       }
-      const res = await response.text()
-      if (res) {
-        try {
-          const json = JSON.parse(res)
-          return json.data
-        } catch (err) {
-          return res
+
+      switch (responseType) {
+        case 'blob':
+          return response.blob()
+        case 'arraybuffer':
+          return response.arrayBuffer()
+        case 'text':
+          return response.text()
+        case 'json':
+        default: {
+          const res = await response.text()
+          if (res) {
+            try {
+              const json = JSON.parse(res)
+              return json.data
+            } catch (err) {
+              return res
+            }
+          }
+          return ''
         }
       }
-      return ''
     })
     .catch((err) => {
       console.error(err)
