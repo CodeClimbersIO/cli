@@ -55,7 +55,7 @@ export const Challenge = ({
         <Paper
           elevation={0}
           sx={{
-            bgColor: "grey[200]",
+            backgroundColor: (theme) => theme.palette.grey[50],
             width: 40,
             height: 40,
             display: "flex",
