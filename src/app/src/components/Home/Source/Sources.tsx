@@ -11,7 +11,6 @@ import {
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
 import { useExportPulses, useGetSources } from '../../../api/pulse.api'
-import { timeSince } from '../../../utils/time'
 import {
   SourceDetails,
   supportedSources,
@@ -22,6 +21,8 @@ import SourcesError from './Sources.error'
 import SourcesLoading from './Sources.loading'
 import { LoadingButton } from '@mui/lab'
 import AddSources from './AddSources'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 const SourceSwitch = styled(Switch)(({ theme }) => ({
   width: 24,
@@ -79,6 +80,10 @@ interface SourceRowProps {
 const SourceRow = ({ source, lastActive }: SourceRowProps) => {
   const [isActive, setIsActive] = useState(false)
 
+  // eslint-disable-next-line import/no-named-as-default-member
+  dayjs.extend(relativeTime)
+  const timeAgo = dayjs(lastActive).fromNow(true)
+
   const toggleActive = () => {
     setIsActive(!isActive)
   }
@@ -96,7 +101,7 @@ const SourceRow = ({ source, lastActive }: SourceRowProps) => {
             {source.displayName}
           </Typography>
           <Typography variant="body2" fontWeight={400}>
-            {`Last pulse ${timeSince(lastActive)}`}
+            {`Last pulse ${timeAgo}`}
           </Typography>
         </Stack>
       </Stack>
