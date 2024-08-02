@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
 import { join } from 'path'
 import * as fs from 'fs'
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { plist } from '../../../../assets/startup.plist'
 
 const plistPath = join(
@@ -16,56 +16,46 @@ const writePlistFile = () => {
 @Injectable()
 export class DarwinStartupService implements CodeClimbers.StartupService {
   async enableStartup() {
-    const command = `launchctl bootstrap gui/$(id -u) ${plistPath}`
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        Logger.error(`Error loading startup configuration: ${error}`)
-        Logger.error(stderr)
-        return
-      }
-      Logger.log(stdout)
-      Logger.log('Node.js server startup configuration loaded')
+    writePlistFile()
+    const command = `launchctl enable gui/$(id -u)/io.codeclimbers.plist`
+    return new Promise<void>((resolve, reject) => {
+      exec(command, (error) => {
+        if (error) reject(error)
+        resolve()
+      })
     })
   }
 
   async disableStartup() {
-    const command = `launchctl bootout gui/$(id -u) ${plistPath}`
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        Logger.error(`Error unloading startup configuration: ${error}`)
-        Logger.error(stderr)
-        return
-      }
-      Logger.log(stdout)
-      Logger.log('Node.js server startup configuration unloaded')
+    const command = `launchctl disable gui/$(id -u)/io.codeclimbers.plist`
+    return new Promise<void>((resolve, reject) => {
+      exec(command, (error) => {
+        if (error) reject(error)
+        resolve()
+      })
     })
   }
 
   // cleanly separate implementation code for each environment. If I'm working on windows, I see all the implementation around startup
   async launchAndEnableStartup() {
     writePlistFile()
-    const command = `launchctl load ${plistPath}`
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        Logger.error(`Error enabling startup: ${error}`)
-        Logger.error(stderr)
-        return
-      }
-      Logger.log(stdout)
-      Logger.log('Node.js server enabled at startup')
+    await this.enableStartup()
+    const command = `launchctl bootstrap gui/$(id -u) ${plistPath}`
+    return new Promise<void>((resolve, reject) => {
+      exec(command, (error) => {
+        if (error) reject(error)
+        resolve()
+      })
     })
   }
 
   async closeAndDisableStartup() {
-    const command = `launchctl unload ${plistPath}`
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        Logger.error(`Error disabling startup: ${error}`)
-        Logger.error(stderr)
-        return
-      }
-      Logger.log(stdout)
-      Logger.log('Node.js server disabled at startup')
+    const command = `launchctl bootout gui/$(id -u) ${plistPath}`
+    return new Promise<void>((resolve, reject) => {
+      exec(command, (error) => {
+        if (error) reject(error)
+        resolve()
+      })
     })
   }
 }

@@ -1,9 +1,7 @@
-import { Logger } from '@nestjs/common'
 import { BIN_PATH } from '../../utils/node.util'
 import * as path from 'node:path'
 
 export const plist = () => {
-  Logger.log('Current working directory:', process.cwd())
   try {
     const bashScriptPath = path.join(BIN_PATH, 'run.sh')
     return `
@@ -21,8 +19,6 @@ export const plist = () => {
           <string>${bashScriptPath}</string>
         </array>
         
-        <key>RunAtLoad</key>
-        <true/>
         <key>KeepAlive</key>
         <true/>
 
