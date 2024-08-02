@@ -1,5 +1,6 @@
 // src/commands/start/index.ts
-import { StartupService } from '../../server/src/v1/startup/application/services/startup.service'
+
+import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
 
 process.env.APP_CONTEXT = 'cli'
 
@@ -79,7 +80,7 @@ export default class Start extends Command {
     }
 
     this.log(WELCOME_MESSAGE)
-    const startupService = new StartupService()
+    const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
       await startupService.launchAndEnableStartup()
     }

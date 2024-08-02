@@ -12,8 +12,9 @@ const plistPath = join(
 const writePlistFile = () => {
   fs.writeFileSync(plistPath, plist(), 'utf8')
 }
+
 @Injectable()
-export class StartupService {
+export class DarwinStartupService implements CodeClimbers.StartupService {
   async enableStartup() {
     const command = `launchctl bootstrap gui/$(id -u) ${plistPath}`
     exec(command, (error, stdout, stderr) => {
@@ -40,6 +41,7 @@ export class StartupService {
     })
   }
 
+  // cleanly separate implementation code for each environment. If I'm working on windows, I see all the implementation around startup
   async launchAndEnableStartup() {
     writePlistFile()
     const command = `launchctl load ${plistPath}`
