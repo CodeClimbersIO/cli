@@ -8,4 +8,14 @@ export default defineConfig({
     outDir: '../../../dist/app',
     emptyOutDir: true,
   },
+  server: {
+    fs: {
+      allow: [
+        // search up for workspace root
+        '../../../dist',
+        './',
+        '../../../node_modules',
+      ],
+    },
+  },
 })

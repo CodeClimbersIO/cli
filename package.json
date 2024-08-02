@@ -1,7 +1,7 @@
 {
-  "name": "code-climbers",
+  "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.0.8",
+  "version": "0.0.1",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -18,7 +18,7 @@
     "build:app": "cd src/app && npm run build",
     "build:server": "cd src/server && npm run build",
     "build:command": "cd src/commands && tsc -b",
-    "build": "shx rm -rf dist && npm ci && npm run build:app && npm run build:server && npm run build:command",
+    "build": "npx shx rm -rf dist && npm ci && npm run build:app && npm run build:server && npm run build:command",
     "check-deps": "node scripts/checkDependencies.js",
     "publish:npm": "npm run check-deps I&& npm run build && npm publish",
     "package": "npm run build && copyfiles -u 1 \\\"packages/**/*\\\" tmp/codeclimbers/src && oclif pack tarballs",
@@ -36,6 +36,7 @@
     "src/config"
   ],
   "dependencies": {
+    "@code-climbers/config": "file:src/config",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
@@ -47,13 +48,13 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.2",
     "@oclif/core": "^4.0.12",
-    "cli-app": "file:src/app",
-    "cli-server": "file:src/server",
-    "@code-climbers/config": "file:src/config",
     "@tanstack/react-query": "^5.48.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "cli-app": "file:src/app",
+    "cli-server": "file:src/server",
     "dayjs": "^1.11.12",
+    "find-process": "^1.4.7",
     "luxon": "^3.4.4",
     "nestjs-knex": "^2.0.0",
     "react": "^18.3.1",
@@ -62,7 +63,7 @@
     "rxjs": "^7.8.1",
     "server": "file:dist/server",
     "sqlite3": "^5.1.7",
-    "find-process": "^1.4.7"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
