@@ -1,4 +1,4 @@
-process.env.APP_CONTEXT = 'cli'
+process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { Command } from '@oclif/core'
 import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
