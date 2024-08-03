@@ -1,8 +1,7 @@
 // src/commands/start/index.ts
-import { StartupService } from '../../server/src/v1/startup/application/services/startup.service'
-
 process.env.APP_CONTEXT = 'cli'
 
+import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
@@ -79,7 +78,7 @@ export default class Start extends Command {
     }
 
     this.log(WELCOME_MESSAGE)
-    const startupService = new StartupService()
+    const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
       await startupService.launchAndEnableStartup()
     }

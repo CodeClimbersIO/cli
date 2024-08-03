@@ -21,6 +21,7 @@ export async function bootstrap() {
   await app.listen(port)
   process.title = PROCESS_NAME
 }
+
 if (!isCli()) {
   bootstrap()
 }

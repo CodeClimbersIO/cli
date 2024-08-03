@@ -1,11 +1,13 @@
 import { Request, Response } from 'express'
 import { Controller, Post } from '@nestjs/common'
-import { StartupService } from '../../../application/services/startup.service'
+import { StartupServiceFactory } from '../../../application/services/startupService.factory'
 
 @Controller('/startup')
 export class StartupController {
-  constructor(private readonly startupService: StartupService) {
-    this.startupService = startupService
+  private startupService: CodeClimbers.StartupService
+
+  constructor(private readonly startupServiceFactory: StartupServiceFactory) {
+    this.startupService = this.startupServiceFactory.getStartupService()
   }
 
   @Post('/enable')

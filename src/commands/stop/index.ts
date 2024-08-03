@@ -1,4 +1,6 @@
 // src/commands/start/index.ts
+import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
+
 process.env.APP_CONTEXT = 'cli'
 
 import { Command } from '@oclif/core'
@@ -36,7 +38,8 @@ export default class Stop extends Command {
     if (stderr) {
       this.error(stderr)
     }
-
+    const startupService = StartupServiceFactory.buildStartupService()
+    await startupService.closeAndDisableStartup()
     this.log(`Stopped ${SERVER_CONSTANTS.PROCESS_NAME} - ${stdout}`)
   }
 }
