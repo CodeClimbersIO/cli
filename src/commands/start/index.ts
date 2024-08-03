@@ -1,9 +1,7 @@
 // src/commands/start/index.ts
-
-import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
-
 process.env.APP_CONTEXT = 'cli'
 
+import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
