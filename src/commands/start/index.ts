@@ -1,5 +1,5 @@
 // src/commands/start/index.ts
-process.env.APP_CONTEXT = 'cli'
+process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
@@ -67,13 +67,16 @@ export default class Start extends Command {
     }
 
     const { args, flags } = await this.parse(Start)
-    process.env.PORT = flags.port || Start.DEFAULT_PORT
+    process.env.CODECLIMBERS_SERVER_PORT = flags.port || Start.DEFAULT_PORT
 
-    const [runningInstance] = await find('port', Number(process.env.PORT))
+    const [runningInstance] = await find(
+      'port',
+      Number(process.env.CODECLIMBERS_SERVER_PORT),
+    )
 
     if (runningInstance) {
       return this.error(
-        `A server (${runningInstance.name}) is already running on port ${process.env.PORT} with process id ${runningInstance.pid}`,
+        `A server (${runningInstance.name}) is already running on port ${process.env.CODECLIMBERS_SERVER_PORT} with process id ${runningInstance.pid}`,
       )
     }
 
