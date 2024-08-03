@@ -6,6 +6,8 @@ import { WakatimeController } from './pulse/infrastructure/http/controllers/waka
 import { HealthController } from '../common/infrastructure/http/controllers/health.controller'
 import { StartupController } from './startup/infrastructure/http/controllers/startup.controller'
 import { StartupServiceFactory } from './startup/application/services/startupService.factory'
+import { UnsupportedStartupService } from './startup/application/services/unsupportedStartup.service'
+import { DarwinStartupService } from './startup/application/services/darwinStartup.service'
 
 @Module({
   imports: [],
@@ -15,6 +17,12 @@ import { StartupServiceFactory } from './startup/application/services/startupSer
     WakatimeController,
     StartupController,
   ],
-  providers: [ActivitiesService, StartupServiceFactory, PulseRepo],
+  providers: [
+    ActivitiesService,
+    StartupServiceFactory,
+    PulseRepo,
+    UnsupportedStartupService,
+    DarwinStartupService,
+  ],
 })
 export class V1Module {}
