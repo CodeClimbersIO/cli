@@ -12,8 +12,7 @@ computer.
 The [startup.plist.ts](../src/server/src/assets/startup.plist.ts) file is what creates the plist file that is dynamic to
 the users' system. I have been testing the process of loading the plist file by doing the following:
 
-1) `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/io.codeclimbers.plist` to unload application if it is already
-   registered.
+1) `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/io.codeclimbers.plist` to unload application.
 2) At project root `./bin/dev.js start` to mimic someone running the start command for the first time.
 3) Read logs for issues with start command
 4) `tail -f ~/.codeclimbers/log.err` and `tail -f ~/.codeclimbers/log.out` for logging from the application.
