@@ -18,7 +18,7 @@ boy 😛
 ### Backend
 
 ```
-cd src/server
+cd packages/server
 npm i
 npm run start
 ```
@@ -26,7 +26,7 @@ npm run start
 ### Frontend
 
 ```
-cd src/app
+cd packages/app
 npm i
 npm run start
 ```
@@ -81,7 +81,8 @@ A Node NestJS server with knex and sqlite for generating the functionality of th
 
 A way for the user to interact with the application easily using oclif
 
-- CLI runs with node --watch mode in place. However, it will only work for changes in the `src/commands` directory. If
+- CLI runs with node --watch mode in place. However, it will only work for changes in the `packages/commands` directory.
+  If
   you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and
   then restart the CLI.
 
