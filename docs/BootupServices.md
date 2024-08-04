@@ -9,7 +9,8 @@ computer.
 
 ### Recommended Development
 
-The [startup.plist.ts](../src/server/src/assets/startup.plist.ts) file is what creates the plist file that is dynamic to
+The [startup.plist.ts](../packages/server/src/assets/startup.plist.ts) file is what creates the plist file that is
+dynamic to
 the users' system. I have been testing the process of loading the plist file by doing the following:
 
 1) `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/io.codeclimbers.plist` to unload application if it is already

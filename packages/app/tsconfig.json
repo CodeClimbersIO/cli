@@ -4,7 +4,7 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDirs": [
-      "./src",
+      "./packages",
       "../server/src"
     ],
     "strict": true,
@@ -22,7 +22,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*",
+    "packages/**/*",
     "../server/src/**/*"
   ],
   "exclude": [
