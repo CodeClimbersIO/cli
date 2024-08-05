@@ -51,3 +51,29 @@ export function useExportPulses() {
 
   return { exportPulses }
 }
+
+export function useWeekOverview(date = '') {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/weekOverview?date=${date}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.WeekOverview, Error>({
+    queryKey: pulseKeys.weekOverview(date),
+    queryFn,
+    enabled: !!date,
+  })
+}
+
+export function useCategoryTimeOverview(startDate = '', endDate = '') {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/categoryTimeOverview?startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.TimeOverview[], Error>({
+    queryKey: pulseKeys.categoryTimeOverview(startDate, endDate),
+    queryFn,
+    enabled: !!startDate && !!endDate,
+  })
+}

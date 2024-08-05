@@ -34,11 +34,11 @@ export class ActivitiesService {
   async getCategoryTimeOverview(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.TimeOverviewDao[]> {
+  ): Promise<CodeClimbers.TimeOverview[]> {
     return await this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
   }
 
-  async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverviewDao> {
+  async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverview> {
     const currentDate = new Date(date)
     const weekStart = new Date(
       new Date(currentDate).setDate(currentDate.getDate() - 7),

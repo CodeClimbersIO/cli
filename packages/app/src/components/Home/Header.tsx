@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import {
   Avatar,
   Box,
@@ -12,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 
 import Logo from './Logo'
 import { ChevronLeft, ChevronRight, Logout } from '@mui/icons-material'
@@ -63,10 +63,14 @@ const MenuStatsWrapper = styled('div')(({ theme }) => ({
   },
 }))
 
-const HomeHeader = () => {
+type Props = {
+  selectedDate: Dayjs
+  setSelectedDate: Dispatch<SetStateAction<Dayjs>>
+}
+
+const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
   const theme = useTheme()
   const today = dayjs()
-  const [selectedDate, setSelectedDate] = useState(dayjs())
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)

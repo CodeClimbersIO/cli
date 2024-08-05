@@ -22,19 +22,21 @@ export class PulseController {
   async getWeekOverview(
     @Query() dto: GetWeekOverviewDto,
   ): Promise<CodeClimbers.WeekOverviewDao> {
-    const result = await this.activitiesService.getWeekOverview(dto.date)
-    return result
+    const result: CodeClimbers.WeekOverview =
+      await this.activitiesService.getWeekOverview(dto.date)
+    return { message: 'success', data: result }
   }
 
   @Get('categoryTimeOverview')
   async getCategoryTimeOverview(
     @Query() times: GetCategoryTimeOverviewDto,
-  ): Promise<CodeClimbers.TimeOverviewDao[]> {
-    const result = await this.activitiesService.getCategoryTimeOverview(
-      times.startDate,
-      times.endDate,
-    )
-    return result
+  ): Promise<CodeClimbers.TimeOverviewDao> {
+    const result: CodeClimbers.TimeOverview[] =
+      await this.activitiesService.getCategoryTimeOverview(
+        times.startDate,
+        times.endDate,
+      )
+    return { message: 'success', data: result }
   }
 
   @Get('sources')

@@ -6,11 +6,15 @@ import {
   IconButton,
   Typography,
 } from '@mui/material'
-import { TimeDataPoint } from './TimeDataPoint'
-import { TimeDataChart } from './TimeDataChart'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import { Dayjs } from 'dayjs'
 
-export const Time = () => {
+import { TimeDataChart } from './TimeDataChart'
+import WeekOverview from './WeekOverview'
+import CategoryChart from './CategoryChart'
+
+type Props = { selectedDate: Dayjs }
+export const Time = ({ selectedDate }: Props) => {
   return (
     <Card
       raised={false}
@@ -38,12 +42,7 @@ export const Time = () => {
             </IconButton>
           </Grid2>
         </Grid2>
-        <Grid2 container spacing={2} justifyContent="space-between">
-          <TimeDataPoint title="Week's longest day" time="8h 15m" />
-          <TimeDataPoint title="Yesterday" time="6h 42m" />
-          <TimeDataPoint title="Day's Total" time="1h 43m" />
-          <TimeDataPoint title="Week Total" time="16h 12m" />
-        </Grid2>
+        <WeekOverview selectedDate={selectedDate} />
         <Divider />
         <TimeDataChart
           title="Deep Work"
@@ -52,25 +51,7 @@ export const Time = () => {
           color="red"
         />
         <Divider sx={{ borderStyle: 'dashed' }} />
-        <TimeDataChart title="Code" time="1h 24m" progress={25} color="blue" />
-        <TimeDataChart
-          title="Communication"
-          time="3h 40m"
-          progress={40}
-          color="purple"
-        />
-        <TimeDataChart
-          title="Browsing"
-          time="2h 1m"
-          progress={15}
-          color="green"
-        />
-        <TimeDataChart
-          title="Design"
-          time="3h 5m"
-          progress={34}
-          color="orange"
-        />
+        <CategoryChart selectedDate={selectedDate} />
       </CardContent>
     </Card>
   )

@@ -1,4 +1,7 @@
+import { useState } from 'react'
 import { styled } from '@mui/material'
+import dayjs from 'dayjs'
+
 import { Time } from './Time/Time'
 import { Challenges } from './Challenges/Challenges'
 import Sources from './Source/Sources'
@@ -25,11 +28,16 @@ const Wrapper = styled('div')(({ theme }) => ({
 }))
 
 export const HomePage = () => {
+  const [selectedDate, setSelectedDate] = useState(dayjs())
+
   return (
     <div>
-      <HomeHeader />
+      <HomeHeader
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
       <Body>
-        <Time />
+        <Time selectedDate={selectedDate} />
         <Wrapper>
           <Challenges />
           <Sources />
