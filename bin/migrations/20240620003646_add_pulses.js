@@ -25,4 +25,10 @@ exports.up = function (knex) {
   return knex.raw(SQL)
 }
 
-exports.down = function () {}
+const DOWN_SQL = `--sql
+  DROP TABLE activities_pulse;
+`
+
+exports.down = function (knex) {
+  return knex.raw(DOWN_SQL)
+}

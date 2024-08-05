@@ -27,7 +27,7 @@
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --ext .ts,.tsx --fix .",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "cross-env JEST_WATCH=true jest --watch",
     "db:migrate": "knex migrate:latest",
     "db:migrate:make": "knex migrate:make"
   },
@@ -79,6 +79,7 @@
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.0.0",
     "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
