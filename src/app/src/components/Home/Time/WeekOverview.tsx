@@ -1,13 +1,15 @@
 import { CircularProgress } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import { Dayjs } from 'dayjs'
 
 import { useWeekOverview } from '../../../api/pulse.api'
 import { TimeDataPoint } from './TimeDataPoint'
 import { minutesToHours } from './utils'
 
-const WeekOverview = () => {
+type Props = { selectedDate: Dayjs }
+const WeekOverview = ({ selectedDate }: Props) => {
   const { data: weekOverview = {} as CodeClimbers.WeekOverview, isPending } =
-    useWeekOverview('2023-11-29')
+    useWeekOverview(selectedDate?.toISOString() ?? '')
 
   if (isPending) return <CircularProgress />
 

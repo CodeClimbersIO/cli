@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
+import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
@@ -12,11 +14,17 @@ const categories = {
   designing: 'designing', // verify
 }
 
-const CategoryChart = () => {
+type Props = { selectedDate: Dayjs }
+const CategoryChart = ({ selectedDate }: Props) => {
   const [totalMinutes, setTotalMinutes] = useState(0)
 
-  const { data: categoryOverview = [] as CodeClimbers.TimeOverview[] } =
-    useCategoryTimeOverview('2023-11-30', '2023-12-01')
+  const {
+    data: categoryOverview = [] as CodeClimbers.TimeOverview[],
+    isPending,
+  } = useCategoryTimeOverview(
+    selectedDate?.subtract(1, 'day').toISOString() ?? '',
+    selectedDate?.toISOString() ?? '',
+  )
 
   useEffect(() => {
     if (categoryOverview.length > 0)
@@ -42,8 +50,13 @@ const CategoryChart = () => {
   }
 
   const getCategoryPercentage = (category = '') => {
-    return (getCategoryMinutes(category) / totalMinutes) * 100
+    if (totalMinutes > 0)
+      return (getCategoryMinutes(category) / totalMinutes) * 100
+
+    return 0
   }
+
+  if (isPending) return <CircularProgress />
 
   return (
     <>

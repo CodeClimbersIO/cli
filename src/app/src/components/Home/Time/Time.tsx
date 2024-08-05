@@ -7,12 +7,14 @@ import {
   Typography,
 } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
 import WeekOverview from './WeekOverview'
 import CategoryChart from './CategoryChart'
 
-export const Time = () => {
+type Props = { selectedDate: Dayjs }
+export const Time = ({ selectedDate }: Props) => {
   return (
     <Card
       raised={false}
@@ -40,7 +42,7 @@ export const Time = () => {
             </IconButton>
           </Grid2>
         </Grid2>
-        <WeekOverview />
+        <WeekOverview selectedDate={selectedDate} />
         <Divider />
         <TimeDataChart
           title="Deep Work"
@@ -49,7 +51,7 @@ export const Time = () => {
           color="red"
         />
         <Divider sx={{ borderStyle: 'dashed' }} />
-        <CategoryChart />
+        <CategoryChart selectedDate={selectedDate} />
       </CardContent>
     </Card>
   )

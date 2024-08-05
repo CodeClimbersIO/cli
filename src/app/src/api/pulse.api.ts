@@ -21,8 +21,9 @@ export function useWeekOverview(date = '') {
       method: 'GET',
     })
   return useBetterQuery<CodeClimbers.WeekOverview, Error>({
-    queryKey: pulseKeys.weekOverview,
+    queryKey: pulseKeys.weekOverview(date),
     queryFn,
+    enabled: !!date,
   })
 }
 
@@ -33,7 +34,8 @@ export function useCategoryTimeOverview(startDate = '', endDate = '') {
       method: 'GET',
     })
   return useBetterQuery<CodeClimbers.TimeOverview[], Error>({
-    queryKey: pulseKeys.categoryTimeOverview,
+    queryKey: pulseKeys.categoryTimeOverview(startDate, endDate),
     queryFn,
+    enabled: !!startDate && !!endDate,
   })
 }
