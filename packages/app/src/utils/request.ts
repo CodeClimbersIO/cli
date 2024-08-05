@@ -1,6 +1,6 @@
 import { isBrowserCli } from './environment'
 
-const BASE_URL = isBrowserCli ? '' : 'http://localhost:8000'
+const BASE_URL = isBrowserCli ? '' : 'http://localhost:14400'
 
 export class ApiError extends Error {
   statusCode: number
