@@ -14,6 +14,11 @@ import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 
 const queryClient = new QueryClient()
 
+const FAV_ICONS = {
+  white: '/images/logo-min-white.png',
+  black: '/images/logo-min.png',
+}
+
 function AppRender() {
   const { prefersDark } = useBrowserPreferences()
 
@@ -27,9 +32,7 @@ function AppRender() {
 
       if (!favicon) return
 
-      favicon.href = prefersDark
-        ? '/images/logo-min-white.png'
-        : '/images/logo-min.png'
+      favicon.href = FAV_ICONS[prefersDark ? 'light' : 'dark']
     },
     [prefersDark],
   )
