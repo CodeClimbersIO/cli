@@ -10,11 +10,14 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { dark, light } from './config/theme'
+import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 
 const queryClient = new QueryClient()
 
 function AppRender() {
-  const [theme, setTheme] = useState(light)
+  const { prefersDark } = useBrowserPreferences()
+
+  const [theme, setTheme] = useState(prefersDark ? dark : light)
 
   const changeTheme = () => {
     switch (theme.palette.mode) {
