@@ -1,18 +1,18 @@
-import vscodeLogo from "../public/source-logos/vscode.png";
-import chromeLogo from "../public/source-logos/chrome.webp";
-import firefoxLogo from "../public/source-logos/firefox.webp";
+import vscodeLogo from '../public/source-logos/vscode.png'
+import chromeLogo from '../public/source-logos/chrome.webp'
+import firefoxLogo from '../public/source-logos/firefox.webp'
 
 export interface SourceDetails {
-  name: string;
-  displayName: string;
-  logo: string;
-  instructions: string;
+  name: string
+  displayName: string
+  logo: string
+  instructions: string
 }
 
 export const supportedSources: SourceDetails[] = [
   {
-    name: "vscode",
-    displayName: "Visual Studio Code",
+    name: 'vscode',
+    displayName: 'Visual Studio Code',
     logo: vscodeLogo,
     instructions: `
       <h2>Installing</h2>
@@ -27,8 +27,8 @@ export const supportedSources: SourceDetails[] = [
     `,
   },
   {
-    name: "chrome-code_climbers",
-    displayName: "Chrome",
+    name: 'chrome-code_climbers',
+    displayName: 'Chrome',
     logo: chromeLogo,
     instructions: `
       <h2>Installing</h2>
@@ -40,8 +40,8 @@ export const supportedSources: SourceDetails[] = [
     `,
   },
   {
-    name: "firefox-code_climbers",
-    displayName: "Firefox",
+    name: 'firefox-code_climbers',
+    displayName: 'Firefox',
     logo: firefoxLogo,
     instructions: `
       <h2>Installing</h2>
@@ -50,4 +50,4 @@ export const supportedSources: SourceDetails[] = [
       <p>Search for CodeClimbers and click Add to Firefox.</p>
     `,
   },
-];
+]
