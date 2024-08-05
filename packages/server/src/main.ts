@@ -12,7 +12,7 @@ const updatedIniValues: Record<string, string> = {
 }
 
 export async function bootstrap() {
-  const port = process.env.CODECLIMBERS_SERVER_PORT || 8000
+  const port = process.env.CODECLIMBERS_SERVER_PORT || 14_400
   const app = await NestFactory.create(AppModule)
   app.enableCors()
   app.useGlobalPipes(

@@ -1,4 +1,3 @@
-const Knex = require('knex')
 const {
   knex,
   SQL_LITE_TEST_FILE,
@@ -9,10 +8,11 @@ module.exports = async () => {
     throw new Error('You are not using the test file')
   }
 
+  console.log('\n======== SETUP - DROP ========')
+  await knex.migrate.rollback({}, true)
+
   console.log('======== SETUP - MIGRATION ========')
   await knex.migrate.latest()
   console.log('======== SETUP - SEED ========')
   await knex.seed.run()
-
-  await knex.destroy()
 }

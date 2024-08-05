@@ -1,6 +1,7 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateWakatimePulseDto {
+  @IsOptional()
   @IsString()
   userId?: string
 
@@ -10,6 +11,7 @@ export class CreateWakatimePulseDto {
   @IsString()
   type: string
 
+  @IsOptional()
   @IsString()
   category?: string
 
@@ -27,30 +29,38 @@ export class CreateWakatimePulseDto {
   @IsBoolean()
   is_write?: boolean
 
+  @IsOptional()
   @IsString()
   editor?: string
 
+  @IsOptional()
   @IsString()
   operating_system?: string
 
+  @IsOptional()
   @IsString()
   machine?: string
 
+  @IsOptional()
   @IsString()
   user_agent?: string
 
   @IsNumber()
   time: number | string
 
+  @IsOptional()
   @IsString()
   hash?: string
 
+  @IsOptional()
   @IsString()
   origin?: string
 
+  @IsOptional()
   @IsString()
   origin_id?: string
 
+  @IsOptional()
   @IsString()
   description?: string
 }
