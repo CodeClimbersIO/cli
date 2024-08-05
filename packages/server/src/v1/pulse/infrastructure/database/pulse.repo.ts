@@ -1,44 +1,44 @@
-import { Injectable, Logger } from '@nestjs/common'
-import { InjectKnex, Knex } from 'nestjs-knex'
-import sqlReaderUtil from '../../../../../utils/sqlReader.util'
+import { Injectable, Logger } from "@nestjs/common";
+import { InjectKnex, Knex } from "nestjs-knex";
+import sqlReaderUtil from "../../../../../utils/sqlReader.util";
 
 interface MinutesQuery {
-  minutes: number
+  minutes: number;
 }
 
 @Injectable()
 export class PulseRepo {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  tableName = 'activities_pulse'
+  tableName = "activities_pulse";
 
   async getStatusBarDetails(): Promise<CodeClimbers.WakatimePulseStatusDao[]> {
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'getStatusBarDetails.sql',
-    )
-    return this.knex.raw(getTimeQuery)
+      "getStatusBarDetails.sql",
+    );
+    return this.knex.raw(getTimeQuery);
   }
   async getLatestPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
-      .orderBy('created_at', 'desc')
-      .limit(10)
-    return res
+      .orderBy("created_at", "desc")
+      .limit(10);
+    return res;
   }
 
   async getAllPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName).orderBy(
-      'created_at',
-      'desc',
-    )
-    return res
+      "created_at",
+      "desc",
+    );
+    return res;
   }
 
   getMinutesInRangeQuery(startDate: Date, endDate: Date) {
     return this.knex<MinutesQuery[]>(this.tableName)
-      .count('* as minutes')
+      .count("* as minutes")
       .from(this.tableName)
-      .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
-      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+      .whereBetween("time", [startDate.toISOString(), endDate.toISOString()])
+      .groupBy(this.knex.raw("strftime('%s', time) / 60"));
   }
 
   async getLongestDayInRangeMinutes(
@@ -47,27 +47,27 @@ export class PulseRepo {
   ): Promise<number> {
     const getLongestDayMinutesQuery =
       await sqlReaderUtil.getFileContentAsString(
-        'getLongestDayInRangeMinutes.sql',
-      )
+        "getLongestDayInRangeMinutes.sql",
+      );
     const [result] = await this.knex.raw<MinutesQuery[]>(
       getLongestDayMinutesQuery,
       {
         startDate: startDate.toISOString(),
         endDate: endDate.toISOString(),
       },
-    )
+    );
 
-    return result.minutes
+    return result.minutes;
   }
 
   async getRangeMinutes(startDate: Date, endDate: Date): Promise<number> {
     const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
-      .with('getMinutes', this.getMinutesInRangeQuery(startDate, endDate))
-      .count('* as minutes')
+      .with("getMinutes", this.getMinutesInRangeQuery(startDate, endDate))
+      .count("* as minutes")
       .first()
-      .from('getMinutes')
+      .from("getMinutes");
 
-    return result.minutes
+    return result.minutes;
   }
 
   async getCategoryTimeOverview(
@@ -75,41 +75,41 @@ export class PulseRepo {
     endDate: string,
   ): Promise<CodeClimbers.TimeOverview[]> {
     const query = this.knex<MinutesQuery[]>(this.tableName)
-      .select(this.knex.raw('category, count()'))
+      .select(this.knex.raw("category, count()"))
       .from(this.tableName)
-      .whereBetween('time', [startDate, endDate])
-      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+      .whereBetween("time", [startDate, endDate])
+      .groupBy(this.knex.raw("strftime('%s', time) / 60"));
 
     return await this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
-      .with('getMinutes', query)
-      .select(this.knex.raw('category, count() as minutes'))
-      .groupBy('category')
-      .from('getMinutes')
+      .with("getMinutes", query)
+      .select(this.knex.raw("category, count() as minutes"))
+      .groupBy("category")
+      .from("getMinutes");
   }
 
   async createPulse(pulse: CodeClimbers.Pulse) {
-    Logger.log('Creating pulse', 'pulse.repo')
+    Logger.log("Creating pulse", "pulse.repo");
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
       pulse,
-    )
-    return res
+    );
+    return res;
   }
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
-    Logger.log('Creating pulses', 'pulse.repo')
+    Logger.log("Creating pulses", "pulse.repo");
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
       pulses,
-    )
-    Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
-    return res
+    );
+    Logger.log(`created ${pulses.length} pulses`, "pulse.repo");
+    return res;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getUniqueUserAgentsAndLastActive(): Promise<any[]> {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
-      .select('user_agent', this.knex.raw('MAX(created_At) as last_active'))
-      .groupBy('user_agent')
-      .orderBy('last_active', 'desc')
-    return res
+      .select("user_agent", this.knex.raw("MAX(created_At) as last_active"))
+      .groupBy("user_agent")
+      .orderBy("last_active", "desc");
+    return res;
   }
 }
