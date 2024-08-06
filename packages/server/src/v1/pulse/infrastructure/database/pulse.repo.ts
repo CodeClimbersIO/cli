@@ -112,4 +112,15 @@ export class PulseRepo {
       .orderBy('last_active', 'desc')
     return res
   }
+
+  async getLatestProject(): Promise<string | undefined> {
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+      .select('project')
+      .whereNotNull('project')
+      .whereNotIn('project', ['', '<<LAST_PROJECT>>'])
+      .orderBy('created_at', 'desc')
+      .limit(1)
+
+    return res[0]?.project
+  }
 }
