@@ -10,7 +10,7 @@ describe('pulse.repo', () => {
 
   it('Should get the last project', async () => {
     const lastProject = await pulseRepo.getLatestProject()
-    expect(lastProject).toEqual('Project')
+    expect(lastProject).toEqual('Project 2')
   })
 })
 

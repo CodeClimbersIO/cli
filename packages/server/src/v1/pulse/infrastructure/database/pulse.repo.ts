@@ -107,7 +107,7 @@ export class PulseRepo {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getUniqueUserAgentsAndLastActive(): Promise<any[]> {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
-      .select('user_agent', this.knex.raw('MAX(created_At) as last_active'))
+      .select('user_agent', this.knex.raw('MAX(created_at) as last_active'))
       .groupBy('user_agent')
       .orderBy('last_active', 'desc')
     return res
@@ -118,9 +118,14 @@ export class PulseRepo {
       .select('project')
       .whereNotNull('project')
       .whereNotIn('project', ['', '<<LAST_PROJECT>>'])
-      .orderBy('created_at', 'desc')
-      .limit(1)
+      .andWhere(
+        this.knex.raw(
+          "DATETIME(time, 'unixepoch') > DATETIME('now', '-15 minutes')",
+        ),
+      )
+      .orderBy('time', 'desc')
+      .first()
 
-    return res[0]?.project
+    return await res?.project
   }
 }
