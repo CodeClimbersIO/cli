@@ -123,6 +123,11 @@ describe('pulse.repo', () => {
     expect(createdPulses).toBeTruthy()
     expect(createdPulses).toHaveLength(2)
   })
+
+  it('Should get the last project', async () => {
+    const lastProject = await pulseRepo.getLatestProject()
+    expect(lastProject).toEqual('Project 2')
+  })
 })
 
 afterAll((done) => {

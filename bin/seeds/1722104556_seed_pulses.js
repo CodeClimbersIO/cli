@@ -3,7 +3,8 @@
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  // Deletes ALL existing entries
+  const timestamp = Math.floor(new Date().getTime() / 1000)
+  const sixteenMinutes = 16 * 60
   await knex('activities_pulse').del()
 
   const NOW = new Date()
@@ -90,4 +91,40 @@ exports.seed = async function (knex) {
   )
 
   await knex('activities_pulse').insert(pulses)
+=======
+  await knex('activities_pulse').insert([
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: '',
+      time: timestamp,
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: '<<LAST_PROJECT>>',
+      time: timestamp,
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: 'Project',
+      time: timestamp - sixteenMinutes,
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: 'Project 2',
+      time: timestamp,
+    },
+  ])
+>>>>>>> c64291e72ae9baf40e5d4ea6951d8aff9b17a1ec
 }

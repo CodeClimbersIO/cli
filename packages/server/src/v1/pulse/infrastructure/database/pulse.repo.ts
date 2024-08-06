@@ -121,6 +121,7 @@ export class PulseRepo {
       .whereNotIn('project', ['', '<<LAST_PROJECT>>'])
       .andWhere('time', '<', "datetime('now', '-15 minutes')")
       .orderBy('created_at', 'desc')
+      .orderBy('time', 'desc')
       .first()
 
     return await res?.project
