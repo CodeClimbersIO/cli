@@ -19,7 +19,6 @@ export class ActivitiesService {
       pulseDto,
       latestProject,
     )
-    console.log({ latestProject })
     await this.pulseRepo.createPulse(pulse)
     return activitiesUtil.pulseSuccessResponse(1)
   }
