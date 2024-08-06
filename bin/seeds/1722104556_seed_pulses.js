@@ -91,40 +91,4 @@ exports.seed = async function (knex) {
   )
 
   await knex('activities_pulse').insert(pulses)
-=======
-  await knex('activities_pulse').insert([
-    {
-      user_id: '1',
-      entity: 'Unknown',
-      type: 'VSCode',
-      category: 'Coding',
-      project: '',
-      time: timestamp,
-    },
-    {
-      user_id: '1',
-      entity: 'Unknown',
-      type: 'VSCode',
-      category: 'Coding',
-      project: '<<LAST_PROJECT>>',
-      time: timestamp,
-    },
-    {
-      user_id: '1',
-      entity: 'Unknown',
-      type: 'VSCode',
-      category: 'Coding',
-      project: 'Project',
-      time: timestamp - sixteenMinutes,
-    },
-    {
-      user_id: '1',
-      entity: 'Unknown',
-      type: 'VSCode',
-      category: 'Coding',
-      project: 'Project 2',
-      time: timestamp,
-    },
-  ])
->>>>>>> c64291e72ae9baf40e5d4ea6951d8aff9b17a1ec
 }
