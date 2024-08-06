@@ -32,7 +32,7 @@ function AppRender() {
 
       if (!favicon) return
 
-      favicon.href = FAV_ICONS[prefersDark ? 'light' : 'dark']
+      favicon.href = FAV_ICONS[prefersDark ? 'white' : 'dark']
     },
     [prefersDark],
   )

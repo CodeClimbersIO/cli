@@ -14,13 +14,20 @@ export class ActivitiesService {
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
-    const pulse: CodeClimbers.Pulse = this.mapDtoToPulse(pulseDto)
+    const latestProject = await this.pulseRepo.getLatestProject()
+    const pulse: CodeClimbers.Pulse = this.mapDtoToPulse(
+      pulseDto,
+      latestProject,
+    )
     await this.pulseRepo.createPulse(pulse)
     return activitiesUtil.pulseSuccessResponse(1)
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
-    const pulses: CodeClimbers.Pulse[] = pulsesDto.map(this.mapDtoToPulse)
+    const latestProject = await this.pulseRepo.getLatestProject()
+    const pulses: CodeClimbers.Pulse[] = pulsesDto.map((dto) =>
+      this.mapDtoToPulse(dto, latestProject),
+    )
     const uniquePulses = activitiesUtil.filterUniqueByHash(pulses)
 
     await this.pulseRepo.createPulses(uniquePulses)
@@ -111,10 +118,18 @@ export class ActivitiesService {
     return Buffer.from(csvString, 'utf-8')
   }
 
-  private mapDtoToPulse(dto: CreateWakatimePulseDto): CodeClimbers.Pulse {
+  private mapDtoToPulse(
+    dto: CreateWakatimePulseDto,
+    latestProject?: string,
+  ): CodeClimbers.Pulse {
+    const project =
+      (dto.project === '<<PROJECT>>' || !dto.project) && latestProject
+        ? latestProject
+        : dto.project
+
     return {
       userId: 'local',
-      project: dto.project,
+      project,
       branch: dto.branch,
       entity: dto.entity,
       type: dto.type,
