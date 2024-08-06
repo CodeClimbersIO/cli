@@ -11,7 +11,28 @@ exports.seed = async function (knex) {
       entity: 'Unknown',
       type: 'VSCode',
       category: 'Coding',
+      project: '',
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: '<<LAST_PROJECT>>',
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
       project: 'Project',
+    },
+    {
+      user_id: '1',
+      entity: 'Unknown',
+      type: 'VSCode',
+      category: 'Coding',
+      project: 'Project 2',
     },
   ])
 }
