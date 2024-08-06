@@ -89,17 +89,18 @@ export class PulseRepo {
 
   async createPulse(pulse: CodeClimbers.Pulse) {
     Logger.log('Creating pulse', 'pulse.repo')
-    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
-      pulse,
-    )
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+      .insert(pulse)
+      .returning('*')
+
     return res
   }
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
     Logger.log('Creating pulses', 'pulse.repo')
-    const res = await this.knex<CodeClimbers.Pulse>(this.tableName).insert(
-      pulses,
-    )
+    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+      .insert(pulses)
+      .returning('*')
     Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
     return res
   }
@@ -118,12 +119,8 @@ export class PulseRepo {
       .select('project')
       .whereNotNull('project')
       .whereNotIn('project', ['', '<<LAST_PROJECT>>'])
-      .andWhere(
-        this.knex.raw(
-          "DATETIME(time, 'unixepoch') > DATETIME('now', '-15 minutes')",
-        ),
-      )
-      .orderBy('time', 'desc')
+      .andWhere('time', '<', "datetime('now', '-15 minutes')")
+      .orderBy('created_at', 'desc')
       .first()
 
     return await res?.project
