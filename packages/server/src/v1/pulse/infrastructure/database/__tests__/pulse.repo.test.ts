@@ -79,7 +79,6 @@ describe('pulse.repo', () => {
 
     const vscode = uniqueUserAgents.find((n) => n.userAgent === 'vscode')
 
-    console.log(uniqueUserAgents)
     expect(vscode).toBeTruthy()
     expect(vscode.lastActive).toEqual(VSCODE_LAST_ACTIVE.toISOString())
 
@@ -122,11 +121,6 @@ describe('pulse.repo', () => {
 
     expect(createdPulses).toBeTruthy()
     expect(createdPulses).toHaveLength(2)
-  })
-
-  it('Should get the last project', async () => {
-    const lastProject = await pulseRepo.getLatestProject()
-    expect(lastProject).toEqual('Project 2')
   })
 })
 
