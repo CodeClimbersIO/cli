@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { StrictMode, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import AppRouter from './routes'
@@ -14,10 +14,28 @@ import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 
 const queryClient = new QueryClient()
 
+const FAV_ICONS = {
+  white: '/images/logo-min-white.png',
+  black: '/images/logo-min.png',
+}
+
 function AppRender() {
   const { prefersDark } = useBrowserPreferences()
 
   const [theme, setTheme] = useState(prefersDark ? dark : light)
+
+  useEffect(
+    function syncFavIcon() {
+      const favicon = document.querySelector(
+        'link[rel="icon"]',
+      ) as HTMLLinkElement | null
+
+      if (!favicon) return
+
+      favicon.href = FAV_ICONS[prefersDark ? 'light' : 'dark']
+    },
+    [prefersDark],
+  )
 
   const changeTheme = () => {
     switch (theme.palette.mode) {
