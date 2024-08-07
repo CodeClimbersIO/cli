@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
-import sqlReaderUtil from '../../../../../utils/sqlReader.util'
+import sqlReaderUtil from '../../../utils/sqlReader.util'
 
 interface MinutesQuery {
   minutes: number

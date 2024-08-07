@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import activitiesUtil from '../../../../../utils/activities.util'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
-import { PulseRepo } from '../../infrastructure/database/pulse.repo'
 import { DateTime } from 'luxon'
+import activitiesUtil from '../../../utils/activities.util'
+import { PulseRepo } from '../database/pulse.repo'
+
 @Injectable()
 export class ActivitiesService {
   constructor(private readonly pulseRepo: PulseRepo) {
