@@ -15,6 +15,21 @@ at `localhost:14400`
 - (Future) View progress over time
 - (Future) Community mods like gamification or interruptions manager
 
+## Quickstart
+
+```
+npx codeclimbers start
+```
+
+## From Source
+
+```
+git clone https://github.com/CodeClimbersIO/cli.git && cd cli
+npm i
+npm run build
+npx codeclimbers start server
+```
+
 ## Prerequisites
 
 - Node.js
