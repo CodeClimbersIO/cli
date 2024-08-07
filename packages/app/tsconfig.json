@@ -23,7 +23,9 @@
   },
   "include": [
     "packages/**/*",
-    "../server/src/**/*"
+    "../server/src/**/*",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
