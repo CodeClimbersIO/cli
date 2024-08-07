@@ -19,11 +19,8 @@ export const supportedSources: SourceDetails[] = [
       <p>Press F1 or CMD + Shift + P and type install. Pick Extensions: Install Extension.</p>
       <h2>Searching for plugin</h2>
       <p>Type codeclimbers and hit enter.</p>
-      <h2>Setup</h2>
-      <p>Enter your API Key, then press enter.</p>
-      <p>(If you’re not prompted, press F1 or CMD + Shift + P then type CodeClimber's API Key.)</p>
-      <h2>Enter API Key</h2>
-      <p>Use VS Code like you normally do and your coding activity will be displayed on your CodeClimber's Dashboard.</p>
+      <p>Click Install.</p>
+      <p>You may need to reload the editor to activate the extension.</p>
     `,
   },
   {
@@ -37,6 +34,7 @@ export const supportedSources: SourceDetails[] = [
       <p>Click the three dots in the top right corner of the Extensions page.</p>
       <p>Click Open Chrome Web Store.</p>
       <p>Search for CodeClimbers and click Add to Chrome.</p>
+      <p>Give the extension permissions to read and change site data if prompted.</p>
     `,
   },
   {
@@ -48,6 +46,7 @@ export const supportedSources: SourceDetails[] = [
       <p>Click the three lines in the top right corner of your browser.</p>
       <p>Click Add-ons.</p>
       <p>Search for CodeClimbers and click Add to Firefox.</p>
+      <p>Give the extension permissions to read and change site data if prompted.</p>
     `,
   },
 ]
