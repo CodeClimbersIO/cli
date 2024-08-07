@@ -126,7 +126,6 @@ export class ActivitiesService {
       (dto.project === '<<PROJECT>>' || !dto.project) && latestProject
         ? latestProject
         : dto.project
-
     return {
       userId: 'local',
       project,
@@ -138,7 +137,7 @@ export class ActivitiesService {
       operatingSystem: dto.operating_system || '',
       machine: dto.machine || '',
       userAgent: dto.user_agent || '',
-      time: DateTime.fromMillis(dto.time as number).toISO(),
+      time: DateTime.fromMillis((dto.time as number) * 1000).toISO(),
       hash: `${activitiesUtil.calculatePulseHash(dto)}`,
       origin: dto.origin || '',
       originId: dto.origin_id || '',

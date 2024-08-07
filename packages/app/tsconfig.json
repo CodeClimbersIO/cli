@@ -16,6 +16,14 @@
     "experimentalDecorators": true,
     "jsx": "react-jsx"
   },
-  "include": ["packages/**/*", "../server/src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "packages/**/*",
+    "../server/src/**/*",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
