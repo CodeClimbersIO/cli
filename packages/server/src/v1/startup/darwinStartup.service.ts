@@ -2,7 +2,7 @@ import { exec } from 'child_process'
 import { join } from 'path'
 import * as fs from 'fs'
 import { Injectable } from '@nestjs/common'
-import { plist } from '../../../../assets/startup.plist'
+import { plist } from '../../assets/startup.plist'
 
 const plistPath = join(
   process.env.HOME || '~/',

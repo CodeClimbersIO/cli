@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { startMigrations } from './v1/pulse/infrastructure/database/migrations'
 import { ValidationPipe } from '@nestjs/common'
 import { isCli } from '../utils/environment.util'
 import { PROCESS_NAME } from './constants'
 import { updateSettings } from '../utils/wakatime.util'
+import { startMigrations } from './v1/database/migrations'
 
 const updatedIniValues: Record<string, string> = {
   api_key: 'eacb3beb-dad8-4fa1-b6ba-f89de8bf8f4a', // placeholder value

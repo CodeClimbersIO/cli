@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Post } from '@nestjs/common'
-import { ActivitiesService } from '../../../application/services/activities.service'
-import { CreateWakatimePulseDto } from '../../../application/dtos/createWakatimePulse.dto'
+import { ActivitiesService } from './activities.service'
+import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
 
 @Controller('wakatime')
 export class WakatimeController {

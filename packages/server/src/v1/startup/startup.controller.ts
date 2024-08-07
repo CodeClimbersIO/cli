@@ -1,6 +1,5 @@
-import { Request, Response } from 'express'
 import { Controller, Post } from '@nestjs/common'
-import { StartupServiceFactory } from '../../../application/services/startupService.factory'
+import { StartupServiceFactory } from './startupService.factory'
 
 @Controller('/startup')
 export class StartupController {
@@ -11,13 +10,13 @@ export class StartupController {
   }
 
   @Post('/enable')
-  async enableStartup(req: Request, res: Response): Promise<string> {
+  async enableStartup(): Promise<string> {
     await this.startupService.enableStartup()
     return 'OK'
   }
 
   @Post('/disable')
-  async disableStartup(req: Request, res: Response): Promise<string> {
+  async disableStartup(): Promise<string> {
     await this.startupService.disableStartup()
     return 'OK'
   }
