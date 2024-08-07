@@ -3,12 +3,11 @@ import { Route, Routes } from 'react-router-dom'
 import PublicLayout from '../layouts/PublicLayout'
 import { HomePage } from '../components/Home/HomePage'
 
-type Props = { changeTheme: () => void }
-export const AppRoutes = ({ changeTheme }: Props) => {
+export const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route element={<PublicLayout changeTheme={changeTheme} />}>
+        <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
         </Route>
       </Routes>

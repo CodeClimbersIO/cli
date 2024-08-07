@@ -5,10 +5,8 @@ const THEME_LOGO = {
   light: 'logo.png',
 }
 
-const Logo = () => {
+export const Logo = () => {
   const logo = `/images/${THEME_LOGO[useTheme().palette.mode]}`
 
   return <img src={logo} width={100} height={40} />
 }
-
-export default Logo

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useBrowserPreferences } from './useBrowserPreferences'
 
 type LocalStorageOptions<T> = {
   key: string
@@ -8,7 +9,7 @@ type LocalStorageOptions<T> = {
 
 type SetValueArg<T> = T | ((prev: T) => T)
 
-export function useLocalStorage<T>(options: LocalStorageOptions<T>) {
+export function useBrowserStorage<T>(options: LocalStorageOptions<T>) {
   const storage =
     typeof window === 'undefined'
       ? undefined
@@ -96,4 +97,12 @@ export function useLocalStorage<T>(options: LocalStorageOptions<T>) {
   }
 
   return [value, setValue] as const
+}
+
+export const useThemeStorage = () => {
+  const { prefersDark } = useBrowserPreferences()
+  return useBrowserStorage<'dark' | 'light'>({
+    key: 'saved-theme',
+    value: prefersDark ? 'dark' : 'light',
+  })
 }
