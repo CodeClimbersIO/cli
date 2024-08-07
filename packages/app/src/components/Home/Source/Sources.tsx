@@ -135,7 +135,7 @@ const Sources = () => {
 
   return (
     <>
-      <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262 }}>
+      <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262, flex: 1 }}>
         <CardContent sx={{ padding: '24px', height: '100%', display: 'flex' }}>
           <Stack direction="column" justifyContent={'space-between'} flex={1}>
             <div>

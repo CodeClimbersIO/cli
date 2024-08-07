@@ -3,9 +3,9 @@ import { styled } from '@mui/material'
 import dayjs from 'dayjs'
 
 import { Time } from './Time/Time'
-import { Challenges } from './Challenges/Challenges'
 import Sources from './Source/Sources'
 import HomeHeader from './Header'
+import { Resources } from './Resources/Resources'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -39,8 +39,8 @@ export const HomePage = () => {
       <Body>
         <Time selectedDate={selectedDate} />
         <Wrapper>
-          <Challenges />
           <Sources />
+          <Resources />
         </Wrapper>
       </Body>
     </div>

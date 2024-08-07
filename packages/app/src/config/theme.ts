@@ -74,14 +74,6 @@ const BASE_THEME_GREYS = BASE_THEME.palette.grey
 const darkOptions: ThemeOptions = {
   palette: {
     mode: 'dark',
-    primary: {
-      main: '#CA9FFC',
-      contrastText: '#000000',
-    },
-    secondary: {
-      main: '#51D982',
-      contrastText: '#000000',
-    },
     background: {
       default: '#323232',
     },

@@ -3,17 +3,12 @@
     "declaration": true,
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDirs": [
-      "./packages",
-      "../server/src"
-    ],
+    "rootDirs": ["./packages", "../server/src"],
     "strict": true,
     "target": "es2022",
     "moduleResolution": "node",
     "paths": {
-      "server/*": [
-        "../server/src/*"
-      ]
+      "server/*": ["../server/src/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -23,7 +18,9 @@
   },
   "include": [
     "packages/**/*",
-    "../server/src/**/*"
+    "../server/src/**/*",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",

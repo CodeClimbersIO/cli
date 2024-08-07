@@ -1,21 +1,23 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import {
-  Avatar,
   Box,
   Button,
-  Divider,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
   styled,
   Typography,
-  useTheme,
 } from '@mui/material'
 import dayjs, { Dayjs } from 'dayjs'
 
-import Logo from './Logo'
-import { ChevronLeft, ChevronRight, Logout } from '@mui/icons-material'
+import { Logo } from '../common/Logo/Logo'
+import {
+  ChevronLeft,
+  ChevronRight,
+  DarkMode,
+  LightMode,
+} from '@mui/icons-material'
+import { useThemeStorage } from '../../hooks/useBrowserStorage'
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -42,40 +44,17 @@ const LeftWrapper = styled('div')(({ theme }) => ({
   },
 }))
 
-const StatsWrapper = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  gap: 40,
-
-  [theme.breakpoints.down(670)]: {
-    display: 'none',
-  },
-}))
-
-const MenuStatsWrapper = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 8,
-
-  [theme.breakpoints.up(660)]: {
-    display: 'none',
-  },
-}))
-
 type Props = {
   selectedDate: Dayjs
   setSelectedDate: Dispatch<SetStateAction<Dayjs>>
 }
 
 const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
-  const theme = useTheme()
   const today = dayjs()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
@@ -96,15 +75,23 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
     setSelectedDate(newDate)
   }
 
+  const [theme, setTheme] = useThemeStorage()
+  const darkTheme = theme === 'dark'
+  const handleThemeChange = () => {
+    setTheme(darkTheme ? 'light' : 'dark')
+  }
+
   return (
     <>
       <Header>
         <LeftWrapper>
-          <Logo />
+          <Button variant="text" onClick={handleClick}>
+            <Logo />
+          </Button>
           <Box display="flex" gap={3} alignItems="center">
             <Button
               variant="contained"
-              color="inherit"
+              color="primary"
               sx={{ height: 40 }}
               disabled={today.isSame(selectedDate, 'day')}
               onClick={() => setSelectedDate(today)}
@@ -135,62 +122,22 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
             </Typography>
           </Box>
         </LeftWrapper>
-        <Box display="flex" alignItems="center" gap={5}>
-          <StatsWrapper>
-            <Box display="flex" flexDirection="column">
-              <Typography variant="body2">Today's Points</Typography>
-              <Typography variant="body2" fontWeight={700}>
-                30
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography variant="body2">Total Points</Typography>
-              <Typography variant="body2" fontWeight={700}>
-                3000
-              </Typography>
-            </Box>
-          </StatsWrapper>
-          <IconButton onClick={handleClick}>
-            <Avatar
-              alt="Person"
-              src=""
-              sx={{ bgcolor: theme.palette.primary.main }}
-            >
-              H
-            </Avatar>
-          </IconButton>
-        </Box>
       </Header>
       <Menu
-        anchorEl={anchorEl}
+        id="menu-popover"
         open={open}
+        anchorEl={anchorEl}
         onClose={handleClose}
-        onClick={handleClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
       >
-        <Box mb={1}>
-          <MenuStatsWrapper>
-            <Box display="flex" flexDirection="column" pl={1}>
-              <Typography variant="body2">Today's Points</Typography>
-              <Typography variant="body2" fontWeight={700}>
-                30
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column" pl={1}>
-              <Typography variant="body2">Total Points</Typography>
-              <Typography variant="body2" fontWeight={700}>
-                3000
-              </Typography>
-            </Box>
-            <Divider />
-          </MenuStatsWrapper>
-        </Box>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleThemeChange}>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            {darkTheme ? <LightMode /> : <DarkMode />}
           </ListItemIcon>
-          Logout
+          Change Theme
         </MenuItem>
       </Menu>
     </>
