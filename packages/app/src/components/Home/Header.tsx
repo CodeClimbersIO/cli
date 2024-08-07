@@ -50,7 +50,7 @@ type Props = {
 }
 
 const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
-  const [today] = dayjs()
+  const today = dayjs()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
