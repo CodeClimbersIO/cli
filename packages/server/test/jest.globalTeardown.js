@@ -1,4 +1,4 @@
-const { knex } = require('../src/v1/pulse/infrastructure/database/knex')
+const { knex } = require('../src/v1/database/knex')
 
 module.exports = async () => {
   // Don't disconnect the DB if in watch mode

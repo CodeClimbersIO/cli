@@ -1,7 +1,4 @@
-const {
-  knex,
-  SQL_LITE_TEST_FILE,
-} = require('../src/v1/pulse/infrastructure/database/knex')
+const { knex, SQL_LITE_TEST_FILE } = require('../src/v1/database/knex')
 
 module.exports = async () => {
   if (knex.client.config.connection.filename !== SQL_LITE_TEST_FILE) {

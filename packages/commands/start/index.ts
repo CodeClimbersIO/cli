@@ -1,7 +1,7 @@
 // src/commands/start/index.ts
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
-import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
+import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
