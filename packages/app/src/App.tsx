@@ -43,9 +43,12 @@ function AppRender() {
     [prefersDark],
   )
 
+  const backupTheme = prefersDark ? 'dark' : 'light'
+  const muiTheme = theme ? THEMES[theme] : backupTheme
+
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={THEMES[theme || prefersDark ? 'dark' : 'light']}>
+      <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <AppRouter />
         <UpdateBanner />

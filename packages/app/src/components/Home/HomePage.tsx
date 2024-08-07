@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import { Time } from './Time/Time'
 import Sources from './Source/Sources'
 import HomeHeader from './Header'
+import { Resources } from './Resources/Resources'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -39,6 +40,7 @@ export const HomePage = () => {
         <Time selectedDate={selectedDate} />
         <Wrapper>
           <Sources />
+          <Resources />
         </Wrapper>
       </Body>
     </div>
