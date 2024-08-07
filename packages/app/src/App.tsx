@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { StrictMode, useEffect, useState } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import AppRouter from './routes'
@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { dark, light } from './config/theme'
 import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 import { UpdateBanner } from './components/common/UpdateBanner/UpdateBanner'
+import { useThemeStorage } from './hooks/useBrowserStorage'
 
 const queryClient = new QueryClient()
 
@@ -20,10 +21,14 @@ const FAV_ICONS = {
   black: '/images/logo-min.png',
 }
 
+const THEMES = {
+  light,
+  dark,
+}
+
 function AppRender() {
   const { prefersDark } = useBrowserPreferences()
-
-  const [theme, setTheme] = useState(prefersDark ? dark : light)
+  const [theme] = useThemeStorage()
 
   useEffect(
     function syncFavIcon() {
@@ -38,21 +43,11 @@ function AppRender() {
     [prefersDark],
   )
 
-  const changeTheme = () => {
-    switch (theme.palette.mode) {
-      case 'dark':
-        setTheme(light)
-        break
-      default:
-        setTheme(dark)
-    }
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={THEMES[theme]}>
         <CssBaseline />
-        <AppRouter changeTheme={changeTheme} />
+        <AppRouter />
         <UpdateBanner />
       </ThemeProvider>
     </QueryClientProvider>

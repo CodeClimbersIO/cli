@@ -5,13 +5,12 @@ import { AppRoutes } from './AppRoutes'
 // import { useGetHealth } from '../api'
 // import Oops from '../components/Oops'
 
-type Props = { changeTheme: () => void }
-function AppRouter({ changeTheme }: Props) {
+function AppRouter() {
   // const { data: healthCheck, isPending, error } = useGetHealth()
   return (
     <>
       <HashRouter>
-        <AppRoutes changeTheme={changeTheme} />
+        <AppRoutes />
         {/* {(!isPending && (error || !healthCheck.OK)) ? <Oops /> : <AppRoutes /> } */}
       </HashRouter>
     </>

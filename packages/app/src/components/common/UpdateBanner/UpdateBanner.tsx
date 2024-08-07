@@ -1,6 +1,6 @@
 import { Alert, Box } from '@mui/material'
 import { useLatestVersion } from '../../../api/version.api'
-import { useLocalStorage } from '../../../hooks/useBrowserStorage'
+import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 import { CodeSnippit } from '../CodeSnippit/CodeSnippit'
 
 const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
@@ -10,7 +10,7 @@ const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
 
 export const UpdateBanner = () => {
   const localVersion = __APP_VERSION__
-  const [dismissedInfo, setDismissedInfo] = useLocalStorage({
+  const [dismissedInfo, setDismissedInfo] = useBrowserStorage({
     key: 'update-banner-dismissed',
     value: {
       dismissed: false,
