@@ -1,15 +1,7 @@
-import { MoreVert } from '@mui/icons-material'
-import {
-  Card,
-  CardContent,
-  Divider,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Card, CardContent, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Dayjs } from 'dayjs'
 
-import { TimeDataChart } from './TimeDataChart'
 import WeekOverview from './WeekOverview'
 import CategoryChart from './CategoryChart'
 
@@ -36,21 +28,9 @@ export const Time = ({ selectedDate }: Props) => {
           <Grid2>
             <Typography variant="h3">Time</Typography>
           </Grid2>
-          <Grid2>
-            <IconButton>
-              <MoreVert />
-            </IconButton>
-          </Grid2>
         </Grid2>
         <WeekOverview selectedDate={selectedDate} />
         <Divider />
-        <TimeDataChart
-          title="Deep Work"
-          time="1h 43m"
-          progress={30}
-          color="red"
-        />
-        <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
       </CardContent>
     </Card>
