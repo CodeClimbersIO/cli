@@ -5,7 +5,11 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      { "include": "../src/**/queries/*.sql", "watchAssets": true }
+      {
+        "include": "**/*.sql",
+        "watchAssets": true,
+        "outDir": "../../dist/server/src"
+      }
     ]
   }
 }
