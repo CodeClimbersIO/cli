@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Knex, { Knex as KnexTypes } from 'knex'
+
+import { Module } from '@nestjs/common'
+import { KnexModule } from 'nestjs-knex'
+import * as path from 'path'
 import {
   forOwn,
   isPlainObject,
   snakeCase,
   camelCase,
-} from '../../../../../utils/helpers.util'
-import { Module } from '@nestjs/common'
-import { KnexModule } from 'nestjs-knex'
-import * as path from 'path'
-import { BIN_PATH, DB_PATH, initDBDir } from '../../../../../utils/node.util'
+} from '../../../utils/helpers.util'
+import { initDBDir, DB_PATH, BIN_PATH } from '../../../utils/node.util'
 
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
