@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "copy": "copyfiles -u 1 \"src/**/*.sql\" dist",
-    "build": "shx rm -rf dist && vite build",
+    "build": "vite build",
     "start": "vite",
     "lint": "eslint --ext .ts,.tsx .",
     "test": "jest",

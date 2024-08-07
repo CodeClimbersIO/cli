@@ -37,6 +37,18 @@ npm run start
 ./bin/dev.js [COMMAND]
 ```
 
+## Architecture
+
+The information flow generally speaking looks like this:
+
+```
+extension -> wakatime cli -> codeclimbers cli -> sqlite db
+```
+
+We are making use of the wakatime cli as it is a great open source project that helps us to prototype what we are looking to build.
+
+[MORE INFO](./Architecture.md)
+
 ## Frontend
 
 A React Single Page Application that uses react-router, material-ui, tanstack to help the user visualize their data
