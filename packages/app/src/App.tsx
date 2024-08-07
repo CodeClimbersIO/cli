@@ -11,6 +11,7 @@ import '@fontsource/roboto/700.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { dark, light } from './config/theme'
 import { useBrowserPreferences } from './hooks/useBrowserPreferences'
+import { UpdateBanner } from './components/common/UpdateBanner/UpdateBanner'
 
 const queryClient = new QueryClient()
 
@@ -52,6 +53,7 @@ function AppRender() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppRouter changeTheme={changeTheme} />
+        <UpdateBanner />
       </ThemeProvider>
     </QueryClientProvider>
   )
