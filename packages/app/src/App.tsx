@@ -45,7 +45,7 @@ function AppRender() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={THEMES[theme]}>
+      <ThemeProvider theme={THEMES[theme || prefersDark ? 'dark' : 'light']}>
         <CssBaseline />
         <AppRouter />
         <UpdateBanner />

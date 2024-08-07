@@ -2,11 +2,9 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import {
   Box,
   Button,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
-  Popover,
   styled,
   Typography,
 } from '@mui/material'
@@ -18,7 +16,6 @@ import {
   ChevronRight,
   DarkMode,
   LightMode,
-  Settings,
 } from '@mui/icons-material'
 import { useThemeStorage } from '../../hooks/useBrowserStorage'
 
@@ -53,7 +50,7 @@ type Props = {
 }
 
 const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
-  const [today] = useState(dayjs())
+  const [today] = dayjs()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
