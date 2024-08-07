@@ -3,8 +3,6 @@
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  const timestamp = Math.floor(new Date().getTime() / 1000)
-  const sixteenMinutes = 16 * 60
   await knex('activities_pulse').del()
 
   const NOW = new Date()
@@ -12,11 +10,11 @@ exports.seed = async function (knex) {
   const TWO_HOURS_AGO = new Date(NOW.getTime() - 2 * 60 * 60 * 1_000)
 
   const ONE_DAY_AGO = new Date(NOW.getTime() - 24 * 60 * 60 * 1_000)
-  ONE_DAY_AGO.setHours(0, 0, 0, 0)
+  ONE_DAY_AGO.setUTCHours(0, 0, 0, 0)
   const THREE_DAYS_AGO = new Date(NOW.getTime() - 3 * 24 * 60 * 60 * 1_000)
-  THREE_DAYS_AGO.setHours(0, 0, 0, 0)
+  THREE_DAYS_AGO.setUTCHours(0, 0, 0, 0)
   const FIVE_DAYS_AGO = new Date(NOW.getTime() - 5 * 24 * 60 * 60 * 1_000)
-  FIVE_DAYS_AGO.setHours(0, 0, 0, 0)
+  FIVE_DAYS_AGO.setUTCHours(0, 0, 0, 0)
 
   const createPulse = (args) => ({
     user_id: '1',
