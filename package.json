@@ -50,7 +50,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.2",
     "@oclif/core": "^4.0.12",
-    "@oclif/plugin-update": "^4.5.2",
+    "@oclif/plugin-warn-if-update-available": "^3.1.11",
     "@sentry/nestjs": "^8.24.0",
     "@sentry/profiling-node": "^8.24.0",
     "@tanstack/react-query": "^5.48.0",
@@ -108,7 +108,8 @@
     "/dist"
   ],
   "bin": {
-    "codeclimbers": "./bin/run.js"
+    "codeclimbers": "./bin/run.js",
+    "codeclimbers-dev": "./bin/run-dev.js"
   },
   "oclif": {
     "bin": "codeclimbers",
@@ -116,10 +117,13 @@
     "dirname": "codeclimbers",
     "topicSeparator": ":",
     "plugins": [
-      "@oclif/plugin-update"
+      "@oclif/plugin-warn-if-update-available"
     ],
-    "update": {
-      "s3": {}
+    "warn-if-update-available": {
+      "timeoutInDays": 1,
+      "frequency": 10,
+      "message": "<%= config.name %> update available from <%= chalk.greenBright(config.version) %> to <%= chalk.greenBright(latest) %>.",
+      "registry": "https://www.npmjs.com/package/@codeclimbers/cli"
     }
   }
 }
