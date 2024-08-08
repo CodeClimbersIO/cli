@@ -1,5 +1,5 @@
 // src/commands/start/index.ts
-import { StartupServiceFactory } from '../../server/src/v1/startup/application/services/startupService.factory'
+import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
