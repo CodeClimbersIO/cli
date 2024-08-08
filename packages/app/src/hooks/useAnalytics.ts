@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useBrowserPreferences } from './useBrowserPreferences'
 
@@ -86,8 +86,11 @@ export const useGA4 = () => {
 export const useAnalyticsPageSubscription = () => {
   const { trackPageView } = useGA4()
   const location = useLocation()
+  const previousRef = useRef<string | null>(null)
 
-  useEffect(() => {
+  const hash = location.pathname + location.search
+  if (previousRef.current !== hash) {
+    previousRef.current = hash
     trackPageView(location.pathname, location.search)
-  }, [location.pathname, location.search])
+  }
 }
