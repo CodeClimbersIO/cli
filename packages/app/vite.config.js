@@ -10,11 +10,16 @@ const define = {
 export default defineConfig({
   plugins: [react()],
   root: 'src',
-  define,
+  define: {
+    ...define,
+    __IS_DEV__: true,
+  },
   build: {
     outDir: '../../../dist/app',
     emptyOutDir: true,
-    define,
+    define: {
+      __IS_DEV__: false,
+    },
   },
   server: {
     fs: {

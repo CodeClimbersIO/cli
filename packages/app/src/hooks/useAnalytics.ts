@@ -38,6 +38,10 @@ export const useGA4 = () => {
   })
 
   useEffect(() => {
+    if (__IS_DEV__) {
+      return
+    }
+
     const existingScript = document.getElementById(SCRIPT_ID)
 
     if (doNotTrack) {
@@ -102,7 +106,7 @@ export const useGA4 = () => {
 
   // Be respectful of DNT and add to queue if the script hasn't loaded yet.
   const executeGTag = (...event: [string, string, object]) => {
-    if (doNotTrack) return
+    if (doNotTrack || __IS_DEV__) return
 
     if (typeof window.gtag !== 'function') {
       return queue.current.push(event)
