@@ -3,6 +3,7 @@ import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
 import { DateTime } from 'luxon'
 import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
+import * as os from 'node:os'
 
 @Injectable()
 export class ActivitiesService {
@@ -119,6 +120,15 @@ export class ActivitiesService {
     return Buffer.from(csvString, 'utf-8')
   }
 
+  private userAgent() {
+    const platform = os.platform()
+    const release = os.release()
+    const arch = os.arch()
+    const nodeVersion = process.version
+
+    return `Node/${nodeVersion.slice(1)} (${platform}; ${arch}) OS/${release}`
+  }
+
   private mapDtoToPulse(
     dto: CreateWakatimePulseDto,
     latestProject?: string,
@@ -127,6 +137,7 @@ export class ActivitiesService {
       (dto.project === '<<PROJECT>>' || !dto.project) && latestProject
         ? latestProject
         : dto.project
+
     return {
       userId: 'local',
       project,
@@ -135,9 +146,10 @@ export class ActivitiesService {
       type: dto.type,
       isWrite: dto.is_write || false,
       editor: dto.editor || '',
-      operatingSystem: dto.operating_system || '',
-      machine: dto.machine || '',
-      userAgent: dto.user_agent || '',
+      language: dto.language || Intl.DateTimeFormat().resolvedOptions().locale,
+      operatingSystem: dto.operating_system || os.platform(),
+      machine: dto.machine || os.hostname(),
+      userAgent: dto.user_agent || this.userAgent(),
       time: DateTime.fromMillis((dto.time as number) * 1000).toISO(),
       hash: `${activitiesUtil.calculatePulseHash(dto)}`,
       origin: dto.origin || '',
