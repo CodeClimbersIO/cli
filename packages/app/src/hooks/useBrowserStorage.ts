@@ -5,6 +5,7 @@ type LocalStorageOptions<T> = {
   key: string
   value: T
   storage?: 'local' | 'session'
+  setValueOnEmpty?: boolean
 }
 
 type SetValueArg<T> = T | ((prev: T) => T)
@@ -21,6 +22,9 @@ export function useBrowserStorage<T>(options: LocalStorageOptions<T>) {
     const item = storage?.getItem(options.key)
 
     if (item === null || item === undefined) {
+      if (options.setValueOnEmpty)
+        storage?.setItem(options.key, JSON.stringify(options.value))
+
       return options.value
     }
 
