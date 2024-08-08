@@ -55,7 +55,7 @@ export const useGA4 = () => {
       window.dataLayer.push(arguments);
     } as typeof window.gtag
 
-    window.gtag = gtag as typeof window.gtag
+    window.gtag = gtag
 
     // Add Google Analytics 4 script to the document
     const script = document.createElement('script')
@@ -83,12 +83,6 @@ export const useGA4 = () => {
           window.gtag(...event)
         })
         queue.current = []
-
-        gtag('event', 'test_event', {
-          event_category: 'engagement',
-          event_label: 'test',
-          value: 1,
-        })
       },
       {
         signal: controller.signal,
