@@ -1,26 +1,35 @@
-import { useLayoutEffect, useState } from 'react'
+import { useState } from 'react'
 
-const PREFERS_DARK = '(prefers-color-scheme: dark)'
+// Local augmentation of the Window interface
+declare global {
+  interface Window {
+    doNotTrack: string | null
+  }
+  interface Navigator {
+    msDoNotTrack: string | null
+  }
+}
 
 /**
  * Custom hook to get the browser preferences
  */
 export const useBrowserPreferences = () => {
-  const [prefersDark, setPrefersDark] = useState(() => {
-    if (!window) return
+  const [prefersDark] = useState(() => {
+    if (!window) return true
 
-    return window.matchMedia(PREFERS_DARK).matches
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
   })
 
-  useLayoutEffect(() => {
-    if (!window) {
-      return
-    }
+  const [doNotTrack] = useState(() => {
+    if (!window) return false
 
-    setPrefersDark(window.matchMedia(PREFERS_DARK).matches)
-  }, [])
+    const dnt =
+      navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
+    return dnt === '1' || dnt === 'yes'
+  })
 
   return {
     prefersDark,
+    doNotTrack,
   }
 }
