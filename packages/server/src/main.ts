@@ -1,3 +1,6 @@
+// Import this first!
+import './sentry'
+
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
