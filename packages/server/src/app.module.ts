@@ -6,9 +6,11 @@ import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { join } from 'path'
 import { DbModule } from './v1/database/knex'
+import { SentryModule } from '@sentry/nestjs/setup'
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     DbModule,
     V1Module,
     RouterModule.register([
