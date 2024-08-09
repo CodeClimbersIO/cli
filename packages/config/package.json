@@ -1,5 +1,5 @@
 {
-  "name": "@code-climbers/config",
+  "name": "@codeclimbers/config",
   "version": "1.0.0",
   "description": "This is a configuration microservice accessible via websocket",
   "keywords": [

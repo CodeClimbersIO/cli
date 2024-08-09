@@ -26,7 +26,7 @@ workspaces.forEach((dir) => {
       unusedDeps.delete(dep)
     })
     unusedDeps.delete('@oclif/core')
-    unusedDeps.delete('@code-climbers/config')
+    unusedDeps.delete('@codeclimbers/config')
     unusedDeps.delete('cli-app')
     unusedDeps.delete('cli-server')
     unusedDeps.delete('find-process')

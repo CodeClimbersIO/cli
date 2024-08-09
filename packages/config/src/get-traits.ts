@@ -14,23 +14,23 @@ export const getTraits = async () => {
       }
       for (const pkg of Object.keys(lock.packages)) {
         if (pkg === '') {
-          traits['code-climbers.root'] = lock.packages[pkg].version ?? '0.0.0'
-        } else if (pkg.startsWith('node_modules/@code-climbers')) {
+          traits['codeclimbers.root'] = lock.packages[pkg].version ?? '0.0.0'
+        } else if (pkg.startsWith('node_modules/@codeclimbers')) {
           if (
             lock.packages[pkg].resolved &&
             lock.packages[pkg].resolved.startsWith('src/')
           ) {
-            traits['code-climbers.' + pkg.split('/').pop()] =
+            traits['codeclimbers.' + pkg.split('/').pop()] =
               (
                 (await readJSON(
                   lock.packages[pkg].resolved + '/package.json',
                 )) as { version?: string }
               ).version ?? '0.0.0'
           } else if (lock.packages[pkg].version) {
-            traits['code-climbers.' + pkg.split('/').pop()] =
+            traits['codeclimbers.' + pkg.split('/').pop()] =
               lock.packages[pkg].version
           } else {
-            traits['code-climbers.' + pkg.split('/').pop()] = 'unknown'
+            traits['codeclimbers.' + pkg.split('/').pop()] = 'unknown'
           }
         }
       }
