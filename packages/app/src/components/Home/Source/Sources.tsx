@@ -51,8 +51,7 @@ const SourceSwitch = styled(Switch)(({ theme }) => ({
   },
   // Styles for the track
   '& .MuiSwitch-track': {
-    border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'
-      }`,
+    border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'}`,
     borderRadius: '100px',
     opacity: 1,
     backgroundColor: 'transparent',
