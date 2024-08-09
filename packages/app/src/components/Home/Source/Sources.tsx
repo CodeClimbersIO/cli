@@ -35,7 +35,6 @@ const SourceSwitch = styled(Switch)(({ theme }) => ({
       transform: 'translateX(10px)',
       '& + .MuiSwitch-track': {
         opacity: 1,
-        backgroundColor: theme.palette.mode === 'dark' ? '#72B7F9' : '#769E68',
       },
     },
   },
@@ -52,9 +51,8 @@ const SourceSwitch = styled(Switch)(({ theme }) => ({
   },
   // Styles for the track
   '& .MuiSwitch-track': {
-    border: `1px solid ${
-      theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'
-    }`,
+    border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'
+      }`,
     borderRadius: '100px',
     opacity: 1,
     backgroundColor: 'transparent',

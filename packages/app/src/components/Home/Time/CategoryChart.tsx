@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, useTheme } from '@mui/material'
 import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
@@ -17,6 +17,7 @@ const categories = {
 type Props = { selectedDate: Dayjs }
 const CategoryChart = ({ selectedDate }: Props) => {
   const [totalMinutes, setTotalMinutes] = useState(0)
+  const theme = useTheme()
 
   const {
     data: categoryOverview = [] as CodeClimbers.TimeOverview[],
@@ -57,32 +58,31 @@ const CategoryChart = ({ selectedDate }: Props) => {
   }
 
   if (isPending) return <CircularProgress />
-
   return (
     <>
       <TimeDataChart
         title="Code"
         time={minutesToHours(getCategoryMinutes(categories.coding))}
         progress={getCategoryPercentage(categories.coding)}
-        color="blue"
+        color={theme.palette.graphColors.blue}
       />
       <TimeDataChart
         title="Communication"
         time={minutesToHours(getCategoryMinutes(categories.communicating))}
         progress={getCategoryPercentage(categories.communicating)}
-        color="purple"
+        color={theme.palette.graphColors.purple}
       />
       <TimeDataChart
         title="Browsing"
         time={minutesToHours(getCategoryMinutes(categories.browsing))}
         progress={getCategoryPercentage(categories.browsing)}
-        color="green"
+        color={theme.palette.graphColors.green}
       />
       <TimeDataChart
         title="Design"
         time={minutesToHours(getCategoryMinutes(categories.designing))}
         progress={getCategoryPercentage(categories.designing)}
-        color="orange"
+        color={theme.palette.graphColors.orange}
       />
     </>
   )

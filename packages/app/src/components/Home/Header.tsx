@@ -91,7 +91,6 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
           <Box display="flex" gap={3} alignItems="center">
             <Button
               variant="contained"
-              color="primary"
               sx={{ height: 40 }}
               disabled={today.isSame(selectedDate, 'day')}
               onClick={() => setSelectedDate(today)}
