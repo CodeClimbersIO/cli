@@ -18,6 +18,7 @@ export class PulseRepo {
     )
     return this.knex.raw(getTimeQuery)
   }
+
   async getLatestPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
       .orderBy('created_at', 'desc')
@@ -35,10 +36,10 @@ export class PulseRepo {
 
   getMinutesInRangeQuery(startDate: Date, endDate: Date) {
     return this.knex<MinutesQuery[]>(this.tableName)
-      .count('* as minutes')
+      .select(this.knex.raw('count(*) * 2 as minutes'))
       .from(this.tableName)
       .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
-      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+      .groupBy(this.knex.raw("strftime('%s', time) / 120"))
   }
 
   async getLongestDayInRangeMinutes(
@@ -63,7 +64,7 @@ export class PulseRepo {
   async getRangeMinutes(startDate: Date, endDate: Date): Promise<number> {
     const result: MinutesQuery = await this.knex<MinutesQuery[]>(this.tableName)
       .with('getMinutes', this.getMinutesInRangeQuery(startDate, endDate))
-      .count('* as minutes')
+      .select(this.knex.raw('count(*) * 2 as minutes'))
       .first()
       .from('getMinutes')
 
@@ -75,14 +76,14 @@ export class PulseRepo {
     endDate: string,
   ): Promise<CodeClimbers.TimeOverview[]> {
     const query = this.knex<MinutesQuery[]>(this.tableName)
-      .select(this.knex.raw('category, count()'))
+      .select(this.knex.raw('category, count(*) * 2'))
       .from(this.tableName)
       .whereBetween('time', [startDate, endDate])
-      .groupBy(this.knex.raw("strftime('%s', time) / 60"))
+      .groupBy(this.knex.raw("strftime('%s', time) / 120"))
 
     return await this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
       .with('getMinutes', query)
-      .select(this.knex.raw('category, count() as minutes'))
+      .select(this.knex.raw('category, count() * 2 as minutes'))
       .groupBy('category')
       .from('getMinutes')
   }

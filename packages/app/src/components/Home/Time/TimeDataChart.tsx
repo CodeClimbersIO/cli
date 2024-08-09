@@ -32,7 +32,6 @@ export const TimeDataChart = ({
           '& .MuiLinearProgress-bar': {
             backgroundColor: color,
             borderRadius: 1,
-            opacity: 0.6,
           },
         }}
       />

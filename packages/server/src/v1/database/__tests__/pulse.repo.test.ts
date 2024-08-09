@@ -34,7 +34,7 @@ describe('pulse.repo', () => {
     const startDate = new Date(endDate.getTime() - HOUR * 2)
     const minutes = await pulseRepo.getRangeMinutes(startDate, endDate)
 
-    expect(minutes).toEqual(1)
+    expect(minutes).toEqual(2)
   })
 
   it('Should get the longest day in minutes range', async () => {
@@ -169,7 +169,7 @@ describe('pulse.repo', () => {
     ])
 
     const minutes = await pulseRepo.getRangeMinutes(startDate, endDate)
-    expect(minutes).toEqual(4)
+    expect(minutes).toEqual(8)
   })
 
   // Edge case: Does the query handle days. If I have a heartbeat at 11:59pm or 12:00am, does that heartbeat count towards the correct day?

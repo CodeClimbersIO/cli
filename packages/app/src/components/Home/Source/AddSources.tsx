@@ -63,10 +63,9 @@ const AddSourceRow = ({ source, connected }: AddSourcesRowProps) => {
         {connected && (
           <Chip
             label="Connected"
+            color="primary"
             sx={{
               color: '#FFFFFF',
-              backgroundColor:
-                theme.palette.mode === 'dark' ? '#72B7F9' : '#769E68',
             }}
           />
         )}
