@@ -38,7 +38,7 @@
     "@nestjs/serve-static": "^4.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "luxon": "^3.4.4",
+    "dayjs": "^1.11.12",
     "nestjs-knex": "^2.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",

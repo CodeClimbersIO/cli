@@ -14,8 +14,8 @@ WITH heartbeats_with_diff AS (
 FROM
     activities_pulse
 WHERE
-    DATE(time, 'localtime') >= DATE('now', 'localtime')
-    AND DATE(time, 'localtime') < DATE('now', 'localtime', '+1 day')
+    time >= :startOfDay
+    AND time < :endOfDay
 WINDOW
     w AS (ORDER BY time)
     )

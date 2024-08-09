@@ -28,7 +28,7 @@ const Wrapper = styled('div')(({ theme }) => ({
 }))
 
 export const HomePage = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs())
+  const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
 
   return (
     <div>

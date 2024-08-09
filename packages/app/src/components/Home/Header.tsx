@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -50,13 +50,13 @@ type Props = {
 }
 
 const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
-  const today = dayjs()
-
+  const today = dayjs().startOf('day')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -67,12 +67,12 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
 
   const increaseDate = () => {
     const newDate = selectedDate.add(1, 'day')
-    setSelectedDate(newDate)
+    setSelectedDate(newDate.startOf('day'))
   }
 
   const decreaseDate = () => {
     const newDate = selectedDate.subtract(1, 'day')
-    setSelectedDate(newDate)
+    setSelectedDate(newDate.startOf('day'))
   }
 
   const [theme, setTheme] = useThemeStorage()
