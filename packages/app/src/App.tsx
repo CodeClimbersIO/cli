@@ -44,7 +44,7 @@ function AppRender() {
   )
 
   const backupTheme = prefersDark ? 'dark' : 'light'
-  const muiTheme = theme ? THEMES[theme] : backupTheme
+  const muiTheme = theme ? THEMES[theme] : THEMES[backupTheme]
 
   return (
     <QueryClientProvider client={queryClient}>
