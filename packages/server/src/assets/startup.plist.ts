@@ -1,4 +1,4 @@
-import { BIN_PATH } from '../../utils/node.util'
+import { BIN_PATH, HOME_DIR } from '../../utils/node.util'
 import * as path from 'node:path'
 
 export const plist = () => {
@@ -23,9 +23,9 @@ export const plist = () => {
         <true/>
 
         <key>StandardOutPath</key>
-        <string>/Users/paulhovley/.codeclimbers/log.out</string>
+        <string>${HOME_DIR}/.codeclimbers/log.out</string>
         <key>StandardErrorPath</key>
-        <string>/Users/paulhovley/.codeclimbers/log.err</string>
+        <string>${HOME_DIR}/.codeclimbers/log.err</string>
 
       </dict>
     </plist>
