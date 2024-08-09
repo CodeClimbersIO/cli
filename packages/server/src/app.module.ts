@@ -4,9 +4,9 @@ import { APP_FILTER, RouterModule } from '@nestjs/core'
 import { AllExceptionsFilter } from '../utils/allExceptions.filter'
 import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware/requestlogger.middleware'
 import { ServeStaticModule } from '@nestjs/serve-static'
-import { join } from 'path'
 import { DbModule } from './v1/database/knex'
 import { SentryModule } from '@sentry/nestjs/setup'
+import { APP_PATH } from '../utils/node.util'
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { SentryModule } from '@sentry/nestjs/setup'
       },
     ]),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', '..', 'dist/app'),
+      rootPath: APP_PATH,
     }),
   ],
   providers: [
