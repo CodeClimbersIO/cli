@@ -1,10 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { exec } = require('child_process')
+const { spawn } = require('child_process')
 
-exec('bash $CODE_CLIMBER_BIN_PATH/run.sh', function (error, stdout, stderr) {
-  console.log('stdout: ' + stdout)
-  console.log('stderr: ' + stderr)
-  if (error !== null) {
-    console.log('exec error: ' + error)
-  }
+const runScript = spawn('bash', [`${process.env.CODE_CLIMBER_BIN_PATH}/run.sh`])
+
+runScript.stdout.on('data', (data) => {
+  process.stdout.write(data)
+})
+
+runScript.stderr.on('data', (data) => {
+  process.stderr.write(data)
+})
+
+runScript.on('close', (code) => {
+  console.log(`Child process exited with code ${code}`)
+})
+
+runScript.on('error', (error) => {
+  console.error(`Error executing the script: ${error.message}`)
 })
