@@ -23,8 +23,8 @@ const CategoryChart = ({ selectedDate }: Props) => {
     data: categoryOverview = [] as CodeClimbers.TimeOverview[],
     isPending,
   } = useCategoryTimeOverview(
-    selectedDate?.subtract(1, 'day').toISOString() ?? '',
     selectedDate?.toISOString() ?? '',
+    selectedDate?.endOf('day').toISOString() ?? '',
   )
 
   useEffect(() => {

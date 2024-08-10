@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
-import { DateTime } from 'luxon'
 import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
 import * as os from 'node:os'
+import * as dayjs from 'dayjs'
 
 @Injectable()
 export class ActivitiesService {
@@ -52,11 +52,11 @@ export class ActivitiesService {
     const weekStart = new Date(
       new Date(currentDate).setDate(currentDate.getDate() - 7),
     )
+
+    const tomorrow = new Date(new Date(date).setDate(currentDate.getDate() + 1))
+
     const yesterday = new Date(
       new Date(date).setDate(currentDate.getDate() - 1),
-    )
-    const twoDaysAgo = new Date(
-      new Date(yesterday).setDate(yesterday.getDate() - 1),
     )
 
     const longestDayMinutes = await this.pulseRepo.getLongestDayInRangeMinutes(
@@ -64,12 +64,12 @@ export class ActivitiesService {
       currentDate,
     )
     const yesterdayMinutes = await this.pulseRepo.getRangeMinutes(
-      twoDaysAgo,
-      yesterday,
-    )
-    const todayMinutes = await this.pulseRepo.getRangeMinutes(
       yesterday,
       currentDate,
+    )
+    const todayMinutes = await this.pulseRepo.getRangeMinutes(
+      currentDate,
+      tomorrow,
     )
     const weekMinutes = await this.pulseRepo.getRangeMinutes(
       weekStart,
@@ -150,12 +150,12 @@ export class ActivitiesService {
       operatingSystem: dto.operating_system || os.platform(),
       machine: dto.machine || os.hostname(),
       userAgent: dto.user_agent || this.userAgent(),
-      time: DateTime.fromMillis((dto.time as number) * 1000).toISO(),
+      time: dayjs((dto.time as number) * 1000).toISOString(),
       hash: `${activitiesUtil.calculatePulseHash(dto)}`,
       origin: dto.origin || '',
       originId: dto.origin_id || '',
       category: dto.category || '',
-      createdAt: DateTime.now().toISO(),
+      createdAt: dayjs().toISOString(),
     }
   }
 

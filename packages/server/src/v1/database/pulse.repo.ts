@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
 import sqlReaderUtil from '../../../utils/sqlReader.util'
+import * as dayjs from 'dayjs'
 
 interface MinutesQuery {
   minutes: number
@@ -13,10 +14,12 @@ export class PulseRepo {
   tableName = 'activities_pulse'
 
   async getStatusBarDetails(): Promise<CodeClimbers.WakatimePulseStatusDao[]> {
+    const startOfDay = dayjs().startOf('day').toISOString()
+    const endOfDay = dayjs().endOf('day').toISOString()
     const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
       'getStatusBarDetails.sql',
     )
-    return this.knex.raw(getTimeQuery)
+    return this.knex.raw(getTimeQuery, { startOfDay, endOfDay })
   }
 
   async getLatestPulses(): Promise<CodeClimbers.Pulse[] | undefined> {

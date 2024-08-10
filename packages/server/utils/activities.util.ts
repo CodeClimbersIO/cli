@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import * as dayjs from 'dayjs'
 import { groupBy, maxBy, minBy } from './helpers.util'
 const cyrb53 = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
@@ -55,7 +55,8 @@ function pulseSuccessResponse(n: number) {
 }
 
 function defaultStatusBar(): CodeClimbers.ActivitiesStatusBar {
-  const now = DateTime.now()
+  const now = dayjs()
+
   return {
     data: {
       categories: [],
@@ -75,14 +76,14 @@ function defaultStatusBar(): CodeClimbers.ActivitiesStatusBar {
         total_seconds: 0,
       },
       range: {
-        date: now.toISO(),
-        end: now.toISO(),
-        start: now.startOf('day').toISO(),
+        date: now.toISOString(),
+        end: now.toISOString(),
+        start: now.startOf('day').toISOString(),
         text: '',
         timezone: 'UTC',
       },
     },
-    cached_at: now.toISO(),
+    cached_at: now.toISOString(),
   }
 }
 function getStatusByKey(
