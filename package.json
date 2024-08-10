@@ -71,7 +71,9 @@
     "ws": "^8.18.0"
   },
   "optionalDependencies": {
-    "node-mac": "^1.0.1"
+    "node-linux": "^0.1.12",
+    "node-mac": "^1.0.1",
+    "node-windows": "^1.0.0-beta.8"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
