@@ -1,25 +1,37 @@
 # Bootup Services
 
-Some direction on troubleshooting and working with the startup services that the CLI works with
+Some direction on troubleshooting and working with the startup services that the CLI works with. Utilizes the packages `node-mac`, `node-windows`, and `node-linux` to help manage the system processes.
 
 ## Mac
 
-Mac makes use of registering plist files for the user that dictates what services to startup when a user logs into their
-computer.
+Mac makes use of registering plist files for the user that dictates what services to startup when a user logs into their computer.
 
-### Recommended Development
+Because of a limitation of the packages we are using to manage the startup, we have to start the process through `startup.js` and then execute a bash script `run.sh` to establish the correct running environment for machines that are using `nvm`
 
+### Quickstart
+
+1. `./bin/dev.js start` to start and enable services
+2. On any change that you need to see reflected in the plist:
+
+- `./bin/dev.js startup:disable` to stop and disable services and then `rm -rf ~/Library/LaunchAgents/codeclimbers.plist`
+- `./bin/dev.js start` to see reflected changes
+
+### Deprecated: Manual Quickstart
+
+**from an older way of managing the services that we were managing the plist directly instead of using the packages**
 The [startup.plist.ts](../packages/server/src/assets/startup.plist.ts) file is what creates the plist file that is
 dynamic to
 the users' system. I have been testing the process of loading the plist file by doing the following:
 
-1) `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/io.codeclimbers.plist` to unload application if it is already
+1. `launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/io.codeclimbers.plist` to unload application if it is already
    registered.
-2) At project root `./bin/dev.js start` to mimic someone running the start command for the first time.
-3) Read logs for issues with start command
-4) `tail -f ~/.codeclimbers/log.err` and `tail -f ~/.codeclimbers/log.out` for logging from the application.
+2. At project root `./bin/dev.js start` to mimic someone running the start command for the first time.
+3. Read logs for issues with start command
+4. `tail -f ~/.codeclimbers/log.err` and `tail -f ~/.codeclimbers/log.out` for logging from the application.
 
-### Common Commands
+### Deprecated: Common Commands
+
+**from an older way of managing the services that we were managing the plist directly instead of using the packages**
 
 - `launchctl bootstrap gui/$(id -u) io.codeclimbers.plist` to load service. The program will start as soon as it is
   loaded and be added to

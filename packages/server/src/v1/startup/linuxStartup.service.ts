@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
+// eslint-disable-next-line import/no-unresolved
 import * as path from 'node:path'
 import { BIN_PATH, CODE_CLIMBER_META_DIR } from '../../../utils/node.util'
 import startupUtil from './startup.util'
