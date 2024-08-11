@@ -25,9 +25,7 @@ export const UpdateBanner = () => {
       dismissedInfo.dismissedAt &&
       wasOverTwenyFourHoursAgo(dismissedInfo.dismissedAt)
     )
-
   const remoteVersion = useLatestVersion(enableVersionPolling)
-
   if (
     !remoteVersion.data ||
     localVersion === remoteVersion.data ||

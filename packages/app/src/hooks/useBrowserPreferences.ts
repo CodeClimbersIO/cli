@@ -25,7 +25,8 @@ export const useBrowserPreferences = () => {
 
     const dnt =
       navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
-    return dnt === '1' || dnt === 'yes'
+    // disabled doNotTrack feature until we release publicly
+    return false
   })
 
   return {
