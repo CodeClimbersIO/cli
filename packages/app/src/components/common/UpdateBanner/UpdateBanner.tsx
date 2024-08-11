@@ -47,7 +47,7 @@ export const UpdateBanner = () => {
         }}
       >
         An update is available! Run the following command to update
-        <CodeSnippit code="codeclimbers update" />
+        <CodeSnippit code="npm update -g codeclimbers" />
         Then reload the page
       </Alert>
     </Box>
