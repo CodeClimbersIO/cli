@@ -19,3 +19,6 @@ releases
 
 # intellij
 .idea
+
+# symlink to logs
+.codeclimbers.log
