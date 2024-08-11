@@ -33,12 +33,10 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
 
     this.service.on('install', () => {
       Logger.log(`${this.service.name} installed`)
-      this.service.start()
     })
 
     this.service.on('alreadyinstalled', () => {
       Logger.log(`${this.service.name} already installed`)
-      this.service.start()
     })
 
     this.service.on('uninstall', () => {
@@ -80,10 +78,8 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
   }
 
   async launchAndEnableStartup(): Promise<void> {
-    console.log('LAUNCH AND ENABLE STARTUP')
     await this.enableStartup()
     return new Promise((resolve, reject) => {
-      console.log('Starting service')
       this.service.start()
       this.service.on('start', () => resolve())
       this.service.on('error', (error) => reject(error))
