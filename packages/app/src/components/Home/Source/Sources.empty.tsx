@@ -9,6 +9,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import AddSources from './AddSources'
 import { useState } from 'react'
+import { rgbAnimatedBorder } from '../../../utils/style/rgbAnimation'
 
 const SourcesEmpty = () => {
   const [addSourcesOpen, setAddSourcesOpen] = useState(false)
@@ -37,6 +38,11 @@ const SourcesEmpty = () => {
                   width: 'auto',
                   height: '32px',
                   minWidth: 0,
+                  ...rgbAnimatedBorder,
+                  '&:hover': {
+                    backgroundColor:
+                      theme.palette.mode === 'dark' ? '#EBEBEB' : '#1F2122',
+                  },
                 }}
               >
                 Add
