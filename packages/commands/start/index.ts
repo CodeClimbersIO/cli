@@ -3,7 +3,6 @@ process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
-import open from 'open'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
 import { bootstrap, SERVER_CONSTANTS } from '../../server'
@@ -88,7 +87,5 @@ export default class Start extends Command {
     if (args.firstArg === 'server') {
       await bootstrap()
     }
-
-    open(appUrl)
   }
 }
