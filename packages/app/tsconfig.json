@@ -20,7 +20,6 @@
     "packages/**/*",
     "../server/src/**/*",
     "./src/**/*.ts",
-    "./src/**/*.tsx"
-  ],
+    "./src/**/*.tsx" ],
   "exclude": ["node_modules", "dist"]
 }

@@ -5,7 +5,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import { isCli } from '../utils/environment.util'
-import { PROCESS_NAME } from './constants'
+import { PROCESS_NAME } from '../utils/constants'
 import { updateSettings } from '../utils/wakatime.util'
 import { startMigrations } from './v1/database/migrations'
 
@@ -26,6 +26,7 @@ export async function bootstrap() {
       },
     }),
   )
+  console.log('Running as ', process.env.NODE_ENV)
   await updateSettings(updatedIniValues)
   await startMigrations()
   await app.listen(port)

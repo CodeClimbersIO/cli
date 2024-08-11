@@ -17,7 +17,7 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
       env: [
         {
           name: 'NODE_ENV',
-          value: process.env.NODE_ENV,
+          value: 'production',
         },
         {
           name: 'CODE_CLIMBER_BIN_PATH',

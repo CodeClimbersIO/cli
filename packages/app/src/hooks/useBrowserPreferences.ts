@@ -23,8 +23,8 @@ export const useBrowserPreferences = () => {
   const [doNotTrack] = useState(() => {
     if (!window) return false
 
-    const dnt =
-      navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
+    // const dnt =
+    //   navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
     // disabled doNotTrack feature until we release publicly
     return false
   })
