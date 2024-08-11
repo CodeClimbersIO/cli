@@ -76,7 +76,7 @@ export default class Start extends Command {
       Welcome to Code Climbers!                                                                                                                                    
       
       Code climbers has started and will begin tracking your activity based on the sources you add.
-      Visit ${pc.bgCyan(appUrl)} to configure your sources
+      Visit ${pc.cyan(appUrl)} to configure your sources
       `)
     this.log(WELCOME_LOGO)
     this.log(WELCOME_MESSAGE)
