@@ -26,11 +26,15 @@ workspaces.forEach((dir) => {
       unusedDeps.delete(dep)
     })
     unusedDeps.delete('@oclif/core')
+    unusedDeps.delete('@oclif/plugin-warn-if-update-available')
     unusedDeps.delete('@codeclimbers/config')
     unusedDeps.delete('cli-app')
     unusedDeps.delete('cli-server')
+    // used in commands which has no package.json
     unusedDeps.delete('find-process')
     unusedDeps.delete('server')
+    unusedDeps.delete('open')
+    unusedDeps.delete('picocolors')
   }
 })
 

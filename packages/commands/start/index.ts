@@ -3,36 +3,11 @@ process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
+import open from 'open'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
 import { bootstrap, SERVER_CONSTANTS } from '../../server'
-
-// Used https://www.asciiart.eu/image-to-ascii to generate the ASCII art
-const WELCOME_MESSAGE = `
-Welcome to Code Climbers!
-
-↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↖↖↖↖↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↓↘↘↘↘↘↘↘↘↘↘↘↘↖         ←↖↖↖                       ↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖     ↖↖↖←↘↓↓↓↖↖↖                  ←↖↘↑↓↖
-↖↘↘↘↘↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↘↘↘↘↖    ↖↖↘↘↘↖  ↖↖↘↘↖  ↖↖↖↖↖←↖    ↖↖↖↖↖↘↘↘↘↖ ↖↖↖↖↖↖↖↘
-↖↘↘↘↖↖               ↘↘↘↘↖    ↖↘↘↘↑    ↖↓↘↖ ↖↖↓←↖↖↖↖↖↖↖↖↖↘↘↘↘↘↘↘↘↖↖←↘     ↖↖
-↖↘↘↘↖                ↘↘↘↘↖    ↖↘↘↘↑         ↓↘↘↓  ↖↘↘↘↓↘↘↘↘    ↘↘↘↘↘↘↘↘↘↘↘↘↘↖
-↓↓↓↖↖←↖↖↖↖↖↖↖↖↖↖↖↖↖↖↓↓↓↓     ↖↖↘↘↑↓↖ ↖↖↘↓↓ ↓↘↘↓ ↖↖↘↘→→→↘↘↘↘   ↘↘↘↘↘↘↘↘↘↘↘↖↘↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖     ←←↘↘↘↘↘↘↘↘↖↖ ↖↖↘↑↑↑↘↘↖↖ ←↓↘↘↘↘↘↘↘↘↘→↘↘↘↘
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘←       ↖↖↖←↖↖↖↖    ↖↖↖↖↖↖↖    ↖↖↖↖↖↖↖↖↖  ↖↖↖↖↖↖↖↖↖
-↖↘↘↘↘↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↘↘↘↖
-↖↘↘↘↓↖              ↖↘↘↘↘↖         ↖↖←↖     ↖↖↖  ↖↖↖↖                 ↖↖←
-↖↗↓↗↓                ↓↗↓↓↖      ←←←↘↘↘↘↖←↖  ↖↘↘→ ↘↘↘←                 ↖↘↓↖
-←↘↘↘↖↖↖↖↖↘↘↖ ↖↘↘↘ ↘↓↓↖ ↖↖↖    ↖↖↖↖↖↖↖  ↖↘↓↖ ↖↖↖↖      ↖↖↖↖↖←  ↖↖↖↖←↖↖↖ ↖↖←↖↖↖
-↖↗↓↗↓↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↖↓↗↓↓↖    ↖↘↘↘↖    ↖↖↖← ↖↘↓↘ ↘↘↘↘ ↘↘↘↘↘↘↘↘↓↘↓↘↘↖← ↖↘↘↓↘↘↘↘↖↖ ↖↖↘↘↘↘↘↖↖↖↖↘↘↘↘→→↘↘↓↘↘↓↘↘↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖    ↖↘↘↘↖         ↖↘↘↘ ↘↘↘↘ ↓↘↘↓ ↓↘↘↘↘ ↓↘↓↖ ↖↘↘↖  ↘↘↘↘↘↘↘↘↓   ↘↘↘↘↘↘↘↘   ←↘↘↘↘
-↖↘↘↘↘↖↖←↖↖↖↖↖↖↖↖↖↖↖↖↖↘↘↘↘↖    ↖↖↘↘↖↖  ←↖↖↖↖ ↖↘↘↘ ↘↘↘↘ ↓↘↘↓ ↓↓↘↘↓ ↓↘↓↖ ↖↘↘↖  ↘↘↘↘↘↘↘↘↘↓↘↘↘↘↓↘↘↘↘     ↘↘↘↘↘↘↖↖
-↖↘↘↘↘↖               ↘↘↘↘↖     ↖↖↘↘↘↘↘↘↘↓↖↖ ↖↘↘↘ ↘↘↘↘ ↓↘↘↘ ↘↓↘↘↖ ↖↘↓↖ ↖↘↘↖↖↖↓↘↖↖↖↖↓↘↘↘   ↘↓↘↘↘↘↓        ↘↘↖↖
-↖↖↖↖↖↖               ↖↖↖↖↖       ←↖↖↖↖↖↖↖   ↖↖↖↖ ↖↖↖↖ ↖↖↖↖ ↖↖↖↖  ↖↖↖↖ ↖↖↖↖↖↖↖↖↖   ↖↖↖↖↖↖↖↖ ↖←↖↖    ↖↖↖↖↖↖↖↖
-
-Code climbers has started and will begin tracking your activity based on the sources you add.
-Visit http://localhost:14400 to configure your sources
-`
+import pc from 'picocolors'
 
 export default class Start extends Command {
   static DEFAULT_PORT = String(14_400) // number of minutes in a day times 10
@@ -79,8 +54,33 @@ export default class Start extends Command {
         `A server (${runningInstance.name}) is already running on port ${process.env.CODECLIMBERS_SERVER_PORT} with process id ${runningInstance.pid}`,
       )
     }
+    const appUrl = `http://localhost:${process.env.CODECLIMBERS_SERVER_PORT}`
+    const WELCOME_LOGO = pc.cyan(`
+      @@@@@@@@@@@@@@@@@@@            
+      @@@@@@@@@@@@@@@@@@@            
+      @@@             @@@            
+      @@@             @@@            
+                                      
+      @@@@@@@@@@@@@@@@@@@            
+      @@@@@@@@@@@@@@@@@@@            
+      @@@             @@@            
+      @@@             @@@            
+                                      
+      @@@@@@@@@@@@@@@@@@@            
+      @@@@@@@@@@@@@@@@@@@            
+      @@@             @@@            
+      @@@             @@@            
+      `)
 
+    const WELCOME_MESSAGE = pc.white(`
+      Welcome to Code Climbers!                                                                                                                                    
+      
+      Code climbers has started and will begin tracking your activity based on the sources you add.
+      Visit ${pc.cyan(appUrl)} to configure your sources
+      `)
+    this.log(WELCOME_LOGO)
     this.log(WELCOME_MESSAGE)
+
     const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
       await startupService.launchAndEnableStartup()
@@ -88,5 +88,7 @@ export default class Start extends Command {
     if (args.firstArg === 'server') {
       await bootstrap()
     }
+
+    open(appUrl)
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -61,6 +61,8 @@
     "dayjs": "^1.11.12",
     "find-process": "^1.4.7",
     "nestjs-knex": "^2.0.0",
+    "open": "^10.1.0",
+    "picocolors": "^1.0.1",
     "react": "^18.3.1",
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
