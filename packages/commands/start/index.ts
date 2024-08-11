@@ -6,33 +6,35 @@ import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
 import { bootstrap, SERVER_CONSTANTS } from '../../server'
-
+import pc from 'picocolors'
 // Used https://www.asciiart.eu/image-to-ascii to generate the ASCII art
-const WELCOME_MESSAGE = `
-Welcome to Code Climbers!
+const WELCOME_LOGO = pc.cyan(`
+                                                                                                                                    
+ &&&&&&&&&&&&&&&&&&&&&&&          &&&&&&     &&&&&&&    &&&&&&&&    &&&&&&&                                        
+ &&&&&&&&&&&&&&&&&&&&&&&        &&&    &&&  &&&    &&&  &&&    &&   &&                                             
+ &&&&                &&&        &&          &&      &&  &&&    &&&  &&&&&&&                                        
+ &&&                 &&&        &&          &&      &&  &&&    &&   &&                                             
+                                &&&   &&&   &&&    &&   &&&   &&&   &&                                             
+                                  &&&&&&      &&&&&&    &&&&&&&     &&&&&&&                                        
+ &&&&&&&&&&&&&&&&&&&&&&&                                                                                           
+ &&&&&&&&&&&&&&&&&&&&&&&                                                                                           
+ &&&&&&&&&&&&&&&&&&&&&&&                                                                                           
+ &&&                 &&&                                                                                           
+ &&&                 &&&           &&&&     &&       &&  &&&       &&&  &&&&&&    &&&&&&&&  &&&&&&       &&&&      
+                                &&&&  &&&   &&       &&  &&&&     &&&&  &&   &&&  &&&       &&   &&&   &&&  &&&    
+ &&&&&&&&&&&&&&&&&&&&&&&        &&          &&       &&  &&&&&   &&&&&  &&   +&&  &&&       &&    &&   &&X         
+ &&&&&&&&&&&&&&&&&&&&&&&        &&          &&       &&  &&  && && &&&  &&&&&&&   &&&&&&&&  &&&&&&&&    &&&&&&     
+ &&&&&&&&&&&&&&&&&&&&&&&        &&     &&&  &&       &&  &&   &&&  &&&  &&    &&  &&&       &&   &&   &&    &&    
+ &&&                 &&&         &&&&&&&&   &&&&&&&  &&  &&   &&&  &&&  &&&&&&&&  &&&&&&&&  &&    &&   &&&&&&&&    
+ &&&                 &&&                                                                                              
+`)
 
-↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↖↖↖↖↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↓↘↘↘↘↘↘↘↘↘↘↘↘↖         ←↖↖↖                       ↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖     ↖↖↖←↘↓↓↓↖↖↖                  ←↖↘↑↓↖
-↖↘↘↘↘↖↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↘↘↘↘↖    ↖↖↘↘↘↖  ↖↖↘↘↖  ↖↖↖↖↖←↖    ↖↖↖↖↖↘↘↘↘↖ ↖↖↖↖↖↖↖↘
-↖↘↘↘↖↖               ↘↘↘↘↖    ↖↘↘↘↑    ↖↓↘↖ ↖↖↓←↖↖↖↖↖↖↖↖↖↘↘↘↘↘↘↘↘↖↖←↘     ↖↖
-↖↘↘↘↖                ↘↘↘↘↖    ↖↘↘↘↑         ↓↘↘↓  ↖↘↘↘↓↘↘↘↘    ↘↘↘↘↘↘↘↘↘↘↘↘↘↖
-↓↓↓↖↖←↖↖↖↖↖↖↖↖↖↖↖↖↖↖↓↓↓↓     ↖↖↘↘↑↓↖ ↖↖↘↓↓ ↓↘↘↓ ↖↖↘↘→→→↘↘↘↘   ↘↘↘↘↘↘↘↘↘↘↘↖↘↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖     ←←↘↘↘↘↘↘↘↘↖↖ ↖↖↘↑↑↑↘↘↖↖ ←↓↘↘↘↘↘↘↘↘↘→↘↘↘↘
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘←       ↖↖↖←↖↖↖↖    ↖↖↖↖↖↖↖    ↖↖↖↖↖↖↖↖↖  ↖↖↖↖↖↖↖↖↖
-↖↘↘↘↘↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↘↘↘↖
-↖↘↘↘↓↖              ↖↘↘↘↘↖         ↖↖←↖     ↖↖↖  ↖↖↖↖                 ↖↖←
-↖↗↓↗↓                ↓↗↓↓↖      ←←←↘↘↘↘↖←↖  ↖↘↘→ ↘↘↘←                 ↖↘↓↖
-←↘↘↘↖↖↖↖↖↘↘↖ ↖↘↘↘ ↘↓↓↖ ↖↖↖    ↖↖↖↖↖↖↖  ↖↘↓↖ ↖↖↖↖      ↖↖↖↖↖←  ↖↖↖↖←↖↖↖ ↖↖←↖↖↖
-↖↗↓↗↓↖↖↖↖↖↖↖↖↖↖↖↖↖↖←↖↓↗↓↓↖    ↖↘↘↘↖    ↖↖↖← ↖↘↓↘ ↘↘↘↘ ↘↘↘↘↘↘↘↘↓↘↓↘↘↖← ↖↘↘↓↘↘↘↘↖↖ ↖↖↘↘↘↘↘↖↖↖↖↘↘↘↘→→↘↘↓↘↘↓↘↘↖↖
-↖↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘↖    ↖↘↘↘↖         ↖↘↘↘ ↘↘↘↘ ↓↘↘↓ ↓↘↘↘↘ ↓↘↓↖ ↖↘↘↖  ↘↘↘↘↘↘↘↘↓   ↘↘↘↘↘↘↘↘   ←↘↘↘↘
-↖↘↘↘↘↖↖←↖↖↖↖↖↖↖↖↖↖↖↖↖↘↘↘↘↖    ↖↖↘↘↖↖  ←↖↖↖↖ ↖↘↘↘ ↘↘↘↘ ↓↘↘↓ ↓↓↘↘↓ ↓↘↓↖ ↖↘↘↖  ↘↘↘↘↘↘↘↘↘↓↘↘↘↘↓↘↘↘↘     ↘↘↘↘↘↘↖↖
-↖↘↘↘↘↖               ↘↘↘↘↖     ↖↖↘↘↘↘↘↘↘↓↖↖ ↖↘↘↘ ↘↘↘↘ ↓↘↘↘ ↘↓↘↘↖ ↖↘↓↖ ↖↘↘↖↖↖↓↘↖↖↖↖↓↘↘↘   ↘↓↘↘↘↘↓        ↘↘↖↖
-↖↖↖↖↖↖               ↖↖↖↖↖       ←↖↖↖↖↖↖↖   ↖↖↖↖ ↖↖↖↖ ↖↖↖↖ ↖↖↖↖  ↖↖↖↖ ↖↖↖↖↖↖↖↖↖   ↖↖↖↖↖↖↖↖ ↖←↖↖    ↖↖↖↖↖↖↖↖
+const WELCOME_MESSAGE = pc.white(`
+Welcome to Code Climbers!                                                                                                                                    
 
 Code climbers has started and will begin tracking your activity based on the sources you add.
-Visit http://localhost:14400 to configure your sources
-`
+Visit ${pc.bgCyan('http://localhost:14400')} to configure your sources
+`)
 
 export default class Start extends Command {
   static DEFAULT_PORT = String(14_400) // number of minutes in a day times 10
@@ -80,7 +82,9 @@ export default class Start extends Command {
       )
     }
 
+    this.log(WELCOME_LOGO)
     this.log(WELCOME_MESSAGE)
+
     const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
       await startupService.launchAndEnableStartup()
