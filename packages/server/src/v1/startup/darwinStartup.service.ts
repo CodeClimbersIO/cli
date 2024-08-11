@@ -32,7 +32,7 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
     })
 
     this.service.on('install', () => {
-      Logger.log(`${this.service.name.get} installed`)
+      Logger.log(`${this.service.name} installed`)
       this.service.start()
     })
 
