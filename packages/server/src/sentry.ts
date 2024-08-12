@@ -3,12 +3,12 @@ import { nodeProfilingIntegration } from '@sentry/profiling-node'
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: 'https://b0f891e49c8abcbabf80bf8c82e0cf77@o4507739058208768.ingest.de.sentry.io/4507739060568144',
+    dsn: 'https://00224a056c118536fd6c78e3df9619ed@o4507760376348672.ingest.us.sentry.io/4507760378118144',
     integrations: [nodeProfilingIntegration()],
     // Performance Monitoring
-    tracesSampleRate: 1.0, //  Capture 100% of the transactions
+    tracesSampleRate: 0.1, //  Capture 100% of the transactions
 
     // Set sampling rate for profiling - this is relative to tracesSampleRate
-    profilesSampleRate: 1.0,
+    profilesSampleRate: 0.1,
   })
 }

@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common'
-// import * as Sentry from '@sentry/node'
 
 export type BEErrorReport = {
   customMessage?: string

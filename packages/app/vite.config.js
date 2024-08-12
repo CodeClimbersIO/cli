@@ -1,34 +1,33 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { version } from './package.json'
+import { version } from '../../package.json'
 
-const define = {
+const define = (mode) => ({
   // Need to clone the version string otherwise it breaks.
   __APP_VERSION__: JSON.stringify(version),
-}
+  __IS_DEV__: mode === 'development',
+})
 
-export default defineConfig({
-  plugins: [react()],
-  root: 'src',
-  define: {
-    ...define,
-    __IS_DEV__: true,
-  },
-  build: {
-    outDir: '../../../dist/app',
-    emptyOutDir: true,
+export default defineConfig(({ mode }) => {
+  return {
+    plugins: [react()],
+    root: 'src',
     define: {
-      __IS_DEV__: false,
+      ...define(mode),
     },
-  },
-  server: {
-    fs: {
-      allow: [
-        // search up for workspace root
-        '../../../dist',
-        './',
-        '../../../node_modules',
-      ],
+    build: {
+      outDir: '../../../dist/app',
+      emptyOutDir: true,
     },
-  },
+    server: {
+      fs: {
+        allow: [
+          // search up for workspace root
+          '../../../dist',
+          './',
+          '../../../node_modules',
+        ],
+      },
+    },
+  }
 })
