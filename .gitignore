@@ -22,3 +22,4 @@ releases
 
 # symlink to logs
 .codeclimbers.log
+.codeclimbers_error.log
