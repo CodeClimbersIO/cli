@@ -1,6 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common'
 import * as path from 'node:path'
-import { BIN_PATH, CODE_CLIMBER_META_DIR } from '../../../utils/node.util'
+import {
+  BIN_PATH,
+  CODE_CLIMBER_META_DIR,
+  NODE_PATH,
+} from '../../../utils/node.util'
 import startupUtil from './startup.util'
 const { Service } = startupUtil.getServiceLib()
 
@@ -22,6 +26,10 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
         {
           name: 'CODE_CLIMBER_BIN_PATH',
           value: BIN_PATH,
+        },
+        {
+          name: 'NODE_PATH',
+          value: NODE_PATH(),
         },
       ],
       logOnAsUser: true,

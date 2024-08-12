@@ -2,7 +2,6 @@
 const { spawn } = require('child_process')
 
 const runScript = spawn('bash', [`${process.env.CODE_CLIMBER_BIN_PATH}/run.sh`])
-
 runScript.stdout.on('data', (data) => {
   process.stdout.write(data)
 })
