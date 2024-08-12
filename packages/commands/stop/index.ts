@@ -1,5 +1,4 @@
 // src/commands/start/index.ts
-import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
@@ -38,8 +37,9 @@ export default class Stop extends Command {
     if (stderr) {
       this.error(stderr)
     }
-    const startupService = StartupServiceFactory.buildStartupService()
-    await startupService.closeAndDisableStartup()
-    this.log(`Stopped ${SERVER_CONSTANTS.PROCESS_NAME} - ${stdout}`)
+
+    this.log(
+      `Stopped ${SERVER_CONSTANTS.PROCESS_NAME} - ${stdout || 'Success!'}`,
+    )
   }
 }
