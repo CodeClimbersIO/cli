@@ -105,7 +105,7 @@ const Sources = () => {
                   Add
                 </Button>
               </Stack>
-              <Stack direction="column" marginTop="24px">
+              <Stack direction="column" marginTop="24px" gap={3}>
                 {connectedSources.map((source, index) => {
                   const sourceDetails = supportedSources.find(
                     (supportedSource) => supportedSource.name === source.name,

@@ -24,7 +24,7 @@ const RESOURCES = [
 ]
 
 export const Resources = () => (
-  <Card sx={{ flex: 1, minWidth: 330 }}>
+  <Card sx={{ flex: 1, minWidth: 330, boxShadow: 'none', borderRadius: 0 }}>
     <CardContent
       sx={{
         p: 3,
