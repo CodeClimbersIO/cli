@@ -27,7 +27,7 @@ export const supportedSources: SourceDetails[] = [
     name: 'chrome-code_climbers',
     displayName: 'Chromium Browser',
     logo: chromeLogo,
-    link: 'https://chromewebstore.google.com/search/codeclimbers',
+    link: 'https://chromewebstore.google.com/detail/code-climbers/fdmoefklpgbjapealpjfailnmalbgpbe',
     instructions: `
       <li>Click the three dots in the top right corner of your browser.</li>
       <li>Click More Tools, then Extensions.</li>

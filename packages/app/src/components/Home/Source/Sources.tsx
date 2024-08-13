@@ -3,8 +3,6 @@ import {
   Card,
   CardContent,
   Stack,
-  styled,
-  Switch,
   Typography,
   useTheme,
 } from '@mui/material'
@@ -23,63 +21,12 @@ import { LoadingButton } from '@mui/lab'
 import AddSources from './AddSources'
 import { getTimeSince } from '../../../utils/time'
 
-const SourceSwitch = styled(Switch)(({ theme }) => ({
-  width: 24,
-  height: 14,
-  padding: 0,
-  display: 'flex',
-  // Styles for the switch base (including checked state)
-  '& .MuiSwitch-switchBase': {
-    padding: 2,
-    '&.Mui-checked': {
-      transform: 'translateX(10px)',
-      '& + .MuiSwitch-track': {
-        opacity: 1,
-      },
-    },
-  },
-  // Styles for the thumb (dot)
-  '& .MuiSwitch-thumb': {
-    boxShadow: 'none',
-    width: 10,
-    height: 10,
-    borderRadius: '50%',
-    backgroundColor: theme.palette.mode === 'dark' ? '#EBEBEB' : '#1F2122',
-    transition: theme.transitions.create(['width'], {
-      duration: 200,
-    }),
-  },
-  // Styles for the track
-  '& .MuiSwitch-track': {
-    border: `1px solid ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#000000'}`,
-    borderRadius: '100px',
-    opacity: 1,
-    backgroundColor: 'transparent',
-    width: '100%', // Full width of switch
-    height: '100%', // Ful height of switch
-  },
-  // Checked track overrides
-  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-    border: 'none',
-  },
-  // Checked thumb overrides
-  '& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#EBEBEB' : '#FFFFFF',
-  },
-}))
-
 interface SourceRowProps {
   source: SourceDetails
   lastActive: string
 }
 
 const SourceRow = ({ source, lastActive }: SourceRowProps) => {
-  const [isActive, setIsActive] = useState(false)
-
-  const toggleActive = () => {
-    setIsActive(!isActive)
-  }
-
   return (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       <Stack direction="row" alignItems="center" spacing={1}>
@@ -97,7 +44,6 @@ const SourceRow = ({ source, lastActive }: SourceRowProps) => {
           </Typography>
         </Stack>
       </Stack>
-      <SourceSwitch checked={isActive} onChange={toggleActive} />
     </Stack>
   )
 }
