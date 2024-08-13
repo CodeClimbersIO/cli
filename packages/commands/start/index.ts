@@ -10,14 +10,13 @@ import pc from 'picocolors'
 
 import * as http from 'http'
 
-const SERVER_URL = 'http://localhost:14400'
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
 
-function checkServerAvailability(): Promise<boolean> {
+function checkServerAvailability(url: string): Promise<boolean> {
   return new Promise((resolve) => {
     http
-      .get(SERVER_URL, (res) => {
+      .get(url, (res) => {
         res.resume() // Consume response data to free up memory
         const { statusCode } = res
         if (!statusCode) {
@@ -55,9 +54,10 @@ export default class Start extends Command {
   async waitForServer(): Promise<boolean> {
     this.log('  Starting server, please wait...')
     this.log('')
+    const SERVER_URL = `http://localhost:${process.env.CODECLIMBERS_SERVER_PORT}`
 
     for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-      const isAvailable = await checkServerAvailability()
+      const isAvailable = await checkServerAvailability(SERVER_URL)
 
       if (isAvailable) {
         return true
