@@ -8,6 +8,30 @@ import find from 'find-process'
 import { bootstrap, SERVER_CONSTANTS } from '../../server'
 import pc from 'picocolors'
 
+import * as http from 'http'
+
+const SERVER_URL = 'http://localhost:14400'
+const MAX_ATTEMPTS = 10
+const POLL_INTERVAL = 3000 // 3 seconds
+
+function checkServerAvailability(): Promise<boolean> {
+  return new Promise((resolve) => {
+    http
+      .get(SERVER_URL, (res) => {
+        res.resume() // Consume response data to free up memory
+        const { statusCode } = res
+        if (!statusCode) {
+          resolve(false)
+          return
+        }
+        resolve(statusCode >= 200 && statusCode < 300)
+      })
+      .on('error', () => {
+        resolve(false)
+      })
+  })
+}
+
 export default class Start extends Command {
   static DEFAULT_PORT = String(14_400) // number of minutes in a day times 10
   static args = {
@@ -26,6 +50,33 @@ export default class Start extends Command {
       description: 'Custom port to run the server on',
       required: false,
     }),
+  }
+
+  async waitForServer(): Promise<boolean> {
+    this.log('  Starting server, please wait...')
+    this.log('')
+
+    for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+      const isAvailable = await checkServerAvailability()
+
+      if (isAvailable) {
+        return true
+      }
+
+      this.log('  🚀...')
+      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
+    }
+
+    this.log(
+      pc.red(`      
+  It seems the server is having trouble starting. Run the command 
+
+  ${pc.white('cat ~/.codeclimbers/codeclimbers_error.log')} 
+  
+  to investigate the issue further
+      `),
+    )
+    return false
   }
 
   async run(): Promise<void> {
@@ -55,30 +106,29 @@ export default class Start extends Command {
     }
     const appUrl = `http://localhost:${process.env.CODECLIMBERS_SERVER_PORT}`
     const WELCOME_LOGO = pc.cyan(`
-      @@@@@@@@@@@@@@@@@@@            
-      @@@@@@@@@@@@@@@@@@@            
-      @@@             @@@            
-      @@@             @@@            
-                                      
-      @@@@@@@@@@@@@@@@@@@            
-      @@@@@@@@@@@@@@@@@@@            
-      @@@             @@@            
-      @@@             @@@            
-                                      
-      @@@@@@@@@@@@@@@@@@@            
-      @@@@@@@@@@@@@@@@@@@            
-      @@@             @@@            
-      @@@             @@@            
+  @@@@@@@@@@@@@@@@@@@            
+  @@@@@@@@@@@@@@@@@@@            
+  @@@             @@@            
+  @@@             @@@            
+                                  
+  @@@@@@@@@@@@@@@@@@@            
+  @@@@@@@@@@@@@@@@@@@            
+  @@@             @@@            
+  @@@             @@@            
+                                  
+  @@@@@@@@@@@@@@@@@@@            
+  @@@@@@@@@@@@@@@@@@@            
+  @@@             @@@            
+  @@@             @@@            
+
+  Welcome to CodeClimbers!                                                                                                                                    
       `)
 
     const WELCOME_MESSAGE = pc.white(`
-      Welcome to Code Climbers!                                                                                                                                    
-      
-      Code climbers has started and will begin tracking your activity based on the sources you add.
-      Visit ${pc.cyan(appUrl)} to configure your sources
+  🎉 CodeClimbers has started!
+  🎉 Visit ${pc.cyan(appUrl)} to begin  
       `)
     this.log(WELCOME_LOGO)
-    this.log(WELCOME_MESSAGE)
 
     const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
@@ -87,5 +137,7 @@ export default class Start extends Command {
     if (args.firstArg === 'server') {
       await bootstrap()
     }
+    const serverAlive = await this.waitForServer()
+    if (serverAlive) this.log(WELCOME_MESSAGE)
   }
 }

@@ -43,29 +43,31 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
       maxRestarts: 10,
     })
 
-    this.service.on('install', () => {
-      console.log(`${this.service.name} installed`)
-    })
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG === '*') {
+      this.service.on('install', () => {
+        console.log(`${this.service.name} installed`)
+      })
 
-    this.service.on('alreadyinstalled', () => {
-      console.log(`${this.service.name} already installed`)
-    })
+      this.service.on('alreadyinstalled', () => {
+        console.log(`${this.service.name} already installed`)
+      })
 
-    this.service.on('uninstall', () => {
-      console.log(`${this.service.name} uninstalled`)
-    })
+      this.service.on('uninstall', () => {
+        console.log(`${this.service.name} uninstalled`)
+      })
 
-    this.service.on('start', () => {
-      console.log(`${this.service.name} started`)
-    })
+      this.service.on('start', () => {
+        console.log(`${this.service.name} started`)
+      })
 
-    this.service.on('stop', () => {
-      console.log(`${this.service.name} stopped`)
-    })
+      this.service.on('stop', () => {
+        console.log(`${this.service.name} stopped`)
+      })
 
-    this.service.on('error', (error) => {
-      console.error(`${this.service.name} error:`, error)
-    })
+      this.service.on('error', (error) => {
+        console.error(`${this.service.name} error:`, error)
+      })
+    }
   }
 
   async enableStartup(): Promise<void> {

@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { HOME_DIR } from './node.util'
+import { Logger } from '@nestjs/common'
 
 // Define the file path (adjust as needed)
 const filePath: string = path.join(HOME_DIR, '.wakatime.cfg')
@@ -70,8 +71,8 @@ export async function updateSettings(
     // Write the updated content back to the file
     const updatedContent: string = stringifyIni(config)
     await fs.writeFile(filePath, updatedContent, 'utf8')
-    console.log('File updated successfully')
+    Logger.log('File updated successfully', 'WakatimeUtil')
   } catch (error) {
-    console.error('Error updating file:', error)
+    Logger.error('Error updating file:', error)
   }
 }
