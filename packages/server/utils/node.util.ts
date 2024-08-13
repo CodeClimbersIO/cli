@@ -10,8 +10,8 @@ export const DB_PATH = path.join(CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
 export const DIST_PATH = path.join(__dirname, '..', '..', '..', 'dist')
 export const APP_PATH = path.join(DIST_PATH, 'app')
 export const NODE_PATH = function () {
-  const result = execSync('which node')
-  const dir = result.toString().trim().slice(0, -5)
+  const result = execSync('which node').toString().trim()
+  const dir = result.slice(0, -5) // result is /usr/local/bin/node, we need to remove node
   return dir
 }
 

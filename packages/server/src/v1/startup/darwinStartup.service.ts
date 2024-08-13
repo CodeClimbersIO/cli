@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import * as path from 'node:path'
 import {
   BIN_PATH,
@@ -21,7 +21,7 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
       env: [
         {
           name: 'NODE_ENV',
-          value: 'production',
+          value: process.env.NODE_ENV || 'production',
         },
         {
           name: 'CODE_CLIMBER_BIN_PATH',
@@ -30,6 +30,10 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
         {
           name: 'NODE_PATH',
           value: NODE_PATH(),
+        },
+        {
+          name: 'DEBUG',
+          value: process.env.DEBUG,
         },
       ],
       logOnAsUser: true,
@@ -40,27 +44,27 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
     })
 
     this.service.on('install', () => {
-      Logger.log(`${this.service.name} installed`)
+      console.log(`${this.service.name} installed`)
     })
 
     this.service.on('alreadyinstalled', () => {
-      Logger.log(`${this.service.name} already installed`)
+      console.log(`${this.service.name} already installed`)
     })
 
     this.service.on('uninstall', () => {
-      Logger.log(`${this.service.name} uninstalled`)
+      console.log(`${this.service.name} uninstalled`)
     })
 
     this.service.on('start', () => {
-      Logger.log(`${this.service.name} started`)
+      console.log(`${this.service.name} started`)
     })
 
     this.service.on('stop', () => {
-      Logger.log(`${this.service.name} stopped`)
+      console.log(`${this.service.name} stopped`)
     })
 
     this.service.on('error', (error) => {
-      Logger.error(`${this.service.name} error:`, error)
+      console.error(`${this.service.name} error:`, error)
     })
   }
 
