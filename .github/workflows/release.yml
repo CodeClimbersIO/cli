@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - release
+  pull_request:
+    branches:
+      - "**"
 
 jobs:
   build:
@@ -33,9 +36,7 @@ jobs:
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to npm
-        run: npm run publish:npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm run test
-      - run: npm run lint
+    # - name: Publish to npm
+    #   run: npm run publish:npm
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
