@@ -32,7 +32,9 @@ jobs:
           npm version patch -m "Bump version to %s"
 
       - name: Push changes
-        run: git push
+        run: |
+          git push origin issue-162-release-workflow
+          git push --tags
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
