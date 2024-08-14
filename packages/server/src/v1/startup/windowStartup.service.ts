@@ -1,5 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
-// eslint-disable-next-line import/no-unresolved
+import { Injectable } from "@nestjs/common";
 import * as path from "node:path";
 import {
   BIN_PATH,
@@ -22,7 +21,7 @@ export class WindowStartupService implements CodeClimbers.StartupService {
       env: [
         {
           name: "NODE_ENV",
-          value: "production",
+          value: process.env.NODE_ENV || "production",
         },
         {
           name: "CODE_CLIMBER_BIN_PATH",
@@ -44,29 +43,31 @@ export class WindowStartupService implements CodeClimbers.StartupService {
       maxRestarts: 10,
     });
 
-    this.service.on("install", () => {
-      Logger.log(`${this.service.name.get} installed`);
-    });
+    if (process.env.NODE_ENV === "development" || process.env.DEBUG === "*") {
+      this.service.on("install", () => {
+        console.log(`${this.service.name} installed`);
+      });
 
-    this.service.on("alreadyinstalled", () => {
-      Logger.log(`${this.service.name} already installed`);
-    });
+      this.service.on("alreadyinstalled", () => {
+        console.log(`${this.service.name} already installed`);
+      });
 
-    this.service.on("uninstall", () => {
-      Logger.log(`${this.service.name} uninstalled`);
-    });
+      this.service.on("uninstall", () => {
+        console.log(`${this.service.name} uninstalled`);
+      });
 
-    this.service.on("start", () => {
-      Logger.log(`${this.service.name} started`);
-    });
+      this.service.on("start", () => {
+        console.log(`${this.service.name} started`);
+      });
 
-    this.service.on("stop", () => {
-      Logger.log(`${this.service.name} stopped`);
-    });
+      this.service.on("stop", () => {
+        console.log(`${this.service.name} stopped`);
+      });
 
-    this.service.on("error", (error) => {
-      Logger.error(`${this.service.name} error:`, error);
-    });
+      this.service.on("error", (error) => {
+        console.error(`${this.service.name} error:`, error);
+      });
+    }
   }
 
   async enableStartup(): Promise<void> {
