@@ -6,6 +6,7 @@ import { PulseController } from './activities/pulse.controller'
 import { WakatimeController } from './activities/wakatimeProxy.controller'
 import { PulseRepo } from './database/pulse.repo'
 import { DarwinStartupService } from './startup/darwinStartup.service'
+import { WindowStartupService } from './startup/windowStartup.service'}
 import { StartupServiceFactory } from './startup/startupService.factory'
 import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
 
@@ -23,6 +24,7 @@ import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
     PulseRepo,
     UnsupportedStartupService,
     DarwinStartupService,
+    WindowStartupService,
   ],
 })
 export class V1Module {}
