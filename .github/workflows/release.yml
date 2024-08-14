@@ -33,6 +33,7 @@ jobs:
 
       - name: Push changes
         run: |
+          git checkout -b issue-162-release-workflow
           git push origin issue-162-release-workflow
           git push --tags
         env:
