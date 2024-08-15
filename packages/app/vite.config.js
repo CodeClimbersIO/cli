@@ -16,14 +16,14 @@ export default defineConfig(({ mode }) => {
       ...define(mode),
     },
     build: {
-      outDir: '../../../dist/app',
+      outDir: '../dist/app',
       emptyOutDir: true,
     },
     server: {
       fs: {
         allow: [
           // search up for workspace root
-          '../../../dist',
+          '../dist',
           './',
           '../../../node_modules',
         ],

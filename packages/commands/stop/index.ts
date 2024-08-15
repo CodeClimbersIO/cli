@@ -8,7 +8,7 @@ import util from 'node:util'
 import os from 'node:os'
 import find from 'find-process'
 // eslint-disable-next-line import/no-unresolved
-import { SERVER_CONSTANTS } from 'server'
+import { SERVER_CONSTANTS } from '@codeclimbers/server'
 
 const exec = util.promisify(_exec)
 

@@ -32,49 +32,12 @@
     "db:migrate:make": "knex migrate:make"
   },
   "workspaces": [
-    "packages/server",
     "packages/app",
-    "packages/commands",
-    "packages/config"
+    "packages/server",
+    "packages/config",
+    "packages/commands"
   ],
-  "dependencies": {
-    "@codeclimbers/config": "file:packages/config",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@fontsource/roboto": "^5.0.13",
-    "@mui/icons-material": "^5.16.4",
-    "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.16.4",
-    "@nestjs/common": "^10.0.0",
-    "@nestjs/core": "^10.3.10",
-    "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/serve-static": "^4.0.2",
-    "@oclif/core": "^4.0.12",
-    "@oclif/plugin-warn-if-update-available": "^3.1.11",
-    "@sentry/nestjs": "^8.24.0",
-    "@sentry/profiling-node": "^8.24.0",
-    "@tanstack/react-query": "^5.48.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.1",
-    "cli-app": "file:packages/app",
-    "cli-server": "file:packages/server",
-    "dayjs": "^1.11.12",
-    "find-process": "^1.4.7",
-    "nestjs-knex": "^2.0.0",
-    "picocolors": "^1.0.1",
-    "react": "^18.3.1",
-    "react-router-dom": "^6.24.0",
-    "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1",
-    "server": "file:dist/server",
-    "sqlite3": "^5.1.7",
-    "ws": "^8.18.0"
-  },
-  "optionalDependencies": {
-    "node-linux": "^0.1.12",
-    "node-mac": "^1.0.1",
-    "node-windows": "^1.0.0-beta.8"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
     "@types/cors": "^2.8.17",

@@ -1,7 +1,8 @@
 {
-  "name": "cli-server",
+  "name": "@codeclimbers/server",
   "version": "0.0.1",
   "description": "CLI Server",
+  "main": "dist/index.js",
   "author": {
     "name": "Paul Hovley",
     "email": "rphovley@gmail.com"
@@ -30,6 +31,11 @@
     "db:migrate:make": "knex migrate:make",
     "db:seed": "knex seed:run",
     "db:seed:make": "knex seed:make $(date +%s)_${npm_config_name}"
+  },
+  "optionalDependencies": {
+    "node-linux": "^0.1.12",
+    "node-mac": "^1.0.1",
+    "node-windows": "^1.0.0-beta.8"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

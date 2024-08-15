@@ -1,0 +1,12 @@
+{
+  "author": {
+    "name": "Paul Hovley",
+    "email": "rphovley@gmail.com"
+  },
+  "name": "@codeclimbers/commands",
+  "dependencies": {
+    "@codeclimbers/server": "^0.0.1",
+    "@oclif/core": "^4.0.17",
+    "find-process": "^1.4.7"
+  }
+}
