@@ -38,7 +38,7 @@
     "packages/commands"
   ],
   "dependencies": {
-    "@codeclimbers/config": "file:packages/config",
+    "@codeclimbers/server": "^0.0.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
@@ -56,8 +56,6 @@
     "@tanstack/react-query": "^5.48.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "cli-app": "file:packages/app",
-    "cli-server": "file:packages/server",
     "dayjs": "^1.11.12",
     "find-process": "^1.4.7",
     "nestjs-knex": "^2.0.0",
@@ -66,7 +64,6 @@
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "server": "file:dist/server",
     "sqlite3": "^5.1.7",
     "ws": "^8.18.0"
   },
