@@ -1,7 +1,7 @@
 {
   "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.1.14",
+  "version": "0.1.12",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -38,6 +38,7 @@
     "packages/commands"
   ],
   "dependencies": {
+    "@codeclimbers/server": "file:packages/server",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
@@ -67,7 +68,7 @@
     "ws": "^8.18.0"
   },
   "optionalDependencies": {
-    "node-linux": "^0.1.12",
+    "node-linux": "^0.1.7",
     "node-mac": "^1.0.1",
     "node-windows": "^1.0.0-beta.8"
   },
@@ -106,7 +107,9 @@
   },
   "files": [
     "/bin",
-    "/dist"
+    "/dist",
+    "/packages/*/dist/**",
+    "/packages/*/package.json"
   ],
   "bin": {
     "codeclimbers": "./bin/run.js",

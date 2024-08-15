@@ -7,8 +7,14 @@ export const BIN_PATH = path.join(__dirname, '..', '..', '..', '..', 'bin')
 export const HOME_DIR = os.homedir()
 export const CODE_CLIMBER_META_DIR = `${HOME_DIR}/.codeclimbers`
 export const DB_PATH = path.join(CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
-export const DIST_PATH = path.join(__dirname, '..', '..', '..', 'dist')
-export const APP_PATH = path.join(DIST_PATH, 'app')
+export const APP_DIST_PATH = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'app',
+  'dist',
+)
 export const NODE_PATH = function () {
   const result = execSync('which node').toString().trim()
   const dir = result.slice(0, -5) // result is /usr/local/bin/node, we need to remove node

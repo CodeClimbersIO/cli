@@ -8,7 +8,7 @@
       {
         "include": "**/*.sql",
         "watchAssets": true,
-        "outDir": "./dist/server/src"
+        "outDir": "./dist/src"
       }
     ]
   }

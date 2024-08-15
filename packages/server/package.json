@@ -33,7 +33,7 @@
     "db:seed:make": "knex seed:make $(date +%s)_${npm_config_name}"
   },
   "optionalDependencies": {
-    "node-linux": "^0.1.12",
+    "node-linux": "^0.1.7",
     "node-mac": "^1.0.1",
     "node-windows": "^1.0.0-beta.8"
   },
