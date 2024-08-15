@@ -72,7 +72,9 @@
   },
   "files": [
     "/bin",
-    "/dist"
+    "/dist",
+    "/packages/*/dist/**",
+    "/packages/*/package.json"
   ],
   "bin": {
     "codeclimbers": "./bin/run.js",
