@@ -1,5 +1,5 @@
 {
-  "name": "codeclimbers",
+  "name": "codeclimbers-dev",
   "productName": "Code Climbers",
   "version": "0.1.12",
   "description": "The Code Climbers CLI",
@@ -112,13 +112,13 @@
     "/packages/*/package.json"
   ],
   "bin": {
-    "codeclimbers": "./bin/run.js",
-    "codeclimbers-dev": "./bin/run-dev.js"
+    "codeclimbers-dev": "./bin/run.js",
+    "codeclimbers-dev2": "./bin/run-dev.js"
   },
   "oclif": {
-    "bin": "codeclimbers",
+    "bin": "codeclimbers-dev",
     "commands": "./dist/commands",
-    "dirname": "codeclimbers",
+    "dirname": "codeclimbers-dev",
     "topicSeparator": ":",
     "plugins": [
       "@oclif/plugin-warn-if-update-available"
