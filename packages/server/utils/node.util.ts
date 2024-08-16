@@ -3,17 +3,12 @@ import * as os from 'node:os'
 import * as fs from 'node:fs'
 import { execSync } from 'node:child_process'
 
-export const BIN_PATH = path.join(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  '..',
-  '..',
-  'bin',
-)
-console.log('current working directory', __dirname)
-console.log('BIN_PATH', BIN_PATH)
+const commandPath = (command: string) => {
+  const result = execSync(`which ${command}`).toString().trim()
+  const dir = result.slice(0, -command.length - 1) // result is /usr/local/bin/codeclimbers, we need to remove codeclimbers
+  return dir
+}
+export const BIN_PATH = commandPath('codeclimbers')
 export const HOME_DIR = os.homedir()
 export const CODE_CLIMBER_META_DIR = `${HOME_DIR}/.codeclimbers`
 export const DB_PATH = path.join(CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
@@ -25,11 +20,7 @@ export const APP_DIST_PATH = path.join(
   'app',
   'dist',
 )
-export const NODE_PATH = function () {
-  const result = execSync('which node').toString().trim()
-  const dir = result.slice(0, -5) // result is /usr/local/bin/node, we need to remove node
-  return dir
-}
+export const NODE_PATH = commandPath('node')
 
 export const initDBDir = () => {
   if (!fs.existsSync(CODE_CLIMBER_META_DIR)) {
