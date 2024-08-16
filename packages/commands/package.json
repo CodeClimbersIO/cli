@@ -5,7 +5,7 @@
   },
   "name": "@codeclimbers/commands",
   "dependencies": {
-    "@codeclimbers/server": "^0.0.1",
+    "@codeclimbers/server": "*",
     "@oclif/core": "^4.0.17",
     "find-process": "^1.4.7"
   }

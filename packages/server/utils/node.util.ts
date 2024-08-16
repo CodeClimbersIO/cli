@@ -3,7 +3,17 @@ import * as os from 'node:os'
 import * as fs from 'node:fs'
 import { execSync } from 'node:child_process'
 
-export const BIN_PATH = path.join(__dirname, '..', '..', '..', '..', 'bin')
+export const BIN_PATH = path.join(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  'bin',
+)
+console.log('current working directory', __dirname)
+console.log('BIN_PATH', BIN_PATH)
 export const HOME_DIR = os.homedir()
 export const CODE_CLIMBER_META_DIR = `${HOME_DIR}/.codeclimbers`
 export const DB_PATH = path.join(CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')

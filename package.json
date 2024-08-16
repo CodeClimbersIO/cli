@@ -38,7 +38,7 @@
     "packages/commands"
   ],
   "dependencies": {
-    "@codeclimbers/server": "^0.0.1",
+    "@codeclimbers/server": "*",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
