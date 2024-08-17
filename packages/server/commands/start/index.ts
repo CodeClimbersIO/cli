@@ -6,11 +6,7 @@ import find from 'find-process'
 import pc from 'picocolors'
 
 import http from 'http'
-import {
-  bootstrap,
-  SERVER_CONSTANTS,
-  StartupServiceFactory,
-} from '@codeclimbers/server'
+import { bootstrap, SERVER_CONSTANTS, StartupServiceFactory } from '../..'
 
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
