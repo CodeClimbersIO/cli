@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { groupBy, maxBy, minBy } from './helpers.util'
 const cyrb53 = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,

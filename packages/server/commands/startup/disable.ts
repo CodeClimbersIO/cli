@@ -1,14 +1,14 @@
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
-import { StartupServiceFactory } from '@codeclimbers/server'
 import { Command } from '@oclif/core'
+import { StartupServiceFactory } from '../..'
 
 export default class Disable extends Command {
   static description = 'Disable starting codeclimbers on computer startup'
 
   static examples = [
     `<%= config.bin %> <%= command.id %>
-codeclimbers startup enabled
+codeclimbers startup disabled
 `,
   ]
 
@@ -17,11 +17,10 @@ codeclimbers startup enabled
   async run(): Promise<void> {
     const startupService = StartupServiceFactory.buildStartupService()
     try {
-      await startupService.enableStartup()
-      this.log('codeclimbers startup enabled!')
+      await startupService.disableStartup()
+      this.log('codeclimbers startup disabled')
     } catch (error) {
-      console.log(error)
-      this.log('codeclimbers already enabled')
+      this.log('codeclimbers already disabled')
     }
   }
 }

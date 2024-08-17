@@ -1,4 +1,3 @@
-// src/commands/start/index.ts
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { Args, Command, Flags } from '@oclif/core'
@@ -6,7 +5,7 @@ import { Args, Command, Flags } from '@oclif/core'
 import find from 'find-process'
 import pc from 'picocolors'
 
-import * as http from 'http'
+import http from 'http'
 import {
   bootstrap,
   SERVER_CONSTANTS,

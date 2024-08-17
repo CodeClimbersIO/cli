@@ -16,6 +16,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build && npm run check-deps",
+    "codeclimbers": "NODE_ENV=development ./bin/run.js",
     "build:app": "cd packages/app && npm run build",
     "build:server": "cd packages/server && npm run build",
     "build:command": "cd packages/commands && tsc -b",
@@ -117,7 +118,7 @@
   },
   "oclif": {
     "bin": "codeclimbers",
-    "commands": "./dist/commands",
+    "commands": "./packages/server/dist/commands",
     "dirname": "codeclimbers",
     "topicSeparator": ":",
     "plugins": [

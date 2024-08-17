@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
 import sqlReaderUtil from '../../../utils/sqlReader.util'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 interface MinutesQuery {
   minutes: number

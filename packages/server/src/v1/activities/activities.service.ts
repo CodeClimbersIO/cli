@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
 import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
-import * as os from 'node:os'
-import * as dayjs from 'dayjs'
+import os from 'node:os'
+import dayjs from 'dayjs'
 
 @Injectable()
 export class ActivitiesService {
