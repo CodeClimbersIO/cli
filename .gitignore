@@ -24,5 +24,7 @@ package
 .idea
 
 # symlink to logs
-.codeclimbers.log
-.codeclimbers_error.log
+*.log
+
+# windows generated service files
+bin/daemon

@@ -8,6 +8,8 @@ import { PulseRepo } from './database/pulse.repo'
 import { DarwinStartupService } from './startup/darwinStartup.service'
 import { StartupServiceFactory } from './startup/startupService.factory'
 import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
+import { WindowsStartupService } from './startup/windowsStartup.service'
+import { LinuxStartupService } from './startup/linuxStartup.service'
 
 @Module({
   imports: [],
@@ -23,6 +25,8 @@ import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
     PulseRepo,
     UnsupportedStartupService,
     DarwinStartupService,
+    WindowsStartupService,
+    LinuxStartupService,
   ],
 })
-export class V1Module {}
+export class V1Module { }

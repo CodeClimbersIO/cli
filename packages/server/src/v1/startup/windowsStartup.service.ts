@@ -6,7 +6,7 @@ import startupUtil from './startup.util'
 const { Service } = startupUtil.getServiceLib()
 
 @Injectable()
-export class LinuxStartupService implements CodeClimbers.StartupService {
+export class WindowsStartupService implements CodeClimbers.StartupService {
   private service: typeof Service
 
   constructor() {

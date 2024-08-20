@@ -24,7 +24,7 @@ module.exports = {
   ],
   ignorePatterns: [".eslintrc.js", "migrations", "dist"],
   rules: {
-    "prettier/prettier": ["error", {semi: false, singleQuote: true}],
+    "prettier/prettier": ["error", { semi: false, singleQuote: true, endOfLine: "auto" }],
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
