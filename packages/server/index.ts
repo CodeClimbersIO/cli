@@ -2,3 +2,4 @@
 export * from './src/main'
 export * as SERVER_CONSTANTS from './utils/constants'
 export * from './utils/environment.util'
+export * from './src/v1/startup/startupService.factory'

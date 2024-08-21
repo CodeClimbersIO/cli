@@ -1,14 +1,12 @@
-// src/commands/start/index.ts
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
-import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
 import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
-import { bootstrap, SERVER_CONSTANTS } from '../../server'
 import pc from 'picocolors'
 
-import * as http from 'http'
+import http from 'http'
+import { bootstrap, SERVER_CONSTANTS, StartupServiceFactory } from '../..'
 
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds

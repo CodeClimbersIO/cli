@@ -17,6 +17,9 @@ codeclimbers.identity
 tmp
 releases
 
+# npm pack and tarball files
+package
+
 # intellij
 .idea
 

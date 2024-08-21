@@ -1,5 +1,5 @@
 {
-  "name": "cli-app",
+  "name": "@codeclimbers/app",
   "productName": "CLI App",
   "version": "0.0.1",
   "description": "CLI App",

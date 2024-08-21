@@ -1,5 +1,3 @@
-// src/commands/start/index.ts
-
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { Command } from '@oclif/core'
@@ -7,8 +5,8 @@ import { exec as _exec } from 'node:child_process'
 import util from 'node:util'
 import os from 'node:os'
 import find from 'find-process'
+import { SERVER_CONSTANTS } from '../..'
 // eslint-disable-next-line import/no-unresolved
-import { SERVER_CONSTANTS } from 'server'
 
 const exec = util.promisify(_exec)
 

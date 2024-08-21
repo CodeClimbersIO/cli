@@ -28,8 +28,6 @@ workspaces.forEach((dir) => {
     unusedDeps.delete('@oclif/core')
     unusedDeps.delete('@oclif/plugin-warn-if-update-available')
     unusedDeps.delete('@codeclimbers/config')
-    unusedDeps.delete('cli-app')
-    unusedDeps.delete('cli-server')
     // used in commands which has no package.json
     unusedDeps.delete('find-process')
     unusedDeps.delete('server')
@@ -38,6 +36,7 @@ workspaces.forEach((dir) => {
   }
 })
 
+missingDeps.delete('@codeclimbers/server')
 // Report results
 if (missingDeps.size > 0) {
   console.error(

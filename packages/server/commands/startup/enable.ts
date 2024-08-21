@@ -1,7 +1,7 @@
 process.env.CODECLIMBERS_SERVER_APP_CONTEXT = 'cli'
 
 import { Command } from '@oclif/core'
-import { StartupServiceFactory } from '../../server/src/v1/startup/startupService.factory'
+import { StartupServiceFactory } from '../..'
 
 export default class Disable extends Command {
   static description = 'Disable starting codeclimbers on computer startup'

@@ -1,7 +1,7 @@
 {
   "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.1.11",
+  "version": "0.1.18",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -15,14 +15,14 @@
     ]
   },
   "scripts": {
+    "prepublishOnly": "npm run build && npm run check-deps",
+    "codeclimbers": "NODE_ENV=development ./bin/run.js",
     "build:app": "cd packages/app && npm run build",
     "build:server": "cd packages/server && npm run build",
-    "build:command": "cd packages/commands && tsc -b",
-    "build": "npx shx rm -rf dist && npm ci && npm run build:app && npm run build:server && npm run build:command",
+    "check-deps": "node scripts/checkDependencies.js",
+    "build": "npx shx rm -rf dist && npm ci && npm run build:app && npm run build:server",
     "dev:server": "cd packages/server && npm run start",
     "dev:app": "cd packages/app && npm run start",
-    "check-deps": "node scripts/checkDependencies.js",
-    "publish:npm": "npm run check-deps && npm run build && npm publish",
     "package": "npm run build && copyfiles -u 1 \\\"packages/**/*\\\" tmp/codeclimbers/packages && oclif pack tarballs",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --ext .ts,.tsx --fix .",
@@ -32,13 +32,13 @@
     "db:migrate:make": "knex migrate:make"
   },
   "workspaces": [
-    "packages/server",
     "packages/app",
-    "packages/commands",
-    "packages/config"
+    "packages/server",
+    "packages/config",
+    "packages/commands"
   ],
   "dependencies": {
-    "@codeclimbers/config": "file:packages/config",
+    "@codeclimbers/server": "*",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
@@ -56,8 +56,6 @@
     "@tanstack/react-query": "^5.48.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "cli-app": "file:packages/app",
-    "cli-server": "file:packages/server",
     "dayjs": "^1.11.12",
     "find-process": "^1.4.7",
     "nestjs-knex": "^2.0.0",
@@ -66,12 +64,11 @@
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
-    "server": "file:dist/server",
     "sqlite3": "^5.1.7",
     "ws": "^8.18.0"
   },
   "optionalDependencies": {
-    "node-linux": "^0.1.12",
+    "node-linux": "^0.1.7",
     "node-mac": "^1.0.1",
     "node-windows": "^1.0.0-beta.8"
   },
@@ -110,7 +107,9 @@
   },
   "files": [
     "/bin",
-    "/dist"
+    "/dist",
+    "/packages/*/dist/**",
+    "/packages/*/package.json"
   ],
   "bin": {
     "codeclimbers": "./bin/run.js",
@@ -118,7 +117,7 @@
   },
   "oclif": {
     "bin": "codeclimbers",
-    "commands": "./dist/commands",
+    "commands": "./packages/server/dist/commands",
     "dirname": "codeclimbers",
     "topicSeparator": ":",
     "plugins": [
