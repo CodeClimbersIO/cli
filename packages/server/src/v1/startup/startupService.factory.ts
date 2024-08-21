@@ -11,7 +11,7 @@ export class StartupServiceFactory {
     private readonly windowsStartupService: WindowsStartupService,
     private readonly linuxStartupService: LinuxStartupService,
     private readonly unsupportedStartupService: UnsupportedStartupService,
-  ) { }
+  ) {}
 
   getStartupService(): CodeClimbers.StartupService {
     const os = process.platform

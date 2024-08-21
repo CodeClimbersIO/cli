@@ -29,4 +29,4 @@ import { LinuxStartupService } from './startup/linuxStartup.service'
     LinuxStartupService,
   ],
 })
-export class V1Module { }
+export class V1Module {}
