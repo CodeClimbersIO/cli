@@ -6,7 +6,7 @@ import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { DbModule } from './v1/database/knex'
 import { SentryModule } from '@sentry/nestjs/setup'
-import { APP_DIST_PATH } from '../utils/node.util'
+import { APP_PATH } from '../utils/node.util'
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { APP_DIST_PATH } from '../utils/node.util'
       },
     ]),
     ServeStaticModule.forRoot({
-      rootPath: APP_DIST_PATH,
+      rootPath: APP_PATH,
     }),
   ],
   providers: [

@@ -12,7 +12,9 @@ if (process.env.DEBUG === '*') {
 const isProduction = process.env.NODE_ENV === 'production'
 
 const runScript = isProduction
-  ? spawn('npx', ['codeclimbers', 'start', 'server'])
+  ? spawn('npx', ['codeclimbers', 'start', 'server'], {
+      shell: true,
+    })
   : spawn('node', [
       `${process.env.CODE_CLIMBER_BIN_PATH}/run.js`,
       'start',
