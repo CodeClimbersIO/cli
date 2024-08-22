@@ -5,7 +5,7 @@ import { exec as _exec } from 'node:child_process'
 import util from 'node:util'
 import os from 'node:os'
 import find from 'find-process'
-import { SERVER_CONSTANTS } from '../..'
+import { PROCESS_NAME } from '../../utils/constants'
 // eslint-disable-next-line import/no-unresolved
 
 const exec = util.promisify(_exec)
@@ -18,12 +18,10 @@ export default class Stop extends Command {
   static examples = [`<%= config.bin %> <%= command.id %>`]
 
   async run(): Promise<void> {
-    const [instance] = await find('name', SERVER_CONSTANTS.PROCESS_NAME)
+    const [instance] = await find('name', PROCESS_NAME)
 
     if (!instance) {
-      this.error(
-        `Could not find a running instance of ${SERVER_CONSTANTS.PROCESS_NAME}`,
-      )
+      this.error(`Could not find a running instance of ${PROCESS_NAME}`)
     }
 
     const { stdout, stderr } = await exec(
@@ -36,8 +34,6 @@ export default class Stop extends Command {
       this.error(stderr)
     }
 
-    this.log(
-      `Stopped ${SERVER_CONSTANTS.PROCESS_NAME} - ${stdout || 'Success!'}`,
-    )
+    this.log(`Stopped ${PROCESS_NAME} - ${stdout || 'Success!'}`)
   }
 }

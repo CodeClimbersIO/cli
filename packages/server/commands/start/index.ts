@@ -6,7 +6,9 @@ import find from 'find-process'
 import pc from 'picocolors'
 
 import http from 'http'
-import { bootstrap, SERVER_CONSTANTS, StartupServiceFactory } from '../..'
+import { StartupServiceFactory } from '../../src/v1/startup/startupService.factory'
+import { bootstrap } from '../../src/main'
+import { PROCESS_NAME } from '../../utils/constants'
 
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
@@ -78,10 +80,7 @@ export default class Start extends Command {
   }
 
   async run(): Promise<void> {
-    const [codeclimbersInstance] = await find(
-      'name',
-      SERVER_CONSTANTS.PROCESS_NAME,
-    )
+    const [codeclimbersInstance] = await find('name', PROCESS_NAME)
 
     if (codeclimbersInstance) {
       return this.error(
