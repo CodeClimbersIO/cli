@@ -11,29 +11,16 @@ if (!isProduction) {
   console.log(`process.env: ${JSON.stringify(process.env)}`)
 }
 
-const runScript = isProduction
+isProduction
   ? spawn('npx', ['codeclimbers', 'start', 'server'], {
       shell: true,
       stdio: 'inherit',
     })
-  : spawn('node', [
-      `${process.env.CODE_CLIMBER_BIN_PATH}/run.js`,
-      'start',
-      'server',
-    ])
-
-runScript.stdout.on('data', (data) => {
-  process.stdout.write(data)
-})
-
-runScript.stderr.on('data', (data) => {
-  process.stderr.write(data)
-})
-
-runScript.on('close', (code) => {
-  console.log(`Child process exited with code ${code}`)
-})
-
-runScript.on('error', (error) => {
-  console.error(`Error executing the script: ${error.message}`)
-})
+  : spawn(
+      'node',
+      [`${process.env.CODE_CLIMBER_BIN_PATH}/run.js`, 'start', 'server'],
+      {
+        shell: true,
+        stdio: 'inherit',
+      },
+    )
