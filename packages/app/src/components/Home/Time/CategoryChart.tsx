@@ -4,7 +4,10 @@ import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
-import { useCategoryTimeOverview } from '../../../api/pulse.api'
+import {
+  useCategoryTimeOverview,
+  usePerProjectTimeOverview,
+} from '../../../api/pulse.api'
 
 const categories = {
   coding: 'coding',
@@ -27,6 +30,15 @@ const CategoryChart = ({ selectedDate }: Props) => {
     selectedDate?.endOf('day').toISOString() ?? '',
   )
 
+  const {
+    data: perProjectOverview = [] as CodeClimbers.ProjectTimeOverview[],
+    isPending: perProjectPending,
+  } = usePerProjectTimeOverview(
+    categories.coding,
+    selectedDate?.toISOString() ?? '',
+    selectedDate?.endOf('day').toISOString() ?? '',
+  )
+
   useEffect(() => {
     if (categoryOverview.length > 0)
       setTotalMinutes(
@@ -34,7 +46,10 @@ const CategoryChart = ({ selectedDate }: Props) => {
           return a + b.minutes
         }, 0),
       )
-  }, [categoryOverview])
+    if (perProjectOverview.length > 0) {
+      console.log(perProjectOverview)
+    }
+  }, [categoryOverview, perProjectOverview])
 
   const getCategoryMinutes = (category = '') => {
     const item = categoryOverview.find((cat) => cat.category === category)
@@ -57,7 +72,7 @@ const CategoryChart = ({ selectedDate }: Props) => {
     return 0
   }
 
-  if (isPending) return <CircularProgress />
+  if (isPending || perProjectPending) return <CircularProgress />
   return (
     <>
       <TimeDataChart
@@ -65,6 +80,12 @@ const CategoryChart = ({ selectedDate }: Props) => {
         time={minutesToHours(getCategoryMinutes(categories.coding))}
         progress={getCategoryPercentage(categories.coding)}
         color={theme.palette.graphColors.blue}
+        subCategories={perProjectOverview.map((project) => ({
+          title: project.name,
+          time: minutesToHours(project.minutes),
+          progress: (project.minutes / totalMinutes) * 100,
+        }))}
+        subCategoryColor={theme.palette.graphColors.orange}
       />
       <TimeDataChart
         title="Communication"

@@ -5,4 +5,6 @@ export const pulseKeys = {
   weekOverview: (date: string) => ['weekOverview', date] as const,
   categoryTimeOverview: (startDate: string, endDate: string) =>
     ['categoryTimeOverview', startDate, endDate] as const,
+  perProjectTimeOverview: (category: string, startDate: string, endDate: string) =>
+    ['perProjectTimeOverview', category, startDate, endDate] as const,
 }

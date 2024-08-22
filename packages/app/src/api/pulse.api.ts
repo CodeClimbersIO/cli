@@ -77,3 +77,20 @@ export function useCategoryTimeOverview(startDate = '', endDate = '') {
     enabled: !!startDate && !!endDate,
   })
 }
+
+export function usePerProjectTimeOverview(
+  category = '',
+  startDate = '',
+  endDate = '',
+) {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/projectPerCategory?category=${category}&startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.ProjectTimeOverview[], Error>({
+    queryKey: pulseKeys.perProjectTimeOverview(category, startDate, endDate),
+    queryFn,
+    enabled: !!startDate && !!endDate,
+  })
+}
