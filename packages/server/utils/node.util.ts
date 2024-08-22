@@ -2,7 +2,7 @@ import * as path from 'node:path'
 import * as os from 'node:os'
 import * as fs from 'node:fs'
 import { Logger } from '@nestjs/common'
-import { isTest } from './environment.util'
+import { isProd, isTest } from './environment.util'
 import { execSync } from 'node:child_process'
 
 interface INodeUtil {
@@ -92,7 +92,7 @@ export const NODE_PATH = nodeUtil.NODE_PATH
 export const initDBDir = nodeUtil.initDBDir
 
 const logPaths = () => {
-  if (process.env.NODE_ENV !== 'development') return
+  if (isProd()) return
   Logger.log('NODE_PATH', NODE_PATH)
   Logger.log('BIN_PATH', BIN_PATH)
   Logger.log('CODE_CLIMBER_META_DIR', CODE_CLIMBER_META_DIR)

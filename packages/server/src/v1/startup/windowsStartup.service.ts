@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import * as path from 'node:path'
 import { BIN_PATH, CODE_CLIMBER_META_DIR } from '../../../utils/node.util'
 import startupUtil from './startup.util'
+import { isDev } from '../../../utils/environment.util'
 const { Service } = startupUtil.getServiceLib()
 
 @Injectable()
@@ -18,7 +19,7 @@ export class WindowsStartupService implements CodeClimbers.StartupService {
       env: [
         {
           name: 'NODE_ENV',
-          value: 'production',
+          value: process.env.NODE_ENV || 'production',
         },
         {
           name: 'CODE_CLIMBER_BIN_PATH',
@@ -31,30 +32,31 @@ export class WindowsStartupService implements CodeClimbers.StartupService {
       grow: 0,
       maxRestarts: 10,
     })
+    if (isDev()) {
+      this.service.on('install', () => {
+        Logger.log(`${this.service.name.get} installed`)
+      })
 
-    this.service.on('install', () => {
-      Logger.log(`${this.service.name.get} installed`)
-    })
+      this.service.on('alreadyinstalled', () => {
+        Logger.log(`${this.service.name} already installed`)
+      })
 
-    this.service.on('alreadyinstalled', () => {
-      Logger.log(`${this.service.name} already installed`)
-    })
+      this.service.on('uninstall', () => {
+        Logger.log(`${this.service.name} uninstalled`)
+      })
 
-    this.service.on('uninstall', () => {
-      Logger.log(`${this.service.name} uninstalled`)
-    })
+      this.service.on('start', () => {
+        Logger.log(`${this.service.name} started`)
+      })
 
-    this.service.on('start', () => {
-      Logger.log(`${this.service.name} started`)
-    })
+      this.service.on('stop', () => {
+        Logger.log(`${this.service.name} stopped`)
+      })
 
-    this.service.on('stop', () => {
-      Logger.log(`${this.service.name} stopped`)
-    })
-
-    this.service.on('error', (error) => {
-      Logger.error(`${this.service.name} error:`, error)
-    })
+      this.service.on('error', (error) => {
+        Logger.error(`${this.service.name} error:`, error)
+      })
+    }
   }
 
   async enableStartup(): Promise<void> {

@@ -6,6 +6,7 @@ import {
   NODE_PATH,
 } from '../../../utils/node.util'
 import startupUtil from './startup.util'
+import { isDev } from '../../../utils/environment.util'
 const { Service } = startupUtil.getServiceLib()
 
 @Injectable()
@@ -43,7 +44,7 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
       maxRestarts: 10,
     })
 
-    if (process.env.NODE_ENV === 'development' || process.env.DEBUG === '*') {
+    if (isDev()) {
       this.service.on('install', () => {
         console.log(`${this.service.name} installed`)
       })

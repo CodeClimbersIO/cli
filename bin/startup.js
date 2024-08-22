@@ -4,12 +4,12 @@ const { spawn } = require('child_process')
 // node is often not in path for the service process
 process.env.PATH = `${process.env.PATH}:${process.env.NODE_PATH}`
 
-if (process.env.DEBUG === '*') {
-  console.log('DEBUG: Starting the server')
+const isProduction = process.env.NODE_ENV === 'production'
+
+if (!isProduction) {
+  console.log('DEVELOPMENT: Starting the server')
   console.log(`process.env: ${JSON.stringify(process.env)}`)
 }
-
-const isProduction = process.env.NODE_ENV === 'production'
 
 const runScript = isProduction
   ? spawn('npx', ['codeclimbers', 'start', 'server'], {
