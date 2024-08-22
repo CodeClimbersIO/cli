@@ -2,8 +2,10 @@ import * as path from 'node:path'
 import * as os from 'node:os'
 import * as fs from 'node:fs'
 import { Logger } from '@nestjs/common'
-import { isCli, isProd, isTest } from './environment.util'
+import { isCli, isProd } from './environment.util'
 import { execSync } from 'node:child_process'
+
+const areWeInDist = isCli() || isProd()
 
 interface INodeUtil {
   BIN_PATH: string
@@ -16,14 +18,14 @@ interface INodeUtil {
 }
 
 abstract class BaseNodeUtil implements INodeUtil {
-  BIN_PATH = isCli() // we have to go up one less level in test because we're not in the dist folder
-    ? path.join(__dirname, '..', '..', '..', 'bin')
+  BIN_PATH = areWeInDist // we have to go up one more level because we're in the dist folder
+    ? path.join(__dirname, '..', '..', '..', '..', '..', 'bin')
     : path.join(__dirname, '..', '..', '..', '..', 'bin')
   HOME_DIR = os.homedir()
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
-  APP_DIST_PATH = isCli() // we have to go up one less level in test because we're not in the dist folder
-    ? path.join(__dirname, '..', '..', 'app', 'dist')
+  APP_DIST_PATH = areWeInDist
+    ? path.join(__dirname, '..', '..', '..', '..', 'app', 'dist')
     : path.join(__dirname, '..', '..', '..', 'app', 'dist')
 
   abstract NODE_PATH(): string
@@ -37,7 +39,7 @@ abstract class BaseNodeUtil implements INodeUtil {
 }
 
 class DarwinNodeUtil extends BaseNodeUtil {
-  CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/Library/Application Support/codeclimbers`
+  CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/.codeclimbers`
   DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
 
   NODE_PATH = (): string => {

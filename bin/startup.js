@@ -14,6 +14,7 @@ if (!isProduction) {
 const runScript = isProduction
   ? spawn('npx', ['codeclimbers', 'start', 'server'], {
       shell: true,
+      stdio: 'inherit',
     })
   : spawn('node', [
       `${process.env.CODE_CLIMBER_BIN_PATH}/run.js`,

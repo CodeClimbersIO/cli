@@ -30,7 +30,7 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
         },
         {
           name: 'NODE_PATH',
-          value: NODE_PATH,
+          value: NODE_PATH(),
         },
       ],
       logOnAsUser: true,
