@@ -3,6 +3,7 @@ import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
 import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
 import { GetWeekOverviewDto } from '../dtos/getWeekOverview.dto'
+import { GetPerProjectOverviewDto } from '../dtos/getPerProjectTimeOverviewDto'
 
 @Controller('pulses')
 export class PulseController {
@@ -64,5 +65,17 @@ export class PulseController {
       console.error('Error exporting pulses CSV:', error)
       response.status(500).send('Failed to export pulses')
     }
+  }
+
+  @Get('projectPerCategory')
+  async getPerProjectOverviewDto(
+    @Query() dto: GetPerProjectOverviewDto,
+  ): Promise<CodeClimbers.PerProjectTimeOverviewDao> {
+    const result = await this.activitiesService.getPerProjectTimeOverview(
+      dto.category,
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: result }
   }
 }
