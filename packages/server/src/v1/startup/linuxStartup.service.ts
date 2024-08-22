@@ -34,23 +34,23 @@ export class LinuxStartupService implements CodeClimbers.StartupService {
     })
     if (isDev()) {
       this.service.on('install', () => {
-        Logger.log(`${this.service.name.get} installed`)
+        Logger.debug(`${this.service.name.get} installed`)
       })
 
       this.service.on('alreadyinstalled', () => {
-        Logger.log(`${this.service.name} already installed`)
+        Logger.debug(`${this.service.name} already installed`)
       })
 
       this.service.on('uninstall', () => {
-        Logger.log(`${this.service.name} uninstalled`)
+        Logger.debug(`${this.service.name} uninstalled`)
       })
 
       this.service.on('start', () => {
-        Logger.log(`${this.service.name} started`)
+        Logger.debug(`${this.service.name} started`)
       })
 
       this.service.on('stop', () => {
-        Logger.log(`${this.service.name} stopped`)
+        Logger.debug(`${this.service.name} stopped`)
       })
 
       this.service.on('error', (error) => {

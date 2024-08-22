@@ -4,7 +4,7 @@ import './sentry'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger, ValidationPipe } from '@nestjs/common'
-import { isCli, isDev } from '../utils/environment.util'
+import { isCli, isProd } from '../utils/environment.util'
 import { PROCESS_NAME } from '../utils/constants'
 import { updateSettings } from '../utils/wakatime.util'
 import { startMigrations } from './v1/database/migrations'
@@ -15,16 +15,16 @@ const updatedIniValues: Record<string, string> = {
 }
 
 const traceEnvironment = () => {
-  Logger.log(`Running as: ${process.env.NODE_ENV}`, 'main.ts')
-  Logger.log(`process.env: ${JSON.stringify(process.env)}`, 'main.ts')
+  Logger.debug(`Running as: ${process.env.NODE_ENV}`, 'main.ts')
+  Logger.debug(`process.env: ${JSON.stringify(process.env)}`, 'main.ts')
 }
 
 export async function bootstrap() {
   const port = process.env.CODECLIMBERS_SERVER_PORT || 14_400
   const app = await NestFactory.create(AppModule, {
-    logger: isDev()
+    logger: !isProd()
       ? ['log', 'debug', 'error', 'verbose', 'warn']
-      : ['error', 'warn'],
+      : ['log', 'error', 'warn'],
   })
   traceEnvironment()
 

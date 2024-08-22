@@ -32,10 +32,6 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
           name: 'NODE_PATH',
           value: NODE_PATH,
         },
-        {
-          name: 'DEBUG',
-          value: process.env.DEBUG,
-        },
       ],
       logOnAsUser: true,
       runAsAgent: true,

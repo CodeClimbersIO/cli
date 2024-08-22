@@ -71,7 +71,7 @@ export async function updateSettings(
     // Write the updated content back to the file
     const updatedContent: string = stringifyIni(config)
     await fs.writeFile(filePath, updatedContent, 'utf8')
-    Logger.log('File updated successfully', 'WakatimeUtil')
+    Logger.debug('File updated successfully', 'WakatimeUtil')
   } catch (error) {
     Logger.error('Error updating file:', error)
   }
