@@ -96,7 +96,6 @@ export class PulseRepo {
     const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
       .insert(pulse)
       .returning('*')
-
     return res
   }
 
