@@ -6,7 +6,7 @@ module.exports = {
   },
   migrations: {
     directory: '../../bin/migrations',
-    stub: 'migrations/example/stub.js',
+    stub: '../../bin/migrations/example/stub.js',
   },
   seeds: {
     directory: '../../bin/seeds',

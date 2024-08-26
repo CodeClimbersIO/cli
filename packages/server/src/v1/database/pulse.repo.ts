@@ -92,21 +92,36 @@ export class PulseRepo {
   }
 
   async createPulse(pulse: CodeClimbers.Pulse) {
-    Logger.log('Creating pulse', 'pulse.repo')
-    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
-      .insert(pulse)
-      .returning('*')
-
-    return res
+    try {
+      Logger.log('Creating pulse', 'pulse.repo')
+      const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+        .insert(pulse)
+        .returning('*')
+      return res
+    } catch (e) {
+      if (e.code === 'SQLITE_CONSTRAINT') {
+        Logger.error('Duplicate pulse', 'pulse.repo')
+      } else {
+        throw e
+      }
+    }
   }
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
-    Logger.log('Creating pulses', 'pulse.repo')
-    const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
-      .insert(pulses)
-      .returning('*')
-    Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
-    return res
+    try {
+      Logger.log('Creating pulses', 'pulse.repo')
+      const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
+        .insert(pulses)
+        .returning('*')
+      Logger.log(`created ${pulses.length} pulses`, 'pulse.repo')
+      return res
+    } catch (e) {
+      if (e.code === 'SQLITE_CONSTRAINT') {
+        Logger.error('Duplicate pulse', 'pulse.repo')
+      } else {
+        throw e
+      }
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
