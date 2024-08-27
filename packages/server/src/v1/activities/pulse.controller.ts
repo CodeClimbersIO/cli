@@ -72,9 +72,11 @@ export class PulseController {
     @Query() dto: GetPerProjectOverviewDto,
   ): Promise<CodeClimbers.PerProjectTimeOverviewDao> {
     const result = await this.activitiesService.getPerProjectTimeOverview(
-      dto.category,
       dto.startDate,
       dto.endDate,
+      dto.category,
+      dto.limit,
+      dto.page,
     )
     return { message: 'success', data: result }
   }

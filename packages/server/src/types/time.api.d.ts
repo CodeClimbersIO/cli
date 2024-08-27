@@ -27,8 +27,7 @@ declare namespace CodeClimbers {
   }
 
   export interface PerProjectTimeOverview {
-    category: string
-    projects: ProjectTimeOverview[]
+    [key: string]: ProjectTimeOverview[]
   }
 
   export interface PerProjectTimeOverviewDao {
