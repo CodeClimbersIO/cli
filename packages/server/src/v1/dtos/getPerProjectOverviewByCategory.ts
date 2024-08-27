@@ -1,15 +1,11 @@
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsDateString, IsNumber, IsOptional } from 'class-validator'
 
-export class GetPerProjectOverviewDto {
+export class GetPerProjectOverviewByCategory {
   @IsDateString()
   startDate: string
 
   @IsDateString()
   endDate: string
-
-  @IsString()
-  @IsOptional()
-  category: string
 
   @IsNumber()
   @IsOptional()

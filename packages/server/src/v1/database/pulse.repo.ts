@@ -157,4 +157,31 @@ export class PulseRepo {
       .limit(3)
       .from('getMinutes')
   }
+
+  async getPerProjectOverviewByCategory(
+    startDate: string,
+    endDate: string,
+    category: string,
+    limit?: number,
+    page?: number,
+  ): Promise<CodeClimbers.ProjectTimeOverview[]> {
+    const pageSize = limit ?? 3
+    const offset = (page ?? 1 - 1) * pageSize
+
+    const query = this.knex<MinutesQuery[]>(this.tableName)
+      .select(this.knex.raw('project, count(*) * 2'))
+      .from(this.tableName)
+      .whereBetween('time', [startDate, endDate])
+      .where('category', category)
+      .groupBy('project', this.knex.raw("strftime('%s', time) / 120"))
+
+    return await this.knex<CodeClimbers.ProjectTimeOverview[]>(this.tableName)
+      .with('getMinutes', query)
+      .select(this.knex.raw('project as name, count() * 2 as minutes'))
+      .groupBy('project')
+      .orderBy('minutes', 'desc')
+      .offset(offset)
+      .limit(pageSize)
+      .from('getMinutes')
+  }
 }

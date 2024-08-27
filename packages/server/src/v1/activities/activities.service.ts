@@ -220,4 +220,20 @@ export class ActivitiesService {
       endDate,
     )
   }
+
+  async getPerProjectOverviewByCategory(
+    startDate: string,
+    endDate: string,
+    category: string,
+    limit?: number,
+    page?: number,
+  ): Promise<CodeClimbers.ProjectTimeOverview[]> {
+    return await this.pulseRepo.getPerProjectOverviewByCategory(
+      startDate,
+      endDate,
+      category,
+      limit,
+      page,
+    )
+  }
 }

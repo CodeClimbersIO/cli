@@ -1,9 +1,9 @@
-import { Controller, Get, Query, Res } from '@nestjs/common'
+import { Controller, Get, Param, Query, Res } from '@nestjs/common'
 import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
 import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
 import { GetWeekOverviewDto } from '../dtos/getWeekOverview.dto'
-import { GetPerProjectOverviewDto } from '../dtos/getPerProjectTimeOverviewDto'
+import { GetPerProjectOverviewByCategory } from '../dtos/getPerProjectOverviewByCategory'
 
 @Controller('pulses')
 export class PulseController {
@@ -74,6 +74,21 @@ export class PulseController {
     const result = await this.activitiesService.getPerProjectOverviewTopThree(
       times.startDate,
       times.endDate,
+    )
+    return { message: 'success', data: result }
+  }
+
+  @Get('perProjectOverview/:category')
+  async getPerProjectOverviewByCategory(
+    @Param('category') category: string,
+    @Query() dto: GetPerProjectOverviewByCategory,
+  ): Promise<CodeClimbers.PerProjectOverviewByCategoryDao> {
+    const result = await this.activitiesService.getPerProjectOverviewByCategory(
+      dto.startDate,
+      dto.endDate,
+      category,
+      dto.limit,
+      dto.page,
     )
     return { message: 'success', data: result }
   }

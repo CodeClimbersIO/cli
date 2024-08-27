@@ -34,4 +34,9 @@ declare namespace CodeClimbers {
     message: string
     data: PerProjectTimeOverview[]
   }
+
+  export interface PerProjectOverviewByCategoryDao {
+    message: string
+    data: ProjectTimeOverview[]
+  }
 }
