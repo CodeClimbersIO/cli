@@ -1,4 +1,5 @@
 declare namespace CodeClimbers {
+  import { PageMetaDto } from '../v1/dtos/pagination.dto'
   export interface WeekOverview {
     longestDayMinutes: number
     yesterdayMinutes: number
@@ -38,5 +39,6 @@ declare namespace CodeClimbers {
   export interface PerProjectOverviewByCategoryDao {
     message: string
     data: ProjectTimeOverview[]
+    meta: PageMetaDto
   }
 }

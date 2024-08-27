@@ -4,6 +4,7 @@ import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
 import dayjs from 'dayjs'
+import { PageDto, PageMetaDto, PageOptionsDto } from '../dtos/pagination.dto'
 
 @Injectable()
 export class ActivitiesService {
@@ -225,15 +226,17 @@ export class ActivitiesService {
     startDate: string,
     endDate: string,
     category: string,
-    limit?: number,
-    page?: number,
-  ): Promise<CodeClimbers.ProjectTimeOverview[]> {
-    return await this.pulseRepo.getPerProjectOverviewByCategory(
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<CodeClimbers.ProjectTimeOverview>> {
+    const results = await this.pulseRepo.getPerProjectOverviewByCategory(
       startDate,
       endDate,
       category,
-      limit,
-      page,
+      pageOptionsDto,
     )
+    const count = results.length
+    const pageMetaDto = new PageMetaDto({ count, pageOptionsDto })
+
+    return new PageDto(results, pageMetaDto)
   }
 }

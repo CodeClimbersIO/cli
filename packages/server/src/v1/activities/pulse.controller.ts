@@ -3,7 +3,7 @@ import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
 import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
 import { GetWeekOverviewDto } from '../dtos/getWeekOverview.dto'
-import { GetPerProjectOverviewByCategory } from '../dtos/getPerProjectOverviewByCategory'
+import { PageOptionsDto } from '../dtos/pagination.dto'
 
 @Controller('pulses')
 export class PulseController {
@@ -81,15 +81,16 @@ export class PulseController {
   @Get('perProjectOverview/:category')
   async getPerProjectOverviewByCategory(
     @Param('category') category: string,
-    @Query() dto: GetPerProjectOverviewByCategory,
+    @Query() times: GetCategoryTimeOverviewDto,
+    @Query() dto: PageOptionsDto,
   ): Promise<CodeClimbers.PerProjectOverviewByCategoryDao> {
-    const result = await this.activitiesService.getPerProjectOverviewByCategory(
-      dto.startDate,
-      dto.endDate,
-      category,
-      dto.limit,
-      dto.page,
-    )
-    return { message: 'success', data: result }
+    const { data, meta } =
+      await this.activitiesService.getPerProjectOverviewByCategory(
+        times.startDate,
+        times.endDate,
+        category,
+        dto,
+      )
+    return { message: 'success', data, meta }
   }
 }

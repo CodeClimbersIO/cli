@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
 import sqlReaderUtil from '../../../utils/sqlReader.util'
 import dayjs from 'dayjs'
+import { PageOptionsDto } from '../dtos/pagination.dto'
 
 interface MinutesQuery {
   minutes: number
@@ -134,7 +135,6 @@ export class PulseRepo {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.PerProjectTimeOverview[]> {
-    // TODO this query should be optimized
     const baseQuery = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('category, project, count(*) * 2'))
       .from(this.tableName)
@@ -162,11 +162,10 @@ export class PulseRepo {
     startDate: string,
     endDate: string,
     category: string,
-    limit?: number,
-    page?: number,
+    pageOptionsDto: PageOptionsDto,
   ): Promise<CodeClimbers.ProjectTimeOverview[]> {
-    const pageSize = limit ?? 3
-    const offset = (page ?? 1 - 1) * pageSize
+    const pageSize = pageOptionsDto.limit ?? 3
+    const offset = (pageOptionsDto.page - 1) * pageSize
 
     const query = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('project, count(*) * 2'))
@@ -179,7 +178,7 @@ export class PulseRepo {
       .with('getMinutes', query)
       .select(this.knex.raw('project as name, count() * 2 as minutes'))
       .groupBy('project')
-      .orderBy('minutes', 'desc')
+      .orderBy('minutes', pageOptionsDto.sort)
       .offset(offset)
       .limit(pageSize)
       .from('getMinutes')
