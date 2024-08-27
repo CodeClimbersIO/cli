@@ -67,16 +67,13 @@ export class PulseController {
     }
   }
 
-  @Get('projectPerCategory')
-  async getPerProjectOverviewDto(
-    @Query() dto: GetPerProjectOverviewDto,
+  @Get('perProjectOverview/topThree')
+  async getPerProjectOverviewTopThree(
+    @Query() times: GetCategoryTimeOverviewDto,
   ): Promise<CodeClimbers.PerProjectTimeOverviewDao> {
-    const result = await this.activitiesService.getPerProjectTimeOverview(
-      dto.startDate,
-      dto.endDate,
-      dto.category,
-      dto.limit,
-      dto.page,
+    const result = await this.activitiesService.getPerProjectOverviewTopThree(
+      times.startDate,
+      times.endDate,
     )
     return { message: 'success', data: result }
   }

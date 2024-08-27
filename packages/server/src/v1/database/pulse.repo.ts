@@ -130,16 +130,10 @@ export class PulseRepo {
     return await res?.project
   }
 
-  async getPerProjectTimeOverview(
+  async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-    category?: string,
-    limit?: number,
-    page?: number,
   ): Promise<CodeClimbers.PerProjectTimeOverview[]> {
-    const pageSize = limit ?? 3
-    const offset = (page ?? 1 - 1) * pageSize
-
     // TODO this query should be optimized
     const baseQuery = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('category, project, count(*) * 2'))
@@ -151,11 +145,7 @@ export class PulseRepo {
         this.knex.raw("strftime('%s', time) / 120"),
       )
 
-    if (category) {
-      baseQuery.where('category', category)
-    }
-
-    const results = await this.knex<CodeClimbers.PerProjectTimeOverviewDao[]>(
+    return await this.knex<CodeClimbers.PerProjectTimeOverviewDao[]>(
       this.tableName,
     )
       .with('getMinutes', baseQuery)
@@ -164,31 +154,7 @@ export class PulseRepo {
       .groupBy('category', 'project')
       .orderBy('category')
       .orderBy('minutes', 'desc')
+      .limit(3)
       .from('getMinutes')
-
-    const groupedResults = results.reduce((acc, row) => {
-      if (!acc[row.category]) {
-        acc[row.category] = []
-      }
-
-      if (!category && acc[row.category].length < limit) {
-        acc[row.category].push({ name: row.name, minutes: row.minutes })
-      } else if (category) {
-        acc[row.category].push({ name: row.name, minutes: row.minutes })
-      }
-
-      return acc
-    }, {} as CodeClimbers.PerProjectTimeOverview[])
-
-    // TODO add better paging
-    if (category) {
-      const categoryProjects = groupedResults[category] || []
-      groupedResults[category] = categoryProjects.slice(
-        offset,
-        offset + pageSize,
-      )
-    }
-
-    return groupedResults
   }
 }

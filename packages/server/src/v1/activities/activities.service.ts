@@ -211,19 +211,13 @@ export class ActivitiesService {
     return [header, ...rows].join('\n')
   }
 
-  async getPerProjectTimeOverview(
+  async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-    category?: string,
-    limit?: number,
-    page?: number,
   ): Promise<CodeClimbers.PerProjectTimeOverview[]> {
-    return await this.pulseRepo.getPerProjectTimeOverview(
+    return await this.pulseRepo.getPerProjectOverviewTopThree(
       startDate,
       endDate,
-      category,
-      limit,
-      page,
     )
   }
 }
