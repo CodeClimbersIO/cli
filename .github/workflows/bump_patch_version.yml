@@ -28,6 +28,7 @@ jobs:
 
       - name: Push changes
         run: |
+          git branch --all
           git push origin main
           git push --tags
         env:
