@@ -24,6 +24,7 @@ jobs:
 
       - name: Bump version
         run: |
+          git checkout main
           npm version patch
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
