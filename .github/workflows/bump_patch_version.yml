@@ -1,0 +1,35 @@
+name: Bump Patch Version
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  bump_patch_version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        run: |
+          npm version patch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes
+        run: |
+          git push origin main
+          git push --tags
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
