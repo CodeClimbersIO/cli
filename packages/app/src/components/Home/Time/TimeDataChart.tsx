@@ -22,7 +22,6 @@ interface TimeDataChartProps {
   time: string
   progress: number
   subCategories?: SubCategory[]
-  subCategoryColor?: string
 }
 
 export const TimeDataChart = ({
@@ -31,7 +30,6 @@ export const TimeDataChart = ({
   progress,
   time,
   subCategories,
-  subCategoryColor,
 }: TimeDataChartProps) => {
   const [expanded, setExpanded] = useState(false)
 

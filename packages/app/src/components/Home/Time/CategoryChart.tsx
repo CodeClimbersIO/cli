@@ -6,7 +6,7 @@ import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
 import {
   useCategoryTimeOverview,
-  usePerProjectTimeOverview,
+  usePerProjectOverviewTopThree,
 } from '../../../api/pulse.api'
 
 const categories = {
@@ -31,10 +31,9 @@ const CategoryChart = ({ selectedDate }: Props) => {
   )
 
   const {
-    data: perProjectOverview = [] as CodeClimbers.ProjectTimeOverview[],
-    isPending: perProjectPending,
-  } = usePerProjectTimeOverview(
-    categories.coding,
+    data: perProjectOverviewTopThree = {} as CodeClimbers.PerProjectTimeOverview,
+    isPending: perProjectOverviewTopThreePending,
+  } = usePerProjectOverviewTopThree(
     selectedDate?.toISOString() ?? '',
     selectedDate?.endOf('day').toISOString() ?? '',
   )
@@ -46,10 +45,7 @@ const CategoryChart = ({ selectedDate }: Props) => {
           return a + b.minutes
         }, 0),
       )
-    if (perProjectOverview.length > 0) {
-      console.log(perProjectOverview)
-    }
-  }, [categoryOverview, perProjectOverview])
+  }, [categoryOverview])
 
   const getCategoryMinutes = (category = '') => {
     const item = categoryOverview.find((cat) => cat.category === category)
@@ -72,7 +68,8 @@ const CategoryChart = ({ selectedDate }: Props) => {
     return 0
   }
 
-  if (isPending || perProjectPending) return <CircularProgress />
+  if (isPending || perProjectOverviewTopThreePending)
+    return <CircularProgress />
   return (
     <>
       <TimeDataChart
@@ -80,30 +77,58 @@ const CategoryChart = ({ selectedDate }: Props) => {
         time={minutesToHours(getCategoryMinutes(categories.coding))}
         progress={getCategoryPercentage(categories.coding)}
         color={theme.palette.graphColors.blue}
-        subCategories={perProjectOverview.map((project) => ({
-          title: project.name,
-          time: minutesToHours(project.minutes),
-          progress: (project.minutes / totalMinutes) * 100,
-        }))}
-        subCategoryColor={theme.palette.graphColors.orange}
+        subCategories={
+          perProjectOverviewTopThree[categories.coding] &&
+          perProjectOverviewTopThree[categories.coding].map((project) => ({
+            title: project.name,
+            time: minutesToHours(project.minutes),
+            progress: (project.minutes / totalMinutes) * 100,
+          }))
+        }
       />
       <TimeDataChart
         title="Communication"
         time={minutesToHours(getCategoryMinutes(categories.communicating))}
         progress={getCategoryPercentage(categories.communicating)}
         color={theme.palette.graphColors.purple}
+        subCategories={
+          perProjectOverviewTopThree[categories.communicating] &&
+          perProjectOverviewTopThree[categories.communicating].map(
+            (project) => ({
+              title: project.name,
+              time: minutesToHours(project.minutes),
+              progress: (project.minutes / totalMinutes) * 100,
+            }),
+          )
+        }
       />
       <TimeDataChart
         title="Browsing"
         time={minutesToHours(getCategoryMinutes(categories.browsing))}
         progress={getCategoryPercentage(categories.browsing)}
         color={theme.palette.graphColors.green}
+        subCategories={
+          perProjectOverviewTopThree[categories.browsing] &&
+          perProjectOverviewTopThree[categories.browsing].map((project) => ({
+            title: project.name,
+            time: minutesToHours(project.minutes),
+            progress: (project.minutes / totalMinutes) * 100,
+          }))
+        }
       />
       <TimeDataChart
         title="Design"
         time={minutesToHours(getCategoryMinutes(categories.designing))}
         progress={getCategoryPercentage(categories.designing)}
         color={theme.palette.graphColors.orange}
+        subCategories={
+          perProjectOverviewTopThree[categories.designing] &&
+          perProjectOverviewTopThree[categories.designing].map((project) => ({
+            title: project.name,
+            time: minutesToHours(project.minutes),
+            progress: (project.minutes / totalMinutes) * 100,
+          }))
+        }
       />
     </>
   )

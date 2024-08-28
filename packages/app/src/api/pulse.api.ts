@@ -78,18 +78,14 @@ export function useCategoryTimeOverview(startDate = '', endDate = '') {
   })
 }
 
-export function usePerProjectTimeOverview(
-  category = '',
-  startDate = '',
-  endDate = '',
-) {
+export function usePerProjectOverviewTopThree(startDate = '', endDate = '') {
   const queryFn = () =>
     apiRequest({
-      url: `${BASE_API_URL}/pulses/projectPerCategory?category=${category}&startDate=${startDate}&endDate=${endDate}`,
+      url: `${BASE_API_URL}/pulses/perProjectOverview/topThree?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET',
     })
-  return useBetterQuery<CodeClimbers.ProjectTimeOverview[], Error>({
-    queryKey: pulseKeys.perProjectTimeOverview(category, startDate, endDate),
+  return useBetterQuery<CodeClimbers.PerProjectTimeOverview, Error>({
+    queryKey: pulseKeys.perProjectOverviewTopThree(startDate, endDate),
     queryFn,
     enabled: !!startDate && !!endDate,
   })
