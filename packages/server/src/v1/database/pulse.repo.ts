@@ -145,7 +145,7 @@ export class PulseRepo {
         this.knex.raw("strftime('%s', time) / 120"),
       )
 
-    return await this.knex<CodeClimbers.PerProjectTimeOverviewDao[]>(
+    const results = await this.knex<CodeClimbers.PerProjectTimeOverviewDao[]>(
       this.tableName,
     )
       .with('getMinutes', baseQuery)
@@ -156,6 +156,16 @@ export class PulseRepo {
       .orderBy('minutes', 'desc')
       .limit(3)
       .from('getMinutes')
+
+    return results.reduce((acc, row) => {
+      if (!acc[row.category]) {
+        acc[row.category] = []
+      }
+
+      acc[row.category].push({ name: row.name, minutes: row.minutes })
+
+      return acc
+    }, {} as CodeClimbers.PerProjectTimeOverview[])
   }
 
   async getPerProjectOverviewByCategory(
