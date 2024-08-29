@@ -52,7 +52,7 @@ class DarwinNodeUtil extends BaseNodeUtil {
   
     ${pc.white('cat ' + this.CODE_CLIMBER_META_DIR + '/codeclimbers_error.log')} 
     
-    to investigate the issue further
+    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
         `)
 
   NODE_PATH = (): string => {
@@ -69,7 +69,7 @@ class WindowsNodeUtil extends BaseNodeUtil {
   
     ${pc.white('more ' + this.CODE_CLIMBER_META_DIR + '\\codeclimbers.error.log')} 
     
-    to investigate the issue further
+    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
         `)
 
   NODE_PATH = (): string => {
