@@ -34,7 +34,10 @@ export const UpdateBanner = () => {
   ) {
     return null
   }
-
+  const updateCommand = `
+    npx codeclimbers startup:disable &&
+    npx codeclimbers start
+  `
   return (
     <Box sx={{ position: 'absolute', left: 15, bottom: 15 }}>
       <Alert
@@ -47,7 +50,7 @@ export const UpdateBanner = () => {
         }}
       >
         An update is available! Run the following command to update
-        <CodeSnippit code="npm update -g codeclimbers" />
+        <CodeSnippit code={updateCommand} />
         Then reload the page
       </Alert>
     </Box>
