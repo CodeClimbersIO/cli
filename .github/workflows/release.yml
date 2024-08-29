@@ -26,7 +26,7 @@ jobs:
       - name: Get last release
         id: last_release
         run: |
-          last_release=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          last_release=$(curl -s -H "Authorization: token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/releases/latest" | \
             jq -r .tag_name)
           echo "Last release tag: $last_release"
@@ -44,7 +44,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         with:
           tag_name: ${{ steps.get_latest_tag.outputs.latest_tag }}
           release_name: Release ${{ steps.get_latest_tag.outputs.latest_tag }}
