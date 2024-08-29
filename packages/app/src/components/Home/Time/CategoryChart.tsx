@@ -61,13 +61,13 @@ const CategoryChart = ({ selectedDate }: Props) => {
   return (
     <>
       <TimeDataChart
-        title="Code"
+        title="Coding"
         time={minutesToHours(getCategoryMinutes(categories.coding))}
         progress={getCategoryPercentage(categories.coding)}
         color={theme.palette.graphColors.blue}
       />
       <TimeDataChart
-        title="Communication"
+        title="Communicating"
         time={minutesToHours(getCategoryMinutes(categories.communicating))}
         progress={getCategoryPercentage(categories.communicating)}
         color={theme.palette.graphColors.purple}
@@ -79,7 +79,7 @@ const CategoryChart = ({ selectedDate }: Props) => {
         color={theme.palette.graphColors.green}
       />
       <TimeDataChart
-        title="Design"
+        title="Designing"
         time={minutesToHours(getCategoryMinutes(categories.designing))}
         progress={getCategoryPercentage(categories.designing)}
         color={theme.palette.graphColors.orange}

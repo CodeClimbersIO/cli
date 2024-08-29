@@ -75,5 +75,13 @@ export function useCategoryTimeOverview(startDate = '', endDate = '') {
     queryKey: pulseKeys.categoryTimeOverview(startDate, endDate),
     queryFn,
     enabled: !!startDate && !!endDate,
+    select: (data) => {
+      return (
+        data.map((day) => {
+          if (day.category === 'communication') day.category = 'communicating'
+          return { ...day }
+        }) || []
+      )
+    },
   })
 }
