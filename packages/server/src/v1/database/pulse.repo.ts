@@ -42,7 +42,7 @@ export class PulseRepo {
       .select(this.knex.raw('count(*) * 2 as minutes'))
       .from(this.tableName)
       .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
-      .groupBy(this.knex.raw("strftime('%s', time) / 120"))
+      .groupBy(['category', this.knex.raw("strftime('%s', time) / 120")])
   }
 
   async getLongestDayInRangeMinutes(
@@ -82,9 +82,9 @@ export class PulseRepo {
       .select(this.knex.raw('category, count(*) * 2'))
       .from(this.tableName)
       .whereBetween('time', [startDate, endDate])
-      .groupBy(this.knex.raw("strftime('%s', time) / 120"))
+      .groupBy(['category', this.knex.raw("strftime('%s', time) / 120")])
 
-    return await this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
+    return this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
       .with('getMinutes', query)
       .select(this.knex.raw('category, count() * 2 as minutes'))
       .groupBy('category')
