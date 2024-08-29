@@ -12,7 +12,15 @@ export class ActivitiesService {
   }
   async getActivityStatusBar(): Promise<CodeClimbers.ActivitiesStatusBar> {
     const statusBarRaw = await this.pulseRepo.getStatusBarDetails()
-    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
+    // these next 5 lines to get the dayTotalMinutes are all that is shown in the status bar in vscode and the other plugins but the statusBar details are needed to be returned so that the extensions don't error
+    const startDate = dayjs().startOf('day').toISOString()
+    const endDate = dayjs().endOf('day').toISOString()
+    const data = await this.pulseRepo.getCategoryTimeOverview(
+      startDate,
+      endDate,
+    )
+    const dayTotalMinutes = data.reduce((acc, curr) => acc + curr.minutes, 0)
+    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw, dayTotalMinutes)
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
@@ -44,7 +52,7 @@ export class ActivitiesService {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverview[]> {
-    return await this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+    return this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
   }
 
   async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverview> {
