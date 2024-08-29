@@ -11,7 +11,7 @@ import { bootstrap } from '../../src/main'
 import { PROCESS_NAME } from '../../utils/constants'
 import { START_ERR_LOG_MESSAGE } from '../../utils/node.util'
 
-const MAX_ATTEMPTS = 1
+const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
 
 function checkServerAvailability(url: string): Promise<boolean> {
