@@ -1,16 +1,22 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Divider, useTheme } from '@mui/material'
+import { TimeDataChart } from './Time/TimeDataChart'
 
-const DeepWork = () => {
+interface Props {
+  shouldShow: boolean
+}
+const DeepWork = ({ shouldShow }: Props) => {
+  const theme = useTheme()
+  if (!shouldShow) return null
   return (
-    <Card
-      raised={false}
-      sx={{ boxShadow: 'none', borderRadius: 0, height: 158, width: '100%' }}
-    >
-      <CardContent sx={{ padding: '20px 30px' }}>
-        <Typography variant="h3">Deep Work</Typography>
-        <p>...content here...</p>
-      </CardContent>
-    </Card>
+    <>
+      <Divider />
+      <TimeDataChart
+        title="Deep Work"
+        time="1h 43m"
+        progress={30}
+        color={theme.palette.graphColors.red}
+      />
+    </>
   )
 }
 

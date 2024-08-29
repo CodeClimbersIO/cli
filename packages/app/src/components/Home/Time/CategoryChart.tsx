@@ -14,7 +14,9 @@ const categories = {
   designing: 'designing', // verify
 }
 
-type Props = { selectedDate: Dayjs }
+interface Props {
+  selectedDate: Dayjs
+}
 const CategoryChart = ({ selectedDate }: Props) => {
   const [totalMinutes, setTotalMinutes] = useState(0)
   const theme = useTheme()
