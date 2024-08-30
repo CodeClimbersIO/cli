@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Res } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common'
 import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
 import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
@@ -27,15 +27,13 @@ export class PulseController {
     return { message: 'success', data: result }
   }
 
-  @Get('categoryTimeOverview')
+  @Post('categoryTimeOverview')
   async getCategoryTimeOverview(
-    @Query() times: GetCategoryTimeOverviewDto,
+    @Body() times: GetCategoryTimeOverviewDto,
   ): Promise<CodeClimbers.TimeOverviewDao> {
-    const result: CodeClimbers.TimeOverview[] =
-      await this.activitiesService.getCategoryTimeOverview(
-        times.startDate,
-        times.endDate,
-      )
+    const result = await this.activitiesService.getCategoryTimeOverview(
+      times.periods,
+    )
     return { message: 'success', data: result }
   }
 

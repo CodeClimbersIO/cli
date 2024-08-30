@@ -22,29 +22,31 @@ const CategoryChart = ({ selectedDate }: Props) => {
   const theme = useTheme()
 
   const {
-    data: categoryOverview = [] as CodeClimbers.TimeOverview[],
+    data: categoryOverview = [] as CodeClimbers.TimeOverview[][],
     isPending,
-  } = useCategoryTimeOverview(
-    selectedDate?.toISOString() ?? '',
-    selectedDate?.endOf('day').toISOString() ?? '',
-  )
+  } = useCategoryTimeOverview(selectedDate)
+  const TODAY_INDEX = 0
+  const todayOverview = categoryOverview[TODAY_INDEX] || []
 
   useEffect(() => {
-    if (categoryOverview.length > 0)
+    if (todayOverview.length > 0)
       setTotalMinutes(
-        categoryOverview.reduce((a, b) => {
+        todayOverview.reduce((a, b) => {
           return a + b.minutes
         }, 0),
       )
-  }, [categoryOverview])
+  }, [todayOverview])
 
-  const getCategoryMinutes = (category = '') => {
-    const item = categoryOverview.find((cat) => cat.category === category)
+  const getCategoryMinutes = (
+    overview: CodeClimbers.TimeOverview[],
+    category = '',
+  ) => {
+    const item = overview.find((cat) => cat.category === category)
     let minutes = item?.minutes ?? 0
 
     if (category === categories.coding) {
       const debugItem =
-        categoryOverview.find((cat) => cat.category === categories.debugging) ??
+        overview.find((cat) => cat.category === categories.debugging) ??
         ({ minutes: 0 } as CodeClimbers.TimeOverview)
       minutes += debugItem.minutes
     }
@@ -53,8 +55,10 @@ const CategoryChart = ({ selectedDate }: Props) => {
   }
 
   const getCategoryPercentage = (category = '') => {
-    if (totalMinutes > 0)
-      return (getCategoryMinutes(category) / totalMinutes) * 100
+    const todayMinutes = getCategoryMinutes(todayOverview, category)
+    if (totalMinutes > 0) {
+      return (todayMinutes / (3 * 60)) * 100 // 3 hours
+    }
 
     return 0
   }
@@ -64,25 +68,33 @@ const CategoryChart = ({ selectedDate }: Props) => {
     <>
       <TimeDataChart
         title="Coding"
-        time={minutesToHours(getCategoryMinutes(categories.coding))}
+        time={minutesToHours(
+          getCategoryMinutes(todayOverview, categories.coding),
+        )}
         progress={getCategoryPercentage(categories.coding)}
         color={theme.palette.graphColors.blue}
       />
       <TimeDataChart
         title="Communicating"
-        time={minutesToHours(getCategoryMinutes(categories.communicating))}
+        time={minutesToHours(
+          getCategoryMinutes(todayOverview, categories.communicating),
+        )}
         progress={getCategoryPercentage(categories.communicating)}
         color={theme.palette.graphColors.purple}
       />
       <TimeDataChart
         title="Browsing"
-        time={minutesToHours(getCategoryMinutes(categories.browsing))}
+        time={minutesToHours(
+          getCategoryMinutes(todayOverview, categories.browsing),
+        )}
         progress={getCategoryPercentage(categories.browsing)}
         color={theme.palette.graphColors.green}
       />
       <TimeDataChart
         title="Designing"
-        time={minutesToHours(getCategoryMinutes(categories.designing))}
+        time={minutesToHours(
+          getCategoryMinutes(todayOverview, categories.designing),
+        )}
         progress={getCategoryPercentage(categories.designing)}
         color={theme.palette.graphColors.orange}
       />
