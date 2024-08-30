@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
+import { Dayjs } from 'dayjs'
 
 export function useLatestPulses() {
   const queryFn = () =>
@@ -65,22 +66,30 @@ export function useWeekOverview(date = '') {
   })
 }
 
-export function useCategoryTimeOverview(startDate = '', endDate = '') {
+export function useCategoryTimeOverview(selectedStartDate: Dayjs) {
+  const todayStartDate = selectedStartDate?.startOf('day').toISOString()
+  const todayEndDate = selectedStartDate?.endOf('day').toISOString()
+
   const queryFn = () =>
     apiRequest({
-      url: `${BASE_API_URL}/pulses/categoryTimeOverview?startDate=${startDate}&endDate=${endDate}`,
-      method: 'GET',
+      url: `${BASE_API_URL}/pulses/categoryTimeOverview`,
+      method: 'POST',
+      body: {
+        periods: [{ startDate: todayStartDate, endDate: todayEndDate }],
+      },
     })
-  return useBetterQuery<CodeClimbers.TimeOverview[], Error>({
-    queryKey: pulseKeys.categoryTimeOverview(startDate, endDate),
+  return useBetterQuery<CodeClimbers.TimeOverview[][], Error>({
+    queryKey: pulseKeys.categoryTimeOverview(todayStartDate, todayEndDate),
     queryFn,
-    enabled: !!startDate && !!endDate,
+    enabled: !!todayStartDate && !!todayEndDate,
     select: (data) => {
-      return (
-        data.map((day) => {
-          if (day.category === 'communication') day.category = 'communicating'
-          return { ...day }
-        }) || []
+      return data.map((day) =>
+        day.map((activity) => {
+          if (activity.category === 'communication') {
+            return { ...activity, category: 'communicating' }
+          }
+          return activity
+        }),
       )
     },
   })

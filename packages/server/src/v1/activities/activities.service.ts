@@ -4,6 +4,7 @@ import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
 import dayjs from 'dayjs'
+import { TimePeriodDto } from '../dtos/getCategoryTimeOverview.dto'
 
 @Injectable()
 export class ActivitiesService {
@@ -49,10 +50,19 @@ export class ActivitiesService {
   }
 
   async getCategoryTimeOverview(
-    startDate: string,
-    endDate: string,
-  ): Promise<CodeClimbers.TimeOverview[]> {
-    return this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+    periods: TimePeriodDto[],
+  ): Promise<CodeClimbers.TimeOverview[][]> {
+    const resultsPromises = periods.map((period) => {
+      if (!period.startDate || !period.endDate) {
+        throw new Error('Invalid time period')
+      }
+      return this.pulseRepo.getCategoryTimeOverview(
+        period.startDate,
+        period.endDate,
+      )
+    })
+    const results = await Promise.all(resultsPromises)
+    return results
   }
 
   async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverview> {

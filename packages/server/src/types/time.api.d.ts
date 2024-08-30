@@ -18,6 +18,6 @@ declare namespace CodeClimbers {
 
   export interface TimeOverviewDao {
     message: string
-    data: TimeOverview[]
+    data: TimeOverview[][]
   }
 }
