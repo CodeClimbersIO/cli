@@ -132,6 +132,13 @@ export class ActivitiesService {
     })
   }
 
+  async getDeepWork(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.DeepWorkTime[]> {
+    return this.pulseRepo.getDeepWork(startDate, endDate)
+  }
+
   async generatePulsesCSV(): Promise<Buffer> {
     const pulses = await this.pulseRepo.getAllPulses()
     const csvString = this.convertPulsesToCSV(pulses)
