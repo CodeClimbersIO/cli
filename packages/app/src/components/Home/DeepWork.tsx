@@ -1,19 +1,32 @@
-import { Divider, useTheme } from '@mui/material'
+import { CircularProgress, Divider, useTheme } from '@mui/material'
 import { TimeDataChart } from './Time/TimeDataChart'
+import { useDeepWork } from '../../api/pulse.api'
+import { Dayjs } from 'dayjs'
+import { minutesToHours } from './Time/utils'
 
 interface Props {
-  shouldShow: boolean
+  selectedDate: Dayjs
 }
-const DeepWork = ({ shouldShow }: Props) => {
+const DeepWork = ({ selectedDate }: Props) => {
   const theme = useTheme()
-  if (!shouldShow) return null
+  const {
+    isLoading,
+    isError,
+    isEmpty,
+    data: deepWork,
+  } = useDeepWork(selectedDate)
+
+  if (isLoading) return <CircularProgress />
+  if (isError || isEmpty || !deepWork) return <div>Error</div>
+  console.log(deepWork)
+  const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
   return (
     <>
       <Divider />
       <TimeDataChart
         title="Deep Work"
-        time="1h 43m"
-        progress={30}
+        time={minutesToHours(totalTime)}
+        progress={(totalTime / (3 * 60)) * 100}
         color={theme.palette.graphColors.red}
       />
     </>

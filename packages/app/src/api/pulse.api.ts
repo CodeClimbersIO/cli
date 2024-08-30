@@ -94,3 +94,18 @@ export function useCategoryTimeOverview(selectedStartDate: Dayjs) {
     },
   })
 }
+
+export function useDeepWork(selectedStartDate: Dayjs) {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedStartDate?.endOf('day').toISOString()
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/deepwork?startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.DeepWorkTime[], Error>({
+    queryKey: pulseKeys.deepWork(startDate, endDate),
+    queryFn,
+    enabled: !!startDate && !!endDate,
+  })
+}

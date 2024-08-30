@@ -31,7 +31,7 @@ export const Time = ({ selectedDate }: Props) => {
           </Grid2>
         </Grid2>
         <WeekOverview selectedDate={selectedDate} />
-        <DeepWork shouldShow={false} />
+        <DeepWork selectedDate={selectedDate} />
         <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
       </CardContent>

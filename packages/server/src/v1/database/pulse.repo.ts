@@ -39,7 +39,7 @@ export class PulseRepo {
 
   getMinutesInRangeQuery(startDate: Date, endDate: Date) {
     return this.knex<MinutesQuery[]>(this.tableName)
-      .select(this.knex.raw('count(*) * 2 as minutes'))
+      .select('category', this.knex.raw('count(*) * 2 as minutes'))
       .from(this.tableName)
       .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
       .groupBy(['category', this.knex.raw("strftime('%s', time) / 120")])
@@ -78,14 +78,13 @@ export class PulseRepo {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.TimeOverview[]> {
-    const query = this.knex<MinutesQuery[]>(this.tableName)
-      .select(this.knex.raw('category, count(*) * 2'))
-      .from(this.tableName)
-      .whereBetween('time', [startDate, endDate])
-      .groupBy(['category', this.knex.raw("strftime('%s', time) / 120")])
-
+    const startDateParsed = new Date(startDate)
+    const endDateParsed = new Date(endDate)
     return this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
-      .with('getMinutes', query)
+      .with(
+        'getMinutes',
+        this.getMinutesInRangeQuery(startDateParsed, endDateParsed),
+      )
       .select(this.knex.raw('category, count() * 2 as minutes'))
       .groupBy('category')
       .from('getMinutes')
@@ -122,6 +121,22 @@ export class PulseRepo {
         throw e
       }
     }
+  }
+
+  async getDeepWork(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.DeepWorkTime[]> {
+    const getLongestDayMinutesQuery =
+      await sqlReaderUtil.getFileContentAsString('getDeepWork.sql')
+    const result = await this.knex.raw<CodeClimbers.DeepWorkTime[]>(
+      getLongestDayMinutesQuery,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

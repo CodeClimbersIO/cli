@@ -1,7 +1,10 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common'
 import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
-import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
+import {
+  GetCategoryTimeOverviewDto,
+  TimePeriodDto,
+} from '../dtos/getCategoryTimeOverview.dto'
 import { GetWeekOverviewDto } from '../dtos/getWeekOverview.dto'
 
 @Controller('pulses')
@@ -62,5 +65,16 @@ export class PulseController {
       console.error('Error exporting pulses CSV:', error)
       response.status(500).send('Failed to export pulses')
     }
+  }
+
+  @Get('deepwork')
+  async getDeepWork(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.DeepWorkDao> {
+    const deepWork = await this.activitiesService.getDeepWork(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: deepWork }
   }
 }
