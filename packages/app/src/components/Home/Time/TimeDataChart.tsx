@@ -33,6 +33,7 @@ export const TimeDataChart = ({
         <LinearProgress
           variant="determinate"
           value={remainingProgress > 100 ? 100 : remainingProgress}
+          key={i}
           sx={{
             position: 'absolute',
             width: '100%',

@@ -9,15 +9,10 @@ interface Props {
 }
 const DeepWork = ({ selectedDate }: Props) => {
   const theme = useTheme()
-  const {
-    isLoading,
-    isError,
-    isEmpty,
-    data: deepWork,
-  } = useDeepWork(selectedDate)
+  const { isLoading, isError, data: deepWork } = useDeepWork(selectedDate)
 
   if (isLoading) return <CircularProgress />
-  if (isError || isEmpty || !deepWork) return <div>Error</div>
+  if (isError || !deepWork) return <div>Error</div>
   console.log(deepWork)
   const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
   return (
