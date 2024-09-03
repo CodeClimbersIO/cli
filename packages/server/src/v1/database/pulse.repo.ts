@@ -159,4 +159,52 @@ export class PulseRepo {
 
     return await res?.project
   }
+
+  async getSourcesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<object | undefined> {
+    const sources = [
+      'vscode',
+      'postman',
+      'slack',
+      'chrome',
+      'microsoftOutlook',
+      'safari',
+      'linear',
+      'notion',
+      'jetbrainsrider',
+      'jetbrainswebstorm',
+      'microsoftTeams',
+      'arc',
+      'zoom',
+    ]
+
+    return await this.knex(this.tableName)
+      .with(
+        'getSourceMinutes',
+        this.knex(this.tableName)
+          .select({
+            userAgent: 'user_agent',
+            totalMinutes: this.knex.raw('count(*)'),
+          })
+          .from(this.tableName)
+          .whereBetween('time', [startDate, endDate])
+          .groupBy(['user_agent', this.knex.raw("strftime('%s', time) / 60")])
+          .orderBy('user_agent'),
+      )
+      .select(
+        sources.reduce(
+          (a, source) => ({
+            ...a,
+            [source]: this.knex.raw(
+              `count(*) filter (where user_agent like '%${source}%')`,
+            ),
+          }),
+          {},
+        ),
+      )
+      .from('getSourceMinutes')
+      .first()
+  }
 }

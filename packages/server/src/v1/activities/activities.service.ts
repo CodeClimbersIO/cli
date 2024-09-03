@@ -132,6 +132,18 @@ export class ActivitiesService {
     })
   }
 
+  async getSourcesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.SourceMinutes[]> {
+    const sources = await this.pulseRepo.getSourcesMinutes(startDate, endDate)
+
+    return Object.keys(sources).map((key) => ({
+      source: key,
+      minutes: sources[key],
+    }))
+  }
+
   async getDeepWork(
     startDate: string,
     endDate: string,

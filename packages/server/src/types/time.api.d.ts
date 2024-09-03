@@ -31,4 +31,14 @@ declare namespace CodeClimbers {
     message: string
     data: TimeOverview[][]
   }
+
+  export interface SourceMinutes {
+    source: string
+    minutes: number
+  }
+
+  export interface SourcesOverviewDao {
+    message: string
+    data: SourceMinutes[]
+  }
 }
