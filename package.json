@@ -60,6 +60,7 @@
     "find-process": "^1.4.7",
     "nestjs-knex": "^2.0.0",
     "picocolors": "^1.0.1",
+    "posthog-js": "^1.160.3",
     "react": "^18.3.1",
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
