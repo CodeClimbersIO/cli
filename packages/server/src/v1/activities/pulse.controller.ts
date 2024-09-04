@@ -77,4 +77,15 @@ export class PulseController {
     )
     return { message: 'success', data: deepWork }
   }
+
+  @Get('sourcesMinutes')
+  async getSourcesMinutes(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.SourcesOverviewDao> {
+    const sources = await this.activitiesService.getSourcesMinutes(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: sources }
+  }
 }
