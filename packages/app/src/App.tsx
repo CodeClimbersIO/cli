@@ -13,12 +13,13 @@ import { dark, light } from './config/theme'
 import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 import { UpdateBanner } from './components/common/UpdateBanner/UpdateBanner'
 import { useThemeStorage } from './hooks/useBrowserStorage'
+import { initPosthog } from './utils/posthog.util'
 
 const queryClient = new QueryClient()
 
 const FAV_ICONS = {
   white: '/images/logo-min-white.png',
-  black: '/images/logo-min.png',
+  dark: '/images/logo-min.png',
 }
 
 const THEMES = {
@@ -29,7 +30,7 @@ const THEMES = {
 function AppRender() {
   const { prefersDark } = useBrowserPreferences()
   const [theme] = useThemeStorage()
-
+  initPosthog()
   useEffect(
     function syncFavIcon() {
       const favicon = document.querySelector(
