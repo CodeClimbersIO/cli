@@ -15,4 +15,10 @@ declare namespace CodeClimbers {
     name: string
     lastActive: string
   }
+
+  export interface SourceWithMinutes {
+    name: string
+    lastActive: string
+    minutes: number
+  }
 }

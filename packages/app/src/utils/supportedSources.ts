@@ -24,7 +24,7 @@ export const supportedSources: SourceDetails[] = [
     `,
   },
   {
-    name: 'chrome-code_climbers',
+    name: 'chrome',
     displayName: 'Chromium Browser',
     logo: chromeLogo,
     link: 'https://chromewebstore.google.com/detail/code-climbers/fdmoefklpgbjapealpjfailnmalbgpbe',

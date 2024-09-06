@@ -56,7 +56,7 @@ export const TimeDataChart = ({
     return <Box sx={{ position: 'relative' }}>{progressBars}</Box>
   }
   return (
-    <Grid2 container justifyContent="space-between" gap={3} alignItems="center">
+    <Grid2 container justifyContent="space-between" gap={3}>
       <Grid2 sx={{ minWidth: 120 }}>
         <Typography variant="body1">{title}</Typography>
       </Grid2>
