@@ -153,7 +153,7 @@ export class ActivitiesService {
 
         return {
           name: key,
-          minutes: sourcesWithMinutes[key],
+          minutes: sourcesWithMinutes[key] * 2,
           lastActive,
         }
       })
