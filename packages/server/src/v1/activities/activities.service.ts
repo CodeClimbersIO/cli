@@ -136,12 +136,28 @@ export class ActivitiesService {
     startDate: string,
     endDate: string,
   ): Promise<CodeClimbers.SourceMinutes[]> {
-    const sources = await this.pulseRepo.getSourcesMinutes(startDate, endDate)
+    const userSources = await this.getSources()
+    const sourcesWithMinutes = await this.pulseRepo.getSourcesMinutes(
+      startDate,
+      endDate,
+    )
 
-    return Object.keys(sources).map((key) => ({
-      source: key,
-      minutes: sources[key],
-    }))
+    return Object.keys(sourcesWithMinutes)
+      .map((key) => {
+        const lastActive =
+          userSources.find((source) =>
+            source.name.toLowerCase().includes(key.toLowerCase()),
+          )?.lastActive ?? null
+
+        if (lastActive === null) return null
+
+        return {
+          name: key,
+          minutes: sourcesWithMinutes[key] * 2,
+          lastActive,
+        }
+      })
+      .filter((item) => item !== null)
   }
 
   async getDeepWork(

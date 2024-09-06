@@ -29,6 +29,19 @@ export function useGetSources() {
   })
 }
 
+export function useGetSourcesWithMinutes(startDate: string, endDate: string) {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/pulses/sourcesMinutes?startDate=${startDate}&endDate=${endDate}`,
+      method: 'GET',
+    })
+  return useBetterQuery<CodeClimbers.SourceWithMinutes[], Error>({
+    queryKey: pulseKeys.sourcesMinutes(startDate, endDate),
+    queryFn,
+    refetchOnWindowFocus: true,
+  })
+}
+
 export function useExportPulses() {
   const exportPulses = useCallback(async () => {
     try {

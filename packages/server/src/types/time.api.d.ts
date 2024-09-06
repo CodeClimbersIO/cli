@@ -33,8 +33,9 @@ declare namespace CodeClimbers {
   }
 
   export interface SourceMinutes {
-    source: string
+    name: string
     minutes: number
+    lastActive: string
   }
 
   export interface SourcesOverviewDao {
