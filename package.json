@@ -1,7 +1,7 @@
 {
   "name": "codeclimbers",
   "productName": "Code Climbers",
-  "version": "0.1.31",
+  "version": "0.1.35",
   "description": "The Code Climbers CLI",
   "licenses": [
     {
@@ -60,6 +60,7 @@
     "find-process": "^1.4.7",
     "nestjs-knex": "^2.0.0",
     "picocolors": "^1.0.1",
+    "posthog-js": "^1.160.3",
     "react": "^18.3.1",
     "react-router-dom": "^6.24.0",
     "reflect-metadata": "^0.2.0",
@@ -68,7 +69,7 @@
     "ws": "^8.18.0"
   },
   "optionalDependencies": {
-    "node-linux": "^0.1.7",
+    "@codeclimbers/node-linux": "^0.1.14",
     "node-mac": "^1.0.1",
     "node-windows": "^1.0.0-beta.8"
   },

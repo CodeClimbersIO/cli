@@ -187,7 +187,6 @@ export class PulseRepo {
           .select({
             userAgent: 'user_agent',
             totalMinutes: this.knex.raw('count(*)'),
-            lastActive: this.knex.raw('MAX(created_at)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
