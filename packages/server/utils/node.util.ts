@@ -122,13 +122,13 @@ export const initDBDir = nodeUtil.initDBDir
 
 const logPaths = () => {
   if (isProd()) return
-  Logger.debug('NODE_PATH', NODE_PATH())
-  Logger.debug('PROJECT_ROOT', PROJECT_ROOT)
-  Logger.debug('BIN_PATH', BIN_PATH)
-  Logger.debug('CODE_CLIMBER_META_DIR', CODE_CLIMBER_META_DIR)
-  Logger.debug('DB_PATH', DB_PATH)
-  Logger.debug('HOME_DIR', HOME_DIR)
-  Logger.debug('APP_DIST_PATH', APP_DIST_PATH)
+  Logger.debug(NODE_PATH(), 'NODE_PATH')
+  Logger.debug(PROJECT_ROOT, 'PROJECT_ROOT')
+  Logger.debug(BIN_PATH, 'BIN_PATH')
+  Logger.debug(CODE_CLIMBER_META_DIR, 'CODE_CLIMBER_META_DIR')
+  Logger.debug(DB_PATH, 'DB_PATH')
+  Logger.debug(HOME_DIR, 'HOME_DIR')
+  Logger.debug(APP_DIST_PATH, 'APP_DIST_PATH')
 }
 
 logPaths()

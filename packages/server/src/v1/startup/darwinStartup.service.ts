@@ -14,10 +14,11 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
   private service: typeof Service
 
   constructor() {
+    const scriptPath = path.join(BIN_PATH, 'startup.js')
     this.service = new Service({
       name: 'CodeClimbers',
       description: 'CodeClimbers service',
-      script: `${path.join(BIN_PATH, 'startup.js')}`,
+      script: scriptPath,
       logpath: CODE_CLIMBER_META_DIR,
       env: [
         {
