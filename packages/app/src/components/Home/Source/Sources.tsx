@@ -44,7 +44,6 @@ const Sources = () => {
     dayjs().startOf('day').toISOString(),
     dayjs().endOf('day').toISOString(),
   )
-  console.log(sitesWithMinutes)
 
   const { exportPulses } = useExportPulses()
   const [exportingPulses, setExportingPulses] = useState(false)
