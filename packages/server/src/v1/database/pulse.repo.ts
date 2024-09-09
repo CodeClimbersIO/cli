@@ -207,4 +207,48 @@ export class PulseRepo {
       .from('getSourceMinutes')
       .first()
   }
+
+  async getSitesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<object | undefined> {
+    const sites = [
+      'localhost',
+      'figma',
+      'canva',
+      'linkedin',
+      'youtube',
+      'github',
+      'email',
+    ]
+
+    return await this.knex(this.tableName)
+      .with(
+        'getSiteMinutes',
+        this.knex(this.tableName)
+          .select({
+            entity: 'entity',
+            totalMinutes: this.knex.raw('count(*)'),
+          })
+          .from(this.tableName)
+          .whereBetween('time', [startDate, endDate])
+          .andWhereLike('user_agent', '%chrome%')
+          .orWhereLike('user_agent', '%safari%')
+          .orWhereLike('user_agent', '%firefox%')
+          .groupBy([this.knex.raw("strftime('%s', time) / 60"), 'entity']),
+      )
+      .select(
+        sites.reduce(
+          (a, site) => ({
+            ...a,
+            [site]: this.knex.raw(
+              `count(*) filter (where entity like '%${site}%')`,
+            ),
+          }),
+          {},
+        ),
+      )
+      .from('getSiteMinutes')
+      .first()
+  }
 }
