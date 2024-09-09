@@ -40,11 +40,14 @@ export const SiteRow = ({ site, minutes }: SiteRowProps) => {
       width="100%"
     >
       <Stack direction="row" alignItems="center" spacing={1} width="100%">
-        <img
-          alt={site.displayName + ' Logo'}
-          src={site.logo}
-          style={{ height: '32px', width: '32px' }}
-        />
+        {site.logo && (
+          <img
+            alt={site.displayName + ' Logo'}
+            src={site.logo}
+            style={{ height: '32px', width: '32px' }}
+          />
+        )}
+        {site.icon && site.icon}
         <Stack direction="column" width="100%">
           <Typography variant="body2" fontWeight={700}>
             {site.displayName}

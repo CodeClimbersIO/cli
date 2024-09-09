@@ -214,8 +214,8 @@ export class PulseRepo {
       'canva',
       'linkedin',
       'youtube',
-      'email',
       'localhost',
+      'slack',
     ]
 
     return await this.knex(this.tableName)
@@ -224,13 +224,11 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             entity: 'entity',
-            totalMinutes: this.knex.raw('count(*)'),
+            minutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
-          .andWhereLike('user_agent', '%chrome%')
-          .orWhereLike('user_agent', '%safari%')
-          .orWhereLike('user_agent', '%firefox%')
+          .andWhere('type', 'domain')
           .groupBy([this.knex.raw("strftime('%s', time) / 60"), 'entity']),
       )
       .select(

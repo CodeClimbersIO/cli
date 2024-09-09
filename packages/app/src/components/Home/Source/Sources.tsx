@@ -115,11 +115,14 @@ const Sources = () => {
     dayjs().startOf('day').toISOString(),
     dayjs().endOf('day').toISOString(),
   )
-  const { data: sitesWithMinutes, isLoading: sitesQueryIsLoading } =
-    useGetSitesWithMinutes(
-      dayjs('2023-12-05').startOf('day').toISOString(),
-      dayjs('2023-12-05').endOf('day').toISOString(),
-    )
+  const {
+    data: sitesWithMinutes,
+    isEmpty: sitesEmpty,
+    isLoading: sitesQueryIsLoading,
+  } = useGetSitesWithMinutes(
+    dayjs().startOf('day').toISOString(),
+    dayjs().endOf('day').toISOString(),
+  )
   console.log(sitesWithMinutes)
 
   const { exportPulses } = useExportPulses()
@@ -193,27 +196,33 @@ const Sources = () => {
               </Stack>
             </div>
             <Stack py={5}>
-              <Typography variant="h3" alignContent="center" textAlign="left">
-                Sites
-              </Typography>
-              {!sitesQueryIsLoading && sitesWithMinutes && (
-                <Stack direction="column" marginTop="24px" gap={3}>
-                  {sitesWithMinutes?.map((site, index) => {
-                    const siteDetails = supportedSites.find((supportedSite) =>
-                      supportedSite.name.includes(site.name),
-                    )
-
-                    if (siteDetails) {
-                      return (
-                        <SiteRow
-                          key={index}
-                          site={siteDetails}
-                          minutes={site.minutes}
-                        />
+              {!sitesQueryIsLoading && !sitesEmpty && (
+                <>
+                  <Typography
+                    variant="h3"
+                    alignContent="center"
+                    textAlign="left"
+                  >
+                    Sites
+                  </Typography>
+                  <Stack direction="column" marginTop="24px" gap={3}>
+                    {sitesWithMinutes?.map((site, index) => {
+                      const siteDetails = supportedSites.find((supportedSite) =>
+                        supportedSite.name.includes(site.name),
                       )
-                    }
-                  })}
-                </Stack>
+
+                      if (siteDetails) {
+                        return (
+                          <SiteRow
+                            key={index}
+                            site={siteDetails}
+                            minutes={site.minutes}
+                          />
+                        )
+                      }
+                    })}
+                  </Stack>
+                </>
               )}
               {sitesQueryIsLoading && <>hi</>}
             </Stack>

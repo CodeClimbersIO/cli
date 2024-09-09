@@ -48,7 +48,7 @@ export function useGetSitesWithMinutes(startDate: string, endDate: string) {
       url: `${BASE_API_URL}/pulses/sitesMinutes?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET',
     })
-  return useBetterQuery<CodeClimbers.SourceWithMinutes[], Error>({
+  return useBetterQuery<CodeClimbers.SiteWithMinutes[], Error>({
     queryKey: pulseKeys.sitesMinutes(startDate, endDate),
     queryFn,
     refetchOnWindowFocus: true,

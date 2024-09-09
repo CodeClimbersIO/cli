@@ -21,4 +21,9 @@ declare namespace CodeClimbers {
     lastActive: string
     minutes: number
   }
+
+  export interface SiteWithMinutes {
+    name: string
+    minutes: number
+  }
 }
