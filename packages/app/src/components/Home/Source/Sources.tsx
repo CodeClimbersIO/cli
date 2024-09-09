@@ -38,6 +38,17 @@ const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
   const theme = useTheme()
   const compareTime = 90
 
+  const typeColors = [
+    {
+      type: 'code',
+      color: theme.palette.graphColors.blue,
+    },
+    {
+      type: 'web',
+      color: theme.palette.graphColors.green,
+    },
+  ]
+
   return (
     <Stack
       direction="row"
@@ -59,7 +70,10 @@ const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
             <SourceTimeChart
               time={minutesToHours(minutes)}
               progress={Math.floor((minutes / compareTime) * 100)}
-              color={theme.palette.graphColors.blue}
+              color={
+                typeColors.find((typeColor) => typeColor.type === source.type)
+                  ?.color ?? theme.palette.graphColors.blue
+              }
             />
           )}
           <Stack direction="row" justifyContent="space-between">
