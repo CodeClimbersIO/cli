@@ -194,15 +194,11 @@ export class PulseRepo {
           .orderBy('user_agent'),
       )
       .select(
-        sources.reduce(
-          (a, source) => ({
-            ...a,
-            [source]: this.knex.raw(
-              `count(*) filter (where user_agent like '%${source}%')`,
-            ),
-          }),
-          {},
-        ),
+        sources.map((source) => ({
+          [source]: this.knex.raw(
+            `count(*) filter (where user_agent like '%${source}%')`,
+          ),
+        })),
       )
       .from('getSourceMinutes')
       .first()
@@ -238,15 +234,11 @@ export class PulseRepo {
           .groupBy([this.knex.raw("strftime('%s', time) / 60"), 'entity']),
       )
       .select(
-        sites.reduce(
-          (a, site) => ({
-            ...a,
-            [site]: this.knex.raw(
-              `count(*) filter (where entity like '%${site}%')`,
-            ),
-          }),
-          {},
-        ),
+        sites.map((site) => ({
+          [site]: this.knex.raw(
+            `count(*) filter (where entity like '%${site}%')`,
+          ),
+        })),
       )
       .from('getSiteMinutes')
       .first()
