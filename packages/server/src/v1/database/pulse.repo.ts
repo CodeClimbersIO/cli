@@ -209,13 +209,13 @@ export class PulseRepo {
     endDate: string,
   ): Promise<object | undefined> {
     const sites = [
-      'localhost',
+      'github',
       'figma',
       'canva',
       'linkedin',
       'youtube',
-      'github',
       'email',
+      'localhost',
     ]
 
     return await this.knex(this.tableName)

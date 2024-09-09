@@ -14,6 +14,7 @@ import dayjs from 'dayjs'
 
 import {
   useExportPulses,
+  useGetSitesWithMinutes,
   useGetSourcesWithMinutes,
 } from '../../../api/pulse.api'
 import {
@@ -27,6 +28,8 @@ import AddSources from './AddSources'
 import { getTimeSince } from '../../../utils/time'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
+import { supportedSites } from '../../../utils/supportedSites'
+import { SiteRow } from './SiteRow'
 
 interface SourceRowProps {
   source: SourceDetails
@@ -112,6 +115,12 @@ const Sources = () => {
     dayjs().startOf('day').toISOString(),
     dayjs().endOf('day').toISOString(),
   )
+  const { data: sitesWithMinutes, isLoading: sitesQueryIsLoading } =
+    useGetSitesWithMinutes(
+      dayjs('2023-12-05').startOf('day').toISOString(),
+      dayjs('2023-12-05').endOf('day').toISOString(),
+    )
+  console.log(sitesWithMinutes)
 
   const { exportPulses } = useExportPulses()
   const [exportingPulses, setExportingPulses] = useState(false)
@@ -183,6 +192,31 @@ const Sources = () => {
                 })}
               </Stack>
             </div>
+            <Stack py={5}>
+              <Typography variant="h3" alignContent="center" textAlign="left">
+                Sites
+              </Typography>
+              {!sitesQueryIsLoading && sitesWithMinutes && (
+                <Stack direction="column" marginTop="24px" gap={3}>
+                  {sitesWithMinutes?.map((site, index) => {
+                    const siteDetails = supportedSites.find((supportedSite) =>
+                      supportedSite.name.includes(site.name),
+                    )
+
+                    if (siteDetails) {
+                      return (
+                        <SiteRow
+                          key={index}
+                          site={siteDetails}
+                          minutes={site.minutes}
+                        />
+                      )
+                    }
+                  })}
+                </Stack>
+              )}
+              {sitesQueryIsLoading && <>hi</>}
+            </Stack>
             <LoadingButton
               onClick={handleExportPulses}
               loading={exportingPulses}

@@ -9,4 +9,6 @@ export const pulseKeys = {
     ['categoryTimeOverview', startDate, endDate] as const,
   sourcesMinutes: (startDate: string, endDate: string) =>
     ['sourcesMinutes', startDate, endDate] as const,
+  sitesMinutes: (startDate: string, endDate: string) =>
+    ['sitesMinutes', startDate, endDate] as const,
 }
