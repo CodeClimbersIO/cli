@@ -7,6 +7,13 @@ import canvaLogo from '../public/source-logos/canva.webp'
 import slackLogo from '../public/source-logos/slack.webp'
 import linkedInLogo from '../public/source-logos/linkedIn.png'
 import youtubeLogo from '../public/source-logos/youtube.png'
+import gmailLogo from '../public/source-logos/gmail.png'
+import claudeLogo from '../public/source-logos/claude.png'
+import chatgptLogo from '../public/source-logos/chatgpt.png'
+import outlookLogo from '../public/source-logos/outlook.png'
+import linearLogo from '../public/source-logos/linear.svg'
+import jiraLogo from '../public/source-logos/jira.png'
+import stackoverflowLogo from '../public/source-logos/stackoverflow.png'
 
 export interface SiteDetails {
   name: string
@@ -40,6 +47,48 @@ export const supportedSites: SiteDetails[] = [
     displayName: 'Slack',
     logo: slackLogo,
     type: 'communication',
+  },
+  {
+    name: 'gmail',
+    displayName: 'Gmail',
+    logo: gmailLogo,
+    type: 'communication',
+  },
+  {
+    name: 'claudeai',
+    displayName: 'Claude AI',
+    logo: claudeLogo,
+    type: 'misc',
+  },
+  {
+    name: 'chatgpt',
+    displayName: 'Chat GPT',
+    logo: chatgptLogo,
+    type: 'misc',
+  },
+  {
+    name: 'outlook',
+    displayName: 'Outlook',
+    logo: outlookLogo,
+    type: 'communication',
+  },
+  {
+    name: 'linear',
+    displayName: 'Linear',
+    logo: linearLogo,
+    type: 'misc',
+  },
+  {
+    name: 'jira',
+    displayName: 'Jira',
+    logo: jiraLogo,
+    type: 'misc',
+  },
+  {
+    name: 'stackoverflow',
+    displayName: 'Stack Overflow',
+    logo: stackoverflowLogo,
+    type: 'code',
   },
   {
     name: 'linkedin',

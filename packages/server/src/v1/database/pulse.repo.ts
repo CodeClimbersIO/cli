@@ -212,10 +212,17 @@ export class PulseRepo {
       'github',
       'figma',
       'canva',
+      'slack',
+      'mail.google',
+      'stackoverflow',
+      'claudeai',
+      'chatgpt',
+      'outlook',
+      'linear',
+      'jira',
       'linkedin',
       'youtube',
       'localhost',
-      'slack',
     ]
 
     return await this.knex(this.tableName)

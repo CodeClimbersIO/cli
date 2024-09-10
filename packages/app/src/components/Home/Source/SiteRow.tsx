@@ -31,6 +31,9 @@ export const SiteRow = ({ site, minutes }: SiteRowProps) => {
       color: theme.palette.graphColors.green,
     },
   ]
+  const sourceCategoryColor =
+    typeColors.find((typeColor) => typeColor.type === site.type)?.color ??
+    theme.palette.graphColors.blue
 
   return (
     <Stack
@@ -56,10 +59,7 @@ export const SiteRow = ({ site, minutes }: SiteRowProps) => {
             <SourceTimeChart
               time={minutesToHours(minutes)}
               progress={Math.floor((minutes / compareTime) * 100)}
-              color={
-                typeColors.find((typeColor) => typeColor.type === site.type)
-                  ?.color ?? theme.palette.graphColors.blue
-              }
+              color={sourceCategoryColor}
             />
           )}
         </Stack>
