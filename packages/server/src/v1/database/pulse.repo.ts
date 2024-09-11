@@ -196,7 +196,7 @@ export class PulseRepo {
       .select(
         sources.map((source) => ({
           [source]: this.knex.raw(
-            `count(*) filter (where user_agent like '%${source}%')`,
+            `count(*) filter (where user_agent like '%${source}%') * 2`,
           ),
         })),
       )
@@ -241,7 +241,7 @@ export class PulseRepo {
       .select(
         sites.map((site) => ({
           [site]: this.knex.raw(
-            `count(*) filter (where entity like '%${site}%')`,
+            `count(*) filter (where entity like '%${site}%') * 2`,
           ),
         })),
       )
