@@ -186,11 +186,11 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             userAgent: 'user_agent',
-            totalMinutes: this.knex.raw('count(*)'),
+            totalMinutes: this.knex.raw('count(*) * 2'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
-          .groupBy(['user_agent', this.knex.raw("strftime('%s', time) / 60")])
+          .groupBy(['user_agent', this.knex.raw("strftime('%s', time) / 120")])
           .orderBy('user_agent'),
       )
       .select(
@@ -231,12 +231,12 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             entity: 'entity',
-            minutes: this.knex.raw('count(*)'),
+            minutes: this.knex.raw('count(*) * 2'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
           .andWhere('type', 'domain')
-          .groupBy([this.knex.raw("strftime('%s', time) / 60"), 'entity']),
+          .groupBy([this.knex.raw("strftime('%s', time) / 120"), 'entity']),
       )
       .select(
         sites.map((site) => ({
