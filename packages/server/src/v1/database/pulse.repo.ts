@@ -194,17 +194,58 @@ export class PulseRepo {
           .orderBy('user_agent'),
       )
       .select(
-        sources.reduce(
-          (a, source) => ({
-            ...a,
-            [source]: this.knex.raw(
-              `count(*) filter (where user_agent like '%${source}%')`,
-            ),
-          }),
-          {},
-        ),
+        sources.map((source) => ({
+          [source]: this.knex.raw(
+            `count(*) filter (where user_agent like '%${source}%')`,
+          ),
+        })),
       )
       .from('getSourceMinutes')
+      .first()
+  }
+
+  async getSitesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<object | undefined> {
+    const sites = [
+      'github',
+      'figma',
+      'canva',
+      'slack',
+      'mail.google',
+      'stackoverflow',
+      'claudeai',
+      'chatgpt',
+      'outlook',
+      'linear',
+      'jira',
+      'linkedin',
+      'youtube',
+      'localhost',
+    ]
+
+    return await this.knex(this.tableName)
+      .with(
+        'getSiteMinutes',
+        this.knex(this.tableName)
+          .select({
+            entity: 'entity',
+            minutes: this.knex.raw('count(*)'),
+          })
+          .from(this.tableName)
+          .whereBetween('time', [startDate, endDate])
+          .andWhere('type', 'domain')
+          .groupBy([this.knex.raw("strftime('%s', time) / 60"), 'entity']),
+      )
+      .select(
+        sites.map((site) => ({
+          [site]: this.knex.raw(
+            `count(*) filter (where entity like '%${site}%')`,
+          ),
+        })),
+      )
+      .from('getSiteMinutes')
       .first()
   }
 }

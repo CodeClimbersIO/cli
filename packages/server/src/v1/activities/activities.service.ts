@@ -160,6 +160,28 @@ export class ActivitiesService {
       .filter((item) => item !== null)
   }
 
+  async getSitesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.SiteMinutes[]> {
+    const sitesWithMinutes = await this.pulseRepo.getSitesMinutes(
+      startDate,
+      endDate,
+    )
+
+    return Object.keys(sitesWithMinutes)
+      .map((key) => {
+        const value = sitesWithMinutes[key]
+        if (value === 0) return null
+
+        return {
+          name: key,
+          minutes: value * 2,
+        }
+      })
+      .filter((item) => item !== null)
+  }
+
   async getDeepWork(
     startDate: string,
     endDate: string,

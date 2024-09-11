@@ -88,4 +88,15 @@ export class PulseController {
     )
     return { message: 'success', data: sources }
   }
+
+  @Get('sitesMinutes')
+  async getSitesMinutes(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.SitesOverviewDao> {
+    const sites = await this.activitiesService.getSitesMinutes(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: sites }
+  }
 }

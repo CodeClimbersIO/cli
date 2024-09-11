@@ -14,79 +14,17 @@ import dayjs from 'dayjs'
 
 import {
   useExportPulses,
+  useGetSitesWithMinutes,
   useGetSourcesWithMinutes,
 } from '../../../api/pulse.api'
-import {
-  SourceDetails,
-  supportedSources,
-} from '../../../utils/supportedSources'
+import { supportedSources } from '../../../utils/supportedSources'
 import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'
 import SourcesLoading from './Sources.loading'
 import AddSources from './AddSources'
-import { getTimeSince } from '../../../utils/time'
-import { minutesToHours } from '../Time/utils'
-import { SourceTimeChart } from './SourceTimeChart'
-
-interface SourceRowProps {
-  source: SourceDetails
-  lastActive: string
-  minutes: number
-}
-
-const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
-  const theme = useTheme()
-  const compareTime = 90
-
-  return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      justifyContent="space-between"
-      width="100%"
-    >
-      <Stack direction="row" alignItems="center" spacing={1} width="100%">
-        <img
-          alt={source.displayName + ' Logo'}
-          src={source.logo}
-          style={{ height: '32px', width: '32px' }}
-        />
-        <Stack direction="column" width="100%">
-          <Typography variant="body2" fontWeight={700}>
-            {source.displayName}
-          </Typography>
-          {minutes > 0 && (
-            <SourceTimeChart
-              time={minutesToHours(minutes)}
-              progress={Math.floor((minutes / compareTime) * 100)}
-              color={theme.palette.graphColors.blue}
-            />
-          )}
-          <Stack direction="row" justifyContent="space-between">
-            {minutes === 0 && lastActive && (
-              <Typography
-                variant="body2"
-                fontWeight={400}
-                color={theme.palette.grey[300]}
-              >
-                {`Last pulse ${getTimeSince(lastActive)}`}
-              </Typography>
-            )}
-            {minutes === 0 && (
-              <Typography
-                variant="body1"
-                fontWeight={400}
-                color={theme.palette.grey[300]}
-              >
-                0m
-              </Typography>
-            )}
-          </Stack>
-        </Stack>
-      </Stack>
-    </Stack>
-  )
-}
+import { supportedSites } from '../../../utils/supportedSites'
+import { SiteRow } from './SiteRow'
+import { SourceRow } from './SourceRow'
 
 const Sources = () => {
   const {
@@ -95,6 +33,14 @@ const Sources = () => {
     isEmpty,
     isError,
   } = useGetSourcesWithMinutes(
+    dayjs().startOf('day').toISOString(),
+    dayjs().endOf('day').toISOString(),
+  )
+  const {
+    data: sitesWithMinutes,
+    isEmpty: sitesEmpty,
+    isLoading: sitesQueryIsLoading,
+  } = useGetSitesWithMinutes(
     dayjs().startOf('day').toISOString(),
     dayjs().endOf('day').toISOString(),
   )
@@ -169,6 +115,37 @@ const Sources = () => {
                 })}
               </Stack>
             </div>
+            <Stack py={5}>
+              {!sitesQueryIsLoading && !sitesEmpty && (
+                <>
+                  <Typography
+                    variant="h3"
+                    alignContent="center"
+                    textAlign="left"
+                  >
+                    Sites
+                  </Typography>
+                  <Stack direction="column" marginTop="24px" gap={3}>
+                    {sitesWithMinutes?.map((site, index) => {
+                      const siteDetails = supportedSites.find((supportedSite) =>
+                        supportedSite.name.includes(site.name),
+                      )
+
+                      if (siteDetails) {
+                        return (
+                          <SiteRow
+                            key={index}
+                            site={siteDetails}
+                            minutes={site.minutes}
+                          />
+                        )
+                      }
+                    })}
+                  </Stack>
+                </>
+              )}
+              {sitesQueryIsLoading && <>hi</>}
+            </Stack>
             <LoadingButton
               onClick={handleExportPulses}
               loading={exportingPulses}
