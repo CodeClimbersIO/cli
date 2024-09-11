@@ -1,8 +1,6 @@
 import {
   Typography,
   Box,
-  Button,
-  IconButton,
   Chip,
   Dialog,
   DialogContent,
@@ -22,6 +20,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Refresh } from '@mui/icons-material'
 import { getTimeSince } from '../../../utils/time'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
+import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
 
 interface AddSourcesRowProps {
   source: SourceDetails
@@ -89,13 +89,14 @@ const AddSourceRow = ({ source, lastActive }: AddSourcesRowProps) => {
         />
       </AccordionDetails>
       <AccordionActions>
-        <Button
+        <CodeClimbersButton
+          eventName={`source_${source.name.toLowerCase()}_refresh`}
           onClick={() => refetch()}
           startIcon={<Refresh />}
           color="primary"
         >
           Refresh
-        </Button>
+        </CodeClimbersButton>
       </AccordionActions>
     </Accordion>
   )
@@ -120,7 +121,8 @@ const AddSources = ({ open, handleClose }: AddSourcesProps) => {
       <DialogTitle sx={{ m: 0, p: 2 }} id="sources-title">
         Add Sources
       </DialogTitle>
-      <IconButton
+      <CodeClimbersIconButton
+        eventName="source_close"
         aria-label="close"
         onClick={handleClose}
         sx={{
@@ -131,7 +133,7 @@ const AddSources = ({ open, handleClose }: AddSourcesProps) => {
         }}
       >
         <CloseIcon />
-      </IconButton>
+      </CodeClimbersIconButton>
       <DialogContent>
         {isPending && (
           <>

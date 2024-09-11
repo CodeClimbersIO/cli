@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import {
   Box,
-  Button,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -18,6 +17,7 @@ import {
   LightMode,
 } from '@mui/icons-material'
 import { useThemeStorage } from '../../hooks/useBrowserStorage'
+import CodeClimbersButton from '../common/CodeClimbersButton'
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -85,36 +85,44 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
     <>
       <Header>
         <LeftWrapper>
-          <Button variant="text" onClick={handleClick}>
+          <CodeClimbersButton
+            variant="text"
+            onClick={handleClick}
+            eventName="home_header_logo_click"
+          >
             <Logo />
-          </Button>
+          </CodeClimbersButton>
           <Box display="flex" gap={3} alignItems="center">
-            <Button
+            <CodeClimbersButton
               variant="contained"
               sx={{ height: 40 }}
               disabled={today.isSame(selectedDate, 'day')}
               onClick={() => setSelectedDate(today)}
+              eventName="home_header_today_click"
             >
               Today
-            </Button>
+            </CodeClimbersButton>
             <Box display="flex" gap={1}>
-              <Button
+              <CodeClimbersButton
+                id="decrease-date"
                 variant="outlined"
                 color="inherit"
                 sx={{ width: 40, height: 40, minWidth: 0 }}
                 onClick={decreaseDate}
+                eventName="home_header_decrease_date_click"
               >
                 <ChevronLeft />
-              </Button>
-              <Button
+              </CodeClimbersButton>
+              <CodeClimbersButton
                 variant="outlined"
                 color="inherit"
                 sx={{ width: 40, height: 40, minWidth: 0 }}
                 disabled={today.isSame(selectedDate, 'day')}
                 onClick={increaseDate}
+                eventName="home_header_increase_date_click"
               >
                 <ChevronRight />
-              </Button>
+              </CodeClimbersButton>
             </Box>
             <Typography variant="body2" fontWeight={700}>
               {formatDate()}

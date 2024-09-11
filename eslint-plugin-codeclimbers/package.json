@@ -1,0 +1,6 @@
+{
+  "name": "eslint-plugin-codeclimbers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}

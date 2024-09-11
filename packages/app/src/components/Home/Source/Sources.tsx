@@ -1,12 +1,5 @@
 import { useState } from 'react'
-import {
-  Button,
-  Card,
-  CardContent,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material'
+import { Card, CardContent, Stack, Typography, useTheme } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
@@ -25,6 +18,7 @@ import AddSources from './AddSources'
 import { supportedSites } from '../../../utils/supportedSites'
 import { SiteRow } from './SiteRow'
 import { SourceRow } from './SourceRow'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
 
 type SourcesProps = { selectedDate: Dayjs }
 const Sources = ({ selectedDate }: SourcesProps) => {
@@ -78,7 +72,8 @@ const Sources = ({ selectedDate }: SourcesProps) => {
                 <Typography variant="h3" alignContent="center" textAlign="left">
                   Sources
                 </Typography>
-                <Button
+                <CodeClimbersButton
+                  eventName="source_add_main_click"
                   variant="contained"
                   onClick={() => setAddSourcesOpen(true)}
                   startIcon={<AddIcon fontSize="small" />}
@@ -95,7 +90,7 @@ const Sources = ({ selectedDate }: SourcesProps) => {
                   }}
                 >
                   Add
-                </Button>
+                </CodeClimbersButton>
               </Stack>
               <Stack direction="column" marginTop="24px" gap={3}>
                 {sourcesWithMinutes.map((source, index) => {
