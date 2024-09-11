@@ -1,5 +1,4 @@
 import {
-  Button,
   CircularProgress,
   Grow,
   InputAdornment,
@@ -10,6 +9,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 import { EmailOutlined } from '@mui/icons-material'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
 
 const TIMEOUT = 1_000 * 60
 const CLOUDFLARE_ERROR = 'Failed to fetch'
@@ -83,7 +83,8 @@ export const NewsletterForm = () => {
             ),
           }}
         />
-        <Button
+        <CodeClimbersButton
+          eventName="newsletter_form_submit"
           type="submit"
           color="primary"
           variant="outlined"
@@ -91,7 +92,7 @@ export const NewsletterForm = () => {
           startIcon={subscribe.isPending && <CircularProgress size="1rem" />}
         >
           {subscribe.isPending ? 'Please wait...' : 'Join Waitlist'}
-        </Button>
+        </CodeClimbersButton>
         <Grow in={subscribe.isSuccess} unmountOnExit>
           <Typography variant="caption">
             Thanks for subscribing! We'll keep you updated.

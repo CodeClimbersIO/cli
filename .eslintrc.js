@@ -5,7 +5,7 @@ module.exports = {
     node: true,
   },
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "codeclimbers"],
   settings: {
     "import/resolver": {
       "typescript": {},
@@ -30,5 +30,6 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-explicit-any": "error",
+    "codeclimbers/use-code-climbers-button": "error",
   },
 };

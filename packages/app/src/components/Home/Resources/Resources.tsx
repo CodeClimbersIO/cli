@@ -1,9 +1,10 @@
-import { Button, Card, CardContent, Stack, Typography } from '@mui/material'
+import { Card, CardContent, Stack, Typography } from '@mui/material'
 import { NewsletterForm } from './NewsletterForm'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import XIcon from '@mui/icons-material/X'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { DiscordIcon } from '../../common/Icons/DiscordIcon'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
 
 const RESOURCES = [
   {
@@ -42,7 +43,8 @@ export const Resources = () => (
         <Grid2 container spacing={2}>
           {RESOURCES.map((resource) => (
             <Grid2 xs={6} key={resource.name}>
-              <Button
+              <CodeClimbersButton
+                eventName={`resource_${resource.name.toLowerCase()}_click`}
                 component="a"
                 color="inherit"
                 href={resource.url}
@@ -57,7 +59,7 @@ export const Resources = () => (
                 }}
               >
                 {resource.name}
-              </Button>
+              </CodeClimbersButton>
             </Grid2>
           ))}
         </Grid2>
