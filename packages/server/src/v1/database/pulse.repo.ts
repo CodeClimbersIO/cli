@@ -186,7 +186,7 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             userAgent: 'user_agent',
-            totalMinutes: this.knex.raw('count(*) * 2'),
+            totalMinutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -196,7 +196,7 @@ export class PulseRepo {
       .select(
         sources.map((source) => ({
           [source]: this.knex.raw(
-            `count(*) filter (where user_agent like '%${source}%')`,
+            `count(*) filter (where user_agent like '%${source}%') * 2`,
           ),
         })),
       )
@@ -231,7 +231,7 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             entity: 'entity',
-            minutes: this.knex.raw('count(*) * 2'),
+            minutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -241,7 +241,7 @@ export class PulseRepo {
       .select(
         sites.map((site) => ({
           [site]: this.knex.raw(
-            `count(*) filter (where entity like '%${site}%')`,
+            `count(*) filter (where entity like '%${site}%') * 2`,
           ),
         })),
       )
