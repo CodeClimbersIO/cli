@@ -10,7 +10,7 @@ import {
 import { LoadingButton } from '@mui/lab'
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
-import dayjs from 'dayjs'
+import { Dayjs } from 'dayjs'
 
 import {
   useExportPulses,
@@ -26,23 +26,24 @@ import { supportedSites } from '../../../utils/supportedSites'
 import { SiteRow } from './SiteRow'
 import { SourceRow } from './SourceRow'
 
-const Sources = () => {
+type SourcesProps = { selectedDate: Dayjs }
+const Sources = ({ selectedDate }: SourcesProps) => {
   const {
     data: sourcesWithMinutes,
     isPending,
     isEmpty,
     isError,
   } = useGetSourcesWithMinutes(
-    dayjs().startOf('day').toISOString(),
-    dayjs().endOf('day').toISOString(),
+    selectedDate.startOf('day').toISOString(),
+    selectedDate.endOf('day').toISOString(),
   )
   const {
     data: sitesWithMinutes,
     isEmpty: sitesEmpty,
     isLoading: sitesQueryIsLoading,
   } = useGetSitesWithMinutes(
-    dayjs().startOf('day').toISOString(),
-    dayjs().endOf('day').toISOString(),
+    selectedDate.startOf('day').toISOString(),
+    selectedDate.endOf('day').toISOString(),
   )
 
   const { exportPulses } = useExportPulses()
