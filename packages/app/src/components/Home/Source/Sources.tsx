@@ -37,6 +37,7 @@ const Sources = ({ selectedDate }: SourcesProps) => {
     selectedDate.startOf('day').toISOString(),
     selectedDate.endOf('day').toISOString(),
   )
+
   const {
     data: sitesWithMinutes,
     isEmpty: sitesEmpty,
