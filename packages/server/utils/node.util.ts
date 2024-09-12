@@ -1,6 +1,7 @@
 import * as path from 'node:path'
 import * as os from 'node:os'
 import * as fs from 'node:fs'
+import pc from 'picocolors'
 import { Logger } from '@nestjs/common'
 import { isProd } from './environment.util'
 import { execSync } from 'node:child_process'
@@ -13,6 +14,7 @@ const areWeInDist = () => {
 interface INodeUtil {
   PROJECT_ROOT: string
   BIN_PATH: string
+  START_ERR_LOG_MESSAGE: string
   HOME_DIR: string
   CODE_CLIMBER_META_DIR: string
   DB_PATH: string
@@ -27,6 +29,7 @@ abstract class BaseNodeUtil implements INodeUtil {
     : path.join(__dirname, '..', '..', '..')
   BIN_PATH = path.join(this.PROJECT_ROOT, 'bin')
   HOME_DIR = os.homedir()
+  abstract START_ERR_LOG_MESSAGE: string
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
   APP_DIST_PATH = path.join(this.PROJECT_ROOT, 'packages', 'app', 'dist')
@@ -44,6 +47,13 @@ abstract class BaseNodeUtil implements INodeUtil {
 class DarwinNodeUtil extends BaseNodeUtil {
   CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/.codeclimbers`
   DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
+  START_ERR_LOG_MESSAGE = pc.red(`      
+    It seems the server is having trouble starting. Run the command 
+  
+    ${pc.white('cat ' + this.CODE_CLIMBER_META_DIR + '/codeclimbers_error.log')} 
+    
+    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
+        `)
 
   NODE_PATH = (): string => {
     const result = execSync('which node').toString().trim()
@@ -52,8 +62,15 @@ class DarwinNodeUtil extends BaseNodeUtil {
 }
 
 class WindowsNodeUtil extends BaseNodeUtil {
-  CODE_CLIMBER_META_DIR = `${this.HOME_DIR}\\AppData\\Local\\codeclimbers`
+  CODE_CLIMBER_META_DIR = `${this.HOME_DIR}\\.codeclimbers`
   DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
+  START_ERR_LOG_MESSAGE: string = pc.red(`      
+    It seems the server is having trouble starting. Run the command in cmd (not powershell)
+  
+    ${pc.white('more ' + this.CODE_CLIMBER_META_DIR + '\\codeclimbers.error.log')} 
+    
+    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
+        `)
 
   NODE_PATH = (): string => {
     const result = execSync('where node').toString().trim()
@@ -64,7 +81,13 @@ class WindowsNodeUtil extends BaseNodeUtil {
 class LinuxNodeUtil extends BaseNodeUtil {
   CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/.codeclimbers`
   DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
-
+  START_ERR_LOG_MESSAGE = pc.red(`      
+    It seems the server is having trouble starting. Run the command 
+  
+    ${pc.white('cat ' + this.CODE_CLIMBER_META_DIR + '/codeclimbers_error.log')} 
+    
+    to investigate the issue further
+        `)
   NODE_PATH = (): string => {
     const result = execSync('which node').toString().trim()
     return path.dirname(result)
@@ -89,6 +112,7 @@ const nodeUtil = createNodeUtil()
 // Named exports
 export const PROJECT_ROOT = nodeUtil.PROJECT_ROOT
 export const BIN_PATH = nodeUtil.BIN_PATH
+export const START_ERR_LOG_MESSAGE = nodeUtil.START_ERR_LOG_MESSAGE
 export const HOME_DIR = nodeUtil.HOME_DIR
 export const CODE_CLIMBER_META_DIR = nodeUtil.CODE_CLIMBER_META_DIR
 export const DB_PATH = nodeUtil.DB_PATH
@@ -98,13 +122,13 @@ export const initDBDir = nodeUtil.initDBDir
 
 const logPaths = () => {
   if (isProd()) return
-  Logger.debug('NODE_PATH', NODE_PATH())
-  Logger.debug('PROJECT_ROOT', PROJECT_ROOT)
-  Logger.debug('BIN_PATH', BIN_PATH)
-  Logger.debug('CODE_CLIMBER_META_DIR', CODE_CLIMBER_META_DIR)
-  Logger.debug('DB_PATH', DB_PATH)
-  Logger.debug('HOME_DIR', HOME_DIR)
-  Logger.debug('APP_DIST_PATH', APP_DIST_PATH)
+  Logger.debug(NODE_PATH(), 'NODE_PATH')
+  Logger.debug(PROJECT_ROOT, 'PROJECT_ROOT')
+  Logger.debug(BIN_PATH, 'BIN_PATH')
+  Logger.debug(CODE_CLIMBER_META_DIR, 'CODE_CLIMBER_META_DIR')
+  Logger.debug(DB_PATH, 'DB_PATH')
+  Logger.debug(HOME_DIR, 'HOME_DIR')
+  Logger.debug(APP_DIST_PATH, 'APP_DIST_PATH')
 }
 
 logPaths()

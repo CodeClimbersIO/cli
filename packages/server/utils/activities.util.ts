@@ -119,6 +119,7 @@ function getStatusByKey(
 
 function mapStatusBarRawToDto(
   statusBarRaw: CodeClimbers.WakatimePulseStatusDao[],
+  dayTotalMinutes: number,
 ): CodeClimbers.ActivitiesStatusBar {
   if (statusBarRaw.length <= 0) return defaultStatusBar()
   const now = new Date()
@@ -140,20 +141,15 @@ function mapStatusBarRawToDto(
   )
   statusbar.data.projects = getStatusByKey(statusBarRaw, 'projects')
 
-  // const grandTotalSeconds = sumBy(statusBarRaw, (x) => parseInt(x.seconds))
-  const grandTotalSeconds = statusBarRaw.reduce(
-    (acc, x) => acc + parseInt(x.seconds as string),
-    0,
-  )
-  const hours = Math.floor(grandTotalSeconds / 3600)
-  const minutes = Math.floor((grandTotalSeconds % 3600) / 60)
-  const seconds = Math.floor(grandTotalSeconds % 60)
+  const hours = Math.floor(dayTotalMinutes / 60)
+  const minutes = dayTotalMinutes % 60
+
   statusbar.data.grand_total = {
     digital: `${hours}:${minutes}`,
     hours,
     minutes,
-    text: `${hours} hrs ${seconds >= 30 ? minutes + 1 : minutes} mins`,
-    total_seconds: grandTotalSeconds,
+    text: `${hours} hrs ${minutes} mins`,
+    total_seconds: dayTotalMinutes * 60,
   }
 
   const dates = statusBarRaw.map((x) => new Date(x.maxHeartbeatTime))

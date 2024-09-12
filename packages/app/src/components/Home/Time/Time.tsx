@@ -4,6 +4,7 @@ import { Dayjs } from 'dayjs'
 
 import WeekOverview from './WeekOverview'
 import CategoryChart from './CategoryChart'
+import DeepWork from '../DeepWork'
 
 type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
@@ -30,7 +31,8 @@ export const Time = ({ selectedDate }: Props) => {
           </Grid2>
         </Grid2>
         <WeekOverview selectedDate={selectedDate} />
-        <Divider />
+        <DeepWork selectedDate={selectedDate} />
+        <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
       </CardContent>
     </Card>

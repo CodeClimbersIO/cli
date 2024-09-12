@@ -4,6 +4,7 @@ import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
 import dayjs from 'dayjs'
+import { TimePeriodDto } from '../dtos/getCategoryTimeOverview.dto'
 import { PageDto, PageMetaDto, PageOptionsDto } from '../dtos/pagination.dto'
 
 @Injectable()
@@ -13,7 +14,15 @@ export class ActivitiesService {
   }
   async getActivityStatusBar(): Promise<CodeClimbers.ActivitiesStatusBar> {
     const statusBarRaw = await this.pulseRepo.getStatusBarDetails()
-    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw)
+    // these next 5 lines to get the dayTotalMinutes are all that is shown in the status bar in vscode and the other plugins but the statusBar details are needed to be returned so that the extensions don't error
+    const startDate = dayjs().startOf('day').toISOString()
+    const endDate = dayjs().endOf('day').toISOString()
+    const data = await this.pulseRepo.getCategoryTimeOverview(
+      startDate,
+      endDate,
+    )
+    const dayTotalMinutes = data.reduce((acc, curr) => acc + curr.minutes, 0)
+    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw, dayTotalMinutes)
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
@@ -42,10 +51,19 @@ export class ActivitiesService {
   }
 
   async getCategoryTimeOverview(
-    startDate: string,
-    endDate: string,
-  ): Promise<CodeClimbers.TimeOverview[]> {
-    return await this.pulseRepo.getCategoryTimeOverview(startDate, endDate)
+    periods: TimePeriodDto[],
+  ): Promise<CodeClimbers.TimeOverview[][]> {
+    const resultsPromises = periods.map((period) => {
+      if (!period.startDate || !period.endDate) {
+        throw new Error('Invalid time period')
+      }
+      return this.pulseRepo.getCategoryTimeOverview(
+        period.startDate,
+        period.endDate,
+      )
+    })
+    const results = await Promise.all(resultsPromises)
+    return results
   }
 
   async getWeekOverview(date: string): Promise<CodeClimbers.WeekOverview> {
@@ -113,6 +131,63 @@ export class ActivitiesService {
 
       return { name: source, lastActive: maxLastActive }
     })
+  }
+
+  async getSourcesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.SourceMinutes[]> {
+    const userSources = await this.getSources()
+    const sourcesWithMinutes = await this.pulseRepo.getSourcesMinutes(
+      startDate,
+      endDate,
+    )
+
+    return Object.keys(sourcesWithMinutes)
+      .map((key) => {
+        const lastActive =
+          userSources.find((source) =>
+            source.name.toLowerCase().includes(key.toLowerCase()),
+          )?.lastActive ?? null
+
+        if (lastActive === null) return null
+
+        return {
+          name: key,
+          minutes: sourcesWithMinutes[key],
+          lastActive,
+        }
+      })
+      .filter((item) => item !== null)
+  }
+
+  async getSitesMinutes(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.SiteMinutes[]> {
+    const sitesWithMinutes = await this.pulseRepo.getSitesMinutes(
+      startDate,
+      endDate,
+    )
+
+    return Object.keys(sitesWithMinutes)
+      .map((key) => {
+        const value = sitesWithMinutes[key]
+        if (value === 0) return null
+
+        return {
+          name: key,
+          minutes: value * 2,
+        }
+      })
+      .filter((item) => item !== null)
+  }
+
+  async getDeepWork(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.DeepWorkTime[]> {
+    return this.pulseRepo.getDeepWork(startDate, endDate)
   }
 
   async generatePulsesCSV(): Promise<Buffer> {

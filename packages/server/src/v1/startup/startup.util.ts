@@ -8,7 +8,7 @@ function getServiceLib() {
     case 'darwin':
       return require('node-mac')
     case 'linux':
-      return require('node-linux')
+      return require('@codeclimbers/node-linux')
     case 'win32':
       return require('node-windows')
     default:

@@ -1,14 +1,16 @@
-import { useState, useCallback } from 'react'
 import {
   Box,
-  Typography,
-  LinearProgress,
-  IconButton,
   Collapse,
+  emphasize,
+  IconButton,
+  LinearProgress,
+  rgbToHex,
+  Typography,
 } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import { useCallback, useState } from 'react'
 
 interface SubCategory {
   title: string
@@ -29,7 +31,7 @@ export const TimeDataChart = ({
   color,
   progress,
   time,
-  subCategories,
+  subCategories
 }: TimeDataChartProps) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -37,8 +39,42 @@ export const TimeDataChart = ({
     setExpanded((prev) => !prev)
   }, [])
 
+  const Progress = ({ progress }: { progress: number }) => {
+    const progressBars = []
+    let remainingProgress = progress
+    const laps = Math.ceil(progress / 100)
+    let currentColor = color
+    for (let i = 0; i < laps; i++) {
+      const height = (laps - i) / laps
+      const assignedColor = rgbToHex(currentColor)
+      progressBars.push(
+        <LinearProgress
+          variant="determinate"
+          value={remainingProgress > 100 ? 100 : remainingProgress}
+          key={i}
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            py: 1.5,
+            borderRadius: 1,
+            backgroundColor: 'transparent',
+            '& .MuiLinearProgress-bar': {
+              bottom: 0,
+              top: 'auto',
+              backgroundColor: `${assignedColor}`,
+              borderRadius: 1,
+              height: height * 100 + '%',
+            },
+          }}
+        />,
+      )
+      currentColor = emphasize(currentColor, 0.3)
+      remainingProgress -= 100
+    }
+    return <Box sx={{ position: 'relative' }}>{progressBars}</Box>
+  }
   return (
-    <Box>
+    <Grid2>
       <Grid2
         container
         justifyContent="space-between"
@@ -49,20 +85,7 @@ export const TimeDataChart = ({
           <Typography variant="body1">{title}</Typography>
         </Grid2>
         <Grid2 sx={{ flex: 1 }}>
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{
-              width: '100%',
-              py: 1.5,
-              borderRadius: 1,
-              backgroundColor: 'transparent',
-              '& .MuiLinearProgress-bar': {
-                backgroundColor: color,
-                borderRadius: 1,
-              },
-            }}
-          />
+          <Progress progress={progress} />
         </Grid2>
         <Grid2>
           <Typography variant="body1" fontWeight="bold">
@@ -90,20 +113,7 @@ export const TimeDataChart = ({
                     <Typography variant="body2">{subCategory.title}</Typography>
                   </Grid2>
                   <Grid2 sx={{ flex: 1 }}>
-                    <LinearProgress
-                      variant="determinate"
-                      value={subCategory.progress}
-                      sx={{
-                        width: '100%',
-                        py: 0.5,
-                        borderRadius: 1,
-                        backgroundColor: 'transparent',
-                        '& .MuiLinearProgress-bar': {
-                          backgroundColor: color,
-                          borderRadius: 1,
-                        },
-                      }}
-                    />
+                    <Progress progress={subCategory.progress} />
                   </Grid2>
                   <Grid2>
                     <Typography variant="body2">{subCategory.time}</Typography>
@@ -114,6 +124,6 @@ export const TimeDataChart = ({
           </Grid2>
         </Box>
       </Collapse>
-    </Box>
+    </Grid2>
   )
 }

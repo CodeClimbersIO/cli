@@ -50,7 +50,7 @@ describe('pulse.repo', () => {
       endDate,
     )
 
-    expect(longestDay).toEqual(2)
+    expect(longestDay).toEqual(4)
   })
 
   it('Should get category time overview', async () => {
@@ -197,7 +197,7 @@ describe('pulse.repo', () => {
       endDate,
     )
 
-    expect(minutes).toEqual(3)
+    expect(minutes).toEqual(4)
   })
 
   // TODO: Write test for representing categories correctly, as they are not all equal.

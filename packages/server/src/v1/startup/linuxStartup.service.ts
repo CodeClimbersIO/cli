@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common'
-// eslint-disable-next-line import/no-unresolved
 import * as path from 'node:path'
-import { BIN_PATH, CODE_CLIMBER_META_DIR } from '../../../utils/node.util'
+import {
+  BIN_PATH,
+  CODE_CLIMBER_META_DIR,
+  NODE_PATH,
+} from '../../../utils/node.util'
 import startupUtil from './startup.util'
 import { isDev } from '../../../utils/environment.util'
 const { Service } = startupUtil.getServiceLib()
@@ -25,9 +28,11 @@ export class LinuxStartupService implements CodeClimbers.StartupService {
           name: 'CODE_CLIMBER_BIN_PATH',
           value: BIN_PATH,
         },
+        {
+          name: 'NODE_PATH',
+          value: NODE_PATH(),
+        },
       ],
-      logOnAsUser: true,
-      runAsAgent: true,
       wait: 5,
       grow: 0,
       maxRestarts: 10,

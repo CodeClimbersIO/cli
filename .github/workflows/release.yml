@@ -1,0 +1,81 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - release # or your default branch
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Get latest tag from main branch
+        id: get_latest_tag
+        run: |
+          git fetch --all --tags
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1 origin/main))
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Get last release
+        id: last_release
+        run: |
+          last_release=$(curl -s -H "Authorization: token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/latest" | \
+            jq -r .tag_name)
+          echo "Last release tag: $last_release"
+          echo "last_release=$last_release" >> $GITHUB_OUTPUT
+
+      - name: Create Changelog
+        id: create_changelog
+        run: |
+          git log ${{ steps.last_release.outputs.last_release }}..HEAD --pretty=format:"- %s %h%n" > changelog.md
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$(cat changelog.md)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_latest_tag.outputs.latest_tag }}
+          release_name: Release ${{ steps.get_latest_tag.outputs.latest_tag }}
+          body: |
+            Changes in this Release:
+              
+            ${{ steps.create_changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+  build_and_publish:
+    needs: create_release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm run build
+      - run: npm pack
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: "*.tgz"
+
+      - name: list files
+        run: ls
+
+      - name: Publish to npm
+        run: |
+          npm set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+          npm publish *.tgz

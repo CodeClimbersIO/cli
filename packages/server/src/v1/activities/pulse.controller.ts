@@ -1,7 +1,10 @@
-import { Controller, Get, Param, Query, Res } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common'
 import { ActivitiesService } from './activities.service'
 import { Response } from 'express'
-import { GetCategoryTimeOverviewDto } from '../dtos/getCategoryTimeOverview.dto'
+import {
+  GetCategoryTimeOverviewDto,
+  TimePeriodDto,
+} from '../dtos/getCategoryTimeOverview.dto'
 import { GetWeekOverviewDto } from '../dtos/getWeekOverview.dto'
 import { PageOptionsDto } from '../dtos/pagination.dto'
 
@@ -28,15 +31,13 @@ export class PulseController {
     return { message: 'success', data: result }
   }
 
-  @Get('categoryTimeOverview')
+  @Post('categoryTimeOverview')
   async getCategoryTimeOverview(
-    @Query() times: GetCategoryTimeOverviewDto,
+    @Body() times: GetCategoryTimeOverviewDto,
   ): Promise<CodeClimbers.TimeOverviewDao> {
-    const result: CodeClimbers.TimeOverview[] =
-      await this.activitiesService.getCategoryTimeOverview(
-        times.startDate,
-        times.endDate,
-      )
+    const result = await this.activitiesService.getCategoryTimeOverview(
+      times.periods,
+    )
     return { message: 'success', data: result }
   }
 
@@ -67,9 +68,42 @@ export class PulseController {
     }
   }
 
+  @Get('deepwork')
+  async getDeepWork(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.DeepWorkDao> {
+    const deepWork = await this.activitiesService.getDeepWork(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: deepWork }
+  }
+
+  @Get('sourcesMinutes')
+  async getSourcesMinutes(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.SourcesOverviewDao> {
+    const sources = await this.activitiesService.getSourcesMinutes(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: sources }
+  }
+
+  @Get('sitesMinutes')
+  async getSitesMinutes(
+    @Query() dto: TimePeriodDto,
+  ): Promise<CodeClimbers.SitesOverviewDao> {
+    const sites = await this.activitiesService.getSitesMinutes(
+      dto.startDate,
+      dto.endDate,
+    )
+    return { message: 'success', data: sites }
+  }
+
   @Get('perProjectOverview/topThree')
   async getPerProjectOverviewTopThree(
-    @Query() times: GetCategoryTimeOverviewDto,
+    @Query() times: TimePeriodDto,
   ): Promise<CodeClimbers.PerProjectTimeOverviewDao> {
     const result = await this.activitiesService.getPerProjectOverviewTopThree(
       times.startDate,
@@ -81,7 +115,7 @@ export class PulseController {
   @Get('perProjectOverview/:category')
   async getPerProjectOverviewByCategory(
     @Param('category') category: string,
-    @Query() times: GetCategoryTimeOverviewDto,
+    @Query() times: TimePeriodDto,
     @Query() dto: PageOptionsDto,
   ): Promise<CodeClimbers.PerProjectOverviewByCategoryDao> {
     const { data, meta } =

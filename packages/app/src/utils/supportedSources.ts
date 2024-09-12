@@ -8,6 +8,7 @@ export interface SourceDetails {
   link: string
   logo: string
   instructions: string
+  type: string
 }
 
 export const supportedSources: SourceDetails[] = [
@@ -22,9 +23,10 @@ export const supportedSources: SourceDetails[] = [
       <li>Click Install.</li>
       <li>You may need to reload the editor to activate the extension.</li>
     `,
+    type: 'code',
   },
   {
-    name: 'chrome-code_climbers',
+    name: 'chrome',
     displayName: 'Chromium Browser',
     logo: chromeLogo,
     link: 'https://chromewebstore.google.com/detail/code-climbers/fdmoefklpgbjapealpjfailnmalbgpbe',
@@ -36,6 +38,7 @@ export const supportedSources: SourceDetails[] = [
       <li>Search for CodeClimbers and click Add to Chrome.</li>
       <li>Give the extension permissions to read and change site data if prompted.</li>
     `,
+    type: 'web',
   },
   // Firefox is not supported yet
   // {

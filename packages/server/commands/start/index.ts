@@ -9,6 +9,7 @@ import http from 'http'
 import { StartupServiceFactory } from '../../src/v1/startup/startupService.factory'
 import { bootstrap } from '../../src/main'
 import { PROCESS_NAME } from '../../utils/constants'
+import { START_ERR_LOG_MESSAGE } from '../../utils/node.util'
 
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
@@ -67,15 +68,7 @@ export default class Start extends Command {
       await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
     }
 
-    this.log(
-      pc.red(`      
-  It seems the server is having trouble starting. Run the command 
-
-  ${pc.white('cat ~/.codeclimbers/codeclimbers_error.log')} 
-  
-  to investigate the issue further
-      `),
-    )
+    this.log(START_ERR_LOG_MESSAGE)
     return false
   }
 

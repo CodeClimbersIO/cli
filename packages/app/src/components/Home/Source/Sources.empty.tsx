@@ -1,15 +1,9 @@
-import {
-  Card,
-  CardContent,
-  Stack,
-  Typography,
-  Button,
-  useTheme,
-} from '@mui/material'
+import { Card, CardContent, Stack, Typography, useTheme } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import AddSources from './AddSources'
 import { useState } from 'react'
 import { rgbAnimatedBorder } from '../../../utils/style/rgbAnimation'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
 
 const SourcesEmpty = () => {
   const [addSourcesOpen, setAddSourcesOpen] = useState(false)
@@ -24,8 +18,9 @@ const SourcesEmpty = () => {
               <Typography variant="h3" alignContent="center" textAlign="left">
                 Sources
               </Typography>
-              <Button
+              <CodeClimbersButton
                 variant="contained"
+                eventName="source_add_empty_click"
                 startIcon={<AddIcon fontSize="small" />}
                 onClick={() => setAddSourcesOpen(true)}
                 sx={{
@@ -46,7 +41,7 @@ const SourcesEmpty = () => {
                 }}
               >
                 Add
-              </Button>
+              </CodeClimbersButton>
             </Stack>
             <Typography
               variant="body1"

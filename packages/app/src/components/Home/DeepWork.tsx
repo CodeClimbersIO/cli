@@ -1,16 +1,30 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { CircularProgress, Divider, useTheme } from '@mui/material'
+import { TimeDataChart } from './Time/TimeDataChart'
+import { useDeepWork } from '../../api/pulse.api'
+import { Dayjs } from 'dayjs'
+import { minutesToHours } from './Time/utils'
 
-const DeepWork = () => {
+interface Props {
+  selectedDate: Dayjs
+}
+const DeepWork = ({ selectedDate }: Props) => {
+  const theme = useTheme()
+  const { isLoading, isError, data: deepWork } = useDeepWork(selectedDate)
+
+  if (isLoading) return <CircularProgress />
+  if (isError || !deepWork) return <div>Error</div>
+  console.log(deepWork)
+  const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
   return (
-    <Card
-      raised={false}
-      sx={{ boxShadow: 'none', borderRadius: 0, height: 158, width: '100%' }}
-    >
-      <CardContent sx={{ padding: '20px 30px' }}>
-        <Typography variant="h3">Deep Work</Typography>
-        <p>...content here...</p>
-      </CardContent>
-    </Card>
+    <>
+      <Divider />
+      <TimeDataChart
+        title="Deep Work"
+        time={minutesToHours(totalTime)}
+        progress={(totalTime / (3 * 60)) * 100}
+        color={theme.palette.graphColors.red}
+      />
+    </>
   )
 }
 

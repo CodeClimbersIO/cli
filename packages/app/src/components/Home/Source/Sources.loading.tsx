@@ -3,11 +3,11 @@ import {
   CardContent,
   Stack,
   Typography,
-  Button,
   useTheme,
   CircularProgress,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import CodeClimbersButton from '../../common/CodeClimbersButton'
 
 const SourcesLoading = () => {
   const theme = useTheme()
@@ -20,7 +20,8 @@ const SourcesLoading = () => {
             <Typography variant="h3" alignContent="center" textAlign="left">
               Sources
             </Typography>
-            <Button
+            <CodeClimbersButton
+              eventName="source_add_loading_click"
               variant="contained"
               startIcon={<AddIcon fontSize="small" />}
               disabled={true}
@@ -35,7 +36,7 @@ const SourcesLoading = () => {
               }}
             >
               Add
-            </Button>
+            </CodeClimbersButton>
           </Stack>
           <CircularProgress
             sx={{

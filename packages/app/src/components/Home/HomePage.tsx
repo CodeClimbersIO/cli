@@ -39,7 +39,7 @@ export const HomePage = () => {
       <Body>
         <Time selectedDate={selectedDate} />
         <Wrapper>
-          <Sources />
+          <Sources selectedDate={selectedDate} />
           <Resources />
         </Wrapper>
       </Body>
