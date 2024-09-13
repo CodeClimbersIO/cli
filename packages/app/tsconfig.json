@@ -8,7 +8,8 @@
     "target": "es2022",
     "moduleResolution": "node",
     "paths": {
-      "server/*": ["../server/src/*"]
+      "server/*": ["../server/src/*"],
+      "@app/*": ["./src/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -16,6 +17,7 @@
     "experimentalDecorators": true,
     "jsx": "react-jsx"
   },
+  
   "include": [
     "packages/**/*",
     "../server/src/**/*",

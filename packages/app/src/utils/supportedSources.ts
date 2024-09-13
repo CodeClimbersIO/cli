@@ -1,6 +1,5 @@
-import vscodeLogo from '../public/source-logos/vscode.png'
-import chromeLogo from '../public/source-logos/chrome.webp'
-// import firefoxLogo from "../public/source-logos/firefox.webp";
+import vscodeLogo from '@app/assets/source-logos/vscode.png'
+import chromeLogo from '@app/assets/source-logos/chrome.webp'
 
 export interface SourceDetails {
   name: string
