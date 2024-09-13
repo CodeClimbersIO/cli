@@ -10,7 +10,13 @@ module.exports = {
     "import/resolver": {
       "typescript": {},
       "node": {
-        "extensions": [".js", ".ts"]
+        "extensions": [".js", ".ts"],
+        "paths": ["public"]
+      },
+      "alias": {
+        "map": [
+          ["@app", "./packages/app/src"]
+        ]
       }
     }
   },

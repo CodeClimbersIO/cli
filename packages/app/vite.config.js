@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { version } from '../../package.json'
+import path from 'path'
 
 const define = (mode) => ({
   // Need to clone the version string otherwise it breaks.
@@ -18,6 +19,11 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: '../dist',
       emptyOutDir: true,
+    },
+    resolve: {
+      alias: {
+        '@app': path.resolve(__dirname, './src'),
+      },
     },
     server: {
       fs: {

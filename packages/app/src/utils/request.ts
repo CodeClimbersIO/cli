@@ -35,7 +35,6 @@ export async function apiRequest({
   body?: object
   responseType?: 'json' | 'text' | 'blob' | 'arraybuffer'
 }) {
-  console.log(`${BASE_URL}${url}`)
   return fetch(`${BASE_URL}${url}`, {
     method: method,
     headers: {
