@@ -18,7 +18,7 @@ export class HealthController {
     return {
       OK: true,
       message: 'Health check successful',
-      data: { OK: false, app: 'codeclimbers', version: this.version },
+      data: { OK: true, app: 'codeclimbers', version: this.version },
     }
   }
 }
