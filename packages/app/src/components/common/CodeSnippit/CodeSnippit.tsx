@@ -7,9 +7,10 @@ const timers: NodeJS.Timeout[] = []
 
 export type CodeSnippitProps = {
   code: string
+  onCopy?: () => void
 }
 
-export const CodeSnippit = ({ code }: CodeSnippitProps) => {
+export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
   const [coppied, setCoppied] = useState(false)
   const [errored, setErrored] = useState(false)
 
@@ -29,7 +30,7 @@ export const CodeSnippit = ({ code }: CodeSnippitProps) => {
 
   const copyToClipboard = () => {
     if (errored || coppied) return
-
+    if (onCopy) onCopy()
     navigator.clipboard
       .writeText(code)
       .then(() => {
@@ -49,7 +50,13 @@ export const CodeSnippit = ({ code }: CodeSnippitProps) => {
   const Icon = errored ? Error : coppied ? Check : ContentCopy
 
   return (
-    <Grid2 container alignItems="center" py={1} flexWrap="noWrap">
+    <Grid2
+      container
+      sx={{
+        alignItems: 'center',
+        flexWrap: 'nowrap',
+      }}
+    >
       <Grid2>
         <CodeClimbersIconButton
           size="small"
@@ -58,8 +65,10 @@ export const CodeSnippit = ({ code }: CodeSnippitProps) => {
         >
           <Icon fontSize="small" />
         </CodeClimbersIconButton>
+        <Grid2 component="code" fontSize="12px">
+          {code}
+        </Grid2>
       </Grid2>
-      <Grid2 component="code">{code}</Grid2>
     </Grid2>
   )
 }

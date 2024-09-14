@@ -2,6 +2,7 @@ import { Alert, Box } from '@mui/material'
 import { useLatestVersion } from '../../../api/version.api'
 import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 import { CodeSnippit } from '../CodeSnippit/CodeSnippit'
+import { useGetHealth, useGetLocalVersion } from '../../../api/health.api'
 
 const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
   const twentyFourHours = 1_000 * 60 * 60 * 24
@@ -9,7 +10,7 @@ const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
 }
 
 export const UpdateBanner = () => {
-  const localVersion = __APP_VERSION__
+  const { data: localVersionResponse } = useGetLocalVersion()
   const [dismissedInfo, setDismissedInfo] = useBrowserStorage({
     key: 'update-banner-dismissed',
     value: {
@@ -28,7 +29,7 @@ export const UpdateBanner = () => {
   const remoteVersion = useLatestVersion(enableVersionPolling)
   if (
     !remoteVersion.data ||
-    localVersion === remoteVersion.data ||
+    localVersionResponse?.version === remoteVersion.data ||
     remoteVersion.isPending ||
     remoteVersion.isError
   ) {
