@@ -6,7 +6,7 @@ interface BaseLayoutProps {
 }
 
 function BaseLayout({ children }: BaseLayoutProps) {
-  return <Box>{children || <Outlet />}</Box>
+  return <Box sx={{ padding: '2rem' }}>{children || <Outlet />}</Box>
 }
 
 export default BaseLayout

@@ -11,6 +11,12 @@ declare namespace CodeClimbers {
     data: WeekOverview
   }
 
+  export interface Health {
+    OK: boolean
+    app: string
+    version: string
+  }
+
   export interface TimeOverview {
     category: string
     minutes: number
