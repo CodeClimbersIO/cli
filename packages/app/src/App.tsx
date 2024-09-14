@@ -52,7 +52,6 @@ function AppRender() {
       <ThemeProvider theme={muiTheme}>
         <CssBaseline />
         <AppRouter />
-        <UpdateBanner />
       </ThemeProvider>
     </QueryClientProvider>
   )
