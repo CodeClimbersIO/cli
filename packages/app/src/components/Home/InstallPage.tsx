@@ -5,9 +5,16 @@ import CodeClimbersButton from '../common/CodeClimbersButton'
 import { Logo } from '../common/Logo/Logo'
 import { CodeSnippit } from '../common/CodeSnippit/CodeSnippit'
 import { useState } from 'react'
+import { isMobile } from '../../../../server/utils/environment.util'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
+
+  const desktopBorder = {
+    borderBottom: { xs: '1px solid #707070', lg: 'none' },
+    borderRight: { xs: 'none', lg: '1px solid #707070' },
+  }
+  const borderObject = isMobile() ? {} : desktopBorder
   return (
     <Box
       sx={{
@@ -34,8 +41,7 @@ const InstallPage = () => {
             p: 8,
             background:
               'url(/assets/background_install.png) repeat center center',
-            borderBottom: { xs: '1px solid #707070', lg: 'none' },
-            borderRight: { xs: 'none', lg: '1px solid #707070' },
+            ...borderObject,
           }}
         >
           <Box sx={{ mb: 4 }}>
@@ -90,125 +96,134 @@ const InstallPage = () => {
                 Contribute
               </CodeClimbersButton>
             </Box>
+            {isMobile() && (
+              <Paper sx={{ p: 4, mt: 8 }}>
+                <Typography>
+                  Open this page on a computer to install CodeClimbers.
+                </Typography>
+              </Paper>
+            )}
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: { xs: 'flex-start', md: 'flex-end' },
-            py: 8,
-            px: 6,
-            flex: 1,
-          }}
-        >
+        {!isMobile() && (
           <Box
             sx={{
-              flex: 1,
               display: 'flex',
-              gap: 4,
-              flexDirection: { xs: 'column', md: 'row' },
+              alignItems: { xs: 'flex-start', md: 'flex-end' },
+              py: 8,
+              px: 6,
+              flex: 1,
             }}
           >
-            <Paper
+            <Box
               sx={{
-                display: 'flex',
                 flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                p: 3,
-                backgroundColor: '#262626',
-                height: '300px',
+                display: 'flex',
+                gap: 4,
+                flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <Box>
-                <Typography variant="h6">Step 1</Typography>
-              </Box>
-              <Box>
-                <Typography
-                  variant="body1"
-                  sx={{ mb: 2, fontSize: '21px', fontWeight: 'bold' }}
-                >
-                  <Link
-                    href="https://nodejs.org/en/download/"
-                    target="_blank"
-                    sx={{ textDecoration: 'none', color: 'white' }}
-                  >
-                    Install Node.js ↗
-                  </Link>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  If you don't already have it
-                </Typography>
-              </Box>
-            </Paper>
-            <Paper
-              sx={{
-                p: 3,
-                backgroundColor: '#262626',
-                height: '300px',
-                display: 'flex',
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box>
-                <Typography variant="h6">Step 2</Typography>
-              </Box>
-              <Box
+              <Paper
                 sx={{
                   display: 'flex',
+                  flex: 1,
                   flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  p: 3,
+                  backgroundColor: '#262626',
+                  height: '300px',
                 }}
               >
+                <Box>
+                  <Typography variant="h6">Step 1</Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="body1"
+                    sx={{ mb: 2, fontSize: '21px', fontWeight: 'bold' }}
+                  >
+                    <Link
+                      href="https://nodejs.org/en/download/"
+                      target="_blank"
+                      sx={{ textDecoration: 'none', color: 'white' }}
+                    >
+                      Install Node.js ↗
+                    </Link>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    If you don't already have it
+                  </Typography>
+                </Box>
+              </Paper>
+              <Paper
+                sx={{
+                  p: 3,
+                  backgroundColor: '#262626',
+                  height: '300px',
+                  display: 'flex',
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Box>
+                  <Typography variant="h6">Step 2</Typography>
+                </Box>
                 <Box
                   sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    mb: 1,
+                    flexDirection: 'column',
                   }}
                 >
-                  <Typography
-                    variant="body1"
-                    sx={{ fontSize: '21px', fontWeight: 'bold' }}
-                  >
-                    Run
-                  </Typography>
-                  {isWaiting ? (
-                    <Typography variant="body2" color="#FFC9BD">
-                      <CircularProgress size={16} /> waiting for install
-                    </Typography>
-                  ) : (
-                    <Typography variant="body2" color="#FFC9BD">
-                      not installed
-                    </Typography>
-                  )}
-                </Box>
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    p: 1,
-                    bgcolor: 'background.default',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <CodeSnippit
-                    code="npx codeclimbers start"
-                    onCopy={() => {
-                      setIsWaiting(true)
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      mb: 1,
                     }}
-                  />
-                </Paper>
-              </Box>
-            </Paper>
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: '21px', fontWeight: 'bold' }}
+                    >
+                      Run
+                    </Typography>
+                    {isWaiting ? (
+                      <Typography variant="body2" color="#FFC9BD">
+                        <CircularProgress size={16} /> waiting for install
+                      </Typography>
+                    ) : (
+                      <Typography variant="body2" color="#FFC9BD">
+                        not installed
+                      </Typography>
+                    )}
+                  </Box>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 1,
+                      bgcolor: 'background.default',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <CodeSnippit
+                      code="npx codeclimbers start"
+                      onCopy={() => {
+                        setIsWaiting(true)
+                      }}
+                    />
+                  </Paper>
+                </Box>
+              </Paper>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   )
