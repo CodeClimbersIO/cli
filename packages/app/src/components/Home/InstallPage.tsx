@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, CircularProgress } from '@mui/material'
+import { Box, Typography, Paper, CircularProgress, Link } from '@mui/material'
 import { DiscordIcon } from '../common/Icons/DiscordIcon'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import CodeClimbersButton from '../common/CodeClimbersButton'
@@ -14,16 +14,14 @@ const InstallPage = () => {
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: '#1d1d1d',
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
+        height: '100%',
       }}
     >
       <Box
         sx={{
-          flexGrow: 1,
           display: 'flex',
           flexDirection: { xs: 'column', lg: 'row' },
+          height: '100%',
         }}
       >
         <Box
@@ -33,7 +31,7 @@ const InstallPage = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            p: 12,
+            p: 8,
             background:
               'url(/assets/background_install.png) repeat center center',
             borderBottom: { xs: '1px solid #707070', lg: 'none' },
@@ -47,7 +45,11 @@ const InstallPage = () => {
             <Typography
               variant="h2"
               component="h1"
-              sx={{ fontSize: '60px', fontWeight: 'bold', mb: 6 }}
+              sx={{
+                fontSize: { xs: '40px', md: '60px' },
+                fontWeight: 'bold',
+                mb: 6,
+              }}
             >
               Spend more
               <br />
@@ -55,7 +57,10 @@ const InstallPage = () => {
               <Typography
                 component="span"
                 color="primary.main"
-                sx={{ fontSize: '60px', fontWeight: 'bold' }}
+                sx={{
+                  fontSize: { xs: '40px', md: '60px' },
+                  fontWeight: 'bold',
+                }}
               >
                 coding
               </Typography>
@@ -71,6 +76,7 @@ const InstallPage = () => {
                 eventName="install_discord_click"
                 startIcon={<DiscordIcon />}
                 href="https://discord.gg/zBnu8jGnHa"
+                target="_blank"
               >
                 Chat
               </CodeClimbersButton>
@@ -79,6 +85,7 @@ const InstallPage = () => {
                 eventName="install_github_click"
                 startIcon={<GitHubIcon />}
                 href="https://github.com/CodeClimbersIO"
+                target="_blank"
               >
                 Contribute
               </CodeClimbersButton>
@@ -88,8 +95,8 @@ const InstallPage = () => {
         <Box
           sx={{
             display: 'flex',
-            alignItems: 'flex-end',
-            py: 12,
+            alignItems: { xs: 'flex-start', md: 'flex-end' },
+            py: 8,
             px: 6,
             flex: 1,
           }}
@@ -121,7 +128,13 @@ const InstallPage = () => {
                   variant="body1"
                   sx={{ mb: 2, fontSize: '21px', fontWeight: 'bold' }}
                 >
-                  Install Node.js ↗
+                  <Link
+                    href="https://nodejs.org/en/download/"
+                    target="_blank"
+                    sx={{ textDecoration: 'none', color: 'white' }}
+                  >
+                    Install Node.js ↗
+                  </Link>
                 </Typography>
                 <Typography
                   variant="body2"

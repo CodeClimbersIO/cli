@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Check, ContentCopy } from '@mui/icons-material'
 import CodeClimbersIconButton from '../CodeClimbersIconButton'
+import { Box } from '@mui/material'
 
 const timers: NodeJS.Timeout[] = []
 
@@ -65,9 +66,12 @@ export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
         >
           <Icon fontSize="small" />
         </CodeClimbersIconButton>
-        <Grid2 component="code" fontSize="12px">
+        <Box
+          fontSize="10px"
+          style={{ display: 'inline', fontFamily: 'monospace' }}
+        >
           {code}
-        </Grid2>
+        </Box>
       </Grid2>
     </Grid2>
   )
