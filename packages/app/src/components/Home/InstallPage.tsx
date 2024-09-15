@@ -6,6 +6,7 @@ import { Logo } from '../common/Logo/Logo'
 import { CodeSnippit } from '../common/CodeSnippit/CodeSnippit'
 import { useState } from 'react'
 import { isMobile } from '../../../../server/utils/environment.util'
+import installBackground from '@app/assets/background_install.png'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
@@ -39,8 +40,7 @@ const InstallPage = () => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             p: 8,
-            background:
-              'url(/assets/background_install.png) repeat center center',
+            background: `url(${installBackground}) repeat center center`,
             ...borderObject,
           }}
         >
@@ -97,7 +97,7 @@ const InstallPage = () => {
               </CodeClimbersButton>
             </Box>
             {isMobile() && (
-              <Paper sx={{ p: 4, mt: 8 }}>
+              <Paper sx={{ p: 4, mt: 8, backgroundColor: '#262626' }}>
                 <Typography>
                   Open this page on a computer to install CodeClimbers.
                 </Typography>
