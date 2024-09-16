@@ -2,7 +2,7 @@ import { Alert, Box } from '@mui/material'
 import { useLatestVersion } from '../../../api/version.api'
 import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 import { CodeSnippit } from '../CodeSnippit/CodeSnippit'
-import { useGetHealth, useGetLocalVersion } from '../../../api/health.api'
+import { useGetLocalVersion } from '../../../api/health.api'
 
 const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
   const twentyFourHours = 1_000 * 60 * 60 * 24
@@ -40,7 +40,7 @@ export const UpdateBanner = () => {
     npx codeclimbers@${remoteVersion.data} start
   `
   return (
-    <Box sx={{ position: 'absolute', left: 15, bottom: 15 }}>
+    <Box sx={{ position: 'fixed', left: 15, bottom: 15, zIndex: 1000 }}>
       <Alert
         severity="info"
         onClose={() => {

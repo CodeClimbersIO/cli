@@ -7,9 +7,14 @@ import { CodeSnippit } from '../common/CodeSnippit/CodeSnippit'
 import { useState } from 'react'
 import { isMobile } from '../../../../server/utils/environment.util'
 import installBackground from '@app/assets/background_install.png'
+import { Navigate } from 'react-router-dom'
+import { useGetHealth } from '../../api/health.api'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
+  const { data: health } = useGetHealth()
+
+  if (health) return <Navigate to="/" />
 
   const desktopBorder = {
     borderBottom: { xs: '1px solid #707070', lg: 'none' },

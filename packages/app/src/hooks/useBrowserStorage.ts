@@ -86,7 +86,6 @@ export function useBrowserStorage<T>(options: LocalStorageOptions<T>) {
       } else {
         storage?.setItem(options.key, JSON.stringify(newValue))
       }
-
       return newValue
     })
 
