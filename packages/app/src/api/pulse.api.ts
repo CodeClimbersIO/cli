@@ -136,7 +136,9 @@ export function useDeepWork(selectedStartDate: Dayjs) {
   })
 }
 
-export function usePerProjectOverviewTopThree(startDate = '', endDate = '') {
+export function usePerProjectOverviewTopThree(selectedStartDate: Dayjs) {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedStartDate?.endOf('day').toISOString()
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/pulses/perProjectOverview/topThree?startDate=${startDate}&endDate=${endDate}`,
