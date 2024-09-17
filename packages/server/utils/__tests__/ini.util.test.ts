@@ -1,7 +1,16 @@
 import fs from 'fs/promises'
 import path from 'path'
-import { createIniFile, IniConfig, parseIni, stringifyIni } from '../ini.util'
+import {
+  createIniFile,
+  IniConfig,
+  parseIni,
+  removeIniFile,
+  stringifyIni,
+} from '../ini.util'
 import { HOME_DIR } from '../node.util'
+import { existsSync } from 'fs'
+
+const test_file_path = '.codeclimbers.test.cfg'
 
 describe('parseIni', () => {
   it('should parse a valid INI string with one section', () => {
@@ -221,5 +230,31 @@ key3 = value3
 key1 = value with spaces
 key2 = another value with spaces\n`
     expect(stringifyIni(input)).toBe(expected)
+  })
+})
+
+describe('createIniFile', () => {
+  beforeEach(async () => {
+    const filePath = path.join(HOME_DIR, test_file_path)
+    if (existsSync(filePath)) {
+      await removeIniFile(filePath)
+    }
+  })
+  it('should create a new ini file', async () => {
+    const filePath = path.join(HOME_DIR, test_file_path)
+    await createIniFile(filePath, { settings: {} })
+    const iniContent = await fs.readFile(filePath, 'utf8')
+    expect(iniContent).toBeDefined()
+  })
+})
+
+describe('removeIniFile', () => {
+  it('should remove an ini file', async () => {
+    const filePath = path.join(HOME_DIR, test_file_path)
+    await createIniFile(filePath, { settings: {} })
+    await removeIniFile(filePath)
+    await expect(async () => {
+      await fs.readFile(filePath, 'utf8')
+    }).rejects.toThrow('ENOENT')
   })
 })

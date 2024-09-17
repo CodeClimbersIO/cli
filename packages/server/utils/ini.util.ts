@@ -42,9 +42,16 @@ export function stringifyIni(data: IniConfig): string {
   return `${entries}\n`
 }
 
-export async function createIniFile(filePath: string): Promise<void> {
-  const iniContent = stringifyIni({ settings: {} })
+export async function createIniFile(
+  filePath: string,
+  settings: IniConfig,
+): Promise<void> {
+  const iniContent = stringifyIni(settings)
   await fs.writeFile(filePath, iniContent, 'utf8')
+}
+
+export async function removeIniFile(filePath: string): Promise<void> {
+  await fs.unlink(filePath)
 }
 
 export async function updateSettings(
