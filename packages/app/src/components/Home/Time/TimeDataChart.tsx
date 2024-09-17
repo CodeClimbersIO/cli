@@ -72,6 +72,53 @@ const Progress = ({
   return <Box sx={{ position: 'relative' }}>{progressBars}</Box>
 }
 
+const SubCategoryItem = ({
+  title,
+  time,
+  progress,
+  color,
+}: {
+  title: string
+  time: string
+  progress: number
+  color: string
+}) => (
+  <Grid2 container justifyContent="space-between" gap={1} alignItems="center">
+    <Grid2 sx={{ minWidth: 120 }}>
+      <Typography variant="body2">{title}</Typography>
+    </Grid2>
+    <Grid2 sx={{ flex: 1 }}>
+      <Progress progress={progress} color={color} />
+    </Grid2>
+    <Grid2>
+      <Typography variant="body2">{time}</Typography>
+    </Grid2>
+  </Grid2>
+)
+
+const SubCategoryList = ({
+  subCategories,
+  color,
+}: {
+  subCategories: SubCategory[]
+  color: string
+}) => (
+  <Box mt={2} ml={4} sx={{ fontSize: '0.9em' }}>
+    <Grid2 container direction="column" spacing={1}>
+      {subCategories.map((subCategory, index) => (
+        <Grid2 key={index}>
+          <SubCategoryItem
+            title={subCategory.title}
+            time={subCategory.time}
+            progress={subCategory.progress}
+            color={color}
+          />
+        </Grid2>
+      ))}
+    </Grid2>
+  </Box>
+)
+
 export const TimeDataChart = ({
   title,
   color,
@@ -96,9 +143,7 @@ export const TimeDataChart = ({
         alignItems="center"
         {...(hasSubCategories && {
           onClick: handleExpand,
-          sx: {
-            cursor: 'pointer',
-          },
+          sx: { cursor: 'pointer' },
         })}
       >
         <Grid2 sx={{ minWidth: 120 }}>
@@ -117,41 +162,10 @@ export const TimeDataChart = ({
           </Typography>
         </Grid2>
       </Grid2>
+
       {hasSubCategories && (
         <Collapse in={expanded}>
-          <Box mt={2} ml={4} sx={{ fontSize: '0.9em' }}>
-            <Grid2 container direction="column" spacing={1}>
-              {subCategories?.map((subCategory, index) => {
-                return (
-                  <Grid2 key={index}>
-                    <Grid2
-                      container
-                      justifyContent="space-between"
-                      gap={1}
-                      alignItems="center"
-                    >
-                      <Grid2 sx={{ minWidth: 120 }}>
-                        <Typography variant="body2">
-                          {subCategory.title}
-                        </Typography>
-                      </Grid2>
-                      <Grid2 sx={{ flex: 1 }}>
-                        <Progress
-                          progress={subCategory.progress}
-                          color={color}
-                        />
-                      </Grid2>
-                      <Grid2>
-                        <Typography variant="body2">
-                          {subCategory.time}
-                        </Typography>
-                      </Grid2>
-                    </Grid2>
-                  </Grid2>
-                )
-              })}
-            </Grid2>
-          </Box>
+          <SubCategoryList subCategories={subCategories} color={color} />
         </Collapse>
       )}
     </Box>
