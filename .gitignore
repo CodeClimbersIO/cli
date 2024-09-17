@@ -28,3 +28,6 @@ package
 
 # windows generated service files
 bin/daemon
+
+# firebase cache
+.firebase/hosting.*

@@ -13,7 +13,6 @@ const DeepWork = ({ selectedDate }: Props) => {
 
   if (isLoading) return <CircularProgress />
   if (isError || !deepWork) return <div>Error</div>
-  console.log(deepWork)
   const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
   return (
     <>

@@ -6,6 +6,8 @@ import { Time } from './Time/Time'
 import Sources from './Source/Sources'
 import HomeHeader from './Header'
 import { Resources } from './Resources/Resources'
+import { Navigate } from 'react-router-dom'
+import { useGetHealth } from '../../api/health.api'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -28,7 +30,10 @@ const Wrapper = styled('div')(({ theme }) => ({
 }))
 
 export const HomePage = () => {
+  const { data: health } = useGetHealth()
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
+
+  if (!health) return <Navigate to="/install" />
 
   return (
     <div>

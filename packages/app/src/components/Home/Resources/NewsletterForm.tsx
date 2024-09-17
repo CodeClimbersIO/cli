@@ -29,7 +29,7 @@ export const NewsletterForm = () => {
         throw new Error('Please wait a moment before trying again.')
       }
 
-      const email = event.target.email.value
+      const email = (event.target as HTMLFormElement).email.value
 
       const res = await fetch(
         'https://app.loops.so/api/newsletter-form/cly98a0gz012h67csz8kmv7js',
@@ -78,7 +78,7 @@ export const NewsletterForm = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <EmailOutlined size="small" />
+                <EmailOutlined />
               </InputAdornment>
             ),
           }}
