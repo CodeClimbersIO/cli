@@ -19,6 +19,7 @@ interface TimeDataChartProps {
   title: string
   color: string
   time: string
+  // Placeholder for real chart data
   progress: number
   subCategories?: SubCategory[]
 }
