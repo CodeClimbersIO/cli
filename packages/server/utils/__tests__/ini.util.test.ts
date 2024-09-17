@@ -1,4 +1,7 @@
-import { IniConfig, parseIni, stringifyIni } from '../wakatime.util'
+import fs from 'fs/promises'
+import path from 'path'
+import { createIniFile, IniConfig, parseIni, stringifyIni } from '../ini.util'
+import { HOME_DIR } from '../node.util'
 
 describe('parseIni', () => {
   it('should parse a valid INI string with one section', () => {
