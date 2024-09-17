@@ -94,7 +94,7 @@ export default class Start extends Command {
         `A server (${runningInstance.name}) is already running on port ${process.env.CODECLIMBERS_SERVER_PORT} with process id ${runningInstance.pid}`,
       )
     }
-    const appUrl = `http://localhost:${process.env.CODECLIMBERS_SERVER_PORT}`
+    const appUrl = `https://codeclimbers.io`
     const WELCOME_LOGO = pc.cyan(`
   @@@@@@@@@@@@@@@@@@@            
   @@@@@@@@@@@@@@@@@@@            
