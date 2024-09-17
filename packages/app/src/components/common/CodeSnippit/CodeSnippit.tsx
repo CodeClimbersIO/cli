@@ -31,7 +31,6 @@ export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
   const copyToClipboard = () => {
     if (errored || copied) return
     if (onCopy) onCopy()
-    setErrored(true)
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(code)?.then(() => {
