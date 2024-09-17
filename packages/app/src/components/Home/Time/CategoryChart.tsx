@@ -32,12 +32,11 @@ const CategoryChart = ({ selectedDate }: Props) => {
   const todayOverview = categoryOverview[TODAY_INDEX] || []
 
   const {
-    data: perProjectOverviewTopThree = {} as CodeClimbers.PerProjectTimeOverview,
+    data: perProjectTopThree = {} as CodeClimbers.PerProjectTimeOverview,
     isPending: perProjectOverviewTopThreePending,
-  } = usePerProjectOverviewTopThree(
-    selectedDate?.toISOString() ?? '',
-    selectedDate?.endOf('day').toISOString() ?? '',
-  )
+  } = usePerProjectOverviewTopThree(selectedDate)
+  const perProjectOverviewTopThree =
+    perProjectTopThree || ({} as CodeClimbers.PerProjectTimeOverview)
 
   useEffect(() => {
     if (todayOverview.length > 0)
@@ -74,16 +73,16 @@ const CategoryChart = ({ selectedDate }: Props) => {
     return 0
   }
 
-  const getPerProjectMinutes = (category = "") => {
+  const getPerProjectMinutes = (category = '') => {
     if (perProjectOverviewTopThree[category]) {
       return perProjectOverviewTopThree[category].map((project) => ({
         title: project.name,
         time: minutesToHours(project.minutes),
-        progress: (project.minutes / totalMinutes) * 100,
-      }));
+        progress: (project.minutes / (3 * 60)) * 100,
+      }))
     }
-    return [];
-  };
+    return []
+  }
 
   if (isPending || perProjectOverviewTopThreePending)
     return <CircularProgress />
@@ -105,7 +104,6 @@ const CategoryChart = ({ selectedDate }: Props) => {
         )}
         progress={getCategoryPercentage(categories.communicating)}
         color={theme.palette.graphColors.purple}
-        subCategories={getPerProjectMinutes(categories.communicating)}
       />
       <TimeDataChart
         title="Browsing"
@@ -114,7 +112,6 @@ const CategoryChart = ({ selectedDate }: Props) => {
         )}
         progress={getCategoryPercentage(categories.browsing)}
         color={theme.palette.graphColors.green}
-        subCategories={getPerProjectMinutes(categories.browsing)}
       />
       <TimeDataChart
         title="Designing"
@@ -123,7 +120,6 @@ const CategoryChart = ({ selectedDate }: Props) => {
         )}
         progress={getCategoryPercentage(categories.designing)}
         color={theme.palette.graphColors.orange}
-        subCategories={getPerProjectMinutes(categories.designing)}
       />
     </>
   )
