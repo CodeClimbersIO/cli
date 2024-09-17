@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
-import { Check, ContentCopy } from '@mui/icons-material'
+import { Check, ContentCopy, Error } from '@mui/icons-material'
 import CodeClimbersIconButton from '../CodeClimbersIconButton'
 import { Box } from '@mui/material'
 
@@ -12,9 +12,8 @@ export type CodeSnippitProps = {
 }
 
 export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
-  const [coppied, setCoppied] = useState(false)
+  const [copied, setCopied] = useState(false)
   const [errored, setErrored] = useState(false)
-
   const handleTimer = (action: () => void) => {
     timers.push(
       setTimeout(() => {
@@ -30,25 +29,29 @@ export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
   }, [])
 
   const copyToClipboard = () => {
-    if (errored || coppied) return
+    if (errored || copied) return
     if (onCopy) onCopy()
-    navigator.clipboard
-      .writeText(code)
-      .then(() => {
-        setCoppied(true)
+    setErrored(true)
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code)?.then(() => {
+        setCopied(true)
         handleTimer(() => {
-          setCoppied(false)
+          setCopied(false)
         })
       })
-      .catch(() => {
-        setErrored(true)
-        handleTimer(() => {
-          setErrored(false)
-        })
+    } else {
+      setErrored(true)
+      handleTimer(() => {
+        setErrored(false)
       })
+    }
   }
 
-  const Icon = errored ? Error : coppied ? Check : ContentCopy
+  // let Icon = errored ? Error : copied ? Check : ContentCopy
+  let Icon = ContentCopy
+  if (errored) Icon = Error
+  if (copied) Icon = Check
 
   return (
     <Grid2
@@ -62,6 +65,7 @@ export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
         <CodeClimbersIconButton
           size="small"
           onClick={copyToClipboard}
+          color={errored ? 'error' : 'default'}
           eventName="code_snippit_copy_click"
         >
           <Icon fontSize="small" />
