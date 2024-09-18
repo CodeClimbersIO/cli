@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common'
-import { Response } from 'express'
+import { Body, Controller, Post, UseGuards } from '@nestjs/common'
 import { LocalAuthGuard } from './localAuth.guard'
-import { LocalDbRepo } from './localdb.repo'
+import { LocalDbRepo } from './localDb.repo'
 
 @Controller('localdb')
 @UseGuards(LocalAuthGuard)
@@ -9,11 +8,10 @@ export class LocalDbController {
   constructor(private readonly localDbRepo: LocalDbRepo) {}
   @Post('query')
   async query(
-    @Res() response: Response,
     @Body() body: { query: string },
-  ): Promise<void> {
+  ): Promise<CodeClimbers.LocalDbQueryDao> {
     const query = body.query
     const result = await this.localDbRepo.query(query)
-    response.json({ message: 'Query', result })
+    return { message: 'Query', data: result }
   }
 }

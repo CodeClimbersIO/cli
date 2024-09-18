@@ -8,6 +8,7 @@ import HomeHeader from './Header'
 import { Resources } from './Resources/Resources'
 import { Navigate } from 'react-router-dom'
 import { useGetHealth } from '../../api/health.api'
+import { useGetLocalSqlQuery } from '../../api/query.api'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -32,9 +33,11 @@ const Wrapper = styled('div')(({ theme }) => ({
 export const HomePage = () => {
   const { data: health } = useGetHealth()
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
-
+  const { data: query } = useGetLocalSqlQuery(
+    'SELECT * FROM activities_pulse LIMIT 10',
+  )
+  console.log(query)
   if (!health) return <Navigate to="/install" />
-
   return (
     <div>
       <HomeHeader

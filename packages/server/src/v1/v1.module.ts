@@ -10,11 +10,11 @@ import { StartupServiceFactory } from './startup/startupService.factory'
 import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
 import { WindowsStartupService } from './startup/windowsStartup.service'
 import { LinuxStartupService } from './startup/linuxStartup.service'
-import { LocalDbController } from './localdb/localdb.controller'
+import { LocalDbController } from './localdb/localDb.controller'
 import { LocalAuthService } from './localdb/localAuth.service'
 import { LocalAuthController } from './localdb/localAuth.controller'
 import { LocalAuthGuard } from './localdb/localAuth.guard'
-import { LocalDbRepo } from './localdb/localdb.repo'
+import { LocalDbRepo } from './localdb/localDb.repo'
 
 @Module({
   imports: [],

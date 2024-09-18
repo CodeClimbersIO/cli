@@ -23,7 +23,6 @@ export class LocalAuthGuard implements CanActivate {
     if (!apiKey) {
       throw new UnauthorizedException()
     }
-
     const isValid = await this.localAuthService.isValidLocalApiKey(apiKey)
     if (!isValid) {
       throw new UnauthorizedException()
