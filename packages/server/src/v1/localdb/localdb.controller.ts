@@ -1,17 +1,19 @@
-import { Controller, Get } from '@nestjs/common'
-import { LocalDbService } from './localdb.service'
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common'
+import { Response } from 'express'
+import { LocalAuthGuard } from './localAuth.guard'
+import { LocalDbRepo } from './localdb.repo'
 
 @Controller('localdb')
+@UseGuards(LocalAuthGuard)
 export class LocalDbController {
-  constructor(private readonly localDbService: LocalDbService) {
-    this.localDbService = localDbService
-  }
-  @Get('localapikey')
-  async getLocalApiKey(): Promise<{
-    message: string
-    data: { api_key: string }
-  }> {
-    const result = await this.localDbService.getLocalApiKey()
-    return { message: 'success', data: { api_key: result } }
+  constructor(private readonly localDbRepo: LocalDbRepo) {}
+  @Post('query')
+  async query(
+    @Res() response: Response,
+    @Body() body: { query: string },
+  ): Promise<void> {
+    const query = body.query
+    const result = await this.localDbRepo.query(query)
+    response.json({ message: 'Query', result })
   }
 }
