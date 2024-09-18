@@ -4,6 +4,7 @@ import {
   createIniFile,
   IniConfig,
   parseIni,
+  readIniFile,
   removeIniFile,
   stringifyIni,
 } from '../ini.util'
@@ -215,7 +216,6 @@ key3 = value3
 
 [section4]
 \n`
-    console.log(stringifyIni(input))
     expect(stringifyIni(input)).toBe(expected)
   })
 
@@ -244,6 +244,15 @@ describe('createIniFile', () => {
     const filePath = path.join(HOME_DIR, test_file_path)
     await createIniFile(filePath, { settings: {} })
     const iniContent = await fs.readFile(filePath, 'utf8')
+    expect(iniContent).toBeDefined()
+  })
+})
+
+describe('readIniFile', () => {
+  it('should read an ini file', async () => {
+    const filePath = path.join(HOME_DIR, test_file_path)
+    await createIniFile(filePath, { settings: {} })
+    const iniContent = await readIniFile(filePath)
     expect(iniContent).toBeDefined()
   })
 })

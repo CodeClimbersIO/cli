@@ -54,6 +54,11 @@ export async function removeIniFile(filePath: string): Promise<void> {
   await fs.unlink(filePath)
 }
 
+export async function readIniFile(filePath: string): Promise<IniConfig> {
+  const data = await fs.readFile(filePath, 'utf8')
+  return parseIni(data)
+}
+
 export async function updateSettings(
   newSettings: Record<string, string>,
   filePath: string = path.join(HOME_DIR, '.wakatime.cfg'),
