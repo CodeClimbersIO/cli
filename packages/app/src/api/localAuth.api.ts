@@ -1,3 +1,4 @@
+import { useMutation } from '@tanstack/react-query'
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 
@@ -15,23 +16,20 @@ export function useGetLocalApiKey(enabled = true) {
   })
 }
 
-export function useImportLocalApiKey(
-  apiKey = 'd9c3cf5b-07c5-407e-b4f9-01ddeb8feecd',
-) {
-  const queryFn = () =>
+export function useImportLocalApiKey() {
+  const mutationFn = ({ apiKey }: { apiKey: string }) =>
     apiRequest({
       url: `${BASE_API_URL}/local-auth/import`,
       method: 'GET',
       headers: { 'x-api-key': apiKey },
       credentials: 'include',
     })
-  return useBetterQuery<CodeClimbers.LocalAuthDao, Error>({
-    queryKey: ['local-auth/import'],
-    queryFn,
+  return useMutation({
+    mutationFn,
   })
 }
 
-export function useHasValidLocalAuthCookie() {
+export function useHasValidLocalAuthCookie(page: 'import' | 'home' = 'home') {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/local-auth/has-valid-cookie`,
@@ -39,7 +37,8 @@ export function useHasValidLocalAuthCookie() {
       credentials: 'include',
     })
   return useBetterQuery<{ isValid: boolean }, Error>({
-    queryKey: ['local-auth/has-valid-cookie'],
+    queryKey: ['local-auth/has-valid-cookie', page],
     queryFn,
+    retry: false,
   })
 }

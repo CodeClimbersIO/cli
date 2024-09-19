@@ -31,7 +31,9 @@ export async function bootstrap() {
   traceEnvironment()
 
   app.enableCors({
-    origin: isProd() ? 'https://codeclimbers.io' : 'http://localhost:5173',
+    origin: isProd()
+      ? 'https://codeclimbers.io'
+      : ['https://codeclimbers.io', 'http://localhost:5173'],
     credentials: true,
   })
   app.useGlobalPipes(

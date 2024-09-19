@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useAuthGuard } from '../hooks/useAuthGuard'
 import { LoadingScreen } from '../components/LoadingScreen'
 
@@ -13,7 +13,9 @@ function BaseLayout({ children }: BaseLayoutProps) {
     return <LoadingScreen />
   }
   if (!hasAuth) {
-    return <Navigate to="/import" />
+    console.log('no auth')
+    // TODO: redirect to install page
+    // return <Navigate to="/import" />
   }
   return <>{children || <Outlet />}</>
 }
