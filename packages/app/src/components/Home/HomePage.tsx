@@ -8,7 +8,6 @@ import HomeHeader from './Header'
 import { Resources } from './Resources/Resources'
 import { Navigate } from 'react-router-dom'
 import { useGetHealth } from '../../api/health.api'
-import { useGetLocalSqlQuery } from '../../api/query.api'
 
 const Body = styled('div')(({ theme }) => ({
   display: 'flex',
