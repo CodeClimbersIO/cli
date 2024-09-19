@@ -46,7 +46,7 @@ async function setLocalApiKey(apiKey: string): Promise<void> {
   }
 }
 
-export async function getLocalApiKey(): Promise<string | null> {
+export async function getLocalApiKey(isAdmin = false): Promise<string | null> {
   try {
     if (!existsSync(CODE_CLIMBER_INI_PATH)) {
       const iniContent = stringifyIni({ settings: {} })
@@ -59,7 +59,10 @@ export async function getLocalApiKey(): Promise<string | null> {
       const newKey = crypto.randomUUID()
       await setLocalApiKey(newKey)
       return newKey
-    } else if (iniConfig.settings.local_api_key_readable === 'false') {
+    } else if (
+      iniConfig.settings.local_api_key_readable === 'false' &&
+      !isAdmin
+    ) {
       throw new CodeClimberError.LocalApiKeyUnavailable()
     }
     await setLocalApiKeyReadable(false)

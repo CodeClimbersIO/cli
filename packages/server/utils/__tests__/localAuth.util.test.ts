@@ -23,6 +23,12 @@ describe('localAuth.util', () => {
         await getLocalApiKey()
       }).rejects.toThrow('not available')
     })
+    it('should get local api key if isAdmin is true', async () => {
+      await getLocalApiKey()
+      const result = await getLocalApiKey(true)
+      expect(result).toBeDefined()
+      expect(result).toHaveLength(36)
+    })
   })
   describe('isValidLocalApiKey', () => {
     it('should return true if local api key is set', async () => {
