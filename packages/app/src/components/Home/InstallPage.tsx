@@ -12,10 +12,17 @@ import { useGetHealth } from '../../api/health.api'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
+  const [displayBlockedMessage, setDisplayBlockedMessage] = useState(false)
   const { data: health } = useGetHealth()
 
   if (health) return <Navigate to="/" />
 
+  const onCopy = () => {
+    setIsWaiting(true)
+    setTimeout(() => {
+      setDisplayBlockedMessage(true)
+    }, 5000)
+  }
   const desktopBorder = {
     borderBottom: { xs: '1px solid #707070', lg: 'none' },
     borderRight: { xs: 'none', lg: '1px solid #707070' },
@@ -219,11 +226,15 @@ const InstallPage = () => {
                   >
                     <CodeSnippit
                       code="npx codeclimbers start"
-                      onCopy={() => {
-                        setIsWaiting(true)
-                      }}
+                      onCopy={onCopy}
                     />
                   </Paper>
+                  {displayBlockedMessage && (
+                    <Typography sx={{ mt: 2 }} color="text.secondary">
+                      Please make sure your browser and ad blockers are not
+                      blocking localhost:14400
+                    </Typography>
+                  )}
                 </Box>
               </Paper>
             </Box>
