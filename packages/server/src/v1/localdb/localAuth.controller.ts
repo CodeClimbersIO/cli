@@ -4,8 +4,9 @@ import {
   Res,
   Headers,
   UnauthorizedException,
+  Req,
 } from '@nestjs/common'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { LocalAuthService } from './localAuth.service'
 import { isProd } from '../../../utils/environment.util'
 
@@ -57,5 +58,12 @@ export class LocalAuthController {
     }
 
     return { message: 'API key set', data: { apiKey } }
+  }
+
+  @Get('has-valid-cookie')
+  async hasValidCookie(@Req() request: Request) {
+    const apiKey = request.cookies[LOCAL_API_KEY]
+    const isValid = await this.localAuthService.isValidLocalApiKey(apiKey)
+    return { message: 'API key set', data: { isValid } }
   }
 }

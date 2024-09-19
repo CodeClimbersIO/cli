@@ -1,7 +1,7 @@
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 
-export function useGetLocalApiKey() {
+export function useGetLocalApiKey(enabled = true) {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/local-auth`,
@@ -10,6 +10,8 @@ export function useGetLocalApiKey() {
   return useBetterQuery<void, Error>({
     queryKey: ['local-auth'],
     queryFn,
+    enabled,
+    retry: false,
   })
 }
 
@@ -25,6 +27,19 @@ export function useImportLocalApiKey(
     })
   return useBetterQuery<CodeClimbers.LocalAuthDao, Error>({
     queryKey: ['local-auth/import'],
+    queryFn,
+  })
+}
+
+export function useHasValidLocalAuthCookie() {
+  const queryFn = () =>
+    apiRequest({
+      url: `${BASE_API_URL}/local-auth/has-valid-cookie`,
+      method: 'GET',
+      credentials: 'include',
+    })
+  return useBetterQuery<{ isValid: boolean }, Error>({
+    queryKey: ['local-auth/has-valid-cookie'],
     queryFn,
   })
 }

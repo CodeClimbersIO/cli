@@ -31,13 +31,10 @@ const Wrapper = styled('div')(({ theme }) => ({
 }))
 
 export const HomePage = () => {
-  const { data: health } = useGetHealth()
+  const { data: health, isPending: isHealthPending } = useGetHealth()
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
-  const { data: query } = useGetLocalSqlQuery(
-    'SELECT * FROM activities_pulse LIMIT 10',
-  )
-  console.log(query)
-  if (!health) return <Navigate to="/install" />
+
+  if (!health && !isHealthPending) return <Navigate to="/install" />
   return (
     <div>
       <HomeHeader
