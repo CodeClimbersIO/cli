@@ -29,7 +29,9 @@ export function useImportLocalApiKey() {
   })
 }
 
-export function useHasValidLocalAuthCookie(page: 'import' | 'home' = 'home') {
+export function useHasValidLocalAuthCookie(
+  page: 'import' | 'home' | 'banner' = 'home',
+) {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/local-auth/has-valid-cookie`,
