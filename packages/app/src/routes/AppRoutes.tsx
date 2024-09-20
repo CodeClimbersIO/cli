@@ -7,8 +7,6 @@ import ImportLayout from '../layouts/ImportLayout'
 import { ImportPage } from '../components/ImportPage'
 import DashboardLayout from '../layouts/DashboardLayout'
 
-// We want to subscribe to events in the router, but we don't want to rerender
-// the entire app when the route changes.
 const AppRoutesPageSubscription = () => {
   useAnalyticsPageSubscription()
 
