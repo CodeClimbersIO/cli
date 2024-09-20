@@ -4,18 +4,19 @@ import { Logo } from './common/Logo/Logo'
 import { useNavigate } from 'react-router-dom'
 import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
 import CodeClimbersLoadingButton from './common/CodeClimbersLoadingButton'
-import {
-  useHasValidLocalAuthCookie,
-  useImportLocalApiKey,
-} from '../api/localAuth.api'
+import { useValidateLocalApiKey } from '../api/localAuth.api'
 import { useState } from 'react'
+import authUtil from '../utils/auth.util'
 
 export const ImportPage = () => {
   const navigate = useNavigate()
-  const { data: hasValidLocalAuthCookie, refetch } =
-    useHasValidLocalAuthCookie('import')
-
-  const { mutateAsync, isPending, isError } = useImportLocalApiKey()
+  const {
+    data: hasValidLocalAuthCookie,
+    isError,
+    isPending,
+    refetch,
+  } = useValidateLocalApiKey('import')
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [apiKey, setApiKey] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,8 @@ export const ImportPage = () => {
   }
 
   const handleSubmit = async () => {
-    await mutateAsync({ apiKey })
+    authUtil.setLocalApiKey(apiKey)
+    setHasSubmitted(true)
     refetch()
   }
 
@@ -114,8 +116,8 @@ export const ImportPage = () => {
                   sx={{ width: '300px', mr: 2 }}
                   onChange={handleChange}
                   value={apiKey}
-                  error={isError}
-                  helperText={isError ? 'Invalid API key' : ''}
+                  error={isError && hasSubmitted}
+                  helperText={isError && hasSubmitted ? 'Invalid API key' : ''}
                 />
                 <CodeClimbersLoadingButton
                   variant="contained"

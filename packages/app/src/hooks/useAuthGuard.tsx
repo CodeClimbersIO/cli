@@ -1,10 +1,7 @@
-import {
-  useGetLocalApiKey,
-  useHasValidLocalAuthCookie,
-} from '../api/localAuth.api'
+import { useGetLocalApiKey, useValidateLocalApiKey } from '../api/localAuth.api'
 
 export const useAuthGuard = () => {
-  const { data, isPending: isValidPending } = useHasValidLocalAuthCookie()
+  const { data, isPending: isValidPending } = useValidateLocalApiKey()
   const isValid = data?.isValid
   const shouldFetchApiKey = !isValid && !isValidPending
 

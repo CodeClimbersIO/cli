@@ -1,3 +1,4 @@
+import authUtil from './auth.util'
 import { isBrowserCli } from './environment'
 
 const BASE_URL = isBrowserCli ? '' : 'http://localhost:14400'
@@ -39,6 +40,13 @@ export async function apiRequest({
   headers?: Record<string, string>
   credentials?: RequestCredentials
 }) {
+  const apiKey = authUtil.getLocalApiKey()
+  if (apiKey) {
+    headers = {
+      ...headers,
+      'x-api-key': apiKey,
+    }
+  }
   return fetch(`${BASE_URL}${url}`, {
     method: method,
     headers: {

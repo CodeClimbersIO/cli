@@ -1,10 +1,10 @@
 import { Alert, Box } from '@mui/material'
 import CodeClimbersButton from './CodeClimbersButton'
-import { useHasValidLocalAuthCookie } from '../../api/localAuth.api'
+import { useValidateLocalApiKey } from '../../api/localAuth.api'
 import { useNavigate } from 'react-router-dom'
 
 export const LocalApiKeyErrorBanner = () => {
-  const { data, isPending } = useHasValidLocalAuthCookie('banner')
+  const { data, isPending } = useValidateLocalApiKey('banner')
   const navigate = useNavigate()
   if (isPending || data?.isValid) {
     return null
