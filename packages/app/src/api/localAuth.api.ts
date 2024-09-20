@@ -7,7 +7,7 @@ export function useGetLocalApiKey(enabled = true) {
       url: `${BASE_API_URL}/auth/local`,
       method: 'GET',
     })
-  return useBetterQuery<void, Error>({
+  return useBetterQuery<{ apiKey: string }, Error>({
     queryKey: ['local-auth'],
     queryFn,
     enabled,

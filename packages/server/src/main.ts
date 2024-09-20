@@ -32,8 +32,16 @@ export async function bootstrap() {
 
   app.enableCors({
     origin: isProd()
-      ? 'https://codeclimbers.io'
-      : ['https://codeclimbers.io', 'http://localhost:5173', /\.web\.app$/],
+      ? [
+          'https://codeclimbers.io',
+          'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
+        ]
+      : [
+          'https://codeclimbers.io',
+          'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
+          'http://localhost:5173',
+          /\.web\.app$/,
+        ],
     credentials: true,
   })
   app.useGlobalPipes(
