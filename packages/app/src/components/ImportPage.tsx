@@ -15,7 +15,7 @@ export const ImportPage = () => {
     isError,
     isPending,
     refetch,
-  } = useValidateLocalApiKey('import')
+  } = useValidateLocalApiKey()
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [apiKey, setApiKey] = useState('')
 
