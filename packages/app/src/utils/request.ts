@@ -1,7 +1,7 @@
 import authUtil from './auth.util'
-import { isBrowserCli } from './environment'
+import environmentUtil from './environment.util'
 
-const BASE_URL = isBrowserCli ? '' : 'http://localhost:14400'
+const BASE_URL = environmentUtil.isBrowserCli ? '' : 'http://localhost:14400'
 
 export class ApiError extends Error {
   statusCode: number
