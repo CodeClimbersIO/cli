@@ -10,6 +10,7 @@ boy 😛
 
 - 🙏 Thank you for your help! Your contributions will motivate developers to do greater things!
 - 🥇 Keep it simple. We don't need optimizations right now. We need features!
+- 🧰 We need to be backwards compatible aware with our api and frontend. The frontend version that is deployed may not match the api version that the user has on their machine. Add rather than edit and delete routes.
 - 🤖 Built by devs for devs so if you want to make a change to make things better, do it! Make a PR and let rphovley know
   to review it. If it's a big change, a heads up before you start will save some heartache.
 

@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { V1Module } from './v1/v1.module'
 import { APP_FILTER, RouterModule } from '@nestjs/core'
-import { AllExceptionsFilter } from '../utils/allExceptions.filter'
+import { AllExceptionsFilter } from './filters/allExceptions.filter'
 import { RequestLoggerMiddleware } from './common/infrastructure/http/middleware/requestlogger.middleware'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { DbModule } from './v1/database/knex'

@@ -11,7 +11,6 @@ export function useGetHealth() {
     queryKey: ['health'],
     queryFn,
     refetchOnWindowFocus: true,
-    refetchInterval: 1000 * 3,
     select: (data) => {
       if (data.OK && data.app === 'codeclimbers') {
         return true

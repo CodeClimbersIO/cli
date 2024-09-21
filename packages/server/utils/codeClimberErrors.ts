@@ -29,4 +29,21 @@ export namespace CodeClimberError {
       super(message || 'Expected request body was invalid', validationErrors)
     }
   }
+  export class LocalApiKeyNotSet extends CodeClimberError {
+    constructor(message?: string) {
+      super(message || 'Local API key not set', 404)
+    }
+  }
+
+  export class LocalApiKeyUnavailable extends CodeClimberError {
+    constructor(message?: string) {
+      super(message || 'Local API key not available', 403)
+    }
+  }
+
+  export class ApiKeyInvalid extends CodeClimberError {
+    constructor(message?: string) {
+      super(message || 'API key is invalid', 401)
+    }
+  }
 }

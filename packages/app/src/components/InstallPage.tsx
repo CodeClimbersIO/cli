@@ -1,14 +1,14 @@
 import { Box, Typography, Paper, CircularProgress, Link } from '@mui/material'
-import { DiscordIcon } from '../common/Icons/DiscordIcon'
+import { DiscordIcon } from './common/Icons/DiscordIcon'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import CodeClimbersButton from '../common/CodeClimbersButton'
-import { Logo } from '../common/Logo/Logo'
-import { CodeSnippit } from '../common/CodeSnippit/CodeSnippit'
+import CodeClimbersButton from './common/CodeClimbersButton'
+import { Logo } from './common/Logo/Logo'
+import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
 import { useState } from 'react'
-import { isMobile } from '../../../../server/utils/environment.util'
+import { isMobile } from '../../../server/utils/environment.util'
 import installBackground from '@app/assets/background_install.png'
 import { Navigate } from 'react-router-dom'
-import { useGetHealth } from '../../api/health.api'
+import { useGetHealth } from '../api/health.api'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
