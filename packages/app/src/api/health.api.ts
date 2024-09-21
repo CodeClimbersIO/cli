@@ -10,7 +10,7 @@ export function useGetHealth() {
   return useBetterQuery({
     queryKey: ['health'],
     queryFn,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: 'always',
     select: (data) => {
       if (data.OK && data.app === 'codeclimbers') {
         return true

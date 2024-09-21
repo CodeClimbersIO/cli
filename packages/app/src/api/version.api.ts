@@ -1,16 +1,26 @@
 import { useBetterQuery } from '.'
+import environmentUtil from '../utils/environment.util'
 
 const THREE_MINUTES = 3 * 60 * 1_000
 
 export function useLatestVersion(enabled = true) {
+  const environment = environmentUtil.getFEEnvironment()
+
+  const packageJsonUrl =
+    environment === 'release'
+      ? 'https://raw.githubusercontent.com/CodeClimbersIO/cli/release/package.json'
+      : `https://raw.githubusercontent.com/CodeClimbersIO/cli/main/package.json`
+
   const queryFn = async () => {
-    // This should probably be done through a server we host in the future so we can easily update the url without having to update the client
-    const res = await fetch(
-      'https://raw.githubusercontent.com/CodeClimbersIO/cli/release/package.json',
-    )
+    const res = await fetch(packageJsonUrl)
 
     if (!res.ok) {
       throw new Error('Failed to fetch latest version')
+    }
+
+    if (localStorage.getItem('latestVersion')) {
+      // allows override for testing
+      return localStorage.getItem('latestVersion') as string
     }
 
     const data = await res.json()
