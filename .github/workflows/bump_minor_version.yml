@@ -25,7 +25,7 @@ jobs:
       - name: Bump version
         run: |
           git checkout main
-          npm version patch
+          npm version minor
 
       - name: Push changes
         run: |
