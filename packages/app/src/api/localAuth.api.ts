@@ -26,6 +26,7 @@ export function useValidateLocalApiKey(
   return useBetterQuery<{ isValid: boolean }, Error>({
     queryKey: ['local-auth/has-valid-cookie', page],
     queryFn,
+    refetchOnWindowFocus: 'always',
     retry: false,
   })
 }
