@@ -9,7 +9,6 @@ import { PROCESS_NAME } from '../utils/constants'
 import { updateSettings } from '../utils/ini.util'
 import { startMigrations } from './v1/database/migrations'
 import { CodeClimberExceptionFilter } from './filters/codeClimbersException.filter'
-import cookieParser from 'cookie-parser'
 
 const updatedWakatimeIniValues: Record<string, string> = {
   api_key: 'eacb3beb-dad8-4fa1-b6ba-f89de8bf8f4a', // placeholder value
@@ -52,7 +51,6 @@ export async function bootstrap() {
       },
     }),
   )
-  app.use(cookieParser())
   app.useGlobalFilters(new CodeClimberExceptionFilter())
   await updateSettings(updatedWakatimeIniValues)
   await startMigrations()
