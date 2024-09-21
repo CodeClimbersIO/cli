@@ -13,7 +13,7 @@ export const LocalStorageAuthProvider = ({ children }: Props) => {
   if (isFetching) {
     return <LoadingScreen />
   }
-  if (data) {
+  if (data?.apiKey) {
     authUtil.setLocalApiKey(data.apiKey)
   }
   return <>{children}</>
