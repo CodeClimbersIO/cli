@@ -3,13 +3,16 @@ import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
+import pulseRepo from '../repos/pulse.repo'
+import queryApi from './query.api'
+import { getFeatureFlag } from '../utils/flag.util'
+import csvUtil from '../utils/csv.util'
 
 export function useLatestPulses() {
-  const queryFn = () =>
-    apiRequest({
-      url: `${BASE_API_URL}/pulses/latest`,
-      method: 'GET',
-    })
+  const queryFn = () => {
+    const sql = pulseRepo.getLatestPulses()
+    return queryApi.sqlQueryFn(sql)
+  }
   return useBetterQuery<CodeClimbers.Pulse[], Error>({
     queryKey: pulseKeys.latestPulses,
     queryFn,
@@ -58,19 +61,25 @@ export function useGetSitesWithMinutes(startDate: string, endDate: string) {
 export function useExportPulses() {
   const exportPulses = useCallback(async () => {
     try {
-      const response = await apiRequest({
-        url: `${BASE_API_URL}/pulses/export`,
-        method: 'GET',
-        responseType: 'blob',
-      })
-
-      const blob = new Blob([response])
-      const url = window.URL.createObjectURL(blob)
+      let blob
+      if (getFeatureFlag('use-frontend-db')) {
+        const response = await queryApi.sqlQueryFn(pulseRepo.getAllPulses())
+        const csvContent = csvUtil.convertPulsesToCSV(response)
+        blob = new Blob([csvContent])
+      } else {
+        const response = await apiRequest({
+          url: `${BASE_API_URL}/pulses/export`,
+          method: 'GET',
+          responseType: 'blob',
+        })
+        blob = new Blob([response])
+      }
+      const encodedUri = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
-      a.href = url
+      a.href = encodedUri
       a.download = 'pulses.csv'
       a.click()
-      window.URL.revokeObjectURL(url)
+      window.URL.revokeObjectURL(encodedUri)
     } catch (error) {
       console.error('Failed to export pulses:', error)
     }
