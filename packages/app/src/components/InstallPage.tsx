@@ -13,7 +13,10 @@ import { useGetHealth } from '../api/health.api'
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
   const [displayBlockedMessage, setDisplayBlockedMessage] = useState(false)
-  const { data: health } = useGetHealth()
+  const { data: health } = useGetHealth(
+    { retry: isWaiting, refetchInterval: isWaiting ? 1000 : false },
+    'install',
+  )
 
   if (health) return <Navigate to="/" />
 

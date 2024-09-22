@@ -1,16 +1,26 @@
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 
-export function useGetHealth() {
+export function useGetHealth(
+  {
+    refetchInterval = 1000,
+    retry = false,
+  }: {
+    refetchInterval?: number | false
+    retry?: boolean
+  } = {},
+  page: 'home' | 'install' = 'home',
+) {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/health`,
       method: 'GET',
     })
   return useBetterQuery({
-    queryKey: ['health'],
+    queryKey: ['health', page],
     queryFn,
-    refetchOnWindowFocus: 'always',
+    refetchInterval,
+    retry,
     select: (data) => {
       if (data.OK && data.app === 'codeclimbers') {
         return true
