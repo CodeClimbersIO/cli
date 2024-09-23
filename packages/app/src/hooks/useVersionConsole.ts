@@ -2,13 +2,19 @@ import { useGetLocalVersion } from '../api/health.api'
 import { useLatestVersion } from '../api/version.api'
 import { useTheme } from '@mui/material'
 
+// only show the banner one time
+let hasShownBanner = false
+
 export const useVersionConsoleBanner = () => {
   const theme = useTheme()
-
   const { data: localVersionResponse } = useGetLocalVersion()
   const { data: remoteVersionResponse } = useLatestVersion()
 
-  if (localVersionResponse?.version && remoteVersionResponse) {
+  if (
+    localVersionResponse?.version &&
+    remoteVersionResponse &&
+    !hasShownBanner
+  ) {
     console.log(
       `%c
 
@@ -45,5 +51,6 @@ export const useVersionConsoleBanner = () => {
       `color: ${theme.palette.primary.main}`,
       'color: inherit',
     )
+    hasShownBanner = true
   }
 }
