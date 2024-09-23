@@ -16,13 +16,13 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
     return <UpdatePage />
   }
   return (
-    <Box sx={{ padding: '2rem' }}>
+    <>
       <LocalStorageAuthProvider>
         <UpdateBanner />
         <LocalApiKeyErrorBanner />
         {children || <Outlet />}
       </LocalStorageAuthProvider>
-    </Box>
+    </>
   )
 }
 
