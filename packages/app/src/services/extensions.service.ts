@@ -7,7 +7,35 @@ import posthog from 'posthog-js'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
-const extensions = ['use-frontend-db', 'sql-sandbox']
+export interface Extension {
+  id: string
+  name: string
+  authorName: string
+  authorUrl: string
+  description: string
+  image?: string
+}
+
+const extensions: Extension[] = [
+  {
+    id: 'sql-sandbox',
+    name: 'SQL Sandbox',
+    authorName: 'Paul Hovley',
+    authorUrl: 'https://github.com/rphovley',
+    description:
+      'Your data at your fingertips. A sandbox for writing SQL queries. You can query your data directly from the database and see the results in a table and export them to a CSV file.',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Ftest_file.png?alt=media',
+  },
+  {
+    id: 'use-frontend-db',
+    name: 'Direct Query API',
+    authorName: 'Code Climbers',
+    authorUrl: 'https://github.com/CodeClimbersIO',
+    description:
+      "We've been working on a Direct Query API for providing data for the reports. Try it out and let us know if you have any bugs. This is how the app will get data in the future",
+  },
+]
 
 function getActiveExtensions() {
   const rawExtensions = localStorage.getItem(EXTENSIONS_KEY)
@@ -17,10 +45,15 @@ function getActiveExtensions() {
   return extensions.filter((extension: string) => extension)
 }
 
-function activateExtension(extensionId: string) {
+function isExtensionAdded(extensionId: string) {
+  return getActiveExtensions().includes(extensionId)
+}
+
+function addExtension(extensionId: string) {
+  console.log('addExtension', extensionId)
   if (!extensionId) return
   const extensions = getActiveExtensions()
-  if (extensions.includes(extensionId)) {
+  if (isExtensionAdded(extensionId)) {
     return // already activated, don't add again
   }
   const newExtensions = [...extensions, extensionId]
@@ -33,7 +66,7 @@ function activateExtension(extensionId: string) {
   })
 }
 
-function deactivateExtension(extensionId: string) {
+function removeExtension(extensionId: string) {
   if (!extensionId) return
   const extensions = getActiveExtensions()
   const newExtensions = extensions.filter(
@@ -51,6 +84,7 @@ function deactivateExtension(extensionId: string) {
 export default {
   extensions,
   getActiveExtensions,
-  activateExtension,
-  deactivateExtension,
+  addExtension,
+  removeExtension,
+  isExtensionAdded,
 }

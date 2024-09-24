@@ -40,6 +40,15 @@ export const Resources = () => (
         <Typography variant="caption">
           All the resources you need to get started with Code Climbers!
         </Typography>
+        <CodeClimbersButton
+          eventName="resource_add_your_first_extension_click"
+          color="primary"
+          variant="contained"
+          href="/extensions"
+          fullWidth
+        >
+          Add Your First Extension!
+        </CodeClimbersButton>
         <Grid2 container spacing={2}>
           {RESOURCES.map((resource) => (
             <Grid2 xs={6} key={resource.name}>

@@ -6,6 +6,7 @@ import InstallPage from '../components/InstallPage'
 import ImportLayout from '../layouts/ImportLayout'
 import { ImportPage } from '../components/ImportPage'
 import DashboardLayout from '../layouts/DashboardLayout'
+import { ExtensionsPage } from '../components/Extensions/ExtensionsPage'
 
 const AppRoutesPageSubscription = () => {
   useAnalyticsPageSubscription()
@@ -20,6 +21,7 @@ export const AppRoutes = () => {
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/extensions" element={<ExtensionsPage />} />
         </Route>
         <Route element={<ImportLayout />}>
           <Route path="/import" element={<ImportPage />} />
