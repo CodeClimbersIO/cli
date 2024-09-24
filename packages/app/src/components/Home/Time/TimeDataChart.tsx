@@ -46,7 +46,7 @@ const Progress = ({
         value={remainingProgress > 100 ? 100 : remainingProgress}
         key={i}
         sx={{
-          position: 'relative',
+          position: 'absolute',
           width: '100%',
           margin: '0 auto',
           py: 1.5,
@@ -84,8 +84,8 @@ const SubCategoryItem = ({
   progress: number
   color: string
 }) => (
-  <Grid2 container justifyContent="space-between" gap={1} alignItems="center">
-    <Grid2 sx={{ minWidth: 120 }}>
+  <Grid2 container justifyContent="space-between" gap={3}>
+    <Grid2 sx={{ minWidth: 130 }}>
       <Typography variant="body2">{title}</Typography>
     </Grid2>
     <Grid2 sx={{ flex: 1 }}>
@@ -105,9 +105,14 @@ const SubCategoryList = ({
   color: string
 }) => (
   <Box mt={2} ml={4} sx={{ fontSize: '0.9em' }}>
-    <Grid2 container direction="column" spacing={1}>
+    <Grid2
+      container
+      direction="column"
+      spacing={2}
+      justifyContent="space-between"
+    >
       {subCategories.map((subCategory, index) => (
-        <Grid2 key={index}>
+        <Grid2 sx={{ flex: 1 }} key={index}>
           <SubCategoryItem
             title={subCategory.title}
             time={subCategory.time}
@@ -141,7 +146,6 @@ export const TimeDataChart = ({
         container
         justifyContent="space-between"
         gap={3}
-        alignItems="center"
         {...(hasSubCategories && {
           onClick: handleExpand,
           sx: { cursor: 'pointer' },
@@ -151,11 +155,13 @@ export const TimeDataChart = ({
           <Typography variant="body1">{title}</Typography>
         </Grid2>
         <Grid2 sx={{ flex: 1 }}>
-          <Progress
-            progress={progress}
-            color={color}
-            hasSubCategories={hasSubCategories}
-          />
+          <>
+            <Progress
+              progress={progress}
+              color={color}
+              hasSubCategories={hasSubCategories}
+            />
+          </>
         </Grid2>
         <Grid2>
           <Typography variant="body1" fontWeight="bold">
