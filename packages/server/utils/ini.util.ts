@@ -3,9 +3,6 @@ import * as path from 'path'
 import { HOME_DIR } from './node.util'
 import { Logger } from '@nestjs/common'
 
-// Define the file path (adjust as needed)
-const filePath: string = path.join(HOME_DIR, '.wakatime.cfg')
-
 // Define types
 type IniSection = Record<string, string>
 export type IniConfig = Record<string, IniSection>
@@ -45,8 +42,26 @@ export function stringifyIni(data: IniConfig): string {
   return `${entries}\n`
 }
 
+export async function createIniFile(
+  filePath: string,
+  settings: IniConfig,
+): Promise<void> {
+  const iniContent = stringifyIni(settings)
+  await fs.writeFile(filePath, iniContent, 'utf8')
+}
+
+export async function removeIniFile(filePath: string): Promise<void> {
+  await fs.unlink(filePath)
+}
+
+export async function readIniFile(filePath: string): Promise<IniConfig> {
+  const data = await fs.readFile(filePath, 'utf8')
+  return parseIni(data)
+}
+
 export async function updateSettings(
   newSettings: Record<string, string>,
+  filePath: string = path.join(HOME_DIR, '.wakatime.cfg'),
 ): Promise<void> {
   try {
     let config: IniConfig

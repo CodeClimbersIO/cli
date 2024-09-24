@@ -30,13 +30,16 @@ const Wrapper = styled('div')(({ theme }) => ({
 }))
 
 export const HomePage = () => {
-  const { data: health } = useGetHealth()
+  const { data: health, isPending: isHealthPending } = useGetHealth({
+    retry: false,
+    refetchInterval: false,
+  })
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
 
-  if (!health) return <Navigate to="/install" />
+  if (!health && !isHealthPending) return <Navigate to="/install" />
 
   return (
-    <div>
+    <div style={{ padding: '2rem' }}>
       <HomeHeader
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}

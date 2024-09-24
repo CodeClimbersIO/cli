@@ -1,21 +1,31 @@
 import { Box, Typography, Paper, CircularProgress, Link } from '@mui/material'
-import { DiscordIcon } from '../common/Icons/DiscordIcon'
+import { DiscordIcon } from './common/Icons/DiscordIcon'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import CodeClimbersButton from '../common/CodeClimbersButton'
-import { Logo } from '../common/Logo/Logo'
-import { CodeSnippit } from '../common/CodeSnippit/CodeSnippit'
+import CodeClimbersButton from './common/CodeClimbersButton'
+import { Logo } from './common/Logo/Logo'
+import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
 import { useState } from 'react'
-import { isMobile } from '../../../../server/utils/environment.util'
+import { isMobile } from '../../../server/utils/environment.util'
 import installBackground from '@app/assets/background_install.png'
 import { Navigate } from 'react-router-dom'
-import { useGetHealth } from '../../api/health.api'
+import { useGetHealth } from '../api/health.api'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
-  const { data: health } = useGetHealth()
+  const [displayBlockedMessage, setDisplayBlockedMessage] = useState(false)
+  const { data: health } = useGetHealth(
+    { retry: isWaiting, refetchInterval: isWaiting ? 1000 : false },
+    'install',
+  )
 
   if (health) return <Navigate to="/" />
 
+  const onCopy = () => {
+    setIsWaiting(true)
+    setTimeout(() => {
+      setDisplayBlockedMessage(true)
+    }, 5000)
+  }
   const desktopBorder = {
     borderBottom: { xs: '1px solid #707070', lg: 'none' },
     borderRight: { xs: 'none', lg: '1px solid #707070' },
@@ -219,11 +229,15 @@ const InstallPage = () => {
                   >
                     <CodeSnippit
                       code="npx codeclimbers start"
-                      onCopy={() => {
-                        setIsWaiting(true)
-                      }}
+                      onCopy={onCopy}
                     />
                   </Paper>
+                  {displayBlockedMessage && (
+                    <Typography sx={{ mt: 2 }} color="text.secondary">
+                      Please make sure your browser and ad blockers are not
+                      blocking localhost:14400
+                    </Typography>
+                  )}
                 </Box>
               </Paper>
             </Box>

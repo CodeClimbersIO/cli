@@ -18,6 +18,7 @@ import {
 } from '@mui/icons-material'
 import { useThemeStorage } from '../../hooks/useBrowserStorage'
 import CodeClimbersButton from '../common/CodeClimbersButton'
+import { useNavigate } from 'react-router-dom'
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -53,8 +54,11 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
   const today = dayjs().startOf('day')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const navigate = useNavigate()
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
+    navigate('/')
   }
 
   const handleClose = () => {

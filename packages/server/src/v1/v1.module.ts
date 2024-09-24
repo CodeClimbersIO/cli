@@ -10,6 +10,11 @@ import { StartupServiceFactory } from './startup/startupService.factory'
 import { UnsupportedStartupService } from './startup/unsupportedStartup.service'
 import { WindowsStartupService } from './startup/windowsStartup.service'
 import { LinuxStartupService } from './startup/linuxStartup.service'
+import { LocalDbController } from './localdb/localDb.controller'
+import { LocalAuthService } from './localdb/localAuth.service'
+import { LocalAuthController } from './localdb/localAuth.controller'
+import { LocalAuthGuard } from './localdb/localAuth.guard'
+import { LocalDbRepo } from './localdb/localDb.repo'
 
 @Module({
   imports: [],
@@ -18,6 +23,8 @@ import { LinuxStartupService } from './startup/linuxStartup.service'
     PulseController,
     WakatimeController,
     StartupController,
+    LocalDbController,
+    LocalAuthController,
   ],
   providers: [
     ActivitiesService,
@@ -27,6 +34,9 @@ import { LinuxStartupService } from './startup/linuxStartup.service'
     DarwinStartupService,
     WindowsStartupService,
     LinuxStartupService,
+    LocalAuthService,
+    LocalAuthGuard,
+    LocalDbRepo,
   ],
 })
 export class V1Module {}

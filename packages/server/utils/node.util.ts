@@ -3,7 +3,7 @@ import * as os from 'node:os'
 import * as fs from 'node:fs'
 import pc from 'picocolors'
 import { Logger } from '@nestjs/common'
-import { isProd } from './environment.util'
+import { isProd, isTest } from './environment.util'
 import { execSync } from 'node:child_process'
 
 const areWeInDist = () => {
@@ -19,6 +19,7 @@ interface INodeUtil {
   CODE_CLIMBER_META_DIR: string
   DB_PATH: string
   APP_DIST_PATH: string
+  CODE_CLIMBER_INI_PATH: string
   NODE_PATH: () => string
   initDBDir: () => void
 }
@@ -33,8 +34,8 @@ abstract class BaseNodeUtil implements INodeUtil {
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
   APP_DIST_PATH = path.join(this.PROJECT_ROOT, 'packages', 'app', 'dist')
-
   abstract NODE_PATH(): string
+  abstract CODE_CLIMBER_INI_PATH: string
 
   initDBDir = (): void => {
     if (!fs.existsSync(this.CODE_CLIMBER_META_DIR)) {
@@ -46,7 +47,14 @@ abstract class BaseNodeUtil implements INodeUtil {
 
 class DarwinNodeUtil extends BaseNodeUtil {
   CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/.codeclimbers`
-  DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
+  CODE_CLIMBER_INI_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? '.codeclimbers.test.cfg' : '.codeclimbers.cfg',
+  )
+  DB_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
+  )
   START_ERR_LOG_MESSAGE = pc.red(`      
     It seems the server is having trouble starting. Run the command 
   
@@ -63,7 +71,14 @@ class DarwinNodeUtil extends BaseNodeUtil {
 
 class WindowsNodeUtil extends BaseNodeUtil {
   CODE_CLIMBER_META_DIR = `${this.HOME_DIR}\\.codeclimbers`
-  DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
+  CODE_CLIMBER_INI_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? '.codeclimbers.test.cfg' : '.codeclimbers.cfg',
+  )
+  DB_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
+  )
   START_ERR_LOG_MESSAGE: string = pc.red(`      
     It seems the server is having trouble starting. Run the command in cmd (not powershell)
   
@@ -80,7 +95,14 @@ class WindowsNodeUtil extends BaseNodeUtil {
 
 class LinuxNodeUtil extends BaseNodeUtil {
   CODE_CLIMBER_META_DIR = `${this.HOME_DIR}/.codeclimbers`
-  DB_PATH = path.join(this.CODE_CLIMBER_META_DIR, 'codeclimber.sqlite')
+  CODE_CLIMBER_INI_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? '.codeclimbers.test.cfg' : '.codeclimbers.cfg',
+  )
+  DB_PATH = path.join(
+    this.CODE_CLIMBER_META_DIR,
+    isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
+  )
   START_ERR_LOG_MESSAGE = pc.red(`      
     It seems the server is having trouble starting. Run the command 
   
@@ -117,11 +139,13 @@ export const HOME_DIR = nodeUtil.HOME_DIR
 export const CODE_CLIMBER_META_DIR = nodeUtil.CODE_CLIMBER_META_DIR
 export const DB_PATH = nodeUtil.DB_PATH
 export const APP_DIST_PATH = nodeUtil.APP_DIST_PATH
+export const CODE_CLIMBER_INI_PATH = nodeUtil.CODE_CLIMBER_INI_PATH
 export const NODE_PATH = nodeUtil.NODE_PATH
 export const initDBDir = nodeUtil.initDBDir
 
 const logPaths = () => {
   if (isProd()) return
+  if (process.env.NODE_ENV === 'test') return
   Logger.debug(NODE_PATH(), 'NODE_PATH')
   Logger.debug(PROJECT_ROOT, 'PROJECT_ROOT')
   Logger.debug(BIN_PATH, 'BIN_PATH')
@@ -129,6 +153,7 @@ const logPaths = () => {
   Logger.debug(DB_PATH, 'DB_PATH')
   Logger.debug(HOME_DIR, 'HOME_DIR')
   Logger.debug(APP_DIST_PATH, 'APP_DIST_PATH')
+  Logger.debug(CODE_CLIMBER_INI_PATH, 'CODE_CLIMBER_INI_PATH')
 }
 
 logPaths()
