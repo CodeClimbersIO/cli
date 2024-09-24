@@ -303,7 +303,7 @@ export class PulseRepo {
       .where('category', category)
       .groupBy('project', this.knex.raw("strftime('%s', time) / 120"))
 
-    return await this.knex<CodeClimbers.ProjectTimeOverview[]>(this.tableName)
+    return this.knex<CodeClimbers.ProjectTimeOverview[]>(this.tableName)
       .with('getMinutes', query)
       .select(this.knex.raw('project as name, count() * 2 as minutes'))
       .groupBy('project')
