@@ -2,7 +2,7 @@ import { CircularProgress } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Dayjs } from 'dayjs'
 
-import { useWeekOverview } from '../../../api/pulse.api'
+import { useWeekOverview } from '../../../services/pulse.service'
 import { TimeDataPoint } from './TimeDataPoint'
 import { minutesToHours } from './utils'
 

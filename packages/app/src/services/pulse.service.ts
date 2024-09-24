@@ -4,7 +4,7 @@ import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
 import pulseRepo from '../repos/pulse.repo'
-import queryApi from './query.api'
+import queryApi from './query.service'
 import { getFeatureFlag } from '../utils/flag.util'
 import csvUtil from '../utils/csv.util'
 
