@@ -4,7 +4,10 @@ import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
-import { useCategoryTimeOverview } from '../../../api/pulse.api'
+import {
+  useCategoryTimeOverview,
+  usePerProjectOverviewTopThree,
+} from '../../../api/pulse.api'
 
 const categories = {
   coding: 'coding',
@@ -27,6 +30,13 @@ const CategoryChart = ({ selectedDate }: Props) => {
   } = useCategoryTimeOverview(selectedDate)
   const TODAY_INDEX = 0
   const todayOverview = categoryOverview[TODAY_INDEX] || []
+
+  const {
+    data: perProjectTopThree = {} as CodeClimbers.PerProjectTimeOverview,
+    isPending: perProjectOverviewTopThreePending,
+  } = usePerProjectOverviewTopThree(selectedDate)
+  const perProjectOverviewTopThree =
+    perProjectTopThree || ({} as CodeClimbers.PerProjectTimeOverview)
 
   useEffect(() => {
     if (todayOverview.length > 0)
@@ -63,7 +73,19 @@ const CategoryChart = ({ selectedDate }: Props) => {
     return 0
   }
 
-  if (isPending) return <CircularProgress />
+  const getPerProjectMinutes = (category = '') => {
+    if (perProjectOverviewTopThree[category]) {
+      return perProjectOverviewTopThree[category].map((project) => ({
+        title: project.name,
+        time: minutesToHours(project.minutes),
+        progress: (project.minutes / (3 * 60)) * 100,
+      }))
+    }
+    return []
+  }
+
+  if (isPending || perProjectOverviewTopThreePending)
+    return <CircularProgress />
   return (
     <>
       <TimeDataChart
@@ -73,6 +95,7 @@ const CategoryChart = ({ selectedDate }: Props) => {
         )}
         progress={getCategoryPercentage(categories.coding)}
         color={theme.palette.graphColors.blue}
+        subCategories={getPerProjectMinutes(categories.coding)}
       />
       <TimeDataChart
         title="Communicating"

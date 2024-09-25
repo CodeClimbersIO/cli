@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
 import sqlReaderUtil from '../../../utils/sqlReader.util'
 import dayjs from 'dayjs'
+import { PageOptionsDto } from '../dtos/pagination.dto'
 
 interface MinutesQuery {
   minutes: number
@@ -247,5 +248,68 @@ export class PulseRepo {
       )
       .from('getSiteMinutes')
       .first()
+  }
+
+  async getPerProjectOverviewTopThree(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.PerProjectTimeOverview> {
+    const baseQuery = this.knex<MinutesQuery[]>(this.tableName)
+      .select(this.knex.raw('category, project, count(*) * 2'))
+      .from(this.tableName)
+      .whereBetween('time', [startDate, endDate])
+      .groupBy(
+        'category',
+        'project',
+        this.knex.raw("strftime('%s', time) / 120"),
+      )
+
+    const results = await this.knex<CodeClimbers.ProjectTimeOverview[]>(
+      this.tableName,
+    )
+      .with('getMinutes', baseQuery)
+      .select('category')
+      .select(this.knex.raw('project as name, count() * 2 as minutes'))
+      .groupBy('category', 'project')
+      .orderBy('category')
+      .orderBy('minutes', 'desc')
+      .limit(3)
+      .from('getMinutes')
+
+    return results.reduce((acc, row) => {
+      if (!acc[row.category]) {
+        acc[row.category] = []
+      }
+
+      acc[row.category].push({ name: row.name, minutes: row.minutes })
+
+      return acc
+    }, {} as CodeClimbers.PerProjectTimeOverview)
+  }
+
+  async getPerProjectOverviewByCategory(
+    startDate: string,
+    endDate: string,
+    category: string,
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<CodeClimbers.ProjectTimeOverview[]> {
+    const pageSize = pageOptionsDto.limit ?? 3
+    const offset = (pageOptionsDto.page - 1) * pageSize
+
+    const query = this.knex<MinutesQuery[]>(this.tableName)
+      .select(this.knex.raw('project, count(*) * 2'))
+      .from(this.tableName)
+      .whereBetween('time', [startDate, endDate])
+      .where('category', category)
+      .groupBy('project', this.knex.raw("strftime('%s', time) / 120"))
+
+    return this.knex<CodeClimbers.ProjectTimeOverview[]>(this.tableName)
+      .with('getMinutes', query)
+      .select(this.knex.raw('project as name, count() * 2 as minutes'))
+      .groupBy('project')
+      .orderBy('minutes', pageOptionsDto.sort)
+      .offset(offset)
+      .limit(pageSize)
+      .from('getMinutes')
   }
 }

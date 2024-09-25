@@ -11,4 +11,6 @@ export const pulseKeys = {
     ['sourcesMinutes', startDate, endDate] as const,
   sitesMinutes: (startDate: string, endDate: string) =>
     ['sitesMinutes', startDate, endDate] as const,
+  perProjectOverviewTopThree: (startDate: string, endDate: string) =>
+    ['perProjectTimeOverview', 'topThree', startDate, endDate] as const,
 }

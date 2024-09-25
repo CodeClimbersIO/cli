@@ -200,8 +200,133 @@ describe('pulse.repo', () => {
     expect(minutes).toEqual(4)
   })
 
+  describe('getPerProjectOverviewTopThree', () => {
+    it('Should return top three projects for each category', async () => {
+      const timeAgo = TIMESTAMP - YEAR - DAY * 14
+
+      const startDate = new Date(timeAgo)
+      const endDate = new Date(timeAgo + DAY * 7)
+
+      // await pulseRepo.createPulses([
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 6).toISOString()),
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 5).toISOString()),
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 4).toISOString()),
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 3).toISOString()),
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 2).toISOString()),
+      //   dummyPulse(new Date(TIMESTAMP - DAY * 1).toISOString()),
+      // ])
+
+      await pulseRepo.createPulses([
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project A',
+          time: new Date(startDate.getTime() - DAY).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project B',
+          time: new Date(startDate.getTime() - MINUTE).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project C',
+          time: new Date(startDate.getTime() + DAY).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project D',
+          time: new Date(startDate.getTime() + DAY - MINUTE).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'communicating',
+          project: 'Project X',
+          time: new Date(startDate.getTime() + DAY + MINUTE).toISOString(),
+        },
+      ])
+
+      const result = await pulseRepo.getPerProjectOverviewTopThree(
+        startDate.toISOString(),
+        endDate.toISOString(),
+      )
+
+      expect(result).toHaveProperty('coding')
+      expect(result).toHaveProperty('NEW')
+      expect(result.coding).toHaveLength(2)
+      expect(result['NEW']).toHaveLength(1)
+      expect(result.coding[0]).toHaveProperty('name')
+      expect(result.coding[0]).toHaveProperty('minutes')
+    })
+  })
+
+  describe('getPerProjectOverviewByCategory', () => {
+    it('Should return paginated project overview for a specific category', async () => {
+      const startDate = new Date(TIMESTAMP - DAY * 7).toISOString()
+      const endDate = new Date(TIMESTAMP).toISOString()
+      const category = 'coding'
+      const pageOptionsDto = { page: 1, limit: 2 }
+
+      await pulseRepo.createPulses([
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project A',
+          time: new Date(TIMESTAMP - DAY * 6).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project B',
+          time: new Date(TIMESTAMP - DAY * 5).toISOString(),
+        },
+        {
+          ...dummyPulse(),
+          category: 'coding',
+          project: 'Project C',
+          time: new Date(TIMESTAMP - DAY * 4).toISOString(),
+        },
+      ])
+
+      const result = await pulseRepo.getPerProjectOverviewByCategory(
+        startDate,
+        endDate,
+        category,
+        pageOptionsDto,
+      )
+
+      expect(result).toHaveLength(2)
+      expect(result[0]).toHaveProperty('name')
+      expect(result[0]).toHaveProperty('minutes')
+      expect(result[0].minutes).toBeGreaterThanOrEqual(result[1].minutes)
+    })
+
+    it('Should handle empty results', async () => {
+      const startDate = new Date(TIMESTAMP - DAY * 7).toISOString()
+      const endDate = new Date(TIMESTAMP).toISOString()
+      const category = 'non-existent-category'
+      const pageOptionsDto = { page: 1, limit: 2 }
+
+      const result = await pulseRepo.getPerProjectOverviewByCategory(
+        startDate,
+        endDate,
+        category,
+        pageOptionsDto,
+      )
+
+      expect(result).toHaveLength(0)
+    })
+  })
+
   // TODO: Write test for representing categories correctly, as they are not all equal.
 })
+
+// beforeEach(async () => {
+//   await knex(pulseRepo.tableName).del()
+// })
 
 afterAll((done) => {
   knex.destroy()

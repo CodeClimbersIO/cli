@@ -5,6 +5,7 @@ import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
 import dayjs from 'dayjs'
 import { TimePeriodDto } from '../dtos/getCategoryTimeOverview.dto'
+import { PageDto, PageMetaDto, PageOptionsDto } from '../dtos/pagination.dto'
 
 @Injectable()
 export class ActivitiesService {
@@ -284,5 +285,33 @@ export class ActivitiesService {
     )
 
     return [header, ...rows].join('\n')
+  }
+
+  async getPerProjectOverviewTopThree(
+    startDate: string,
+    endDate: string,
+  ): Promise<CodeClimbers.PerProjectTimeOverview> {
+    return await this.pulseRepo.getPerProjectOverviewTopThree(
+      startDate,
+      endDate,
+    )
+  }
+
+  async getPerProjectOverviewByCategory(
+    startDate: string,
+    endDate: string,
+    category: string,
+    pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<CodeClimbers.ProjectTimeOverview>> {
+    const results = await this.pulseRepo.getPerProjectOverviewByCategory(
+      startDate,
+      endDate,
+      category,
+      pageOptionsDto,
+    )
+    const count = results.length
+    const pageMetaDto = new PageMetaDto({ count, pageOptionsDto })
+
+    return new PageDto(results, pageMetaDto)
   }
 }
