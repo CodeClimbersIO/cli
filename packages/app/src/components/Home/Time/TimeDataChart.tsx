@@ -37,6 +37,7 @@ const Progress = ({
   let remainingProgress = progress
   const laps = Math.ceil(progress / 100)
   let currentColor = color
+  const hoverColor = emphasize(currentColor, 0.4)
   for (let i = 0; i < laps; i++) {
     const height = (laps - i) / laps
     const assignedColor = rgbToHex(currentColor)
@@ -58,11 +59,6 @@ const Progress = ({
             backgroundColor: `${assignedColor}`,
             borderRadius: 1,
             height: height * 100 + '%',
-            ...(hasSubCategories && {
-              '&:hover': {
-                backgroundColor: emphasize(currentColor, 0.4),
-              },
-            }),
           },
         }}
       />,
@@ -70,7 +66,20 @@ const Progress = ({
     currentColor = emphasize(currentColor, 0.3)
     remainingProgress -= 100
   }
-  return <Box sx={{ position: 'relative' }}>{progressBars}</Box>
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        ...(hasSubCategories && {
+          '&:hover .MuiLinearProgress-bar': {
+            backgroundColor: hoverColor,
+          },
+        }),
+      }}
+    >
+      {progressBars}
+    </Box>
+  )
 }
 
 const SubCategoryItem = ({
