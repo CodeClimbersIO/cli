@@ -84,12 +84,24 @@ const SubCategoryItem = ({
   progress: number
   color: string
 }) => (
-  <Grid2 container justifyContent="space-between" gap={3}>
-    <Grid2 sx={{ minWidth: 130 }}>
-      <Typography variant="body2">{title}</Typography>
+  <Grid2 container justifyContent="space-between" gap={4}>
+    <Grid2 sx={{ minWidth: 120 }}>
+      <Typography
+        variant="body2"
+        sx={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '120px',
+        }}
+      >
+        {title}
+      </Typography>
     </Grid2>
     <Grid2 sx={{ flex: 1 }}>
-      <Progress progress={progress} color={color} />
+      <>
+        <Progress progress={progress} color={color} />
+      </>
     </Grid2>
     <Grid2>
       <Typography variant="body2">{time}</Typography>
