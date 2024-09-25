@@ -253,7 +253,7 @@ export class PulseRepo {
   async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.PerProjectTimeOverview[]> {
+  ): Promise<CodeClimbers.PerProjectTimeOverview> {
     const baseQuery = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('category, project, count(*) * 2'))
       .from(this.tableName)
@@ -264,7 +264,7 @@ export class PulseRepo {
         this.knex.raw("strftime('%s', time) / 120"),
       )
 
-    const results = await this.knex<CodeClimbers.PerProjectTimeOverviewDao[]>(
+    const results = await this.knex<CodeClimbers.ProjectTimeOverview[]>(
       this.tableName,
     )
       .with('getMinutes', baseQuery)
@@ -284,7 +284,7 @@ export class PulseRepo {
       acc[row.category].push({ name: row.name, minutes: row.minutes })
 
       return acc
-    }, {} as CodeClimbers.PerProjectTimeOverview[])
+    }, {} as CodeClimbers.PerProjectTimeOverview)
   }
 
   async getPerProjectOverviewByCategory(
