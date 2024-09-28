@@ -9,19 +9,21 @@ import {
   TableRow,
   TextField,
   Tooltip,
+  Pagination,
   Typography,
 } from '@mui/material'
 import CodeClimbersButton from '../../components/common/CodeClimbersButton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useRunSql } from './Sandbox.api'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import csvUtil from '../../utils/csv.util'
 
 export default function SqlSandboxPage() {
   const [sql, setSql] = useState(
     `SELECT * FROM activities_pulse ORDER BY id DESC LIMIT 10;`,
   )
+  const [page, setPage] = useState(1)
 
   const [results, setResults] = useState<any[]>([])
   const { mutateAsync: runSql, isPending } = useRunSql()
@@ -43,6 +45,23 @@ export default function SqlSandboxPage() {
   const onSqlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSql(e.target.value)
   }
+
+  const resultsPerPage = 50
+
+  const paginatedResults = useMemo(() => {
+    const startIndex = (page - 1) * resultsPerPage
+    return results.slice(startIndex, startIndex + resultsPerPage)
+  }, [results, page])
+
+  const totalPages = Math.ceil(results.length / resultsPerPage)
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value)
+  }
+
   return (
     <Box sx={{ mt: 2 }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -86,68 +105,78 @@ export default function SqlSandboxPage() {
         <Box>
           <Typography>Results</Typography>
           {results.length > 0 && (
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="results table">
-                <TableHead>
-                  <TableRow>
-                    {Object.keys(results[0]).map((key) => (
-                      <TableCell
-                        key={key}
-                        sx={{
-                          fontWeight: 'bold',
-                          maxWidth: '50px',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        <Tooltip
-                          title={key}
-                          componentsProps={{
-                            tooltip: { sx: { color: 'black' } },
-                          }}
-                        >
-                          <span>{key}</span>
-                        </Tooltip>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {results.map((row, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        '&:nth-of-type(odd)': {
-                          backgroundColor: 'action.hover',
-                        },
-                      }}
-                    >
-                      {Object.entries(row).map(([key, value], cellIndex) => (
+            <>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="results table">
+                  <TableHead>
+                    <TableRow>
+                      {Object.keys(results[0]).map((key) => (
                         <TableCell
-                          key={cellIndex}
+                          key={key}
                           sx={{
-                            maxWidth: '100px',
+                            fontWeight: 'bold',
+                            maxWidth: '50px',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                           }}
                         >
                           <Tooltip
-                            title={String(value)}
+                            title={key}
                             componentsProps={{
                               tooltip: { sx: { color: 'black' } },
                             }}
                           >
-                            <span>{String(value)}</span>
+                            <span>{key}</span>
                           </Tooltip>
                         </TableCell>
                       ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                  </TableHead>
+                  <TableBody>
+                    {paginatedResults.map((row, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          '&:nth-of-type(odd)': {
+                            backgroundColor: 'action.hover',
+                          },
+                        }}
+                      >
+                        {Object.entries(row).map(([key, value], cellIndex) => (
+                          <TableCell
+                            key={cellIndex}
+                            sx={{
+                              maxWidth: '100px',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            <Tooltip
+                              title={String(value)}
+                              componentsProps={{
+                                tooltip: { sx: { color: 'black' } },
+                              }}
+                            >
+                              <span>{String(value)}</span>
+                            </Tooltip>
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Pagination
+                  count={totalPages}
+                  page={page}
+                  onChange={handlePageChange}
+                  color="primary"
+                />
+              </Box>
+            </>
           )}
         </Box>
       </Box>
