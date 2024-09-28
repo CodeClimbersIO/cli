@@ -33,12 +33,14 @@ export async function bootstrap() {
     origin: isProd()
       ? [
           'https://codeclimbers.io',
+          /\.codeclimbers\.io$/,
           'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
         ]
       : [
           'https://codeclimbers.io',
           'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
           'http://localhost:5173',
+          /\.codeclimbers\.io$/,
           /\.web\.app$/,
         ],
     credentials: true,
