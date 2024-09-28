@@ -74,12 +74,7 @@ export function useExportPulses() {
         })
         blob = new Blob([response])
       }
-      const encodedUri = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = encodedUri
-      a.download = 'pulses.csv'
-      a.click()
-      window.URL.revokeObjectURL(encodedUri)
+      csvUtil.downloadBlob(blob, 'pulses.csv')
     } catch (error) {
       console.error('Failed to export pulses:', error)
     }

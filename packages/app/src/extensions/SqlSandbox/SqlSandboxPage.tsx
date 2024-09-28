@@ -16,6 +16,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useRunSql } from './Sandbox.api'
 import { useState } from 'react'
+import csvUtil from '../../utils/csv.util'
 
 export default function SqlSandboxPage() {
   const [sql, setSql] = useState(
@@ -34,6 +35,9 @@ export default function SqlSandboxPage() {
 
   const onDownloadCsv = () => {
     console.log('download csv')
+    const csvContent = csvUtil.convertPulsesToCSV(results)
+    const blob = new Blob([csvContent])
+    csvUtil.downloadBlob(blob, 'results.csv')
   }
 
   const onSqlChange = (e: React.ChangeEvent<HTMLInputElement>) => {

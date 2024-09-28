@@ -50,6 +50,16 @@ const convertPulsesToCSV = (pulses: CodeClimbers.Pulse[]): string => {
   return [header, ...rows].join('\n')
 }
 
+const downloadBlob = (blob: Blob, filename = 'data.csv') => {
+  const encodedUri = window.URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = encodedUri
+  a.download = filename
+  a.click()
+  window.URL.revokeObjectURL(encodedUri)
+}
+
 export default {
   convertPulsesToCSV,
+  downloadBlob,
 }
