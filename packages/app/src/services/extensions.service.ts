@@ -4,6 +4,8 @@
 */
 // eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
+import SqlSandbox from '../extensions/SqlSandbox'
+import SqlSandboxPage from '../extensions/SqlSandbox/SqlSandboxPage'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
@@ -16,9 +18,17 @@ export interface Extension {
   image?: string
 }
 
-const extensions: Extension[] = [
+export interface DashboardExtension extends Extension {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: React.ComponentType<any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pageComponent: React.ComponentType<any>
+  route: string
+}
+
+const extensions: (Extension | DashboardExtension)[] = [
   {
-    id: 'sql-sandbox',
+    id: 'SqlSandbox',
     name: 'SQL Sandbox',
     authorName: 'Paul Hovley',
     authorUrl: 'https://github.com/rphovley',
@@ -26,9 +36,12 @@ const extensions: Extension[] = [
       'Your data at your fingertips. A sandbox for writing SQL queries. You can query your data directly from the database and see the results in a table and export them to a CSV file.',
     image:
       'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Ftest_file.png?alt=media',
+    component: SqlSandbox,
+    route: '/sql-sandbox',
+    pageComponent: SqlSandboxPage,
   },
   {
-    id: 'use-frontend-db',
+    id: 'DirectQueryAPI',
     name: 'Direct Query API',
     authorName: 'Code Climbers',
     authorUrl: 'https://github.com/CodeClimbersIO',
@@ -37,20 +50,45 @@ const extensions: Extension[] = [
   },
 ]
 
-function getActiveExtensions() {
+function getActiveExtensionIds() {
   const rawExtensions = localStorage.getItem(EXTENSIONS_KEY)
-  const extensions = rawExtensions
+  const extensionIds = rawExtensions
     ? (JSON.parse(rawExtensions) as string[])
     : []
-  return extensions.filter((extension: string) => extension)
+  return extensionIds
+}
+
+function getActiveExtensions() {
+  const extensionIds = getActiveExtensionIds()
+  const activeExtensions = extensionIds.map((id) =>
+    extensions.find((extension) => extension.id === id),
+  )
+  return activeExtensions.filter((extension) => extension !== undefined)
+}
+
+function getActiveDashboardExtensions(): DashboardExtension[] {
+  const activeExtensions = getActiveExtensions()
+  return activeExtensions.filter(
+    (extension): extension is DashboardExtension => 'component' in extension,
+  )
+}
+
+function getActiveDashboardExtensionRoutes(): DashboardExtension[] {
+  const activeExtensions = getActiveDashboardExtensions()
+  return activeExtensions.filter((extension) => extension.route)
+}
+
+function getExtensionByRoute(route: string): DashboardExtension | undefined {
+  return getActiveDashboardExtensions().find(
+    (extension) => extension.route === route,
+  )
 }
 
 function isExtensionAdded(extensionId: string) {
-  return getActiveExtensions().includes(extensionId)
+  return getActiveExtensionIds().includes(extensionId)
 }
 
 function addExtension(extensionId: string) {
-  console.log('addExtension', extensionId)
   if (!extensionId) return
   const extensions = getActiveExtensions()
   if (isExtensionAdded(extensionId)) {
@@ -68,10 +106,8 @@ function addExtension(extensionId: string) {
 
 function removeExtension(extensionId: string) {
   if (!extensionId) return
-  const extensions = getActiveExtensions()
-  const newExtensions = extensions.filter(
-    (extension: string) => extension !== extensionId,
-  )
+  const extensionIds = getActiveExtensionIds()
+  const newExtensions = extensionIds.filter((id) => id !== extensionId)
   localStorage.setItem(EXTENSIONS_KEY, JSON.stringify(newExtensions))
   // store to posthog profile
   posthog.capture('$set', {
@@ -87,4 +123,7 @@ export default {
   addExtension,
   removeExtension,
   isExtensionAdded,
+  getActiveDashboardExtensions,
+  getActiveDashboardExtensionRoutes,
+  getExtensionByRoute,
 }
