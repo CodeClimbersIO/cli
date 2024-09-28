@@ -7,7 +7,9 @@ const extractVersions = (version: string) => {
 }
 type FEEnvironment = 'release' | 'preview' | 'localhost' | 'unknown'
 
-const isReleaseSite = window.location.hostname === 'codeclimbers.io'
+const isReleaseSite =
+  window.location.hostname === 'codeclimbers.io' ||
+  window.location.hostname.endsWith('.codeclimbers.io')
 const isPreviewSite = window.location.hostname.endsWith('.web.app')
 const isLocalhost = window.location.hostname === 'localhost'
 
