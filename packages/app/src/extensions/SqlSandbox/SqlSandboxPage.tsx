@@ -15,35 +15,59 @@ import {
 import CodeClimbersButton from '../../components/common/CodeClimbersButton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DownloadIcon from '@mui/icons-material/Download'
-import { useRunSql } from './Sandbox.api'
+import SaveIcon from '@mui/icons-material/Save'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import { useRunSql } from './sandbox.api'
 import { useMemo, useState } from 'react'
 import csvUtil from '../../utils/csv.util'
+import sqlSaveService from './sqlSandbox.service'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import CodeClimbersIconButton from '../../components/common/CodeClimbersIconButton'
+import { v4 as uuidv4 } from 'uuid'
 
+const defaultSql = `SELECT * FROM activities_pulse ORDER BY id DESC LIMIT 10;`
 export default function SqlSandboxPage() {
-  const [sql, setSql] = useState(
-    `SELECT * FROM activities_pulse ORDER BY id DESC LIMIT 10;`,
-  )
+  // get sql name from url param
+  const [searchParams] = useSearchParams()
+  const sqlIdFromUrl = searchParams.get('sqlId')
+  const navigate = useNavigate()
+
+  const savedSql = sqlSaveService.getSql(sqlIdFromUrl || '') || defaultSql
+  const [sql, setSql] = useState(savedSql.sql || defaultSql)
+
+  const [sqlName, setSqlName] = useState(savedSql.name || 'Untitled.sql')
+  const [sqlId, setSqlId] = useState(savedSql.id || uuidv4())
   const [page, setPage] = useState(1)
 
-  const [results, setResults] = useState<any[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [results, setResults] = useState<Record<string, any>[]>([])
   const { mutateAsync: runSql, isPending } = useRunSql()
 
   const onRunSql = async () => {
-    console.log('run sql')
     const res = await runSql(sql)
-    console.log(res)
     setResults(res)
   }
 
   const onDownloadCsv = () => {
-    console.log('download csv')
-    const csvContent = csvUtil.convertPulsesToCSV(results)
+    const csvContent = csvUtil.convertRecordsToCSV(results)
     const blob = new Blob([csvContent])
     csvUtil.downloadBlob(blob, 'results.csv')
   }
 
+  const onSaveSql = () => {
+    // save sql to local storage
+    sqlSaveService.saveSql(sqlName, sql, sqlId)
+    setSqlId(sqlId)
+  }
+
   const onSqlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSql(e.target.value)
+  }
+
+  const onDeleteSql = () => {
+    if (!sqlIdFromUrl) return
+    sqlSaveService.deleteSql(sqlIdFromUrl)
+    navigate('/')
   }
 
   const resultsPerPage = 50
@@ -62,11 +86,20 @@ export default function SqlSandboxPage() {
     setPage(value)
   }
 
+  const onSqlNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSqlName(e.target.value)
+  }
+
   return (
     <Box sx={{ mt: 2 }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-          <TextField label="Name" placeholder="Untitled" value="Untitled.sql" />
+          <TextField
+            label="Name"
+            placeholder="Untitled"
+            value={sqlName}
+            onChange={onSqlNameChange}
+          />
           <Box sx={{ display: 'flex', gap: 2 }}>
             <CodeClimbersButton
               eventName="run-sql"
@@ -79,16 +112,34 @@ export default function SqlSandboxPage() {
               Run
             </CodeClimbersButton>
             <CodeClimbersButton
+              eventName="save-sql"
+              startIcon={<SaveIcon />}
+              color="primary"
+              variant="outlined"
+              sx={{ alignSelf: 'center' }}
+              onClick={onSaveSql}
+            >
+              Save
+            </CodeClimbersButton>
+            <CodeClimbersButton
               eventName="download-csv"
               startIcon={<DownloadIcon />}
               color="primary"
-              variant="contained"
+              variant="outlined"
               sx={{ alignSelf: 'center' }}
               disabled={results.length === 0}
               onClick={onDownloadCsv}
             >
               Download
             </CodeClimbersButton>
+            <CodeClimbersIconButton
+              eventName="delete-sql"
+              color="primary"
+              sx={{ alignSelf: 'center' }}
+              onClick={onDeleteSql}
+            >
+              <DeleteIcon />
+            </CodeClimbersIconButton>
           </Box>
         </Box>
         <Box>

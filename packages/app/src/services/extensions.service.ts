@@ -6,6 +6,7 @@
 import posthog from 'posthog-js'
 import SqlSandbox from '../extensions/SqlSandbox'
 import SqlSandboxPage from '../extensions/SqlSandbox/SqlSandboxPage'
+import sqlSandboxService from '../extensions/SqlSandbox/sqlSandbox.service'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
@@ -15,6 +16,8 @@ export interface Extension {
   authorName: string
   authorUrl: string
   description: string
+  onAdd?: () => void
+  onRemove?: () => void
   image?: string
 }
 
@@ -39,6 +42,9 @@ const extensions: (Extension | DashboardExtension)[] = [
     component: SqlSandbox,
     route: '/sql-sandbox',
     pageComponent: SqlSandboxPage,
+    onAdd: () => {
+      sqlSandboxService.onAdd()
+    },
   },
   {
     id: 'DirectQueryAPI',

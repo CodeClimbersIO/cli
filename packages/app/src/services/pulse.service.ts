@@ -64,7 +64,7 @@ export function useExportPulses() {
       let blob
       if (getFeatureFlag('DirectQueryAPI')) {
         const response = await queryApi.sqlQueryFn(pulseRepo.getAllPulses())
-        const csvContent = csvUtil.convertPulsesToCSV(response)
+        const csvContent = csvUtil.convertRecordsToCSV(response)
         blob = new Blob([csvContent])
       } else {
         const response = await apiRequest({

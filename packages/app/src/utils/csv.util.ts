@@ -1,50 +1,11 @@
-const convertPulsesToCSV = (pulses: CodeClimbers.Pulse[]): string => {
-  const header = [
-    'ID',
-    'User ID',
-    'Entity',
-    'Type',
-    'Category',
-    'Project',
-    'Branch',
-    'Language',
-    'Is Write',
-    'Editor',
-    'Operating System',
-    'Machine',
-    'User Agent',
-    'Time',
-    'Hash',
-    'Origin',
-    'Origin ID',
-    'Created At',
-    'Description',
-  ].join(',')
-
-  const rows = pulses.map((row) =>
-    [
-      row.id,
-      row.userId,
-      row.entity,
-      row.type,
-      row.category,
-      row.project,
-      row.branch,
-      row.language,
-      row.isWrite,
-      row.editor,
-      row.operatingSystem,
-      row.machine,
-      row.userAgent,
-      row.time,
-      row.hash,
-      row.origin,
-      row.originId,
-      row.createdAt,
-      row.description,
-    ]
-      .map((value) => (value === null ? '' : value?.toString()))
-      .join(','),
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const convertRecordsToCSV = (records: Record<string, any>[]): string => {
+  console.log('records', records)
+  const header = Object.keys(records[0]).join(',')
+  const rows = records.map((row) =>
+    Object.values(row).map((value) =>
+      value === null ? '' : value?.toString(),
+    ),
   )
 
   return [header, ...rows].join('\n')
@@ -60,6 +21,6 @@ const downloadBlob = (blob: Blob, filename = 'data.csv') => {
 }
 
 export default {
-  convertPulsesToCSV,
+  convertRecordsToCSV,
   downloadBlob,
 }

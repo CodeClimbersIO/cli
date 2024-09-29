@@ -31,9 +31,11 @@ export const ExtensionDetail = ({ extension }: Props) => {
     if (!isAdded) {
       posthog.capture(`extension_add_${extension.id}_click`)
       extensionsService.addExtension(extension.id)
+      extension.onAdd?.()
     } else {
       posthog.capture(`extension_remove_${extension.id}_click`)
       extensionsService.removeExtension(extension.id)
+      extension.onRemove?.()
     }
     setIsAdded(!isAdded)
   }

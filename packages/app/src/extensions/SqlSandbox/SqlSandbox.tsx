@@ -2,6 +2,7 @@ import { Box, Typography, useTheme } from '@mui/material'
 import CodeClimbersButton from '../../components/common/CodeClimbersButton'
 import { useNavigate } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add'
+import sqlSaveService from './sqlSandbox.service'
 
 export default function SqlSandbox() {
   const navigate = useNavigate()
@@ -32,6 +33,32 @@ export default function SqlSandbox() {
         >
           Add
         </CodeClimbersButton>
+        {/* Add a list of saved sql queries pulled from local storage */}
+      </Box>
+      <Box sx={{ pt: 2 }}>
+        <Typography sx={{ pb: 1 }}>Saved Queries</Typography>
+        {sqlSaveService.getSqlList().map((sql) => (
+          <Box
+            key={sql.name}
+            sx={{
+              width: '100%',
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: '8px',
+              p: 2,
+              mb: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                backgroundColor: 'action.hover',
+              },
+            }}
+            onClick={() => {
+              navigate(`/sql-sandbox?sqlId=${sql.id}`)
+            }}
+          >
+            {sql.name}
+          </Box>
+        ))}
       </Box>
     </Box>
   )
