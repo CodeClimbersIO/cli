@@ -50,6 +50,10 @@ We are making use of the wakatime cli as it is a great open source project that 
 
 [MORE INFO](./Architecture.md)
 
+## Extensions
+
+The best way to contribute to CodeClimbers is to build an extension. See the [Extensions](./Extensions.md) documentation for how to get started building one.
+
 ## Frontend
 
 A React Single Page Application that uses react-router, material-ui, tanstack to help the user visualize their data
