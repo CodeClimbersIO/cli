@@ -18,18 +18,19 @@ export const UpdateBanner = () => {
       dismissedAt: null as number | null,
     },
   })
+  const wasDismissed =
+    dismissedInfo?.dismissedAt &&
+    !wasOverTwenyFourHoursAgo(dismissedInfo.dismissedAt)
 
   // Don't show the banner if the user has dismissed it and it was less than 24 hours ago
-  const enableVersionPolling =
-    !dismissedInfo?.dismissed ||
-    !!(
-      dismissedInfo.dismissedAt &&
-      wasOverTwenyFourHoursAgo(dismissedInfo.dismissedAt)
-    )
+  const enableVersionPolling = !wasDismissed
+
   const remoteVersion = useLatestVersion(enableVersionPolling)
+
   if (
     !remoteVersion.data ||
     localVersionResponse?.version === remoteVersion.data ||
+    wasDismissed ||
     remoteVersion.isPending ||
     remoteVersion.isError
   ) {
