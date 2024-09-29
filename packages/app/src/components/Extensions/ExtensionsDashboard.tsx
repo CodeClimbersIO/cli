@@ -20,6 +20,8 @@ export const ExtensionsDashboard = () => {
             borderRadius: 0,
             width: '100%',
             height: '300px',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <CardContent

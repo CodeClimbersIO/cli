@@ -115,13 +115,6 @@ export const ExtensionDetail = ({ extension }: Props) => {
           }
           label={isAdded ? 'Enabled' : 'Disabled'}
         />
-        {/* <CodeClimbersButton
-          eventName={`extension_install_${extension.id}_click`}
-          variant="contained"
-          onClick={handleToggle}
-        >
-          {isAdded ? 'Remove' : 'Add'}
-        </CodeClimbersButton> */}
       </CardContent>
     </Card>
   )

@@ -35,7 +35,7 @@ export default function SqlSandbox() {
         </CodeClimbersButton>
         {/* Add a list of saved sql queries pulled from local storage */}
       </Box>
-      <Box sx={{ pt: 2 }}>
+      <Box sx={{ pt: 6, height: '210px', overflowY: 'auto' }}>
         <Typography sx={{ pb: 1 }}>Saved Queries</Typography>
         {sqlSaveService.getSqlList().map((sql) => (
           <Box
