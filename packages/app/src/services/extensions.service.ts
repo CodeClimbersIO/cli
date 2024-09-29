@@ -36,9 +36,9 @@ const extensions: (Extension | DashboardExtension)[] = [
     authorName: 'Paul Hovley',
     authorUrl: 'https://github.com/rphovley',
     description:
-      'Your data at your fingertips. A sandbox for writing SQL queries. You can query your data directly from the database and see the results in a table and export them to a CSV file.',
+      'Your data at your fingertips. A sandbox for writing SQL queries. Query your data directly from the database and see the results in a table or export them to a CSV file.',
     image:
-      'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Ftest_file.png?alt=media',
+      'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Fsql_extension.png?alt=media',
     component: SqlSandbox,
     route: '/sql-sandbox',
     pageComponent: SqlSandboxPage,
