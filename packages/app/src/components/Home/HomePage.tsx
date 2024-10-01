@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Box } from '@mui/material'
+import { styled } from '@mui/material'
 import dayjs from 'dayjs'
 
 import { Time } from './Time/Time'
@@ -7,8 +7,27 @@ import Sources from './Source/Sources'
 import HomeHeader from './Header'
 import { Resources } from './Resources/Resources'
 import { Navigate } from 'react-router-dom'
-import { useGetHealth } from '../../services/health.service'
-import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
+import { useGetHealth } from '../../api/health.api'
+
+const Body = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
+  },
+}))
+
+const Wrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: 24,
+
+  [theme.breakpoints.down(766)]: {
+    flexDirection: 'column',
+  },
+}))
 
 export const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -25,26 +44,13 @@ export const HomePage = () => {
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', lg: 'row' },
-          gap: 4,
-        }}
-      >
+      <Body>
         <Time selectedDate={selectedDate} />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            gap: 4,
-          }}
-        >
+        <Wrapper>
           <Sources selectedDate={selectedDate} />
           <Resources />
-        </Box>
-      </Box>
-      <ExtensionsDashboard />
+        </Wrapper>
+      </Body>
     </div>
   )
 }

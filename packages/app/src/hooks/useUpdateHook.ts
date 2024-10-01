@@ -1,5 +1,5 @@
-import { useGetLocalVersion } from '../services/health.service'
-import { useLatestVersion } from '../services/version.service'
+import { useGetLocalVersion } from '../api/health.api'
+import { useLatestVersion } from '../api/version.api'
 import environmentUtil from '../utils/environment.util'
 
 export const useUpdateVersionHook = () => {

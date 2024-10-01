@@ -1,8 +1,8 @@
 import { Alert, Box } from '@mui/material'
-import { useLatestVersion } from '../../../services/version.service'
+import { useLatestVersion } from '../../../api/version.api'
 import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 import { CodeSnippit } from '../CodeSnippit/CodeSnippit'
-import { useGetLocalVersion } from '../../../services/health.service'
+import { useGetLocalVersion } from '../../../api/health.api'
 
 const wasOverTwenyFourHoursAgo = (dismissedAt: number) => {
   const twentyFourHours = 1_000 * 60 * 60 * 24

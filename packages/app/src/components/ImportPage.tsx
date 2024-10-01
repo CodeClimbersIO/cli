@@ -4,7 +4,7 @@ import { Logo } from './common/Logo/Logo'
 import { useNavigate } from 'react-router-dom'
 import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
 import CodeClimbersLoadingButton from './common/CodeClimbersLoadingButton'
-import { useValidateLocalApiKey } from '../services/localAuth.service'
+import { useValidateLocalApiKey } from '../api/localAuth.api'
 import { useState } from 'react'
 import authUtil from '../utils/auth.util'
 

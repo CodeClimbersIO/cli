@@ -9,7 +9,7 @@ import {
   useExportPulses,
   useGetSitesWithMinutes,
   useGetSourcesWithMinutes,
-} from '../../../services/pulse.service'
+} from '../../../api/pulse.api'
 import { supportedSources } from '../../../utils/supportedSources'
 import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'

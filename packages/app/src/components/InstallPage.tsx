@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { isMobile } from '../../../server/utils/environment.util'
 import installBackground from '@app/assets/background_install.png'
 import { Navigate } from 'react-router-dom'
-import { useGetHealth } from '../services/health.service'
+import { useGetHealth } from '../api/health.api'
 
 const InstallPage = () => {
   const [isWaiting, setIsWaiting] = useState(false)
