@@ -17,6 +17,7 @@ import { CODE_CLIMBER_INI_PATH } from './node.util'
 import { Logger } from '@nestjs/common'
 import { CodeClimberError } from './codeClimberErrors'
 import { existsSync } from 'node:fs'
+import { v4 as uuidv4 } from 'uuid'
 
 export async function isValidLocalApiKey(apiKey: string): Promise<boolean> {
   try {
@@ -56,7 +57,7 @@ export async function getLocalApiKey(isAdmin = false): Promise<string | null> {
 
     if (!iniConfig.settings.local_api_key) {
       // generate a new key as guid
-      const newKey = crypto.randomUUID()
+      const newKey = uuidv4()
       await setLocalApiKey(newKey)
       return newKey
     } else if (

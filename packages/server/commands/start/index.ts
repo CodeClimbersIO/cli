@@ -56,7 +56,9 @@ export default class Start extends Command {
     this.log('  Starting server, please wait...')
     this.log('')
     const SERVER_URL = `http://localhost:${process.env.CODECLIMBERS_SERVER_PORT}`
-
+    if (process.env.CODECLIMBERS_MOCK_INSTALL) {
+      return true
+    }
     for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
       const isAvailable = await checkServerAvailability(SERVER_URL)
 
@@ -119,7 +121,6 @@ export default class Start extends Command {
   🎉 Visit ${pc.cyan(appUrl)} to begin  
       `)
     this.log(WELCOME_LOGO)
-
     const startupService = StartupServiceFactory.buildStartupService()
     if (args.firstArg !== 'server') {
       await startupService.launchAndEnableStartup()

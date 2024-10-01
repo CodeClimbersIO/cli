@@ -2,11 +2,11 @@ name: Test
 
 on:
   push:
-    branches: 
-    - main
+    branches:
+      - main
   pull_request:
-    branches: 
-    - main
+    branches:
+      - main
 
 jobs:
   build:
@@ -15,11 +15,18 @@ jobs:
       matrix:
         node-version: [20.x, 21.x, 22.x]
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm test
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm test
+      - name: Get package version
+        id: package-version
+        run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
+      - name: Run mock install script
+        run: |
+          chmod +x ./scripts/mock_install.sh
+          ./scripts/mock_install.sh ${{ steps.package-version.outputs.version }}
