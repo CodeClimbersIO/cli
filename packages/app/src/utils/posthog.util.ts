@@ -6,4 +6,8 @@ export const initPosthog = () => {
     api_host: 'https://us.i.posthog.com',
     person_profiles: 'always',
   })
+
+  posthog.register({
+    isBrowserApp: true,
+  })
 }
