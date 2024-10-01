@@ -1,5 +1,5 @@
-import { useGetLocalVersion } from '../api/health.api'
-import { useLatestVersion } from '../api/version.api'
+import { useGetLocalVersion } from '../services/health.service'
+import { useLatestVersion } from '../services/version.service'
 import { useTheme } from '@mui/material'
 
 // only show the banner one time

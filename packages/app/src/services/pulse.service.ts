@@ -4,7 +4,7 @@ import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
 import pulseRepo from '../repos/pulse.repo'
-import queryApi from './query.api'
+import queryApi from './query.service'
 import { getFeatureFlag } from '../utils/flag.util'
 import csvUtil from '../utils/csv.util'
 
@@ -62,9 +62,9 @@ export function useExportPulses() {
   const exportPulses = useCallback(async () => {
     try {
       let blob
-      if (getFeatureFlag('use-frontend-db')) {
+      if (getFeatureFlag('DirectQueryAPI')) {
         const response = await queryApi.sqlQueryFn(pulseRepo.getAllPulses())
-        const csvContent = csvUtil.convertPulsesToCSV(response)
+        const csvContent = csvUtil.convertRecordsToCSV(response)
         blob = new Blob([csvContent])
       } else {
         const response = await apiRequest({
@@ -74,12 +74,7 @@ export function useExportPulses() {
         })
         blob = new Blob([response])
       }
-      const encodedUri = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = encodedUri
-      a.download = 'pulses.csv'
-      a.click()
-      window.URL.revokeObjectURL(encodedUri)
+      csvUtil.downloadBlob(blob, 'pulses.csv')
     } catch (error) {
       console.error('Failed to export pulses:', error)
     }

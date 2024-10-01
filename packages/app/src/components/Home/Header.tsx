@@ -133,6 +133,13 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
             </Typography>
           </Box>
         </LeftWrapper>
+        <CodeClimbersButton
+          eventName="resource_add_your_first_extension_click"
+          color="inherit"
+          href="/extensions"
+        >
+          Extensions
+        </CodeClimbersButton>
       </Header>
       <Menu
         id="menu-popover"
