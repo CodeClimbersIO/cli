@@ -32,6 +32,7 @@ export const ExtensionDetail = ({ extension }: Props) => {
       posthog.capture(`extension_add_${extension.id}_click`)
       extensionsService.addExtension(extension.id)
       extension.onAdd?.()
+      window.location.reload() // need to reload the page so that the app router picks up new extension
     } else {
       posthog.capture(`extension_remove_${extension.id}_click`)
       extensionsService.removeExtension(extension.id)
@@ -69,42 +70,45 @@ export const ExtensionDetail = ({ extension }: Props) => {
           padding: '20px 30px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 4,
+          justifyContent: 'space-between',
+          height: '100%',
         }}
       >
-        <Box>
-          <Typography variant="h6">{extension.name}</Typography>
-          <AuthorInfo
-            authorUrl={extension.authorUrl}
-            authorName={extension.authorName}
-          />
-        </Box>
-        <Box>
-          {extension.image && !imageError ? (
-            <Card
-              raised={true}
-              sx={{
-                borderRadius: 0,
-                width: '100%',
-                height: '200px',
-              }}
-            >
-              <img
-                src={extension.image}
-                alt={extension.name}
-                style={{
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <Box>
+            <Typography variant="h6">{extension.name}</Typography>
+            <AuthorInfo
+              authorUrl={extension.authorUrl}
+              authorName={extension.authorName}
+            />
+          </Box>
+          <Box>
+            {extension.image && !imageError ? (
+              <Card
+                raised={true}
+                sx={{
+                  borderRadius: 0,
                   width: '100%',
                   height: '200px',
-                  objectFit: 'cover',
                 }}
-                onError={() => setImageError(true)}
-              />
-            </Card>
-          ) : (
-            defaultImage()
-          )}
+              >
+                <img
+                  src={extension.image}
+                  alt={extension.name}
+                  style={{
+                    width: '100%',
+                    height: '200px',
+                    objectFit: 'cover',
+                  }}
+                  onError={() => setImageError(true)}
+                />
+              </Card>
+            ) : (
+              defaultImage()
+            )}
+          </Box>
+          <Typography variant="body1">{extension.description}</Typography>
         </Box>
-        <Typography variant="body1">{extension.description}</Typography>
         <FormControlLabel
           sx={{
             width: 'fit-content',
