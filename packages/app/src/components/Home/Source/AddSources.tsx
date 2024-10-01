@@ -12,7 +12,7 @@ import {
   AccordionActions,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { useGetSources } from '../../../services/pulse.service'
+import { useGetSources } from '../../../api/pulse.api'
 import {
   SourceDetails,
   supportedSources,

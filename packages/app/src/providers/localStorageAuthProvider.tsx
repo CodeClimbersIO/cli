@@ -1,4 +1,4 @@
-import { useGetLocalApiKey } from '../services/localAuth.service'
+import { useGetLocalApiKey } from '../api/localAuth.api'
 import { LoadingScreen } from '../components/LoadingScreen'
 import authUtil from '../utils/auth.util'
 

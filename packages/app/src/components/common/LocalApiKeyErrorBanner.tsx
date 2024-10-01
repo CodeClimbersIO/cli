@@ -1,6 +1,6 @@
 import { Alert, Box } from '@mui/material'
 import CodeClimbersButton from './CodeClimbersButton'
-import { useValidateLocalApiKey } from '../../services/localAuth.service'
+import { useValidateLocalApiKey } from '../../api/localAuth.api'
 import { useNavigate } from 'react-router-dom'
 
 export const LocalApiKeyErrorBanner = () => {

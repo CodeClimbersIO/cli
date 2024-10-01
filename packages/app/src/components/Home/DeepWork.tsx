@@ -1,6 +1,6 @@
 import { CircularProgress, Divider, useTheme } from '@mui/material'
 import { TimeDataChart } from './Time/TimeDataChart'
-import { useDeepWork } from '../../services/pulse.service'
+import { useDeepWork } from '../../api/pulse.api'
 import { Dayjs } from 'dayjs'
 import { minutesToHours } from './Time/utils'
 
