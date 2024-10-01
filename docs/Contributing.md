@@ -50,6 +50,10 @@ We are making use of the wakatime cli as it is a great open source project that 
 
 [MORE INFO](./Architecture.md)
 
+## Extensions
+
+The best way to contribute to CodeClimbers is to build an extension. See the [Extensions](./Extensions.md) documentation for how to get started building one.
+
 ## Frontend
 
 A React Single Page Application that uses react-router, material-ui, tanstack to help the user visualize their data
@@ -62,11 +66,14 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 - All components should reside in the `components` directory.
 - All pages should go in the `components` directory and have their own component.
 - All layout components should go in the `layouts` directory.
+- `services` generally are react queries that fetch data from the backend.
+- Primarily use kysely for building sql queries. When the query is complex, it may be best to use raw sql.
 - Styling: make use of the `sx` attribute for any material-ui customizations.
 - Styling: make use of the appropriate material-ui components for layouts like `Grid` or `Stack` when possible,
   but `Box` is a great fallback
 - Styling: when needing to do your own work with `Box` for layouts, make use of `flex` instead of other css layout types
   where possible
+- Styling: make use of the `sx` attribute for any material-ui customizations.
 
 ## Backend
 
@@ -75,7 +82,7 @@ A Node NestJS server with knex and sqlite for generating the functionality of th
 ### Conventions
 
 - When writing your endpoint, please include it in
-  the [postman collection](https://app.getpostman.com/join-team?invite_code=9637b029e619749476d15a4c5e1022d7&target_code=6b61a4e2db3eb4abdac588e6cc32a45c).
+  the hoppscotch collection. Ask for access in our Discord if you don't have it. Unfortunately it doesn't have a way to invite with a link so I have to manually do it.
   Makes for easier testing for yourself and helps the rest of us understand how to use your endpoint.
 - If there isn't an established pattern for what you are doing, check out the NestJS docs. They probably have something
   for it or talk to someone on the team.

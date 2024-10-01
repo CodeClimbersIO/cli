@@ -1,8 +1,7 @@
 import { Store } from './store'
 import { existsSync, writeFile, readFileSync } from 'node:fs'
-import { randomUUID } from 'node:crypto'
 import { MINIMUM_UPDATE_ON_RESTART_COOLDOWN } from './constants'
-
+import { v4 as uuidv4 } from 'uuid'
 const file = './codeclimbers.identity'
 
 export class FileStore implements Store {
@@ -11,17 +10,17 @@ export class FileStore implements Store {
   private lastUpdate = 0
   constructor() {
     if (!existsSync(file)) {
-      this.uuid = randomUUID()
+      this.uuid = uuidv4()
       return
     }
     const data = readFileSync(file, 'utf8')
     if (!data) {
-      this.uuid = randomUUID()
+      this.uuid = uuidv4()
       return
     }
     const obj = JSON.parse(data)
     if (!obj || typeof obj !== 'object') {
-      this.uuid = randomUUID()
+      this.uuid = uuidv4()
       return
     }
     this.lastUpdate = typeof obj.lastUpdated === 'number' ? obj.lastUpdated : 0
@@ -32,7 +31,7 @@ export class FileStore implements Store {
         /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
       )
         ? obj.uuid
-        : randomUUID()
+        : uuidv4()
     if (obj.flags && typeof obj.flags === 'object') {
       for (const key of Object.keys(obj.flags)) {
         if (typeof obj.flags[key] === 'boolean') {

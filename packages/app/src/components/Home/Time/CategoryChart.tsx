@@ -7,7 +7,7 @@ import { minutesToHours } from './utils'
 import {
   useCategoryTimeOverview,
   usePerProjectOverviewTopThree,
-} from '../../../api/pulse.api'
+} from '../../../services/pulse.service'
 
 const categories = {
   coding: 'coding',
