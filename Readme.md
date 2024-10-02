@@ -4,7 +4,7 @@ A command-line interface tool for climbers to track their daily coding achieveme
 with a restful api that delivers a Single Page application and a CLI that allows the user to turn the server on and off
 and control some of their preferences.
 
-The goal is to allow the user to be able to run the command `npx codeclimbers start` and not have to do anything else
+The goal is to allow the user to be able to run the command `npx codeclimbers@latest start` and not have to do anything else
 after that point. They could then view their dashboard and install sources from their browser
 at `localhost:14400`
 
@@ -18,7 +18,7 @@ at `localhost:14400`
 ## Quickstart
 
 ```
-npx codeclimbers start
+npx codeclimbers@latest start
 ```
 
 ## From Source
@@ -27,7 +27,7 @@ npx codeclimbers start
 git clone https://github.com/CodeClimbersIO/cli.git && cd cli
 npm i
 npm run build
-npx codeclimbers start server
+npx codeclimbers@latest start server
 ```
 
 ## Prerequisites

@@ -38,7 +38,7 @@ export const UpdateBanner = () => {
   }
   const updateCommand = `
     npx codeclimbers startup:disable &&
-    npx codeclimbers@${remoteVersion.data} start
+    npx codeclimbers@latest start
   `
   return (
     <Box sx={{ position: 'fixed', left: 15, bottom: 15, zIndex: 1000 }}>

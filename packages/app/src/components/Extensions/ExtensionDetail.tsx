@@ -10,6 +10,7 @@ import extensionsService, { Extension } from '../../services/extensions.service'
 import { Logo } from '../common/Logo/Logo'
 import { useEffect, useState } from 'react'
 import { AuthorInfo } from './AuthorInfo'
+// eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
 
 interface Props {

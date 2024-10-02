@@ -14,7 +14,7 @@ export const UpdatePage = () => {
   }
   const updateCommand = `
     npx codeclimbers startup:disable &&
-    npx codeclimbers@${remoteVersion.data} start
+    npx codeclimbers@latest start
   `
   return (
     <Box

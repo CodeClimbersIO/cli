@@ -228,7 +228,7 @@ const InstallPage = () => {
                     }}
                   >
                     <CodeSnippit
-                      code="npx codeclimbers start"
+                      code="npx codeclimbers@latest start"
                       onCopy={onCopy}
                     />
                   </Paper>
