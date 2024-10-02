@@ -56,7 +56,7 @@ const extensions: (Extension | DashboardExtension)[] = [
   },
 ]
 
-function getActiveExtensionIds() {
+function getActiveExtensionIds(): string[] {
   const rawExtensions = localStorage.getItem(EXTENSIONS_KEY)
   const extensionIds = rawExtensions
     ? (JSON.parse(rawExtensions) as string[])
@@ -64,7 +64,7 @@ function getActiveExtensionIds() {
   return extensionIds
 }
 
-function getActiveExtensions() {
+function getActiveExtensions(): Extension[] {
   const extensionIds = getActiveExtensionIds()
   const activeExtensions = extensionIds.map((id) =>
     extensions.find((extension) => extension.id === id),
@@ -96,7 +96,7 @@ function isExtensionAdded(extensionId: string) {
 
 function addExtension(extensionId: string) {
   if (!extensionId) return
-  const extensions = getActiveExtensions()
+  const extensions = getActiveExtensionIds()
   if (isExtensionAdded(extensionId)) {
     return // already activated, don't add again
   }
