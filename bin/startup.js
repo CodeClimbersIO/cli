@@ -12,7 +12,7 @@ if (!isProduction) {
 }
 
 isProduction
-  ? spawn('npx', ['codeclimbers', 'start', 'server'], {
+  ? spawn('npx', ['codeclimbers@latest', 'start', 'server'], {
       shell: true,
       stdio: 'inherit',
     })
