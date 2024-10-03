@@ -30,6 +30,7 @@
     "test": "jest",
     "test:watch": "cross-env JEST_WATCH=true jest --watch",
     "db:migrate": "knex migrate:latest",
+    "db:migrate:rollback": "knex migrate:rollback",
     "db:migrate:make": "knex migrate:make"
   },
   "workspaces": [
