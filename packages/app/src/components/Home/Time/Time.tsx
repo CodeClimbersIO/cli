@@ -14,8 +14,8 @@ type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
   const { data: user } = userService.useGetCurrentUser()
-
   const WeeklyReportSettings = () => {
+    const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
     return (
       <Box
         sx={{ position: 'relative', padding: 0.5, cursor: 'pointer' }}
@@ -24,14 +24,14 @@ export const Time = ({ selectedDate }: Props) => {
         }}
       >
         <BossImage />
-        {user?.weeklyReportType === 'none' && (
+        {showNotificationIcon && (
           <NotificationIcon
+            height={16}
+            width={16}
             sx={{
               position: 'absolute',
               top: 0,
               right: 0,
-              width: 16,
-              height: 16,
             }}
           />
         )}
@@ -68,10 +68,13 @@ export const Time = ({ selectedDate }: Props) => {
         <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
       </CardContent>
-      <WeeklyReportDialog
-        open={isWeeklyReportModalOpen}
-        onClose={() => setIsWeeklyReportModalOpen(false)}
-      />
+      {user && isWeeklyReportModalOpen && (
+        <WeeklyReportDialog
+          user={user}
+          open={isWeeklyReportModalOpen}
+          onClose={() => setIsWeeklyReportModalOpen(false)}
+        />
+      )}
     </Card>
   )
 }

@@ -15,12 +15,13 @@ const SQL_SETTINGS = `--sql
   CREATE TABLE IF NOT EXISTS accounts_user_settings (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     user_id INTEGER NOT NULL,
-    weekly_report_type VARCHAR(255) NOT NULL DEFAULT 'none',
+    weekly_report_type VARCHAR(255) NOT NULL DEFAULT '',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES accounts_user (id) ON DELETE CASCADE
   );
-  `
+`
+
 exports.up = async function (knex) {
   await knex.raw(SQL)
   await knex.raw(SQL_SETTINGS)

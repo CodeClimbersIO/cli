@@ -12,9 +12,20 @@ const getCurrentUser = () => {
   return query
 }
 
+const updateUser = (userId: number, user: Partial<CodeClimbers.UserDB>) => {
+  const query = dbUtil.db
+    .updateTable('accounts_user')
+    .set(user)
+    .where('id', '=', userId)
+    .returningAll()
+
+  const sql = sqlUtil.sqlWithBindings(query.compile())
+  return sql
+}
+
 const updateUserSettings = (
   userId: number,
-  settings: CodeClimbers.UserSettings,
+  settings: Partial<CodeClimbers.UserSettingsDB>,
 ) => {
   const query = dbUtil.db
     .updateTable('accounts_user_settings')
@@ -28,5 +39,6 @@ const updateUserSettings = (
 
 export default {
   getCurrentUser,
+  updateUser,
   updateUserSettings,
 }

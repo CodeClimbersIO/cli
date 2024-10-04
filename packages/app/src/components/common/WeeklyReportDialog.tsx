@@ -14,6 +14,9 @@ import { useState } from 'react'
 import { BossImage } from './Icons/BossImage'
 import { BarChartIcon } from './Icons/BarChartIcon'
 import { BlockIcon } from './Icons/BlockIcon'
+import userService from '../../services/user.service'
+import { NotificationIcon } from './Icons/NotificationIcon'
+
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
   img: () => React.ReactNode
@@ -39,18 +42,16 @@ const ReportOptions: ReportOption[] = [
 ]
 
 const ReportOptionCard = ({
-  isDirty,
   selected,
   recordOption,
   onClick,
 }: {
-  isDirty: boolean
   selected: boolean
   recordOption: ReportOption
   onClick: () => void
 }) => {
-  const { img, name, type } = recordOption
-  const highlight = selected && (isDirty || type !== 'none')
+  const { img, name } = recordOption
+
   return (
     <Card
       onClick={onClick}
@@ -63,7 +64,7 @@ const ReportOptionCard = ({
         gap: 1,
         flex: 1,
         border: '1px solid',
-        borderColor: highlight ? 'primary.main' : 'transparent',
+        borderColor: selected ? 'primary.main' : 'transparent',
         boxShadow: 'none',
         py: 4,
         '&:hover': {
@@ -96,21 +97,39 @@ export const WeeklyReportDialog = ({
   user: CodeClimbers.User & CodeClimbers.UserSettings
   onClose: () => void
 }) => {
+  const { mutate: updateUserSettings } = userService.useUpdateUserSettings()
+  const { mutate: updateUser } = userService.useUpdateUser()
+
   const handleClose = () => {
     onClose()
-    setIsDirty(false)
-    setReportOption(user?.weeklyReportType)
+    setReportOption(user.weeklyReportType || '')
   }
 
   const [reportOption, setReportOption] =
-    useState<CodeClimbers.WeeklyReportType>(user?.weeklyReportType)
-  const [email, setEmail] = useState(user?.email)
-  const [isDirty, setIsDirty] = useState(false)
+    useState<CodeClimbers.WeeklyReportType>(user.weeklyReportType)
+  const [email, setEmail] = useState(user.email || '')
 
   const handleOptionClick = (option: CodeClimbers.WeeklyReportType) => {
     setReportOption(option)
-    setIsDirty(true)
   }
+
+  const handleSave = () => {
+    if (!user.id) return
+    updateUserSettings({
+      user_id: user.id,
+      settings: {
+        weekly_report_type: reportOption,
+      },
+    })
+    updateUser({
+      user_id: user?.id,
+      user: {
+        email: email,
+      },
+    })
+    handleClose()
+  }
+  const showNotificationIcon = reportOption === '' || !email
 
   return (
     <Dialog
@@ -133,31 +152,37 @@ export const WeeklyReportDialog = ({
           alignItems: 'flex-start',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-            alignItems: 'center',
-          }}
-        >
-          <Typography variant="h6">Weekly Report</Typography>
-          <CodeClimbersIconButton
-            eventName="weekly-report-dialog-close"
-            aria-label="close"
-            onClick={handleClose}
+        <Box sx={{ width: '100%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
           >
-            <CloseIcon />
-          </CodeClimbersIconButton>
+            <Typography variant="h6">Weekly Report</Typography>
+            <CodeClimbersIconButton
+              eventName="weekly-report-dialog-close"
+              aria-label="close"
+              onClick={handleClose}
+            >
+              <CloseIcon />
+            </CodeClimbersIconButton>
+          </Box>
+          {showNotificationIcon && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <NotificationIcon height={16} width={16} />
+              <Typography variant="caption">
+                Choose an option for a weekly email report of your coding stats.
+              </Typography>
+            </Box>
+          )}
         </Box>
-        <Typography>
-          Get a weekly email report of your coding activity.
-        </Typography>
+
         <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
           {ReportOptions.map((option) => (
             <ReportOptionCard
               key={option.type}
-              isDirty={isDirty}
               selected={reportOption === option.type}
               recordOption={option}
               onClick={() => handleOptionClick(option.type)}
@@ -171,10 +196,15 @@ export const WeeklyReportDialog = ({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
+          inputProps={{
+            'data-lpignore': 'true',
+            'data-form-type': 'other',
+          }}
         />
+
         <CodeClimbersButton
           eventName="weekly-report-dialog-save"
-          onClick={handleClose}
+          onClick={handleSave}
           variant="contained"
           sx={{ ml: 0 }}
         >

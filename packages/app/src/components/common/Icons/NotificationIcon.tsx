@@ -2,7 +2,11 @@ import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon'
 
 // Thank you! https://github.com/mui/material-ui/issues/35218#issuecomment-1977984142
 export const NotificationIcon = (props: SvgIconProps) => (
-  <SvgIcon {...props} viewBox="0 0 16 16">
+  <SvgIcon
+    {...props}
+    sx={{ width: props.width, height: props.height, ...props.sx }}
+    viewBox="0 0 16 16"
+  >
     <path
       d="M0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8Z"
       fill="#FF9581"

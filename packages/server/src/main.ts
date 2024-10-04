@@ -27,7 +27,6 @@ export async function bootstrap() {
       ? ['log', 'debug', 'error', 'verbose', 'warn']
       : ['log', 'error', 'warn'],
   })
-
   traceEnvironment()
 
   app.use(json({ limit: '50mb' }))

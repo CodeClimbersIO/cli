@@ -1,5 +1,5 @@
 declare namespace CodeClimbers {
-  export type WeeklyReportType = 'ai' | 'standard' | 'none'
+  export type WeeklyReportType = 'ai' | 'standard' | 'none' | ''
   export interface UserSettings {
     id?: number
     userId: number
