@@ -1,4 +1,4 @@
-import { CircularProgress, Divider, useTheme } from '@mui/material'
+import { CircularProgress, useTheme } from '@mui/material'
 import { TimeDataChart } from './Time/TimeDataChart'
 import { useDeepWork } from '../../services/pulse.service'
 import { Dayjs } from 'dayjs'
@@ -16,7 +16,6 @@ const DeepWork = ({ selectedDate }: Props) => {
   const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
   return (
     <>
-      <Divider />
       <TimeDataChart
         title="Deep Work"
         time={minutesToHours(totalTime)}

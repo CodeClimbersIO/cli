@@ -5,6 +5,8 @@ import { IconButton, IconButtonProps } from '@mui/material'
 
 type Props = IconButtonProps & {
   eventName: string
+  href?: string
+  target?: string
 }
 
 const CodeClimbersIconButton = ({

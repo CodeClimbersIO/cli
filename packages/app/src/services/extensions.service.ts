@@ -19,6 +19,8 @@ export interface Extension {
   onAdd?: () => void
   onRemove?: () => void
   image?: string
+  createdAt?: Date
+  isPopular?: boolean
 }
 
 export interface DashboardExtension extends Extension {
@@ -45,6 +47,8 @@ const extensions: (Extension | DashboardExtension)[] = [
     onAdd: () => {
       sqlSandboxService.onAdd()
     },
+    createdAt: new Date('2024-09-16'),
+    isPopular: true,
   },
   {
     id: 'DirectQueryAPI',
@@ -53,6 +57,8 @@ const extensions: (Extension | DashboardExtension)[] = [
     authorUrl: 'https://github.com/CodeClimbersIO',
     description:
       "We've been working on a Direct Query API for providing data for the reports. Try it out and let us know if you have any bugs. This is how the app will get data in the future",
+    createdAt: new Date('2024-09-17'),
+    isPopular: true,
   },
 ]
 
@@ -123,6 +129,21 @@ function removeExtension(extensionId: string) {
   })
 }
 
+function getPopularExtension(): Extension | undefined {
+  return extensions.find((extension) => extension.isPopular)
+}
+
+function getNewestExtension(): Extension | undefined {
+  return extensions.reduce(
+    (newest, extension) => {
+      if (!newest) return extension
+      if (!extension.createdAt || !newest.createdAt) return newest
+      return extension.createdAt > newest.createdAt ? extension : newest
+    },
+    undefined as Extension | undefined,
+  )
+}
+
 export default {
   extensions,
   getActiveExtensions,
@@ -132,4 +153,6 @@ export default {
   getActiveDashboardExtensions,
   getActiveDashboardExtensionRoutes,
   getExtensionByRoute,
+  getPopularExtension,
+  getNewestExtension,
 }

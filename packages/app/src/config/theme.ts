@@ -18,6 +18,14 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     graphColors?: GraphColors
   }
+  interface TypeBackground {
+    paper_raised: string
+    medium: string
+    border: string
+  }
+  interface TypeText {
+    actionDown?: string
+  }
 }
 interface ExtendedTypographyOptions extends TypographyOptions {
   body3: React.CSSProperties
@@ -104,9 +112,15 @@ const darkOptions: ThemeOptions = {
     background: {
       default: '#1D1D1D',
       paper: '#262626',
+      paper_raised: '#323232',
+      medium: '#3F3F3F',
+      border: '#707070',
     },
     primary: {
       main: '#72B7F9',
+    },
+    text: {
+      actionDown: '#AEDBFE',
     },
     graphColors: darkGraphColors,
     // Much better readability in dark modes and accessibility
@@ -121,6 +135,15 @@ const darkOptions: ThemeOptions = {
       700: BASE_THEME_GREYS[200],
       800: BASE_THEME_GREYS[100],
       900: BASE_THEME_GREYS[50],
+    },
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+        },
+      },
     },
   },
   typography,

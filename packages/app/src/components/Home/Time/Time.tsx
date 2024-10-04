@@ -2,7 +2,6 @@ import { Card, CardContent, Divider, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Dayjs } from 'dayjs'
 
-import WeekOverview from './WeekOverview'
 import CategoryChart from './CategoryChart'
 import DeepWork from '../DeepWork'
 
@@ -30,7 +29,6 @@ export const Time = ({ selectedDate }: Props) => {
             <Typography variant="h3">Time</Typography>
           </Grid2>
         </Grid2>
-        <WeekOverview selectedDate={selectedDate} />
         <DeepWork selectedDate={selectedDate} />
         <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
