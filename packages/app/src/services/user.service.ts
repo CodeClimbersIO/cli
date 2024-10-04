@@ -4,15 +4,17 @@ import queryApi from './query.service'
 import { userKeys } from './keys'
 import { useMutation } from '@tanstack/react-query'
 
+type UserWithSettings = CodeClimbers.User & CodeClimbers.UserSettings
 // do not use this directly in a component
 const useGetCurrentUser = () => {
   const queryFn = () => {
     const sql = userRepo.getCurrentUser()
     return queryApi.sqlQueryFn(sql)
   }
-  return useBetterQuery<CodeClimbers.Pulse[], Error>({
+  return useBetterQuery<UserWithSettings[], UserWithSettings, Error>({
     queryKey: userKeys.user,
     queryFn,
+    select: (data) => data[0],
   })
 }
 
