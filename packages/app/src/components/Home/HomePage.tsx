@@ -5,10 +5,10 @@ import dayjs from 'dayjs'
 import { Time } from './Time/Time'
 import Sources from './Source/Sources'
 import HomeHeader from './Header'
-import { Resources } from './Resources/Resources'
 import { Navigate } from 'react-router-dom'
 import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
+import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 
 export const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -41,7 +41,7 @@ export const HomePage = () => {
           }}
         >
           <Sources selectedDate={selectedDate} />
-          <Resources />
+          <ExtensionsWidget />
         </Box>
       </Box>
       <ExtensionsDashboard />

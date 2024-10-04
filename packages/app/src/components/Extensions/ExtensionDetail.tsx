@@ -8,8 +8,9 @@ import {
 } from '@mui/material'
 import extensionsService, { Extension } from '../../services/extensions.service'
 import { Logo } from '../common/Logo/Logo'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AuthorInfo } from './AuthorInfo'
+// eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
 
 interface Props {
@@ -22,10 +23,6 @@ export const ExtensionDetail = ({ extension }: Props) => {
   const [isAdded, setIsAdded] = useState(
     extensionsService.isExtensionAdded(extension.id),
   )
-
-  useEffect(() => {
-    console.log('isAdded', isAdded)
-  }, [isAdded])
 
   const handleToggle = () => {
     if (!isAdded) {
