@@ -1,70 +1,186 @@
 import {
+  Box,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Typography,
+  TextField,
+  Divider,
+  Card,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import CodeClimbersButton from './CodeClimbersButton'
 import CodeClimbersIconButton from './CodeClimbersIconButton'
+import { useState } from 'react'
+
+import { BossImage } from './Icons/BossImage'
+import { BarChartIcon } from './Icons/BarChartIcon'
+import { BlockIcon } from './Icons/BlockIcon'
+interface ReportOption {
+  type: CodeClimbers.WeeklyReportType
+  img: () => React.ReactNode
+  name: string
+}
+
+const ReportOptions: ReportOption[] = [
+  {
+    type: 'ai',
+    img: () => <BossImage width={48} height={48} />,
+    name: 'Big Brother Edition',
+  },
+  {
+    type: 'standard',
+    img: () => <BarChartIcon width={48} height={48} />,
+    name: 'Standard',
+  },
+  {
+    type: 'none',
+    img: () => <BlockIcon width={48} height={48} />,
+    name: 'None',
+  },
+]
+
+const ReportOptionCard = ({
+  isDirty,
+  selected,
+  recordOption,
+  onClick,
+}: {
+  isDirty: boolean
+  selected: boolean
+  recordOption: ReportOption
+  onClick: () => void
+}) => {
+  const { img, name, type } = recordOption
+  const highlight = selected && (isDirty || type !== 'none')
+  return (
+    <Card
+      onClick={onClick}
+      raised={false}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 1,
+        flex: 1,
+        border: '1px solid',
+        borderColor: highlight ? 'primary.main' : 'transparent',
+        boxShadow: 'none',
+        py: 4,
+        '&:hover': {
+          cursor: 'pointer',
+          borderColor: 'primary.main',
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+          alignItems: 'center',
+        }}
+      >
+        {img()}
+        <Typography>{name}</Typography>
+      </Box>
+    </Card>
+  )
+}
 
 export const WeeklyReportDialog = ({
   open,
   onClose,
+  user,
 }: {
   open: boolean
+  user: CodeClimbers.User & CodeClimbers.UserSettings
   onClose: () => void
 }) => {
   const handleClose = () => {
     onClose()
+    setIsDirty(false)
+    setReportOption(user?.weeklyReportType)
   }
+
+  const [reportOption, setReportOption] =
+    useState<CodeClimbers.WeeklyReportType>(user?.weeklyReportType)
+  const [email, setEmail] = useState(user?.email)
+  const [isDirty, setIsDirty] = useState(false)
+
+  const handleOptionClick = (option: CodeClimbers.WeeklyReportType) => {
+    setReportOption(option)
+    setIsDirty(true)
+  }
+
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
+      sx={{
+        '& .MuiDialog-paper': {
+          backgroundImage: 'none',
+        },
+      }}
+      fullWidth
     >
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        Modal title
-      </DialogTitle>
-      <CodeClimbersIconButton
-        eventName="weekly-report-dialog-close"
-        aria-label="close"
-        onClick={handleClose}
-        sx={(theme) => ({
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: theme.palette.grey[500],
-        })}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          m: 2,
+          gap: 3,
+          alignItems: 'flex-start',
+        }}
       >
-        <CloseIcon />
-      </CodeClimbersIconButton>
-      <DialogContent dividers>
-        <Typography gutterBottom>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h6">Weekly Report</Typography>
+          <CodeClimbersIconButton
+            eventName="weekly-report-dialog-close"
+            aria-label="close"
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </CodeClimbersIconButton>
+        </Box>
+        <Typography>
+          Get a weekly email report of your coding activity.
         </Typography>
-        <Typography gutterBottom>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-        </Typography>
-        <Typography gutterBottom>
-          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-          ullamcorper nulla non metus auctor fringilla.
-        </Typography>
-      </DialogContent>
-      <DialogActions>
+        <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
+          {ReportOptions.map((option) => (
+            <ReportOptionCard
+              key={option.type}
+              isDirty={isDirty}
+              selected={reportOption === option.type}
+              recordOption={option}
+              onClick={() => handleOptionClick(option.type)}
+            />
+          ))}
+        </Box>
+        <Divider sx={{ width: '100%', borderBottomWidth: 2 }} />
+        <TextField
+          label="Your Email"
+          variant="outlined"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+        />
         <CodeClimbersButton
           eventName="weekly-report-dialog-save"
           onClick={handleClose}
+          variant="contained"
+          sx={{ ml: 0 }}
         >
-          Save changes
+          Save
         </CodeClimbersButton>
-      </DialogActions>
+      </Box>
     </Dialog>
   )
 }

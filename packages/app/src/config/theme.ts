@@ -111,7 +111,7 @@ const darkOptions: ThemeOptions = {
     mode: 'dark',
     background: {
       default: '#1D1D1D',
-      paper: '#262626',
+      paper: BASE_THEME_GREYS[900],
       paper_raised: '#323232',
       medium: '#3F3F3F',
       border: '#707070',
