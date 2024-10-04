@@ -67,7 +67,6 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 - All pages should go in the `components` directory and have their own component.
 - All layout components should go in the `layouts` directory.
 - `services` generally are react queries that fetch data from the backend.
-- Primarily use kysely for building sql queries. When the query is complex, it may be best to use raw sql.
 - Styling: make use of the `sx` attribute for any material-ui customizations.
 - Styling: make use of the appropriate material-ui components for layouts like `Grid` or `Stack` when possible,
   but `Box` is a great fallback

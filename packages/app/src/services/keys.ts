@@ -14,3 +14,7 @@ export const pulseKeys = {
   perProjectOverviewTopThree: (startDate: string, endDate: string) =>
     ['perProjectTimeOverview', 'topThree', startDate, endDate] as const,
 }
+
+export const userKeys = {
+  user: ['user'] as const,
+}

@@ -1,7 +1,7 @@
 const SQL = `--sql
   CREATE TABLE accounts_user (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    email             varchar(255) NOT NULL UNIQUE,
+    email             varchar(255) UNIQUE,
     first_name        varchar(255),
     last_name         varchar(255),
     avatar_url        varchar(255),

@@ -1,5 +1,5 @@
 const SQL = `--sql
-  CREATE TABLE IF NOT EXISTS accounts_user_setting (
+  CREATE TABLE IF NOT EXISTS accounts_user_settings (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     user_id INTEGER NOT NULL,
     weekly_report_type VARCHAR(255) NOT NULL DEFAULT 'none',

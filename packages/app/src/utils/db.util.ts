@@ -7,9 +7,8 @@ import {
   CompiledQuery,
 } from 'kysely'
 
-interface Database {
-  activities_pulse: CodeClimbers.PulseDB
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Database = Record<string, any>
 
 const db = new Kysely<Database>({
   dialect: {
