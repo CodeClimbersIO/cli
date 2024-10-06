@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 import {
   Box,
   ListItemIcon,
@@ -47,7 +47,7 @@ const LeftWrapper = styled('div')(({ theme }) => ({
 
 type Props = {
   selectedDate: Dayjs
-  setSelectedDate: Dispatch<SetStateAction<Dayjs>>
+  setSelectedDate: (date: Dayjs) => void
 }
 
 const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {

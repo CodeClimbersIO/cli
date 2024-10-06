@@ -68,7 +68,8 @@
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.7",
     "uuid": "^10.0.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "zustand": "^5.0.0-rc.2"
   },
   "optionalDependencies": {
     "@codeclimbers/node-linux": "^0.1.14",

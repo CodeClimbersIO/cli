@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Avatar, Box, Card, Stack, Typography } from '@mui/material'
 import { GitHubProfileImage } from './GithubProfileImage'
 import { HighlightLabel } from './HighlightLabel'
 // eslint-disable-next-line import/no-named-as-default
@@ -26,7 +19,6 @@ export const SimpleInfoCard = ({
   href,
 }: SimpleInfoCardProps) => {
   const isGithubUrl = subjectUrl?.includes('github.com')
-  console.log(subjectUrl)
   return (
     <Card
       component={href ? 'a' : 'div'}
@@ -34,7 +26,6 @@ export const SimpleInfoCard = ({
       sx={{
         boxShadow: 'none',
         borderRadius: '4px',
-        backgroundColor: (theme) => theme.palette.background.paper_raised,
         cursor: 'pointer',
         textDecoration: 'none',
       }}
@@ -42,17 +33,18 @@ export const SimpleInfoCard = ({
         posthog.capture('view_extension_click')
       }}
     >
-      <CardContent
+      <Box
         sx={{
           border: '1px solid',
           borderColor: 'transparent',
+          backgroundColor: (theme) => theme.palette.background.paper_raised,
           '&:hover': {
             borderColor: (theme) => theme.palette.primary.main,
           },
         }}
       >
-        <Stack gap={1.5}>
-          <HighlightLabel label={callout} />
+        <Stack gap={1.5} sx={{ p: 2 }}>
+          {callout && <HighlightLabel label={callout} />}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             {isGithubUrl ? (
               <GitHubProfileImage url={subjectUrl} size={32} />
@@ -60,7 +52,18 @@ export const SimpleInfoCard = ({
               <Avatar src={subjectUrl} />
             )}
             <Stack>
-              <Typography sx={{ fontWeight: '400' }}>{title}</Typography>
+              <Typography
+                sx={{
+                  overflow: 'hidden',
+                  fontWeight: '400',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                {title}
+              </Typography>
               <Typography
                 variant="caption"
                 sx={{
@@ -77,7 +80,7 @@ export const SimpleInfoCard = ({
             </Stack>
           </Box>
         </Stack>
-      </CardContent>
+      </Box>
     </Card>
   )
 }

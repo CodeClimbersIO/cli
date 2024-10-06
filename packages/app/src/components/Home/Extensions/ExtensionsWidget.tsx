@@ -56,7 +56,7 @@ export const ExtensionsWidget = () => {
       title: spotlightContributor.name,
       subTitle: spotlightContributor.subTitle,
       callout: 'spotlight contributor ♥',
-      href: `/extensions`,
+      href: `/contributors`,
     })
   }
 
