@@ -60,6 +60,13 @@ const getContributors = (): Contributor[] => {
       shouldSpotlight: true,
     },
     {
+      name: 'Paul Hovley',
+      subTitle: 'Tortured fan of the Utah Jazz 🏀',
+      profileUrl: `${baseFirebaseUrl}paul.jpeg?alt=media`,
+      githubUrl: 'https://github.com/rphovley',
+      shouldSpotlight: true,
+    },
+    {
       name: 'Shone',
       subTitle:
         'Bugs, beats, and the Force-programming, mixing, and mastering the ways of the Jedi.',
@@ -72,13 +79,6 @@ const getContributors = (): Contributor[] => {
       subTitle: 'Favorite Villain: Bowser',
       profileUrl: `${baseFirebaseUrl}tanner.jpeg?alt=media`,
       githubUrl: 'https://github.com/tanner-scadden',
-      shouldSpotlight: true,
-    },
-    {
-      name: 'Paul Hovley',
-      subTitle: 'Tortured fan of the Utah Jazz 🏀',
-      profileUrl: `${baseFirebaseUrl}paul.jpeg?alt=media`,
-      githubUrl: 'https://github.com/rphovley',
       shouldSpotlight: true,
     },
   ]
