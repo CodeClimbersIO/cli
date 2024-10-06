@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
 
-import { HomePage } from '../components/Home/HomePage'
 import { useAnalyticsPageSubscription } from '../hooks/useAnalytics'
 import InstallPage from '../components/InstallPage'
 import ImportLayout from '../layouts/ImportLayout'
@@ -9,6 +8,8 @@ import DashboardLayout from '../layouts/DashboardLayout'
 import { ExtensionsPage } from '../components/Extensions/ExtensionsPage'
 import extensionsService from '../services/extensions.service'
 import { ExtensionsLayout } from '../layouts/ExtensionsLayout'
+import { ContributorsPage } from '../components/ContributorsPage'
+import HomePage from '../components/Home/HomePage'
 
 const AppRoutesPageSubscription = () => {
   useAnalyticsPageSubscription()
@@ -24,7 +25,12 @@ export const AppRoutes = () => {
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/extensions" element={<ExtensionsPage />} />
+          <Route
+            path="/extensions"
+            element={<ExtensionsPage />}
+            handle={{ title: 'Extensions' }}
+          />
+          <Route path="/contributors" element={<ContributorsPage />} />
         </Route>
         <Route element={<ExtensionsLayout />}>
           {extensions.map((extension) => {
