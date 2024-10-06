@@ -6,37 +6,39 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { GitHubProfileImage } from '../../common/GithubProfileImage'
-import { HighlightLabel } from '../../common/HighlightLabel'
-import { useNavigate } from 'react-router-dom'
+import { GitHubProfileImage } from './GithubProfileImage'
+import { HighlightLabel } from './HighlightLabel'
 // eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
 
-export interface ExtensionCardProps {
+export interface SimpleInfoCardProps {
   subjectUrl: string
   title: string
   subTitle: string
   callout: string
+  href?: string
 }
-export const ExtensionCard = ({
+export const SimpleInfoCard = ({
   subjectUrl,
   title,
   subTitle,
   callout,
-}: ExtensionCardProps) => {
-  const navigate = useNavigate()
-
+  href,
+}: SimpleInfoCardProps) => {
   const isGithubUrl = subjectUrl?.includes('github.com')
+  console.log(subjectUrl)
   return (
     <Card
+      component={href ? 'a' : 'div'}
+      href={href}
       sx={{
         boxShadow: 'none',
         borderRadius: '4px',
         backgroundColor: (theme) => theme.palette.background.paper_raised,
         cursor: 'pointer',
+        textDecoration: 'none',
       }}
       onClick={() => {
-        navigate(`/extensions`)
         posthog.capture('view_extension_click')
       }}
     >
@@ -59,7 +61,19 @@ export const ExtensionCard = ({
             )}
             <Stack>
               <Typography sx={{ fontWeight: '400' }}>{title}</Typography>
-              <Typography variant="caption">{subTitle}</Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: 'vertical',
+                }}
+                title={subTitle}
+              >
+                {subTitle}
+              </Typography>
             </Stack>
           </Box>
         </Stack>

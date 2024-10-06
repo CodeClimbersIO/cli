@@ -30,6 +30,7 @@ export const HomePage = () => {
           display: 'flex',
           flexDirection: { xs: 'column', lg: 'row' },
           gap: 4,
+          mb: 4,
         }}
       >
         <Time selectedDate={selectedDate} />
