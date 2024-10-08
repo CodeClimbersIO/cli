@@ -14,30 +14,30 @@ type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
   const { data: user } = userService.useGetCurrentUser()
-  const WeeklyReportSettings = () => {
-    const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
-    return (
-      <Box
-        sx={{ position: 'relative', padding: 0.5, cursor: 'pointer' }}
-        onClick={() => {
-          setIsWeeklyReportModalOpen(true)
-        }}
-      >
-        <BossImage />
-        {showNotificationIcon && (
-          <NotificationIcon
-            height={16}
-            width={16}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-            }}
-          />
-        )}
-      </Box>
-    )
-  }
+  // const WeeklyReportSettings = () => {
+  //   const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
+  //   return (
+  //     <Box
+  //       sx={{ position: 'relative', padding: 0.5, cursor: 'pointer' }}
+  //       onClick={() => {
+  //         setIsWeeklyReportModalOpen(true)
+  //       }}
+  //     >
+  //       <BossImage />
+  //       {showNotificationIcon && (
+  //         <NotificationIcon
+  //           height={16}
+  //           width={16}
+  //           sx={{
+  //             position: 'absolute',
+  //             top: 0,
+  //             right: 0,
+  //           }}
+  //         />
+  //       )}
+  //     </Box>
+  //   )
+  // }
 
   return (
     <Card
@@ -60,21 +60,21 @@ export const Time = ({ selectedDate }: Props) => {
           <Grid2>
             <Typography variant="h3">Time</Typography>
           </Grid2>
-          <Grid2>
+          {/* <Grid2>
             <WeeklyReportSettings />
-          </Grid2>
+          </Grid2> */}
         </Grid2>
         <DeepWork selectedDate={selectedDate} />
         <Divider sx={{ borderStyle: 'dashed' }} />
         <CategoryChart selectedDate={selectedDate} />
       </CardContent>
-      {user && isWeeklyReportModalOpen && (
+      {/* {user && isWeeklyReportModalOpen && (
         <WeeklyReportDialog
           user={user}
           open={isWeeklyReportModalOpen}
           onClose={() => setIsWeeklyReportModalOpen(false)}
         />
-      )}
+      )} */}
     </Card>
   )
 }

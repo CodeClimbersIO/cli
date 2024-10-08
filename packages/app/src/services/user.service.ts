@@ -7,14 +7,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 type UserWithSettings = CodeClimbers.User & CodeClimbers.UserSettings
 // do not use this directly in a component
 const useGetCurrentUser = () => {
-  const queryFn = () => {
+  const queryFn = async () => {
     const sql = userRepo.getCurrentUser()
-    return queryApi.sqlQueryFn(sql)
+    const records = await queryApi.sqlQueryFn(sql)
+    return records[0]
   }
-  return useBetterQuery<UserWithSettings[], UserWithSettings, Error>({
+  return useBetterQuery<UserWithSettings, Error>({
     queryKey: userKeys.user,
     queryFn,
-    select: (data) => data[0],
   })
 }
 

@@ -1,19 +1,24 @@
 import { CircularProgress, useTheme } from '@mui/material'
 import { TimeDataChart } from './Time/TimeDataChart'
-import { useDeepWork } from '../../services/pulse.service'
 import { Dayjs } from 'dayjs'
 import { minutesToHours } from './Time/utils'
+import pulseApi from '../../api/pulse.api'
 
 interface Props {
   selectedDate: Dayjs
 }
 const DeepWork = ({ selectedDate }: Props) => {
   const theme = useTheme()
-  const { isLoading, isError, data: deepWork } = useDeepWork(selectedDate)
+  const {
+    isLoading,
+    isError,
+    data: deepWork,
+  } = pulseApi.useDeepWorkV2(selectedDate, selectedDate.endOf('day'))
 
   if (isLoading) return <CircularProgress />
   if (isError || !deepWork) return <div>Error</div>
-  const totalTime = deepWork.reduce((acc, curr) => acc + curr.flowTime, 0)
+
+  const totalTime = deepWork[0]?.time ?? 0
   return (
     <>
       <TimeDataChart
