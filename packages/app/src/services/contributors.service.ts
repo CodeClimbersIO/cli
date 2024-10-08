@@ -53,6 +53,13 @@ const getContributors = (): Contributor[] => {
       shouldSpotlight: true,
     },
     {
+      name: 'Kaden Baskett',
+      subTitle: 'Favorite Superpower: Teleportation',
+      profileUrl: `${baseFirebaseUrl}kaden.png?alt=media`,
+      githubUrl: 'https://github.com/kadenbaskett',
+      shouldSpotlight: true,
+    },
+    {
       name: 'Nathan Covey',
       subTitle: 'Favorite Game: TimeSplitters 2',
       profileUrl: `${baseFirebaseUrl}nathan.jpeg?alt=media`,
