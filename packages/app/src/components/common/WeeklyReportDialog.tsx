@@ -14,7 +14,7 @@ import { useState } from 'react'
 import { BossImage } from './Icons/BossImage'
 import { BarChartIcon } from './Icons/BarChartIcon'
 import { BlockIcon } from './Icons/BlockIcon'
-import userService from '../../api/services/user.service'
+import userApi from '../../api/user.api'
 import { NotificationIcon } from './Icons/NotificationIcon'
 
 interface ReportOption {
@@ -97,8 +97,8 @@ export const WeeklyReportDialog = ({
   user: CodeClimbers.User & CodeClimbers.UserSettings
   onClose: () => void
 }) => {
-  const { mutate: updateUserSettings } = userService.useUpdateUserSettings()
-  const { mutate: updateUser } = userService.useUpdateUser()
+  const { mutate: updateUserSettings } = userApi.useUpdateUserSettings()
+  const { mutate: updateUser } = userApi.useUpdateUser()
 
   const handleClose = () => {
     onClose()
