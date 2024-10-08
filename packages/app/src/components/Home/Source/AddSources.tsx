@@ -14,6 +14,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import { useGetSources } from '../../../services/pulse.service'
 import {
+  AppDetails,
   SourceDetails,
   supportedSources,
 } from '../../../utils/supportedSources'
@@ -30,7 +31,6 @@ interface AddSourcesRowProps {
 
 const AddSourceRow = ({ source, lastActive }: AddSourcesRowProps) => {
   const { refetch } = useGetSources()
-
   return (
     <Accordion>
       <AccordionSummary
@@ -45,11 +45,15 @@ const AddSourceRow = ({ source, lastActive }: AddSourcesRowProps) => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <img
-            alt={source.displayName + ' Logo'}
-            src={source.logo}
-            style={{ height: '32px', width: '32px' }}
-          />
+          {source.logoType === 'svg' ? (
+            <source.logo size={32} />
+          ) : (
+            <img
+              alt={source.displayName + ' Logo'}
+              src={source.logo as string}
+              style={{ height: '32px', width: '32px' }}
+            />
+          )}
           <Typography
             variant="body2"
             fontWeight={700}
@@ -109,7 +113,6 @@ interface AddSourcesProps {
 
 const AddSources = ({ open, handleClose }: AddSourcesProps) => {
   const { data: connectedSources, isPending, isError } = useGetSources()
-
   return (
     <Dialog
       open={open}
@@ -145,7 +148,12 @@ const AddSources = ({ open, handleClose }: AddSourcesProps) => {
           <>
             {supportedSources.map((source, index) => {
               const lastActive = connectedSources?.find(
-                (connectedSource) => connectedSource.name === source.name,
+                (connectedSource) =>
+                  connectedSource.name === source.name ||
+                  source.subApps?.some(
+                    (subApp: AppDetails) =>
+                      subApp.name === connectedSource.name,
+                  ),
               )?.lastActive
               return (
                 <AddSourceRow
