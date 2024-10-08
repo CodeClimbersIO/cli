@@ -7,13 +7,13 @@ import DeepWork from '../DeepWork'
 import { BossImage } from '../../common/Icons/BossImage'
 import { useState } from 'react'
 import { WeeklyReportDialog } from '../../common/WeeklyReportDialog'
-import userService from '../../../services/user.service'
 import { NotificationIcon } from '../../common/Icons/NotificationIcon'
+import userApi from '../../../api/user.api'
 
 type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
-  const { data: user } = userService.useGetCurrentUser()
+  const { data: user } = userApi.useGetCurrentUser()
   // const WeeklyReportSettings = () => {
   //   const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
   //   return (

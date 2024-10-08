@@ -14,7 +14,7 @@ import { useState } from 'react'
 import { BossImage } from './Icons/BossImage'
 import { BarChartIcon } from './Icons/BarChartIcon'
 import { BlockIcon } from './Icons/BlockIcon'
-import userService from '../../services/user.service'
+import userService from '../../api/services/user.service'
 import { NotificationIcon } from './Icons/NotificationIcon'
 
 interface ReportOption {
