@@ -1,6 +1,6 @@
 import { CompiledQuery } from 'kysely'
 
-function sqlWithBindings(compiledQuery: CompiledQuery): string {
+const sqlWithBindings = (compiledQuery: CompiledQuery): string => {
   let sql = compiledQuery.sql
   const parameters = compiledQuery.parameters
 

@@ -37,5 +37,7 @@ module.exports = {
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "codeclimbers/use-code-climbers-button": "error",
+    "prefer-arrow-callback": "warn",
+    "func-style": ["warn", "expression", { "allowArrowFunctions": true }],
   },
 };

@@ -27,7 +27,7 @@ declare module 'kysely' {
 }
 
 // Implement the sqlWithBindings method
-function sqlWithBindings(compiledQuery: CompiledQuery): string {
+const sqlWithBindings = (compiledQuery: CompiledQuery): string => {
   let sql = compiledQuery.sql
   const parameters = compiledQuery.parameters
 
