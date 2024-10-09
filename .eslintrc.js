@@ -39,5 +39,6 @@ module.exports = {
     "codeclimbers/use-code-climbers-button": "error",
     "prefer-arrow-callback": "warn",
     "func-style": ["warn", "expression", { "allowArrowFunctions": true }],
+    "import/no-default-export": "error",
   },
 };

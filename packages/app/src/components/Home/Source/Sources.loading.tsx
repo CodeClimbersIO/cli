@@ -7,7 +7,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
 
 const SourcesLoading = () => {
   const theme = useTheme()
@@ -51,4 +51,4 @@ const SourcesLoading = () => {
   )
 }
 
-export default SourcesLoading
+export { SourcesLoading }

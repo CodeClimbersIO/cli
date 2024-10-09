@@ -26,4 +26,4 @@ const CodeClimbersLoadingButton = ({
   )
 }
 
-export default CodeClimbersLoadingButton
+export { CodeClimbersLoadingButton }

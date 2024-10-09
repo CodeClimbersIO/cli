@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material'
 
 import { Logo } from '../common/Logo/Logo'
-import CodeClimbersButton from '../common/CodeClimbersButton'
 import { useNavigate } from 'react-router-dom'
 import { Close } from '@mui/icons-material'
+import { CodeClimbersButton } from './CodeClimbersButton'
 
 type Props = {
   title: string
@@ -48,4 +48,4 @@ const PlainHeader = ({ title }: Props) => {
   )
 }
 
-export default PlainHeader
+export { PlainHeader }

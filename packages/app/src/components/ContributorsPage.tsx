@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import PlainHeader from './common/PlainHeader'
-import contributorsService from '../services/contributors.service'
 import { SimpleInfoCard, SimpleInfoCardProps } from './common/SimpleInfoCard'
 import Grid2 from '@mui/material/Unstable_Grid2'
+import { getContributors } from '../services/contributors.service'
+import { PlainHeader } from './common/PlainHeader'
 
 export const ContributorsPage = () => {
-  const contributors = contributorsService.getContributors()
+  const contributors = getContributors()
   const contributorCardData: SimpleInfoCardProps[] = contributors.map(
     (contributor) => ({
       title: contributor.name,

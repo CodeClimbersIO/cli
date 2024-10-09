@@ -2,7 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import AppRouter from './routes'
+import { AppRouter } from './routes'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -26,22 +26,19 @@ const THEMES = {
   dark,
 }
 
-function AppRender() {
+const AppRender = () => {
   const { prefersDark } = useBrowserPreferences()
   const [theme] = useThemeStorage()
   initPosthog()
-  useEffect(
-    function syncFavIcon() {
-      const favicon = document.querySelector(
-        'link[rel="icon"]',
-      ) as HTMLLinkElement | null
+  useEffect(() => {
+    const favicon = document.querySelector(
+      'link[rel="icon"]',
+    ) as HTMLLinkElement | null
 
-      if (!favicon) return
+    if (!favicon) return
 
-      favicon.href = FAV_ICONS[prefersDark ? 'white' : 'dark']
-    },
-    [prefersDark],
-  )
+    favicon.href = FAV_ICONS[prefersDark ? 'white' : 'dark']
+  }, [prefersDark])
 
   const backupTheme = prefersDark ? 'dark' : 'light'
   const muiTheme = theme ? THEMES[theme] : THEMES[backupTheme]

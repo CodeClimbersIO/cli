@@ -3,7 +3,7 @@ import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
-import csvUtil from '../utils/csv.util'
+import { downloadBlob } from '../utils/csv.util'
 
 const useGetSources = () => {
   const queryFn = () =>
@@ -53,7 +53,7 @@ const useExportPulses = () => {
         responseType: 'blob',
       })
       const blob = new Blob([response])
-      csvUtil.downloadBlob(blob, 'pulses.csv')
+      downloadBlob(blob, 'pulses.csv')
     } catch (error) {
       console.error('Failed to export pulses:', error)
     }
@@ -134,7 +134,7 @@ const usePerProjectOverviewTopThree = (selectedStartDate: Dayjs) => {
   })
 }
 
-export default {
+export {
   useGetSources,
   useGetSourcesWithMinutes,
   useGetSitesWithMinutes,

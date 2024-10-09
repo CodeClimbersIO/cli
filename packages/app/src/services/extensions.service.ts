@@ -4,9 +4,9 @@
 */
 // eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
-import SqlSandbox from '../extensions/SqlSandbox'
-import SqlSandboxPage from '../extensions/SqlSandbox/SqlSandboxPage'
-import sqlSandboxService from '../extensions/SqlSandbox/sqlSandbox.service'
+import { SqlSandbox } from '../extensions/SqlSandbox'
+import { SqlSandboxPage } from '../extensions/SqlSandbox/SqlSandboxPage'
+import { onAdd } from '../extensions/SqlSandbox/sqlSandbox.service'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
@@ -45,7 +45,7 @@ const extensions: (Extension | DashboardExtension)[] = [
     route: '/sql-sandbox',
     pageComponent: SqlSandboxPage,
     onAdd: () => {
-      sqlSandboxService.onAdd()
+      onAdd()
     },
     createdAt: new Date('2024-09-16'),
     isPopular: true,
@@ -144,8 +144,12 @@ const getNewestExtension = (): Extension | undefined => {
   )
 }
 
-export default {
-  extensions,
+const getExtensions = (): Extension[] => {
+  return extensions
+}
+
+export {
+  getExtensions,
   getActiveExtensions,
   addExtension,
   removeExtension,

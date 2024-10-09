@@ -9,6 +9,4 @@ const sqlQueryFn = (query: string) =>
     body: { query },
   })
 
-export default {
-  sqlQueryFn,
-}
+export { sqlQueryFn }

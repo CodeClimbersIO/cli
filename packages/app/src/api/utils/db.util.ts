@@ -54,7 +54,4 @@ const sqlWithBindings = (compiledQuery: CompiledQuery): string => {
   return sql
 }
 
-export default {
-  db,
-  sqlWithBindings,
-}
+export { db, sqlWithBindings }

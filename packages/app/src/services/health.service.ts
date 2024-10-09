@@ -1,7 +1,7 @@
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 
-export function useGetHealth(
+export const useGetHealth = (
   {
     refetchInterval = 1000,
     retry = false,
@@ -10,7 +10,7 @@ export function useGetHealth(
     retry?: boolean
   } = {},
   page: 'home' | 'install' = 'home',
-) {
+) => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/health`,
@@ -30,7 +30,7 @@ export function useGetHealth(
   })
 }
 
-export function useGetLocalVersion() {
+export const useGetLocalVersion = () => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/health`,

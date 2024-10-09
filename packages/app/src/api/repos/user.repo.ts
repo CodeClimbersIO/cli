@@ -1,5 +1,4 @@
-import dbUtil from '../../utils/db.util'
-import sqlUtil from '../../utils/sql.util'
+import { db, sqlWithBindings } from '../../utils/db.util'
 
 const getCurrentUser = () => {
   // Example query
@@ -13,13 +12,13 @@ const getCurrentUser = () => {
 }
 
 const updateUser = (userId: number, user: Partial<CodeClimbers.UserDB>) => {
-  const query = dbUtil.db
+  const query = db
     .updateTable('accounts_user')
     .set(user)
     .where('id', '=', userId)
     .returningAll()
 
-  const sql = sqlUtil.sqlWithBindings(query.compile())
+  const sql = sqlWithBindings(query.compile())
   return sql
 }
 
@@ -27,18 +26,14 @@ const updateUserSettings = (
   userId: number,
   settings: Partial<CodeClimbers.UserSettingsDB>,
 ) => {
-  const query = dbUtil.db
+  const query = db
     .updateTable('accounts_user_settings')
     .set(settings)
     .where('user_id', '=', userId)
     .returningAll()
 
-  const sql = sqlUtil.sqlWithBindings(query.compile())
+  const sql = sqlWithBindings(query.compile())
   return sql
 }
 
-export default {
-  getCurrentUser,
-  updateUser,
-  updateUserSettings,
-}
+export { getCurrentUser, updateUser, updateUserSettings }

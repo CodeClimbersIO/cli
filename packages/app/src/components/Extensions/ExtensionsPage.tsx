@@ -1,10 +1,10 @@
 import { Box } from '@mui/material'
-import extensionsService from '../../services/extensions.service'
 import { ExtensionDetail } from './ExtensionDetail'
-import PlainHeader from '../common/PlainHeader'
+import { PlainHeader } from '../common/PlainHeader'
+import { getExtensions } from '../../services/extensions.service'
 
 export const ExtensionsPage = () => {
-  const extensions = extensionsService.extensions
+  const extensions = getExtensions()
   return (
     <Box sx={{ padding: '2rem' }}>
       <Box

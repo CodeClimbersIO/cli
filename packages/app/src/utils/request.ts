@@ -1,7 +1,7 @@
-import authUtil from './auth.util'
-import environmentUtil from './environment.util'
+import { getLocalApiKey } from './auth.util'
+import { isBrowserCli } from './environment.util'
 
-const BASE_URL = environmentUtil.isBrowserCli ? '' : 'http://localhost:14400'
+const BASE_URL = isBrowserCli ? '' : 'http://localhost:14400'
 
 export class ApiError extends Error {
   statusCode: number
@@ -12,9 +12,9 @@ export class ApiError extends Error {
   }
 }
 
-export function getUrlParameters(
+export const getUrlParameters = (
   data: Record<string, string | number | boolean | undefined>,
-) {
+) => {
   const ret = []
   for (const d in data) {
     const param = data[d]
@@ -25,7 +25,7 @@ export function getUrlParameters(
   return ret.join('&')
 }
 
-export async function apiRequest({
+export const apiRequest = async ({
   url,
   method = 'GET',
   body,
@@ -39,8 +39,8 @@ export async function apiRequest({
   responseType?: 'json' | 'text' | 'blob' | 'arraybuffer'
   headers?: Record<string, string>
   credentials?: RequestCredentials
-}) {
-  const apiKey = authUtil.getLocalApiKey()
+}) => {
+  const apiKey = getLocalApiKey()
   if (apiKey) {
     headers = {
       ...headers,

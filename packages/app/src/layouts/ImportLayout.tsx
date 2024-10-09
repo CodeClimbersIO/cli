@@ -5,8 +5,8 @@ interface ImportLayoutProps {
   children?: React.ReactNode
 }
 
-function ImportLayout({ children }: ImportLayoutProps) {
+const ImportLayout = ({ children }: ImportLayoutProps) => {
   return <Box sx={{ padding: '2rem' }}>{children || <Outlet />}</Box>
 }
 
-export default ImportLayout
+export { ImportLayout }

@@ -6,7 +6,12 @@ import {
   Switch,
   Typography,
 } from '@mui/material'
-import extensionsService, { Extension } from '../../services/extensions.service'
+import {
+  addExtension,
+  Extension,
+  isExtensionAdded,
+  removeExtension,
+} from '../../services/extensions.service'
 import { Logo } from '../common/Logo/Logo'
 import { useState } from 'react'
 import { AuthorInfo } from './AuthorInfo'
@@ -20,19 +25,17 @@ interface Props {
 export const ExtensionDetail = ({ extension }: Props) => {
   const [imageError, setImageError] = useState(false)
 
-  const [isAdded, setIsAdded] = useState(
-    extensionsService.isExtensionAdded(extension.id),
-  )
+  const [isAdded, setIsAdded] = useState(isExtensionAdded(extension.id))
 
   const handleToggle = () => {
     if (!isAdded) {
       posthog.capture(`extension_add_${extension.id}_click`)
-      extensionsService.addExtension(extension.id)
+      addExtension(extension.id)
       extension.onAdd?.()
       window.location.reload() // need to reload the page so that the app router picks up new extension
     } else {
       posthog.capture(`extension_remove_${extension.id}_click`)
-      extensionsService.removeExtension(extension.id)
+      removeExtension(extension.id)
       extension.onRemove?.()
     }
     setIsAdded(!isAdded)

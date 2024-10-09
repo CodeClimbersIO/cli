@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Check, ContentCopy, Error } from '@mui/icons-material'
-import CodeClimbersIconButton from '../CodeClimbersIconButton'
 import { Box } from '@mui/material'
+import { CodeClimbersIconButton } from '../CodeClimbersIconButton'
 
 const timers: NodeJS.Timeout[] = []
 

@@ -19,9 +19,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Refresh } from '@mui/icons-material'
 import { getTimeSince } from '../../../utils/time'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
-import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
-import pulseService from '../../../services/pulse.service'
+import { useGetSources } from '../../../services/pulse.service'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
+import { CodeClimbersIconButton } from '../../common/CodeClimbersIconButton'
 
 interface AddSourcesRowProps {
   source: SourceDetails
@@ -29,7 +29,7 @@ interface AddSourcesRowProps {
 }
 
 const AddSourceRow = ({ source, lastActive }: AddSourcesRowProps) => {
-  const { refetch } = pulseService.useGetSources()
+  const { refetch } = useGetSources()
 
   return (
     <Accordion>
@@ -108,11 +108,7 @@ interface AddSourcesProps {
 }
 
 const AddSources = ({ open, handleClose }: AddSourcesProps) => {
-  const {
-    data: connectedSources,
-    isPending,
-    isError,
-  } = pulseService.useGetSources()
+  const { data: connectedSources, isPending, isError } = useGetSources()
 
   return (
     <Dialog
@@ -172,4 +168,4 @@ const AddSources = ({ open, handleClose }: AddSourcesProps) => {
   )
 }
 
-export default AddSources
+export { AddSources }

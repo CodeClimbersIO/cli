@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import CodeClimbersButton from '../components/common/CodeClimbersButton'
 import { Logo } from '../components/common/Logo/Logo'
-import extensionsService from '../services/extensions.service'
+import { getExtensionByRoute } from '../services/extensions.service'
+import { CodeClimbersButton } from '../components/common/CodeClimbersButton'
 
 interface Props {
   children?: React.ReactNode
@@ -12,9 +12,7 @@ interface Props {
 export const ExtensionsLayout = ({ children }: Props) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const currentExtension = extensionsService.getExtensionByRoute(
-    location.pathname,
-  )
+  const currentExtension = getExtensionByRoute(location.pathname)
   const title = currentExtension?.name
   const handleClick = () => {
     navigate('/')

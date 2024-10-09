@@ -3,12 +3,12 @@ import { Box } from '@mui/material'
 import dayjs from 'dayjs'
 
 import { Time } from './Time/Time'
-import Sources from './Source/Sources'
-import HomeHeader from './Header'
 import { Navigate } from 'react-router-dom'
 import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
+import { Sources } from './Source/Sources'
+import { HomeHeader } from './HomeHeader'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -50,4 +50,4 @@ const HomePage = () => {
   )
 }
 
-export default HomePage
+export { HomePage }

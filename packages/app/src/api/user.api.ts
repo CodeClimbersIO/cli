@@ -1,15 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useBetterQuery } from '.'
-import userRepo from '../repos/user.repo'
 import { userKeys } from './keys'
-import queryService from './services/query.service'
+import {
+  getCurrentUser,
+  updateUserSettings,
+  updateUser,
+} from './repos/user.repo'
+import { sqlQueryFn } from './services/query.service'
 
 type UserWithSettings = CodeClimbers.User & CodeClimbers.UserSettings
 // do not use this directly in a component
 const useGetCurrentUser = () => {
   const queryFn = async () => {
-    const sql = userRepo.getCurrentUser()
-    const records = await queryService.sqlQueryFn(sql)
+    const sql = getCurrentUser()
+    const records = await sqlQueryFn(sql)
     return records[0]
   }
   return useBetterQuery<UserWithSettings, Error>({
@@ -27,8 +31,8 @@ const useUpdateUserSettings = () => {
     user_id: number
     settings: Partial<CodeClimbers.UserSettingsDB>
   }) => {
-    const sql = userRepo.updateUserSettings(user_id, settings)
-    return queryService.sqlQueryFn(sql)
+    const sql = updateUserSettings(user_id, settings)
+    return sqlQueryFn(sql)
   }
   return useMutation({
     mutationFn: queryFn,
@@ -47,8 +51,8 @@ const useUpdateUser = () => {
     user_id: number
     user: Partial<CodeClimbers.UserDB>
   }) => {
-    const sql = userRepo.updateUser(user_id, user)
-    return queryService.sqlQueryFn(sql)
+    const sql = updateUser(user_id, user)
+    return sqlQueryFn(sql)
   }
   return useMutation({
     mutationFn: queryFn,
@@ -58,8 +62,4 @@ const useUpdateUser = () => {
   })
 }
 
-export default {
-  useGetCurrentUser,
-  useUpdateUserSettings,
-  useUpdateUser,
-}
+export { useGetCurrentUser, useUpdateUserSettings, useUpdateUser }

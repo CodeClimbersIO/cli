@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs'
-import pulseRepo from '../repos/pulse.repo'
-import queryService from './query.service'
+import { getDeepWork } from '../repos/pulse.repo'
+import { sqlQueryFn } from './query.service'
 
 interface DeepWorkPeriod {
   startDate: string
@@ -8,17 +8,16 @@ interface DeepWorkPeriod {
   time: number
 }
 
-const getDeepWork = async (
+const getDeepWorkBetweenDates = async (
   selectedStartDate: Dayjs,
   selectedEndDate: Dayjs,
 ): Promise<DeepWorkPeriod[]> => {
   const startDate = selectedStartDate?.startOf('day').toISOString()
   const endDate = selectedEndDate?.endOf('day').toISOString()
 
-  const deepWorkSql = pulseRepo.getDeepWork(startDate, endDate)
+  const deepWorkSql = getDeepWork(startDate, endDate)
 
-  const records: CodeClimbers.DeepWorkTime[] =
-    await queryService.sqlQueryFn(deepWorkSql)
+  const records: CodeClimbers.DeepWorkTime[] = await sqlQueryFn(deepWorkSql)
 
   const periods: DeepWorkPeriod[] = []
   let currentPeriod: DeepWorkPeriod | null = null
@@ -50,6 +49,4 @@ const getDeepWork = async (
   return periods
 }
 
-export default {
-  getDeepWork,
-}
+export { getDeepWorkBetweenDates }

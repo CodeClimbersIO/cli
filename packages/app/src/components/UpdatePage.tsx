@@ -1,9 +1,9 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import CodeClimbersButton from './common/CodeClimbersButton'
 import { Logo } from './common/Logo/Logo'
 import { useNavigate } from 'react-router-dom'
 import { useUpdateVersionHook } from '../hooks/useUpdateHook'
 import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
+import { CodeClimbersButton } from './common/CodeClimbersButton'
 
 // Used to display when an update is not just available, but required.
 export const UpdatePage = () => {

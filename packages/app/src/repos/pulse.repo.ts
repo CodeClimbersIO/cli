@@ -25,8 +25,4 @@ const getDeepWork = (startDate: string, endDate: string) => {
   return query
 }
 
-export default {
-  getAllPulses,
-  getLatestPulses,
-  getDeepWork,
-}
+export { getAllPulses, getLatestPulses, getDeepWork }

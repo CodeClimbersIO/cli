@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs'
 import { useBetterQuery } from '../services'
 import { pulseKeys } from './keys'
-import pulseService from './services/pulse.service'
+import { getDeepWorkBetweenDates } from './services/pulse.service'
 
 interface DeepWorkPeriod {
   startDate: string
@@ -14,7 +14,7 @@ const useDeepWorkV2 = (selectedStartDate: Dayjs, selectedEndDate: Dayjs) => {
   const endDate = selectedEndDate?.endOf('day').toISOString()
 
   const queryFn = () =>
-    pulseService.getDeepWork(selectedStartDate, selectedEndDate)
+    getDeepWorkBetweenDates(selectedStartDate, selectedEndDate)
 
   return useBetterQuery<DeepWorkPeriod[], Error>({
     queryKey: pulseKeys.deepWork(startDate, endDate),
@@ -23,6 +23,4 @@ const useDeepWorkV2 = (selectedStartDate: Dayjs, selectedEndDate: Dayjs) => {
   })
 }
 
-export default {
-  useDeepWorkV2,
-}
+export { useDeepWorkV2 }

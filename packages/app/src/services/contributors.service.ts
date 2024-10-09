@@ -95,4 +95,4 @@ const getSpotlight = (): Contributor => {
   ]
 }
 
-export default { getSpotlight, getContributors }
+export { getSpotlight, getContributors }

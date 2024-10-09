@@ -1,12 +1,12 @@
 import { Box, Card, CardContent, TextField, Typography } from '@mui/material'
-import CodeClimbersButton from './common/CodeClimbersButton'
 import { Logo } from './common/Logo/Logo'
 import { useNavigate } from 'react-router-dom'
 import { CodeSnippit } from './common/CodeSnippit/CodeSnippit'
-import CodeClimbersLoadingButton from './common/CodeClimbersLoadingButton'
 import { useValidateLocalApiKey } from '../services/localAuth.service'
 import { useState } from 'react'
-import authUtil from '../utils/auth.util'
+import { setLocalApiKey } from '../utils/auth.util'
+import { CodeClimbersButton } from './common/CodeClimbersButton'
+import { CodeClimbersLoadingButton } from './common/CodeClimbersLoadingButton'
 
 export const ImportPage = () => {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ export const ImportPage = () => {
   }
 
   const handleSubmit = async () => {
-    authUtil.setLocalApiKey(apiKey)
+    setLocalApiKey(apiKey)
     setHasSubmitted(true)
     refetch()
   }

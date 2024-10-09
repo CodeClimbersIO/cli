@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
   children?: React.ReactNode
 }
 
-function DashboardLayout({ children }: DashboardLayoutProps) {
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { isMajorUpdate, isMinorUpdate } = useUpdateVersionHook()
   if (isMajorUpdate || isMinorUpdate) {
     return <UpdatePage />
@@ -25,4 +25,4 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
   )
 }
 
-export default DashboardLayout
+export { DashboardLayout }
