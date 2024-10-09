@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
 
-import { HomePage } from '../components/Home/HomePage'
 import InstallPage from '../components/InstallPage'
 import ImportLayout from '../layouts/ImportLayout'
 import { ImportPage } from '../components/ImportPage'
