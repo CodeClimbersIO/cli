@@ -16,7 +16,12 @@ export const AppRoutes = () => {
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/extensions" element={<ExtensionsPage />} />
+          <Route
+            path="/extensions"
+            element={<ExtensionsPage />}
+            handle={{ title: 'Extensions' }}
+          />
+          <Route path="/contributors" element={<ContributorsPage />} />
         </Route>
         <Route element={<ExtensionsLayout />}>
           {extensions.map((extension) => {

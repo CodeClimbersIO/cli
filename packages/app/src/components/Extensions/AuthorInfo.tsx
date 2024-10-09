@@ -1,4 +1,4 @@
-import { Box, ToggleButton, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { GitHubProfileImage } from '../common/GithubProfileImage'
 
 interface Props {

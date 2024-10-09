@@ -8,17 +8,15 @@ module.exports = {
   plugins: ["@typescript-eslint", "codeclimbers"],
   settings: {
     "import/resolver": {
-      "typescript": {},
-      "node": {
-        "extensions": [".js", ".ts"],
-        "paths": ["public"]
+      typescript: {},
+      node: {
+        extensions: [".js", ".ts"],
+        paths: ["public"],
       },
-      "alias": {
-        "map": [
-          ["@app", "./packages/app/src"]
-        ]
-      }
-    }
+      alias: {
+        map: [["@app", "./packages/app/src"]],
+      },
+    },
   },
   extends: [
     "eslint:recommended",
@@ -30,7 +28,10 @@ module.exports = {
   ],
   ignorePatterns: [".eslintrc.js", "migrations", "dist"],
   rules: {
-    "prettier/prettier": ["error", { semi: false, singleQuote: true, endOfLine: "auto" }],
+    "prettier/prettier": [
+      "error",
+      { semi: false, singleQuote: true, endOfLine: "auto" },
+    ],
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

@@ -4,8 +4,12 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { DiscordIcon } from '../../common/Icons/DiscordIcon'
 import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
 import extensionsService from '../../../services/extensions.service'
-import { ExtensionCard, ExtensionCardProps } from './ExtensionCard'
 import CodeClimbersButton from '../../common/CodeClimbersButton'
+import contributorsService from '../../../services/contributors.service'
+import {
+  SimpleInfoCard,
+  SimpleInfoCardProps,
+} from '../../common/SimpleInfoCard'
 
 const RESOURCES = [
   {
@@ -20,11 +24,12 @@ const RESOURCES = [
   },
 ]
 
+const spotlightContributor = contributorsService.getSpotlight()
+
 export const ExtensionsWidget = () => {
   const newestExtension = extensionsService.getNewestExtension()
   const popularExtension = extensionsService.getPopularExtension()
-
-  const extensionCardData: ExtensionCardProps[] = []
+  const extensionCardData: SimpleInfoCardProps[] = []
 
   if (popularExtension) {
     extensionCardData.push({
@@ -32,6 +37,7 @@ export const ExtensionsWidget = () => {
       title: popularExtension.name,
       subTitle: `by ${popularExtension.authorName}`,
       callout: 'popular extension',
+      href: '/extensions',
     })
   }
   if (newestExtension) {
@@ -40,6 +46,17 @@ export const ExtensionsWidget = () => {
       title: newestExtension.name,
       subTitle: `by ${newestExtension.authorName}`,
       callout: 'newest extension',
+      href: '/extensions',
+    })
+  }
+
+  if (spotlightContributor) {
+    extensionCardData.push({
+      subjectUrl: spotlightContributor.profileUrl,
+      title: spotlightContributor.name,
+      subTitle: spotlightContributor.subTitle,
+      callout: 'spotlight contributor ♥',
+      href: `/contributors`,
     })
   }
 
@@ -81,7 +98,7 @@ export const ExtensionsWidget = () => {
           </Stack>
           <Stack spacing={2}>
             {extensionCardData.map((extension) => (
-              <ExtensionCard key={extension.title} {...extension} />
+              <SimpleInfoCard key={extension.title} {...extension} />
             ))}
           </Stack>
         </Stack>

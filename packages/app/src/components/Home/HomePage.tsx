@@ -10,7 +10,7 @@ import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 
-export const HomePage = () => {
+const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
     retry: false,
     refetchInterval: false,
@@ -30,6 +30,7 @@ export const HomePage = () => {
           display: 'flex',
           flexDirection: { xs: 'column', lg: 'row' },
           gap: 4,
+          mb: 4,
         }}
       >
         <Time selectedDate={selectedDate} />
@@ -48,3 +49,5 @@ export const HomePage = () => {
     </div>
   )
 }
+
+export default HomePage
