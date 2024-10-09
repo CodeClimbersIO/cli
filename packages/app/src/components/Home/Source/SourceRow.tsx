@@ -1,11 +1,11 @@
 import { Stack, Typography, useTheme } from '@mui/material'
-import { SourceDetails } from '../../../utils/supportedSources'
+import { AppDetails } from '../../../utils/supportedSources'
 import { getTimeSince } from '../../../utils/time'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
 
 interface SourceRowProps {
-  source: SourceDetails
+  source: AppDetails
   lastActive: string
   minutes: number
 }
@@ -33,11 +33,15 @@ export const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
       width="100%"
     >
       <Stack direction="row" alignItems="center" spacing={1} width="100%">
-        <img
-          alt={source.displayName + ' Logo'}
-          src={source.logo}
-          style={{ height: '32px', width: '32px' }}
-        />
+        {source.logoType === 'svg' ? (
+          <source.logo size={32} />
+        ) : (
+          <img
+            alt={source.displayName + ' Logo'}
+            src={source.logo as string}
+            style={{ height: '32px', width: '32px' }}
+          />
+        )}
         <Stack direction="column" width="100%">
           <Typography variant="body2" fontWeight={700}>
             {source.displayName}
