@@ -13,7 +13,6 @@ export const AppRoutes = () => {
   const extensions = extensionsService.getActiveDashboardExtensionRoutes()
   return (
     <>
-      <AppRoutesPageSubscription />
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
