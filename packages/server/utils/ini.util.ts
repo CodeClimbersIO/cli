@@ -8,7 +8,7 @@ type IniSection = Record<string, string>
 export type IniConfig = Record<string, IniSection>
 
 // Function to parse INI content
-export function parseIni(content: string): IniConfig {
+export const parseIni = (content: string): IniConfig => {
   const result: IniConfig = {}
   const lines: string[] = content.split('\n')
   let currentSection = ''
@@ -30,7 +30,7 @@ export function parseIni(content: string): IniConfig {
 }
 
 // Function to stringify INI content
-export function stringifyIni(data: IniConfig): string {
+export const stringifyIni = (data: IniConfig): string => {
   const entries = Object.entries(data)
     .map(([section, entries]) => {
       const sectionContent: string = Object.entries(entries)
@@ -42,27 +42,27 @@ export function stringifyIni(data: IniConfig): string {
   return `${entries}\n`
 }
 
-export async function createIniFile(
+export const createIniFile = async (
   filePath: string,
   settings: IniConfig,
-): Promise<void> {
+): Promise<void> => {
   const iniContent = stringifyIni(settings)
   await fs.writeFile(filePath, iniContent, 'utf8')
 }
 
-export async function removeIniFile(filePath: string): Promise<void> {
+export const removeIniFile = async (filePath: string): Promise<void> => {
   await fs.unlink(filePath)
 }
 
-export async function readIniFile(filePath: string): Promise<IniConfig> {
+export const readIniFile = async (filePath: string): Promise<IniConfig> => {
   const data = await fs.readFile(filePath, 'utf8')
   return parseIni(data)
 }
 
-export async function updateSettings(
+export const updateSettings = async (
   newSettings: Record<string, string>,
   filePath: string = path.join(HOME_DIR, '.wakatime.cfg'),
-): Promise<void> {
+): Promise<void> => {
   try {
     let config: IniConfig
 

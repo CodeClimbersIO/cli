@@ -14,7 +14,7 @@ import { START_ERR_LOG_MESSAGE } from '../../utils/node.util'
 const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
 
-function checkServerAvailability(url: string): Promise<boolean> {
+const checkServerAvailability = (url: string): Promise<boolean> => {
   return new Promise((resolve) => {
     http
       .get(url, (res) => {

@@ -41,4 +41,12 @@ module.exports = {
     "func-style": ["warn", "expression", { "allowArrowFunctions": true }],
     "import/no-default-export": "error",
   },
+  overrides: [
+    {
+      files: ["packages/server/commands/**/*.ts"],
+      rules: {
+        "import/no-default-export": "off"
+      }
+    }
+  ]
 };

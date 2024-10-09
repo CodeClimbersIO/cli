@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
-import activitiesUtil from '../../../utils/activities.util'
 import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
 import dayjs from 'dayjs'
 import { TimePeriodDto } from '../dtos/getCategoryTimeOverview.dto'
 import { PageDto, PageMetaDto, PageOptionsDto } from '../dtos/pagination.dto'
+import {
+  mapStatusBarRawToDto,
+  pulseSuccessResponse,
+  filterUniqueByHash,
+  getSourceFromUserAgent,
+  calculatePulseHash,
+} from '../../../utils/activities.util'
 
 @Injectable()
 export class ActivitiesService {
@@ -22,7 +28,7 @@ export class ActivitiesService {
       endDate,
     )
     const dayTotalMinutes = data.reduce((acc, curr) => acc + curr.minutes, 0)
-    return activitiesUtil.mapStatusBarRawToDto(statusBarRaw, dayTotalMinutes)
+    return mapStatusBarRawToDto(statusBarRaw, dayTotalMinutes)
   }
   // process the pulse
   async createPulse(pulseDto: CreateWakatimePulseDto) {
@@ -32,7 +38,7 @@ export class ActivitiesService {
       latestProject,
     )
     await this.pulseRepo.createPulse(pulse)
-    return activitiesUtil.pulseSuccessResponse(1)
+    return pulseSuccessResponse(1)
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
@@ -40,10 +46,10 @@ export class ActivitiesService {
     const pulses: CodeClimbers.Pulse[] = pulsesDto.map((dto) =>
       this.mapDtoToPulse(dto, latestProject),
     )
-    const uniquePulses = activitiesUtil.filterUniqueByHash(pulses)
+    const uniquePulses = filterUniqueByHash(pulses)
 
     await this.pulseRepo.createPulses(uniquePulses)
-    return activitiesUtil.pulseSuccessResponse(pulsesDto.length)
+    return pulseSuccessResponse(pulsesDto.length)
   }
 
   async getLatestPulses(): Promise<CodeClimbers.Pulse[] | undefined> {
@@ -109,7 +115,7 @@ export class ActivitiesService {
     const sources = new Set<string>()
 
     userAgentsAndLastActive.forEach((userAgent) => {
-      const source = activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
+      const source = getSourceFromUserAgent(userAgent.userAgent)
       if (source) {
         sources.add(source)
       }
@@ -118,10 +124,7 @@ export class ActivitiesService {
     return Array.from(sources).map((source) => {
       const maxLastActive = userAgentsAndLastActive
         .filter((userAgent) => {
-          return (
-            source ===
-            activitiesUtil.getSourceFromUserAgent(userAgent.userAgent)
-          )
+          return source === getSourceFromUserAgent(userAgent.userAgent)
         })
         .reduce((max, userAgent) => {
           return new Date(userAgent.lastActive) > new Date(max)
@@ -227,7 +230,7 @@ export class ActivitiesService {
       machine: dto.machine || os.hostname(),
       userAgent: dto.user_agent || this.userAgent(),
       time: dayjs((dto.time as number) * 1000).toISOString(),
-      hash: `${activitiesUtil.calculatePulseHash(dto)}`,
+      hash: `${calculatePulseHash(dto)}`,
       origin: dto.origin || '',
       originId: dto.origin_id || '',
       category: dto.category || '',

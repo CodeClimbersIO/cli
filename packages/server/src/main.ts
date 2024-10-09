@@ -20,7 +20,7 @@ const traceEnvironment = () => {
   Logger.debug(`process.env: ${JSON.stringify(process.env)}`, 'main.ts')
 }
 
-export async function bootstrap() {
+export const bootstrap = async () => {
   const port = process.env.CODECLIMBERS_SERVER_PORT || 14_400
   const app = await NestFactory.create(AppModule, {
     logger: !isProd()

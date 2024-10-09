@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { InjectKnex, Knex } from 'nestjs-knex'
-import sqlReaderUtil from '../../../utils/sqlReader.util'
 import dayjs from 'dayjs'
 import { PageOptionsDto } from '../dtos/pagination.dto'
+import { getFileContentAsString } from '../../../utils/sqlReader.util'
 
 interface MinutesQuery {
   minutes: number
@@ -17,9 +17,7 @@ export class PulseRepo {
   async getStatusBarDetails(): Promise<CodeClimbers.WakatimePulseStatusDao[]> {
     const startOfDay = dayjs().startOf('day').toISOString()
     const endOfDay = dayjs().endOf('day').toISOString()
-    const getTimeQuery = await sqlReaderUtil.getFileContentAsString(
-      'getStatusBarDetails.sql',
-    )
+    const getTimeQuery = await getFileContentAsString('getStatusBarDetails.sql')
     return this.knex.raw(getTimeQuery, { startOfDay, endOfDay })
   }
 
@@ -50,10 +48,9 @@ export class PulseRepo {
     startDate: Date,
     endDate: Date,
   ): Promise<number> {
-    const getLongestDayMinutesQuery =
-      await sqlReaderUtil.getFileContentAsString(
-        'getLongestDayInRangeMinutes.sql',
-      )
+    const getLongestDayMinutesQuery = await getFileContentAsString(
+      'getLongestDayInRangeMinutes.sql',
+    )
     const [result] = await this.knex.raw<MinutesQuery[]>(
       getLongestDayMinutesQuery,
       {
@@ -129,7 +126,7 @@ export class PulseRepo {
     endDate: string,
   ): Promise<CodeClimbers.DeepWorkTime[]> {
     const getLongestDayMinutesQuery =
-      await sqlReaderUtil.getFileContentAsString('getDeepWork.sql')
+      await getFileContentAsString('getDeepWork.sql')
     const result = await this.knex.raw<CodeClimbers.DeepWorkTime[]>(
       getLongestDayMinutesQuery,
       {
