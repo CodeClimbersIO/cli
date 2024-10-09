@@ -10,11 +10,7 @@ import { Dayjs } from 'dayjs'
 
 import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
-import {
-  useCategoryTimeOverview,
-  usePerProjectOverviewTopThree,
-  useWeekOverview,
-} from '../../../services/pulse.service'
+import pulseService from '../../../services/pulse.service'
 
 const categories = {
   coding: 'coding',
@@ -34,16 +30,16 @@ const CategoryChart = ({ selectedDate }: Props) => {
   const {
     data: categoryOverview = [] as CodeClimbers.TimeOverview[][],
     isPending,
-  } = useCategoryTimeOverview(selectedDate)
+  } = pulseService.useCategoryTimeOverview(selectedDate)
   const TODAY_INDEX = 0
   const todayOverview = categoryOverview[TODAY_INDEX] || []
   const { data: weekOverview = {} as CodeClimbers.WeekOverview } =
-    useWeekOverview(selectedDate?.toISOString() ?? '')
+    pulseService.useWeekOverview(selectedDate?.toISOString() ?? '')
 
   const {
     data: perProjectTopThree = {} as CodeClimbers.PerProjectTimeOverview,
     isPending: perProjectOverviewTopThreePending,
-  } = usePerProjectOverviewTopThree(selectedDate)
+  } = pulseService.usePerProjectOverviewTopThree(selectedDate)
   const perProjectOverviewTopThree =
     perProjectTopThree || ({} as CodeClimbers.PerProjectTimeOverview)
 

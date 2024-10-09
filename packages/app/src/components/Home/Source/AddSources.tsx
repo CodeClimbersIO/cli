@@ -12,7 +12,6 @@ import {
   AccordionActions,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { useGetSources } from '../../../services/pulse.service'
 import {
   SourceDetails,
   supportedSources,
@@ -22,6 +21,7 @@ import { Refresh } from '@mui/icons-material'
 import { getTimeSince } from '../../../utils/time'
 import CodeClimbersButton from '../../common/CodeClimbersButton'
 import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
+import pulseService from '../../../services/pulse.service'
 
 interface AddSourcesRowProps {
   source: SourceDetails
@@ -29,7 +29,7 @@ interface AddSourcesRowProps {
 }
 
 const AddSourceRow = ({ source, lastActive }: AddSourcesRowProps) => {
-  const { refetch } = useGetSources()
+  const { refetch } = pulseService.useGetSources()
 
   return (
     <Accordion>
@@ -108,7 +108,11 @@ interface AddSourcesProps {
 }
 
 const AddSources = ({ open, handleClose }: AddSourcesProps) => {
-  const { data: connectedSources, isPending, isError } = useGetSources()
+  const {
+    data: connectedSources,
+    isPending,
+    isError,
+  } = pulseService.useGetSources()
 
   return (
     <Dialog

@@ -65,6 +65,8 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 - Any api calls should be included in the `api` directory and make use of tanstack
 - All components should reside in the `components` directory.
 - All pages should go in the `components` directory and have their own component.
+- Functions and variables should be camelCase. Classes should be PascalCase.
+- Use export default when exporting components, functions, variables, etc. This makes it easier to distinguish the source of the imported function when it's being used elsewhere.
 - All layout components should go in the `layouts` directory.
 - `services` generally are react queries that fetch data from the backend.
 - Styling: make use of the `sx` attribute for any material-ui customizations.

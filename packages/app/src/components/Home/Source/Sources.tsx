@@ -5,11 +5,6 @@ import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
 import { Dayjs } from 'dayjs'
 
-import {
-  useExportPulses,
-  useGetSitesWithMinutes,
-  useGetSourcesWithMinutes,
-} from '../../../services/pulse.service'
 import { supportedSources } from '../../../utils/supportedSources'
 import SourcesEmpty from './Sources.empty'
 import SourcesError from './Sources.error'
@@ -19,6 +14,7 @@ import { supportedSites } from '../../../utils/supportedSites'
 import { SiteRow } from './SiteRow'
 import { SourceRow } from './SourceRow'
 import CodeClimbersButton from '../../common/CodeClimbersButton'
+import pulseService from '../../../services/pulse.service'
 
 type SourcesProps = { selectedDate: Dayjs }
 const Sources = ({ selectedDate }: SourcesProps) => {
@@ -27,7 +23,7 @@ const Sources = ({ selectedDate }: SourcesProps) => {
     isPending,
     isEmpty,
     isError,
-  } = useGetSourcesWithMinutes(
+  } = pulseService.useGetSourcesWithMinutes(
     selectedDate.startOf('day').toISOString(),
     selectedDate.endOf('day').toISOString(),
   )
@@ -36,12 +32,12 @@ const Sources = ({ selectedDate }: SourcesProps) => {
     data: sitesWithMinutes,
     isEmpty: sitesEmpty,
     isLoading: sitesQueryIsLoading,
-  } = useGetSitesWithMinutes(
+  } = pulseService.useGetSitesWithMinutes(
     selectedDate.startOf('day').toISOString(),
     selectedDate.endOf('day').toISOString(),
   )
 
-  const { exportPulses } = useExportPulses()
+  const { exportPulses } = pulseService.useExportPulses()
   const [exportingPulses, setExportingPulses] = useState(false)
   const [addSourcesOpen, setAddSourcesOpen] = useState(false)
 

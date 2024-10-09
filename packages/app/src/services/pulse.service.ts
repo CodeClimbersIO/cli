@@ -5,7 +5,7 @@ import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
 import csvUtil from '../utils/csv.util'
 
-export function useGetSources() {
+const useGetSources = () => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/pulses/sources`,
@@ -18,7 +18,7 @@ export function useGetSources() {
   })
 }
 
-export function useGetSourcesWithMinutes(startDate: string, endDate: string) {
+const useGetSourcesWithMinutes = (startDate: string, endDate: string) => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/pulses/sourcesMinutes?startDate=${startDate}&endDate=${endDate}`,
@@ -31,7 +31,7 @@ export function useGetSourcesWithMinutes(startDate: string, endDate: string) {
   })
 }
 
-export function useGetSitesWithMinutes(startDate: string, endDate: string) {
+const useGetSitesWithMinutes = (startDate: string, endDate: string) => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/pulses/sitesMinutes?startDate=${startDate}&endDate=${endDate}`,
@@ -44,7 +44,7 @@ export function useGetSitesWithMinutes(startDate: string, endDate: string) {
   })
 }
 
-export const useExportPulses = () => {
+const useExportPulses = () => {
   const exportPulses = useCallback(async () => {
     try {
       const response = await apiRequest({
@@ -62,7 +62,7 @@ export const useExportPulses = () => {
   return { exportPulses }
 }
 
-export function useWeekOverview(date = '') {
+const useWeekOverview = (date = '') => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/pulses/weekOverview?date=${date}`,
@@ -75,7 +75,7 @@ export function useWeekOverview(date = '') {
   })
 }
 
-export function useCategoryTimeOverview(selectedStartDate: Dayjs) {
+const useCategoryTimeOverview = (selectedStartDate: Dayjs) => {
   const todayStartDate = selectedStartDate?.startOf('day').toISOString()
   const todayEndDate = selectedStartDate?.endOf('day').toISOString()
 
@@ -104,7 +104,7 @@ export function useCategoryTimeOverview(selectedStartDate: Dayjs) {
   })
 }
 
-export function useDeepWork(selectedStartDate: Dayjs) {
+const useDeepWork = (selectedStartDate: Dayjs) => {
   const startDate = selectedStartDate?.startOf('day').toISOString()
   const endDate = selectedStartDate?.endOf('day').toISOString()
   const queryFn = () =>
@@ -119,7 +119,7 @@ export function useDeepWork(selectedStartDate: Dayjs) {
   })
 }
 
-export function usePerProjectOverviewTopThree(selectedStartDate: Dayjs) {
+const usePerProjectOverviewTopThree = (selectedStartDate: Dayjs) => {
   const startDate = selectedStartDate?.startOf('day').toISOString()
   const endDate = selectedStartDate?.endOf('day').toISOString()
   const queryFn = () =>
@@ -132,4 +132,15 @@ export function usePerProjectOverviewTopThree(selectedStartDate: Dayjs) {
     queryFn,
     enabled: !!startDate && !!endDate,
   })
+}
+
+export default {
+  useGetSources,
+  useGetSourcesWithMinutes,
+  useGetSitesWithMinutes,
+  useExportPulses,
+  useWeekOverview,
+  useCategoryTimeOverview,
+  useDeepWork,
+  usePerProjectOverviewTopThree,
 }
