@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs'
 import {
   getDeepWork,
+  getTimeByCategoryAndRange,
   getTimeByEntityAndRange,
   getTimeByProjectAndRange,
 } from '../repos/pulse.repo'
@@ -112,8 +113,56 @@ const getSocialMediaTimeByRange = async (
   return socialMediaTimes
 }
 
+const getCategoryTimeByRange = async (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+): Promise<CodeClimbers.CategoryTimeOverviewDB[]> => {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedEndDate?.endOf('day').toISOString()
+
+  const categoryTimeSql = getTimeByCategoryAndRange(startDate, endDate)
+
+  const records: CodeClimbers.CategoryTimeOverviewDB[] = await sqlQueryFn(
+    categoryTimeSql,
+    'getCategoryTimeByRange',
+  )
+
+  // merge category 'communication' with 'communicating'
+  const mergedRecords = records
+    .map((row) => {
+      if (row.category === 'communication') {
+        return { ...row, category: 'communicating' }
+      }
+      return row
+    })
+    .reduce((acc, row) => {
+      const existingCategory = acc.find((c) => c.category === row.category)
+      if (existingCategory) {
+        existingCategory.minutes += row.minutes
+      } else {
+        acc.push(row)
+      }
+      return acc
+    }, [] as CodeClimbers.CategoryTimeOverviewDB[])
+
+  return mergedRecords
+}
+
+const getTotalTimeByRange = async (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+): Promise<number> => {
+  const timeRecords = await getCategoryTimeByRange(
+    selectedStartDate,
+    selectedEndDate,
+  )
+  return timeRecords.reduce((acc, row) => acc + row.minutes, 0)
+}
+
 export {
   getDeepWorkBetweenDates,
   getProjectsTimeByRange,
   getSocialMediaTimeByRange,
+  getCategoryTimeByRange,
+  getTotalTimeByRange,
 }

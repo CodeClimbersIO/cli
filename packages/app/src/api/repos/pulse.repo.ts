@@ -56,10 +56,27 @@ const getTimeByEntityAndRange = (startDate: string, endDate: string) => {
   `
   return query
 }
+
+const getTimeByCategoryAndRange = (startDate: string, endDate: string) => {
+  const query = `
+  with get_minutes as 
+  (
+    select category from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by category, strftime('%s', time) / 120
+  ) 
+  select category, count() * 2 as minutes 
+    from get_minutes 
+    group by category 
+    order by category asc, minutes desc 
+  `
+  return query
+}
 export {
   getAllPulses,
   getLatestPulses,
   getDeepWork,
   getTimeByProjectAndRange,
   getTimeByEntityAndRange,
+  getTimeByCategoryAndRange,
 }

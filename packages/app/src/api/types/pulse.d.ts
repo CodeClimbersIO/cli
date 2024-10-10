@@ -10,4 +10,9 @@ namespace CodeClimbers {
     entity: string
     minutes: number
   }
+
+  export interface CategoryTimeOverviewDB {
+    category: string
+    minutes: number
+  }
 }

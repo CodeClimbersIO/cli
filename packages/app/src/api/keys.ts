@@ -9,8 +9,10 @@ export const pulseKeys = {
     ['projectsTimeByRange', startDate, endDate] as const,
   socialMediaTimeByRange: (startDate: string, endDate: string) =>
     ['socialMediaTimeByRange', startDate, endDate] as const,
-  categoryTimeOverview: (startDate: string, endDate: string) =>
-    ['categoryTimeOverview', startDate, endDate] as const,
+  categoryTimeOverviewV2: (startDate: string, endDate: string) =>
+    ['categoryTimeOverviewV2', startDate, endDate] as const,
+  totalTimeByRange: (startDate: string, endDate: string) =>
+    ['totalTimeByRange', startDate, endDate] as const,
   sourcesMinutes: (startDate: string, endDate: string) =>
     ['sourcesMinutes', startDate, endDate] as const,
   sitesMinutes: (startDate: string, endDate: string) =>
