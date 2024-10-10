@@ -107,6 +107,8 @@ A way for the user to interact with the application easily using oclif
   you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and
   then restart the CLI.
 
+A great way to test the CLI is to install it on a machine and then run `npm run mock:install {version} --run` to install an older version of the CLI and test from there.
+
 ### Conventions
 
 - TBD

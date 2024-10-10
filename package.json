@@ -31,7 +31,8 @@
     "test:watch": "cross-env JEST_WATCH=true jest --watch",
     "db:migrate": "knex migrate:latest",
     "db:migrate:rollback": "knex migrate:rollback",
-    "db:migrate:make": "knex migrate:make"
+    "db:migrate:make": "knex migrate:make",
+    "mock:install": "bash scripts/mock_install.sh"
   },
   "workspaces": [
     "packages/app",

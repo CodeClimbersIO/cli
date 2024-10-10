@@ -13,7 +13,7 @@ import { useGetCurrentUser } from '../../../api/user.api'
 type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
-  const { data: user } = useGetCurrentUser()
+  // const { data: user } = useGetCurrentUser()
   // const WeeklyReportSettings = () => {
   //   const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
   //   return (
