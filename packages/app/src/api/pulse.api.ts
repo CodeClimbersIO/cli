@@ -1,7 +1,10 @@
 import { Dayjs } from 'dayjs'
 import { useBetterQuery } from '../services'
 import { pulseKeys } from './keys'
-import { getDeepWorkBetweenDates } from './services/pulse.service'
+import {
+  getDeepWorkBetweenDates,
+  getProjectsTimeByRange,
+} from './services/pulse.service'
 
 interface DeepWorkPeriod {
   startDate: string
@@ -23,4 +26,20 @@ const useDeepWorkV2 = (selectedStartDate: Dayjs, selectedEndDate: Dayjs) => {
   })
 }
 
-export { useDeepWorkV2 }
+const useProjectsTimeByRange = (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+) => {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedEndDate?.endOf('day').toISOString()
+
+  const queryFn = () =>
+    getProjectsTimeByRange(selectedStartDate, selectedEndDate)
+
+  return useBetterQuery<CodeClimbers.PerProjectTimeOverview, Error>({
+    queryKey: pulseKeys.projectsTimeByRange(startDate, endDate),
+    queryFn,
+    enabled: !!selectedStartDate && !!selectedEndDate,
+  })
+}
+export { useDeepWorkV2, useProjectsTimeByRange }

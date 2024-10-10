@@ -12,7 +12,7 @@ import {
   getSourceFromUserAgent,
   calculatePulseHash,
 } from '../../../utils/activities.util'
-import { assert } from 'node:console'
+import assert from 'node:assert'
 
 @Injectable()
 export class ActivitiesService {
@@ -43,9 +43,8 @@ export class ActivitiesService {
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
-    assert(!pulsesDto, 'pulsesDto required')
-    assert(!Array.isArray(pulsesDto), 'Pulses must be an array')
-
+    assert(pulsesDto, 'pulsesDto required')
+    assert(Array.isArray(pulsesDto), 'Pulses must be an array')
     const latestProject = await this.pulseRepo.getLatestProject()
     const pulses: CodeClimbers.Pulse[] = pulsesDto.map((dto) =>
       this.mapDtoToPulse(dto, latestProject),

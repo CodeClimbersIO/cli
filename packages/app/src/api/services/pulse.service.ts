@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import { getDeepWork } from '../repos/pulse.repo'
+import { getDeepWork, getTimeByProjectAndRange } from '../repos/pulse.repo'
 import { sqlQueryFn } from './query.service'
 
 interface DeepWorkPeriod {
@@ -17,7 +17,10 @@ const getDeepWorkBetweenDates = async (
 
   const deepWorkSql = getDeepWork(startDate, endDate)
 
-  const records: CodeClimbers.DeepWorkTime[] = await sqlQueryFn(deepWorkSql)
+  const records: CodeClimbers.DeepWorkTime[] = await sqlQueryFn(
+    deepWorkSql,
+    'getDeepWorkBetweenDates',
+  )
 
   const periods: DeepWorkPeriod[] = []
   let currentPeriod: DeepWorkPeriod | null = null
@@ -49,4 +52,29 @@ const getDeepWorkBetweenDates = async (
   return periods
 }
 
-export { getDeepWorkBetweenDates }
+const getProjectsTimeByRange = async (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+): Promise<CodeClimbers.PerProjectTimeOverview> => {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedEndDate?.endOf('day').toISOString()
+
+  const projectsTimeSql = getTimeByProjectAndRange(startDate, endDate)
+
+  const records: CodeClimbers.PerProjectTimeOverviewDB[] = await sqlQueryFn(
+    projectsTimeSql,
+    'getProjectsTimeByRange',
+  )
+  console.log(records)
+  return records.reduce((acc, row) => {
+    if (!acc[row.category]) {
+      acc[row.category] = []
+    }
+
+    acc[row.category].push({ name: row.name, minutes: row.minutes })
+
+    return acc
+  }, {} as CodeClimbers.PerProjectTimeOverview)
+}
+
+export { getDeepWorkBetweenDates, getProjectsTimeByRange }

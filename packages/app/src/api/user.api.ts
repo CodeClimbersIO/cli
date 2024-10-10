@@ -13,7 +13,7 @@ type UserWithSettings = CodeClimbers.User & CodeClimbers.UserSettings
 const useGetCurrentUser = () => {
   const queryFn = async () => {
     const sql = getCurrentUser()
-    const records = await sqlQueryFn(sql)
+    const records = await sqlQueryFn(sql, 'getCurrentUser')
     return records[0]
   }
   return useBetterQuery<UserWithSettings, Error>({
@@ -32,7 +32,7 @@ const useUpdateUserSettings = () => {
     settings: Partial<CodeClimbers.UserSettingsDB>
   }) => {
     const sql = updateUserSettings(user_id, settings)
-    return sqlQueryFn(sql)
+    return sqlQueryFn(sql, 'updateUserSettings')
   }
   return useMutation({
     mutationFn: queryFn,
@@ -52,7 +52,7 @@ const useUpdateUser = () => {
     user: Partial<CodeClimbers.UserDB>
   }) => {
     const sql = updateUser(user_id, user)
-    return sqlQueryFn(sql)
+    return sqlQueryFn(sql, 'updateUser')
   }
   return useMutation({
     mutationFn: queryFn,
