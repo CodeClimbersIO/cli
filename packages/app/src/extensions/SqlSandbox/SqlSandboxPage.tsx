@@ -12,27 +12,27 @@ import {
   Pagination,
   Typography,
 } from '@mui/material'
-import CodeClimbersButton from '../../components/common/CodeClimbersButton'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import DownloadIcon from '@mui/icons-material/Download'
 import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/DeleteOutlined'
 import { useRunSql } from './sandbox.api'
 import { useMemo, useState } from 'react'
-import csvUtil from '../../utils/csv.util'
-import sqlSaveService from './sqlSandbox.service'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import CodeClimbersIconButton from '../../components/common/CodeClimbersIconButton'
 import { v4 as uuidv4 } from 'uuid'
+import { convertRecordsToCSV, downloadBlob } from '../../utils/csv.util'
+import { deleteSql, getSql, saveSql } from './sqlSandbox.service'
+import { CodeClimbersButton } from '../../components/common/CodeClimbersButton'
+import { CodeClimbersIconButton } from '../../components/common/CodeClimbersIconButton'
 
 const defaultSql = `SELECT * FROM activities_pulse ORDER BY id DESC LIMIT 10;`
-export default function SqlSandboxPage() {
+export const SqlSandboxPage = () => {
   // get sql name from url param
   const [searchParams] = useSearchParams()
   const sqlIdFromUrl = searchParams.get('sqlId')
   const navigate = useNavigate()
 
-  const savedSql = sqlSaveService.getSql(sqlIdFromUrl || '') || defaultSql
+  const savedSql = getSql(sqlIdFromUrl || '') || defaultSql
   const [sql, setSql] = useState(savedSql.sql || defaultSql)
 
   const [sqlName, setSqlName] = useState(savedSql.name || 'Untitled.sql')
@@ -49,14 +49,14 @@ export default function SqlSandboxPage() {
   }
 
   const onDownloadCsv = () => {
-    const csvContent = csvUtil.convertRecordsToCSV(results)
+    const csvContent = convertRecordsToCSV(results)
     const blob = new Blob([csvContent])
-    csvUtil.downloadBlob(blob, 'results.csv')
+    downloadBlob(blob, 'results.csv')
   }
 
   const onSaveSql = () => {
     // save sql to local storage
-    sqlSaveService.saveSql(sqlName, sql, sqlId)
+    saveSql(sqlName, sql, sqlId)
     setSqlId(sqlId)
   }
 
@@ -66,7 +66,7 @@ export default function SqlSandboxPage() {
 
   const onDeleteSql = () => {
     if (!sqlIdFromUrl) return
-    sqlSaveService.deleteSql(sqlIdFromUrl)
+    deleteSql(sqlIdFromUrl)
     navigate('/')
   }
 

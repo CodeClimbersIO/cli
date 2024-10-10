@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
-import queryApi from '../../services/query.service'
+import { sqlQueryFn } from '../../api/services/query.service'
 
 export const useRunSql = () => {
   return useMutation({
-    mutationFn: (query: string) => queryApi.sqlQueryFn(query),
+    mutationFn: (query: string) => sqlQueryFn(query),
   })
 }

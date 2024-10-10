@@ -1,7 +1,7 @@
 import { BASE_API_URL, useBetterQuery } from '.'
 import { apiRequest } from '../utils/request'
 
-export function useGetLocalApiKey(enabled = true) {
+export const useGetLocalApiKey = (enabled = true) => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/auth/local`,
@@ -15,9 +15,9 @@ export function useGetLocalApiKey(enabled = true) {
   })
 }
 
-export function useValidateLocalApiKey(
+export const useValidateLocalApiKey = (
   page: 'import' | 'home' | 'banner' = 'home',
-) {
+) => {
   const queryFn = () =>
     apiRequest({
       url: `${BASE_API_URL}/auth/local/validate`,

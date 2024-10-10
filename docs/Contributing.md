@@ -65,9 +65,10 @@ A React Single Page Application that uses react-router, material-ui, tanstack to
 - Any api calls should be included in the `api` directory and make use of tanstack
 - All components should reside in the `components` directory.
 - All pages should go in the `components` directory and have their own component.
+- Functions and variables should be camelCase. Classes should be PascalCase.
+- Use named exports when exporting components, functions, variables, etc (no default exports)
 - All layout components should go in the `layouts` directory.
 - `services` generally are react queries that fetch data from the backend.
-- Primarily use kysely for building sql queries. When the query is complex, it may be best to use raw sql.
 - Styling: make use of the `sx` attribute for any material-ui customizations.
 - Styling: make use of the appropriate material-ui components for layouts like `Grid` or `Stack` when possible,
   but `Box` is a great fallback
@@ -105,6 +106,8 @@ A way for the user to interact with the application easily using oclif
   If
   you want changes to be reflected in the CLI from the server, you will need to build it with `npm run build:server` and
   then restart the CLI.
+
+A great way to test the CLI is to install it on a machine and then run `npm run mock:install {version} --run` to install an older version of the CLI and test from there.
 
 ### Conventions
 

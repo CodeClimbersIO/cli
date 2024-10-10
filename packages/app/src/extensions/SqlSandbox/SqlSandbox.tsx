@@ -1,10 +1,10 @@
 import { Box, Typography, useTheme } from '@mui/material'
-import CodeClimbersButton from '../../components/common/CodeClimbersButton'
 import { useNavigate } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add'
-import sqlSaveService from './sqlSandbox.service'
+import { getSqlList } from './sqlSandbox.service'
+import { CodeClimbersButton } from '../../components/common/CodeClimbersButton'
 
-export default function SqlSandbox() {
+export const SqlSandbox = () => {
   const navigate = useNavigate()
   const theme = useTheme()
   const handleAddClick = () => {
@@ -37,7 +37,7 @@ export default function SqlSandbox() {
       </Box>
       <Box sx={{ pt: 6, height: '210px', overflowY: 'auto' }}>
         <Typography sx={{ pb: 1 }}>Saved Queries</Typography>
-        {sqlSaveService.getSqlList().map((sql) => (
+        {getSqlList().map((sql) => (
           <Box
             key={sql.name}
             sx={{

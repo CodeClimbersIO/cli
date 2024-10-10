@@ -1,17 +1,17 @@
 import { Route, Routes } from 'react-router-dom'
 
-import InstallPage from '../components/InstallPage'
-import ImportLayout from '../layouts/ImportLayout'
 import { ImportPage } from '../components/ImportPage'
-import DashboardLayout from '../layouts/DashboardLayout'
 import { ExtensionsPage } from '../components/Extensions/ExtensionsPage'
-import extensionsService from '../services/extensions.service'
 import { ExtensionsLayout } from '../layouts/ExtensionsLayout'
 import { ContributorsPage } from '../components/ContributorsPage'
-import HomePage from '../components/Home/HomePage'
+import { getActiveDashboardExtensionRoutes } from '../services/extensions.service'
+import { HomePage } from '../components/Home/HomePage'
+import { InstallPage } from '../components/InstallPage'
+import { DashboardLayout } from '../layouts/DashboardLayout'
+import { ImportLayout } from '../layouts/ImportLayout'
 
 export const AppRoutes = () => {
-  const extensions = extensionsService.getActiveDashboardExtensionRoutes()
+  const extensions = getActiveDashboardExtensionRoutes()
   return (
     <>
       <Routes>

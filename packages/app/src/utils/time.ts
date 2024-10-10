@@ -24,6 +24,6 @@ dayjs.updateLocale('en', {
   },
 })
 
-export function getTimeSince(utcDateString: string): string {
+export const getTimeSince = (utcDateString: string): string => {
   return dayjs(utcDateString).fromNow(true)
 }

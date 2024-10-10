@@ -4,9 +4,9 @@
 */
 // eslint-disable-next-line import/no-named-as-default
 import posthog from 'posthog-js'
-import SqlSandbox from '../extensions/SqlSandbox'
-import SqlSandboxPage from '../extensions/SqlSandbox/SqlSandboxPage'
-import sqlSandboxService from '../extensions/SqlSandbox/sqlSandbox.service'
+import { SqlSandbox } from '../extensions/SqlSandbox'
+import { SqlSandboxPage } from '../extensions/SqlSandbox/SqlSandboxPage'
+import { onAdd } from '../extensions/SqlSandbox/sqlSandbox.service'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
@@ -45,7 +45,7 @@ const extensions: (Extension | DashboardExtension)[] = [
     route: '/sql-sandbox',
     pageComponent: SqlSandboxPage,
     onAdd: () => {
-      sqlSandboxService.onAdd()
+      onAdd()
     },
     createdAt: new Date('2024-09-16'),
     isPopular: true,
@@ -62,7 +62,7 @@ const extensions: (Extension | DashboardExtension)[] = [
   },
 ]
 
-function getActiveExtensionIds(): string[] {
+const getActiveExtensionIds = (): string[] => {
   const rawExtensions = localStorage.getItem(EXTENSIONS_KEY)
   const extensionIds = rawExtensions
     ? (JSON.parse(rawExtensions) as string[])
@@ -70,7 +70,7 @@ function getActiveExtensionIds(): string[] {
   return extensionIds
 }
 
-function getActiveExtensions(): Extension[] {
+const getActiveExtensions = (): Extension[] => {
   const extensionIds = getActiveExtensionIds()
   const activeExtensions = extensionIds.map((id) =>
     extensions.find((extension) => extension.id === id),
@@ -78,29 +78,29 @@ function getActiveExtensions(): Extension[] {
   return activeExtensions.filter((extension) => extension !== undefined)
 }
 
-function getActiveDashboardExtensions(): DashboardExtension[] {
+const getActiveDashboardExtensions = (): DashboardExtension[] => {
   const activeExtensions = getActiveExtensions()
   return activeExtensions.filter(
     (extension): extension is DashboardExtension => 'component' in extension,
   )
 }
 
-function getActiveDashboardExtensionRoutes(): DashboardExtension[] {
+const getActiveDashboardExtensionRoutes = (): DashboardExtension[] => {
   const activeExtensions = getActiveDashboardExtensions()
   return activeExtensions.filter((extension) => extension.route)
 }
 
-function getExtensionByRoute(route: string): DashboardExtension | undefined {
+const getExtensionByRoute = (route: string): DashboardExtension | undefined => {
   return getActiveDashboardExtensions().find(
     (extension) => extension.route === route,
   )
 }
 
-function isExtensionAdded(extensionId: string) {
+const isExtensionAdded = (extensionId: string): boolean => {
   return getActiveExtensionIds().includes(extensionId)
 }
 
-function addExtension(extensionId: string) {
+const addExtension = (extensionId: string): void => {
   if (!extensionId) return
   const extensions = getActiveExtensionIds()
   if (isExtensionAdded(extensionId)) {
@@ -116,7 +116,7 @@ function addExtension(extensionId: string) {
   })
 }
 
-function removeExtension(extensionId: string) {
+const removeExtension = (extensionId: string): void => {
   if (!extensionId) return
   const extensionIds = getActiveExtensionIds()
   const newExtensions = extensionIds.filter((id) => id !== extensionId)
@@ -129,11 +129,11 @@ function removeExtension(extensionId: string) {
   })
 }
 
-function getPopularExtension(): Extension | undefined {
+const getPopularExtension = (): Extension | undefined => {
   return extensions.find((extension) => extension.isPopular)
 }
 
-function getNewestExtension(): Extension | undefined {
+const getNewestExtension = (): Extension | undefined => {
   return extensions.reduce(
     (newest, extension) => {
       if (!newest) return extension
@@ -144,8 +144,12 @@ function getNewestExtension(): Extension | undefined {
   )
 }
 
-export default {
-  extensions,
+const getExtensions = (): Extension[] => {
+  return extensions
+}
+
+export {
+  getExtensions,
   getActiveExtensions,
   addExtension,
   removeExtension,

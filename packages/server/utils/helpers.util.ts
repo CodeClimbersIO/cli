@@ -1,7 +1,7 @@
-export function forOwn<T>(
+export const forOwn = <T>(
   obj: Record<string, T>,
   iteratee: (value: T, key: string, obj: Record<string, T>) => void,
-): void {
+): void => {
   if (obj === null || obj === undefined) {
     return
   }
@@ -14,7 +14,7 @@ export function forOwn<T>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isPlainObject(value: any): boolean {
+export const isPlainObject = (value: any): boolean => {
   if (typeof value !== 'object' || value === null) {
     return false
   }
@@ -35,7 +35,7 @@ export function isPlainObject(value: any): boolean {
   )
 }
 
-export function snakeCase(str: string): string {
+export const snakeCase = (str: string): string => {
   if (typeof str !== 'string') {
     return ''
   }
@@ -70,7 +70,7 @@ export function snakeCase(str: string): string {
   return result.join('_')
 }
 
-export function camelCase(str: string): string {
+export const camelCase = (str: string): string => {
   if (typeof str !== 'string') {
     return ''
   }
@@ -94,8 +94,11 @@ export function camelCase(str: string): string {
   return result.join('')
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function maxBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
+export const maxBy = <T>(
+  arr: T[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  iteratee: (item: T) => any,
+): T | undefined => {
   if (!arr || arr.length === 0) return undefined
   return arr.reduce((acc, item) => {
     const value = iteratee(item)
@@ -104,8 +107,11 @@ export function maxBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
   }, arr[0])
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function minBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
+export const minBy = <T>(
+  arr: T[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  iteratee: (item: T) => any,
+): T | undefined => {
   if (!arr || arr.length === 0) return undefined
   return arr.reduce((acc, item) => {
     const value = iteratee(item)
@@ -115,7 +121,7 @@ export function minBy<T>(arr: T[], iteratee: (item: T) => any): T | undefined {
 }
 
 // groupBy function that takes an array and groups it by a key
-export function groupBy<T>(arr: T[], key: string): Record<string, T[]> {
+export const groupBy = <T>(arr: T[], key: string): Record<string, T[]> => {
   return arr.reduce(
     (acc, item) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

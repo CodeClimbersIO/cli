@@ -4,8 +4,8 @@ interface BaseLayoutProps {
   children?: React.ReactNode
 }
 
-function BaseLayout({ children }: BaseLayoutProps) {
+const BaseLayout = ({ children }: BaseLayoutProps) => {
   return <>{children || <Outlet />}</>
 }
 
-export default BaseLayout
+export { BaseLayout }

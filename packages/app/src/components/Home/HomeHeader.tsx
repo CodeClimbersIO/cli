@@ -17,8 +17,8 @@ import {
   LightMode,
 } from '@mui/icons-material'
 import { useThemeStorage } from '../../hooks/useBrowserStorage'
-import CodeClimbersButton from '../common/CodeClimbersButton'
 import { useNavigate } from 'react-router-dom'
+import { CodeClimbersButton } from '../common/CodeClimbersButton'
 
 const Header = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -155,4 +155,4 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
   )
 }
 
-export default HomeHeader
+export { HomeHeader }

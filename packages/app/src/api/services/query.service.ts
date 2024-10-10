@@ -1,5 +1,5 @@
-import { BASE_API_URL } from '.'
-import { apiRequest } from '../utils/request'
+import { BASE_API_URL } from '../'
+import { apiRequest } from '../../utils/request'
 
 // do not use this directly in a component
 const sqlQueryFn = (query: string) =>
@@ -9,6 +9,4 @@ const sqlQueryFn = (query: string) =>
     body: { query },
   })
 
-export default {
-  sqlQueryFn,
-}
+export { sqlQueryFn }

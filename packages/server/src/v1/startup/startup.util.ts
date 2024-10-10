@@ -2,7 +2,7 @@
  * these modules are not available on all platforms, so we have to import them conditionally
  * or we'll get build and runtime errors
  */
-function getServiceLib() {
+const getServiceLib = () => {
   const os = process.platform
   switch (os) {
     case 'darwin':
@@ -16,6 +16,4 @@ function getServiceLib() {
   }
 }
 
-export default {
-  getServiceLib,
-}
+export { getServiceLib }

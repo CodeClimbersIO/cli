@@ -12,8 +12,8 @@ import { TimeDataChart } from './TimeDataChart'
 import { minutesToHours } from './utils'
 import {
   useCategoryTimeOverview,
-  usePerProjectOverviewTopThree,
   useWeekOverview,
+  usePerProjectOverviewTopThree,
 } from '../../../services/pulse.service'
 
 const categories = {
@@ -141,4 +141,4 @@ const CategoryChart = ({ selectedDate }: Props) => {
   )
 }
 
-export default CategoryChart
+export { CategoryChart }
