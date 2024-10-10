@@ -4,7 +4,7 @@ import { WEBSOCKET_REFRESH_COOLDOWN } from './constants'
 import { FileStore } from './file-store'
 import { getTraits } from './get-traits'
 
-export default async (
+export const startWebSocketServer = async (
   port: number,
   environmentKey: string,
   flagsmithAPI: string,

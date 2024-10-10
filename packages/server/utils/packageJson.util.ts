@@ -9,7 +9,7 @@ interface PackageJson {
   [key: string]: string | number | boolean | null | undefined
 }
 
-export function getPackageJsonVersion(): string {
+export const getPackageJsonVersion = (): string => {
   const packageJsonPath = join(PROJECT_ROOT, 'package.json')
   const packageJsonContent = readFileSync(packageJsonPath, 'utf-8')
   const packageJson: PackageJson = JSON.parse(packageJsonContent)
