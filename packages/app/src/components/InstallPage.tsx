@@ -235,7 +235,7 @@ const InstallPage = () => {
                   {displayBlockedMessage && (
                     <Typography sx={{ mt: 2 }} color="text.secondary">
                       Please make sure your browser and ad blockers are not
-                      blocking localhost:14400
+                      blocking local.codeclimbers.io
                     </Typography>
                   )}
                 </Box>
