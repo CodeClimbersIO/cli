@@ -12,7 +12,6 @@ import {
   AccordionActions,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import { useGetSources } from '../../../services/pulse.service'
 import {
   AppDetails,
   SourceDetails,
@@ -21,8 +20,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Refresh } from '@mui/icons-material'
 import { getTimeSince } from '../../../utils/time'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
-import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
+import { useGetSources } from '../../../services/pulse.service'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
+import { CodeClimbersIconButton } from '../../common/CodeClimbersIconButton'
 
 interface AddSourcesRowProps {
   source: SourceDetails
@@ -176,4 +176,4 @@ const AddSources = ({ open, handleClose }: AddSourcesProps) => {
   )
 }
 
-export default AddSources
+export { AddSources }

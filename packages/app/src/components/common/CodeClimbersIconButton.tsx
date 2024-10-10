@@ -26,4 +26,4 @@ const CodeClimbersIconButton = ({
   )
 }
 
-export default CodeClimbersIconButton
+export { CodeClimbersIconButton }

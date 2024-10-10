@@ -72,4 +72,4 @@ ORDER BY count(language) DESC;
   }
 }
 
-export default { saveSql, getSql, deleteSql, getSqlList, onAdd }
+export { saveSql, getSql, deleteSql, getSqlList, onAdd }

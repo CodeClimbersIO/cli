@@ -10,7 +10,7 @@ type LocalStorageOptions<T> = {
 
 type SetValueArg<T> = T | ((prev: T) => T)
 
-export function useBrowserStorage<T>(options: LocalStorageOptions<T>) {
+export const useBrowserStorage = <T>(options: LocalStorageOptions<T>) => {
   const storage =
     typeof window === 'undefined'
       ? undefined
@@ -64,7 +64,7 @@ export function useBrowserStorage<T>(options: LocalStorageOptions<T>) {
     }
   }
 
-  useEffect(function storageListener() {
+  useEffect(() => {
     const abortController = new AbortController()
     syncStorage()
     window.addEventListener('storage', subscribeToStorage, {

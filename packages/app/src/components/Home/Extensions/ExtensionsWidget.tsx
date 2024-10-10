@@ -2,14 +2,17 @@ import { Box, Card, CardContent, Stack, Typography } from '@mui/material'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { DiscordIcon } from '../../common/Icons/DiscordIcon'
-import CodeClimbersIconButton from '../../common/CodeClimbersIconButton'
-import extensionsService from '../../../services/extensions.service'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
-import contributorsService from '../../../services/contributors.service'
 import {
   SimpleInfoCard,
   SimpleInfoCardProps,
 } from '../../common/SimpleInfoCard'
+import { getSpotlight } from '../../../services/contributors.service'
+import {
+  getNewestExtension,
+  getPopularExtension,
+} from '../../../services/extensions.service'
+import { CodeClimbersIconButton } from '../../common/CodeClimbersIconButton'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
 
 const RESOURCES = [
   {
@@ -24,11 +27,11 @@ const RESOURCES = [
   },
 ]
 
-const spotlightContributor = contributorsService.getSpotlight()
+const spotlightContributor = getSpotlight()
 
 export const ExtensionsWidget = () => {
-  const newestExtension = extensionsService.getNewestExtension()
-  const popularExtension = extensionsService.getPopularExtension()
+  const newestExtension = getNewestExtension()
+  const popularExtension = getPopularExtension()
   const extensionCardData: SimpleInfoCardProps[] = []
 
   if (popularExtension) {

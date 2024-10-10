@@ -1,3 +1,1 @@
-import SqlSandbox from './SqlSandbox'
-
-export default SqlSandbox
+export { SqlSandbox } from './SqlSandbox'

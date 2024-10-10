@@ -1,13 +1,14 @@
 import { Box, Card, CardContent } from '@mui/material'
-import extensionsService, {
+import Grid2 from '@mui/material/Unstable_Grid2'
+import { useNavigate } from 'react-router-dom'
+import {
+  getActiveDashboardExtensions,
   DashboardExtension,
 } from '../../services/extensions.service'
-import Grid2 from '@mui/material/Unstable_Grid2'
-import CodeClimbersButton from '../common/CodeClimbersButton'
-import { useNavigate } from 'react-router-dom'
+import { CodeClimbersButton } from '../common/CodeClimbersButton'
 
 export const ExtensionsDashboard = () => {
-  const extensions = extensionsService.getActiveDashboardExtensions()
+  const extensions = getActiveDashboardExtensions()
   const navigate = useNavigate()
 
   const ExtensionCard = ({ extension }: { extension: DashboardExtension }) => {

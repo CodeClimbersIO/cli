@@ -5,9 +5,9 @@ import {
   CODE_CLIMBER_META_DIR,
   NODE_PATH,
 } from '../../../utils/node.util'
-import startupUtil from './startup.util'
+import { getServiceLib } from './startup.util'
 import { isDev } from '../../../utils/environment.util'
-const { Service } = startupUtil.getServiceLib()
+const { Service } = getServiceLib()
 
 @Injectable()
 export class DarwinStartupService implements CodeClimbers.StartupService {

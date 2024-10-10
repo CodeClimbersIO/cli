@@ -19,7 +19,7 @@ import { CodeClimberError } from './codeClimberErrors'
 import { existsSync } from 'node:fs'
 import { v4 as uuidv4 } from 'uuid'
 
-export async function isValidLocalApiKey(apiKey: string): Promise<boolean> {
+export const isValidLocalApiKey = async (apiKey: string): Promise<boolean> => {
   try {
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
     if (iniConfig.settings.local_api_key !== apiKey) {
@@ -35,7 +35,7 @@ export async function isValidLocalApiKey(apiKey: string): Promise<boolean> {
   }
 }
 
-async function setLocalApiKey(apiKey: string): Promise<void> {
+export const setLocalApiKey = async (apiKey: string): Promise<void> => {
   try {
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
     iniConfig.settings.local_api_key = apiKey
@@ -47,7 +47,9 @@ async function setLocalApiKey(apiKey: string): Promise<void> {
   }
 }
 
-export async function getLocalApiKey(isAdmin = false): Promise<string | null> {
+export const getLocalApiKey = async (
+  isAdmin = false,
+): Promise<string | null> => {
   try {
     if (!existsSync(CODE_CLIMBER_INI_PATH)) {
       const iniContent = stringifyIni({ settings: {} })
@@ -77,7 +79,9 @@ export async function getLocalApiKey(isAdmin = false): Promise<string | null> {
   }
 }
 
-export async function setLocalApiKeyReadable(readable: boolean): Promise<void> {
+export const setLocalApiKeyReadable = async (
+  readable: boolean,
+): Promise<void> => {
   try {
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
     iniConfig.settings.local_api_key_readable = readable.toString()

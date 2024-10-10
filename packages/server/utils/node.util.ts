@@ -116,7 +116,7 @@ class LinuxNodeUtil extends BaseNodeUtil {
   }
 }
 
-function createNodeUtil(): INodeUtil {
+const createNodeUtil = (): INodeUtil => {
   switch (process.platform) {
     case 'darwin':
       return new DarwinNodeUtil()
@@ -158,5 +158,4 @@ const logPaths = () => {
 
 logPaths()
 
-// Default export
-export default nodeUtil
+export { nodeUtil }

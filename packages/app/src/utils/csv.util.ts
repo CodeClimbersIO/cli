@@ -20,7 +20,4 @@ const downloadBlob = (blob: Blob, filename = 'data.csv') => {
   window.URL.revokeObjectURL(encodedUri)
 }
 
-export default {
-  convertRecordsToCSV,
-  downloadBlob,
-}
+export { convertRecordsToCSV, downloadBlob }

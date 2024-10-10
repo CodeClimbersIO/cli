@@ -5,20 +5,21 @@ import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined'
 import AddIcon from '@mui/icons-material/Add'
 import { Dayjs } from 'dayjs'
 
+import { supportedSources } from '../../../utils/supportedSources'
+import { supportedSites } from '../../../utils/supportedSites'
+import { SiteRow } from './SiteRow'
+import { SourceRow } from './SourceRow'
+import { AddSources } from './AddSources'
 import {
   useExportPulses,
   useGetSitesWithMinutes,
   useGetSourcesWithMinutes,
 } from '../../../services/pulse.service'
-import { AppDetails, supportedSources } from '../../../utils/supportedSources'
-import SourcesEmpty from './Sources.empty'
-import SourcesError from './Sources.error'
-import SourcesLoading from './Sources.loading'
-import AddSources from './AddSources'
-import { supportedSites } from '../../../utils/supportedSites'
-import { SiteRow } from './SiteRow'
-import { SourceRow } from './SourceRow'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
+import { SourcesEmpty } from './Sources.empty'
+import { SourcesError } from './Sources.error'
+import { SourcesLoading } from './Sources.loading'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
+import { AppDetails } from '../../../utils/supportedSources'
 
 type SourcesProps = { selectedDate: Dayjs }
 const Sources = ({ selectedDate }: SourcesProps) => {
@@ -181,4 +182,4 @@ const Sources = ({ selectedDate }: SourcesProps) => {
   )
 }
 
-export default Sources
+export { Sources }

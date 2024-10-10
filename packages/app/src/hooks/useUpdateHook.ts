@@ -1,6 +1,6 @@
 import { useGetLocalVersion } from '../services/health.service'
 import { useLatestVersion } from '../services/version.service'
-import environmentUtil from '../utils/environment.util'
+import { extractVersions } from '../utils/environment.util'
 
 export const useUpdateVersionHook = () => {
   const { data: localVersionResponse } = useGetLocalVersion()
@@ -11,12 +11,12 @@ export const useUpdateVersionHook = () => {
     major: remoteMajor,
     minor: remoteMinor,
     patch: remotePatch,
-  } = environmentUtil.extractVersions(remoteVersion.data ?? '')
+  } = extractVersions(remoteVersion.data ?? '')
   const {
     major: localMajor,
     minor: localMinor,
     patch: localPatch,
-  } = environmentUtil.extractVersions(localVersion ?? '')
+  } = extractVersions(localVersion ?? '')
 
   const isMajorUpdate = remoteMajor > localMajor
   const isMinorUpdate = remoteMinor > localMinor

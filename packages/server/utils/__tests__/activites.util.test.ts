@@ -1,4 +1,4 @@
-import activitiesUtil from '../activities.util'
+import { getSourceFromUserAgent } from '../activities.util'
 
 describe('getSourceFromUserAgent', () => {
   it(`should return 'vscode' as source of userAgents`, () => {
@@ -10,7 +10,7 @@ describe('getSourceFromUserAgent', () => {
     ]
 
     const result = userAgents.map((userAgent) => {
-      return activitiesUtil.getSourceFromUserAgent(userAgent)
+      return getSourceFromUserAgent(userAgent)
     })
 
     expect(result).toEqual(['vscode', 'vscode', 'vscode', 'vscode'])

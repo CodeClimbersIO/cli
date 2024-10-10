@@ -5,10 +5,10 @@ import { dirname, join } from 'path'
 const cache: Record<string, string> = {}
 
 // Utility function to read file content and return it as a string
-async function getFileContentAsString(
+const getFileContentAsString = async (
   fileName: string,
   additionalPath = 'queries',
-) {
+) => {
   try {
     // Dynamically determine the directory of the caller
     // Create a new Error and use its stack trace
@@ -44,6 +44,4 @@ async function getFileContentAsString(
   }
 }
 
-export default {
-  getFileContentAsString,
-}
+export { getFileContentAsString }

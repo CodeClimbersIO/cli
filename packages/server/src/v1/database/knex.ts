@@ -15,9 +15,9 @@ import { initDBDir, DB_PATH, BIN_PATH } from '../../../utils/node.util'
 const deepMapKeys = function (obj: any, fn: any) {
   const x: { [key: string]: any } = {}
 
-  forOwn(obj, function (v, k) {
+  forOwn(obj, (v, k) => {
     if (Array.isArray(v)) {
-      v = v.map(function (x) {
+      v = v.map((x) => {
         return isPlainObject(x) ? deepMapKeys(x, fn) : x
       })
     }

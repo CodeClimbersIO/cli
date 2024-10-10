@@ -1,10 +1,10 @@
 import { useBetterQuery } from '.'
-import environmentUtil from '../utils/environment.util'
+import { getFEEnvironment } from '../utils/environment.util'
 
 const THREE_MINUTES = 3 * 60 * 1_000
 
-export function useLatestVersion(enabled = true) {
-  const environment = environmentUtil.getFEEnvironment()
+export const useLatestVersion = (enabled = true) => {
+  const environment = getFEEnvironment()
 
   const packageJsonUrl =
     environment === 'release'

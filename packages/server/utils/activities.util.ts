@@ -16,7 +16,7 @@ const cyrb53 = (str: string, seed = 0) => {
   return 4294967296 * (2097151 & h2) + (h1 >>> 0)
 }
 
-const calculatePulseHash = (
+export const calculatePulseHash = (
   pulse: CodeClimbers.CreateWakatimePulseDto,
 ): number => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -34,7 +34,9 @@ const calculatePulseHash = (
   return hash
 }
 
-function filterUniqueByHash(arr: CodeClimbers.Pulse[]) {
+export const filterUniqueByHash = (
+  arr: CodeClimbers.Pulse[],
+): CodeClimbers.Pulse[] => {
   const uniqueMap = new Map()
 
   return arr.filter((obj) => {
@@ -46,7 +48,7 @@ function filterUniqueByHash(arr: CodeClimbers.Pulse[]) {
   })
 }
 
-function pulseSuccessResponse(n: number) {
+export const pulseSuccessResponse = (n: number) => {
   const responses = [...Array(n).keys()].map((i) => [null, 201])
 
   return {
@@ -54,7 +56,7 @@ function pulseSuccessResponse(n: number) {
   }
 }
 
-function defaultStatusBar(): CodeClimbers.ActivitiesStatusBar {
+export const defaultStatusBar = (): CodeClimbers.ActivitiesStatusBar => {
   const now = dayjs()
 
   return {
@@ -86,10 +88,10 @@ function defaultStatusBar(): CodeClimbers.ActivitiesStatusBar {
     cached_at: now.toISOString(),
   }
 }
-function getStatusByKey(
+export const getStatusByKey = (
   data: CodeClimbers.WakatimePulseStatusDao[],
   dataKey: string,
-): CodeClimbers.ActivitiesDetail[] {
+): CodeClimbers.ActivitiesDetail[] => {
   const keyWithoutS = dataKey.replace(/s$/, '')
   const groupedData = groupBy(data, keyWithoutS)
   return Object.keys(groupedData).map((key: string) => {
@@ -117,10 +119,10 @@ function getStatusByKey(
   })
 }
 
-function mapStatusBarRawToDto(
+export const mapStatusBarRawToDto = (
   statusBarRaw: CodeClimbers.WakatimePulseStatusDao[],
   dayTotalMinutes: number,
-): CodeClimbers.ActivitiesStatusBar {
+): CodeClimbers.ActivitiesStatusBar => {
   if (statusBarRaw.length <= 0) return defaultStatusBar()
   const now = new Date()
 
@@ -169,7 +171,9 @@ function mapStatusBarRawToDto(
   return statusbar
 }
 
-function getSourceFromUserAgent(userAgent: string): string | undefined {
+export const getSourceFromUserAgent = (
+  userAgent: string,
+): string | undefined => {
   const sourceRegex = /.*?\/.*?\s([^0-9]*)\//
   const match = userAgent.match(sourceRegex)
   if (match) {
@@ -177,13 +181,4 @@ function getSourceFromUserAgent(userAgent: string): string | undefined {
   }
 
   return undefined
-}
-
-export default {
-  mapStatusBarRawToDto,
-  calculatePulseHash,
-  filterUniqueByHash,
-  pulseSuccessResponse,
-  cyrb53,
-  getSourceFromUserAgent,
 }

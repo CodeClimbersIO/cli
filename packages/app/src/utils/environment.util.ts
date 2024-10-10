@@ -22,7 +22,7 @@ const getFEEnvironment = (): FEEnvironment => {
   return 'unknown'
 }
 
-export default {
+export {
   isBrowserCli,
   extractVersions,
   isReleaseSite,

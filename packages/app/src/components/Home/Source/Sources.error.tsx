@@ -23,4 +23,4 @@ const SourcesError = () => {
   )
 }
 
-export default SourcesError
+export { SourcesError }

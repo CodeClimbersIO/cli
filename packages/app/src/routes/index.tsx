@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes'
 import { useVersionConsoleBanner } from '../hooks/useVersionConsole'
 
-function AppRouter() {
+const AppRouter = () => {
   useVersionConsoleBanner()
   return (
     <>
@@ -13,4 +13,4 @@ function AppRouter() {
   )
 }
 
-export default AppRouter
+export { AppRouter }

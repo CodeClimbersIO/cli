@@ -31,3 +31,9 @@ bin/daemon
 
 # firebase cache
 .firebase/hosting.*
+
+# npm pack and tarball files
+*.tgz
+
+# mock install
+codeclimbers_install_*

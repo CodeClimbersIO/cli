@@ -1,9 +1,9 @@
 import { Card, CardContent, Stack, Typography, useTheme } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import AddSources from './AddSources'
 import { useState } from 'react'
 import { rgbAnimatedBorder } from '../../../utils/style/rgbAnimation'
-import CodeClimbersButton from '../../common/CodeClimbersButton'
+import { AddSources } from './AddSources'
+import { CodeClimbersButton } from '../../common/CodeClimbersButton'
 
 const SourcesEmpty = () => {
   const [addSourcesOpen, setAddSourcesOpen] = useState(false)
@@ -62,4 +62,4 @@ const SourcesEmpty = () => {
   )
 }
 
-export default SourcesEmpty
+export { SourcesEmpty }

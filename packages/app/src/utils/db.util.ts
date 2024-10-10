@@ -7,11 +7,10 @@ import {
   CompiledQuery,
 } from 'kysely'
 
-interface Database {
-  activities_pulse: CodeClimbers.PulseDB
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Database = Record<string, any>
 
-const db = new Kysely<Database>({
+export const db = new Kysely<Database>({
   dialect: {
     createAdapter: () => new PostgresAdapter(),
     createDriver: () => new DummyDriver(),
@@ -28,7 +27,7 @@ declare module 'kysely' {
 }
 
 // Implement the sqlWithBindings method
-function sqlWithBindings(compiledQuery: CompiledQuery): string {
+export const sqlWithBindings = (compiledQuery: CompiledQuery): string => {
   let sql = compiledQuery.sql
   const parameters = compiledQuery.parameters
 
@@ -53,9 +52,4 @@ function sqlWithBindings(compiledQuery: CompiledQuery): string {
   })
 
   return sql
-}
-
-export default {
-  db,
-  sqlWithBindings,
 }

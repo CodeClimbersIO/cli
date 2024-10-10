@@ -19,6 +19,7 @@ const SQL = `--sql
     origin_id        varchar(255),
     created_at       timestamp(3),
     description      text
+    
   );
 `
 exports.up = function (knex) {
