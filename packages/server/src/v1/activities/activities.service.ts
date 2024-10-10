@@ -131,7 +131,6 @@ export class ActivitiesService {
             ? userAgent.lastActive
             : max
         }, new Date(0).toISOString())
-
       return { name: source, lastActive: maxLastActive }
     })
   }
@@ -145,14 +144,12 @@ export class ActivitiesService {
       startDate,
       endDate,
     )
-
     return Object.keys(sourcesWithMinutes)
       .map((key) => {
         const lastActive =
           userSources.find((source) =>
             source.name.toLowerCase().includes(key.toLowerCase()),
           )?.lastActive ?? null
-
         if (lastActive === null) return null
 
         return {

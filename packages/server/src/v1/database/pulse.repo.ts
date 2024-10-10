@@ -171,14 +171,15 @@ export class PulseRepo {
       'safari',
       'linear',
       'notion',
-      'jetbrainsrider',
-      'jetbrainswebstorm',
+      'webstorm',
+      'intellij',
+      'pycharm',
       'microsoftTeams',
       'arc',
       'zoom',
     ]
 
-    return await this.knex(this.tableName)
+    const query = this.knex(this.tableName)
       .with(
         'getSourceMinutes',
         this.knex(this.tableName)
@@ -200,6 +201,8 @@ export class PulseRepo {
       )
       .from('getSourceMinutes')
       .first()
+
+    return query
   }
 
   async getSitesMinutes(

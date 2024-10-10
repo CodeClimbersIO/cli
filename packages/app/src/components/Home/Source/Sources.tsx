@@ -19,6 +19,7 @@ import { SourcesEmpty } from './Sources.empty'
 import { SourcesError } from './Sources.error'
 import { SourcesLoading } from './Sources.loading'
 import { CodeClimbersButton } from '../../common/CodeClimbersButton'
+import { AppDetails } from '../../../utils/supportedSources'
 
 type SourcesProps = { selectedDate: Dayjs }
 const Sources = ({ selectedDate }: SourcesProps) => {
@@ -94,12 +95,22 @@ const Sources = ({ selectedDate }: SourcesProps) => {
               </Stack>
               <Stack direction="column" marginTop="24px" gap={3}>
                 {sourcesWithMinutes.map((source, index) => {
-                  const sourceDetails = supportedSources.find(
+                  let sourceDetails = supportedSources.find(
                     (supportedSource) =>
-                      supportedSource.name.includes(source.name),
-                  )
+                      supportedSource.name.includes(source.name) ||
+                      supportedSource.subApps?.some(
+                        (subApp) => subApp.name === source.name,
+                      ),
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  ) as any
 
-                  if (sourceDetails) {
+                  if (sourceDetails?.subApps) {
+                    sourceDetails = sourceDetails.subApps.find(
+                      (subApp: AppDetails) => subApp.name === source.name,
+                    )
+                  }
+
+                  if (sourceDetails && source.minutes > 0) {
                     return (
                       <SourceRow
                         key={index}
