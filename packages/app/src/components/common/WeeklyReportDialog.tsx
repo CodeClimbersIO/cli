@@ -7,15 +7,15 @@ import {
   Card,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import CodeClimbersButton from './CodeClimbersButton'
-import CodeClimbersIconButton from './CodeClimbersIconButton'
 import { useState } from 'react'
 
 import { BossImage } from './Icons/BossImage'
 import { BarChartIcon } from './Icons/BarChartIcon'
 import { BlockIcon } from './Icons/BlockIcon'
-import userApi from '../../api/user.api'
 import { NotificationIcon } from './Icons/NotificationIcon'
+import { CodeClimbersButton } from './CodeClimbersButton'
+import { CodeClimbersIconButton } from './CodeClimbersIconButton'
+import { useUpdateUser, useUpdateUserSettings } from '../../api/user.api'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
@@ -97,8 +97,8 @@ export const WeeklyReportDialog = ({
   user: CodeClimbers.User & CodeClimbers.UserSettings
   onClose: () => void
 }) => {
-  const { mutate: updateUserSettings } = userApi.useUpdateUserSettings()
-  const { mutate: updateUser } = userApi.useUpdateUser()
+  const { mutate: updateUserSettings } = useUpdateUserSettings()
+  const { mutate: updateUser } = useUpdateUser()
 
   const handleClose = () => {
     onClose()
