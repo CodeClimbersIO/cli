@@ -38,7 +38,7 @@ export class PulseRepo {
 
   getMinutesInRangeQuery(startDate: Date, endDate: Date) {
     return this.knex<MinutesQuery[]>(this.tableName)
-      .select('category', this.knex.raw('count(*) * 2 as minutes'))
+      .select('category')
       .from(this.tableName)
       .whereBetween('time', [startDate.toISOString(), endDate.toISOString()])
       .groupBy(['category', this.knex.raw("strftime('%s', time) / 120")])
@@ -78,6 +78,7 @@ export class PulseRepo {
   ): Promise<CodeClimbers.TimeOverview[]> {
     const startDateParsed = new Date(startDate)
     const endDateParsed = new Date(endDate)
+
     return this.knex<CodeClimbers.TimeOverviewDao[]>(this.tableName)
       .with(
         'getMinutes',
