@@ -1,5 +1,9 @@
 import { Dayjs } from 'dayjs'
-import { getDeepWork, getTimeByProjectAndRange } from '../repos/pulse.repo'
+import {
+  getDeepWork,
+  getTimeByEntityAndRange,
+  getTimeByProjectAndRange,
+} from '../repos/pulse.repo'
 import { sqlQueryFn } from './query.service'
 
 interface DeepWorkPeriod {
@@ -65,7 +69,6 @@ const getProjectsTimeByRange = async (
     projectsTimeSql,
     'getProjectsTimeByRange',
   )
-  console.log(records)
   return records.reduce((acc, row) => {
     if (!acc[row.category]) {
       acc[row.category] = []
@@ -77,4 +80,40 @@ const getProjectsTimeByRange = async (
   }, {} as CodeClimbers.PerProjectTimeOverview)
 }
 
-export { getDeepWorkBetweenDates, getProjectsTimeByRange }
+const getSocialMediaTimeByRange = async (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedEndDate?.endOf('day').toISOString()
+
+  const entityTimeSql = getTimeByEntityAndRange(startDate, endDate)
+
+  const records: CodeClimbers.EntityTimeOverviewDB[] = await sqlQueryFn(
+    entityTimeSql,
+    'getSocialMediaTimeByRange',
+  )
+
+  const sites = [
+    'facebook',
+    'instagram',
+    'twitter',
+    'linkedin',
+    'tiktok',
+    'snapchat',
+    'youtube',
+    'twitch',
+    'pinterest',
+  ]
+
+  const socialMediaTimes = records.filter((row) =>
+    sites.includes(row.entity.toLowerCase()),
+  )
+  return socialMediaTimes
+}
+
+export {
+  getDeepWorkBetweenDates,
+  getProjectsTimeByRange,
+  getSocialMediaTimeByRange,
+}

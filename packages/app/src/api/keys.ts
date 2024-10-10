@@ -7,6 +7,8 @@ export const pulseKeys = {
     ['deepWork', startDate, endDate] as const,
   projectsTimeByRange: (startDate: string, endDate: string) =>
     ['projectsTimeByRange', startDate, endDate] as const,
+  socialMediaTimeByRange: (startDate: string, endDate: string) =>
+    ['socialMediaTimeByRange', startDate, endDate] as const,
   categoryTimeOverview: (startDate: string, endDate: string) =>
     ['categoryTimeOverview', startDate, endDate] as const,
   sourcesMinutes: (startDate: string, endDate: string) =>

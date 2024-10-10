@@ -5,4 +5,9 @@ namespace CodeClimbers {
     minutes: number
     name: string
   }
+
+  export interface EntityTimeOverviewDB {
+    entity: string
+    minutes: number
+  }
 }

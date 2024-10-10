@@ -4,6 +4,7 @@ import { pulseKeys } from './keys'
 import {
   getDeepWorkBetweenDates,
   getProjectsTimeByRange,
+  getSocialMediaTimeByRange,
 } from './services/pulse.service'
 
 interface DeepWorkPeriod {
@@ -42,4 +43,22 @@ const useProjectsTimeByRange = (
     enabled: !!selectedStartDate && !!selectedEndDate,
   })
 }
-export { useDeepWorkV2, useProjectsTimeByRange }
+
+const useGetSocialMediaTimeByRange = (
+  selectedStartDate: Dayjs,
+  selectedEndDate: Dayjs,
+) => {
+  const startDate = selectedStartDate?.startOf('day').toISOString()
+  const endDate = selectedEndDate?.endOf('day').toISOString()
+
+  const queryFn = () =>
+    getSocialMediaTimeByRange(selectedStartDate, selectedEndDate)
+
+  return useBetterQuery<CodeClimbers.EntityTimeOverviewDB[], Error>({
+    queryKey: pulseKeys.socialMediaTimeByRange(startDate, endDate),
+    queryFn,
+    enabled: !!selectedStartDate && !!selectedEndDate,
+  })
+}
+
+export { useDeepWorkV2, useProjectsTimeByRange, useGetSocialMediaTimeByRange }
