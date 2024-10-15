@@ -8,7 +8,7 @@ import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 import { Sources } from './Source/Sources'
-import { HomeHeader } from './HomeHeader'
+import { DateHeader } from './DateHeader'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -21,7 +21,7 @@ const HomePage = () => {
 
   return (
     <div style={{ padding: '2rem' }}>
-      <HomeHeader
+      <DateHeader
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />

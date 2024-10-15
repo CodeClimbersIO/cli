@@ -254,7 +254,7 @@ export class ActivitiesService {
   async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.PerProjectTimeOverview> {
+  ): Promise<CodeClimbers.PerProjectTimeAndCategoryOverview> {
     return await this.pulseRepo.getPerProjectOverviewTopThree(
       startDate,
       endDate,

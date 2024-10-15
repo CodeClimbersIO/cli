@@ -14,7 +14,7 @@ import {
   useCategoryTimeOverview,
   useWeekOverview,
 } from '../../../services/pulse.service'
-import { useProjectsTimeByRange } from '../../../api/pulse.api'
+import { useProjectsTimeByRangeAndCategory } from '../../../api/pulse.api'
 
 const categories = {
   coding: 'coding',
@@ -41,7 +41,7 @@ const CategoryChart = ({ selectedDate }: Props) => {
     useWeekOverview(selectedDate?.toISOString() ?? '')
 
   const { isLoading: isLoadingProjects, data: projects } =
-    useProjectsTimeByRange(selectedDate, selectedDate.endOf('day'))
+    useProjectsTimeByRangeAndCategory(selectedDate, selectedDate.endOf('day'))
 
   useEffect(() => {
     if (todayOverview.length > 0)

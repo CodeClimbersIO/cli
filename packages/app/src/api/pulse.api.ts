@@ -4,7 +4,7 @@ import { pulseKeys } from './keys'
 import {
   getCategoryTimeByRange,
   getDeepWorkBetweenDates,
-  getProjectsTimeByRange,
+  getProjectsTimeByRangeAndCategory,
   getSocialMediaTimeByRange,
   getTotalTimeByRange,
 } from './services/pulse.service'
@@ -29,7 +29,7 @@ const useDeepWorkV2 = (selectedStartDate: Dayjs, selectedEndDate: Dayjs) => {
   })
 }
 
-const useProjectsTimeByRange = (
+const useProjectsTimeByRangeAndCategory = (
   selectedStartDate: Dayjs,
   selectedEndDate: Dayjs,
 ) => {
@@ -37,10 +37,10 @@ const useProjectsTimeByRange = (
   const endDate = selectedEndDate?.endOf('day').toISOString()
 
   const queryFn = () =>
-    getProjectsTimeByRange(selectedStartDate, selectedEndDate)
+    getProjectsTimeByRangeAndCategory(selectedStartDate, selectedEndDate)
 
-  return useBetterQuery<CodeClimbers.PerProjectTimeOverview, Error>({
-    queryKey: pulseKeys.projectsTimeByRange(startDate, endDate),
+  return useBetterQuery<CodeClimbers.PerProjectTimeAndCategoryOverview, Error>({
+    queryKey: pulseKeys.projectsTimeByRangeAndCategory(startDate, endDate),
     queryFn,
     enabled: !!selectedStartDate && !!selectedEndDate,
   })
@@ -95,9 +95,10 @@ const useTotalTimeByRange = (
     enabled: !!selectedStartDate && !!selectedEndDate,
   })
 }
+
 export {
   useDeepWorkV2,
-  useProjectsTimeByRange,
+  useProjectsTimeByRangeAndCategory,
   useGetSocialMediaTimeByRange,
   useCategoryTimeByRange,
   useTotalTimeByRange,

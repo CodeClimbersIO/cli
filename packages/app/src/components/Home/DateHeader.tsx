@@ -13,6 +13,7 @@ import { Logo } from '../common/Logo/Logo'
 import {
   ChevronLeft,
   ChevronRight,
+  Close,
   DarkMode,
   LightMode,
 } from '@mui/icons-material'
@@ -48,10 +49,17 @@ const LeftWrapper = styled('div')(({ theme }) => ({
 type Props = {
   selectedDate: Dayjs
   setSelectedDate: (date: Dayjs) => void
+  period?: 'day' | 'week' | 'month' | 'year'
+  title?: string
 }
 
-const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
-  const today = dayjs().startOf('day')
+const DateHeader = ({
+  selectedDate,
+  setSelectedDate,
+  period = 'day',
+  title,
+}: Props) => {
+  const today = dayjs().startOf(period)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const navigate = useNavigate()
@@ -66,16 +74,20 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
   }
 
   const formatDate = () => {
-    return selectedDate.format('ddd, MMMM D')
+    if (period === 'week') {
+      // week formated as "Oct 7 - Oct 13"
+      return `${selectedDate.format('MMM D')} - ${selectedDate.endOf('week').format('MMM D')}`
+    }
+    return selectedDate.format('MMMM D, YYYY')
   }
 
   const increaseDate = () => {
-    const newDate = selectedDate.add(1, 'day')
+    const newDate = selectedDate.add(1, period)
     setSelectedDate(newDate.startOf('day'))
   }
 
   const decreaseDate = () => {
-    const newDate = selectedDate.subtract(1, 'day')
+    const newDate = selectedDate.subtract(1, period)
     setSelectedDate(newDate.startOf('day'))
   }
 
@@ -133,6 +145,20 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
             </Typography>
           </Box>
         </LeftWrapper>
+        {title && (
+          <Box display="flex" flexDirection="row" gap={2}>
+            <CodeClimbersButton
+              variant="text"
+              onClick={handleClick}
+              eventName="plain_header_logo_click"
+              sx={{ textTransform: 'none' }}
+              color="inherit"
+            >
+              <Typography sx={{ mr: 2 }}>{title}</Typography>
+              <Close />
+            </CodeClimbersButton>
+          </Box>
+        )}
       </Header>
       <Menu
         id="menu-popover"
@@ -155,4 +181,4 @@ const HomeHeader = ({ selectedDate, setSelectedDate }: Props) => {
   )
 }
 
-export { HomeHeader }
+export { DateHeader }

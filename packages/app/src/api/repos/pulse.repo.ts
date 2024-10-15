@@ -25,7 +25,10 @@ const getDeepWork = (startDate: string, endDate: string) => {
   return query
 }
 
-const getTimeByProjectAndRange = (startDate: string, endDate: string) => {
+const getTimeByProjectCategoryAndRange = (
+  startDate: string,
+  endDate: string,
+) => {
   const query = `
   with get_minutes as 
   (
@@ -37,6 +40,22 @@ const getTimeByProjectAndRange = (startDate: string, endDate: string) => {
     from get_minutes 
     group by category, project 
     order by category asc, minutes desc 
+  `
+  return query
+}
+
+const getTimeByProjectAndRange = (startDate: string, endDate: string) => {
+  const query = `
+  with get_minutes as 
+  (
+    select project from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by  project, strftime('%s', time) / 120
+  ) 
+  select project as name, count() * 2 as minutes 
+    from get_minutes 
+    group by project 
+    order by minutes desc 
   `
   return query
 }
@@ -72,10 +91,12 @@ const getTimeByCategoryAndRange = (startDate: string, endDate: string) => {
   `
   return query
 }
+
 export {
   getAllPulses,
   getLatestPulses,
   getDeepWork,
+  getTimeByProjectCategoryAndRange,
   getTimeByProjectAndRange,
   getTimeByEntityAndRange,
   getTimeByCategoryAndRange,
