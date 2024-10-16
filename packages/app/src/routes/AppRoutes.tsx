@@ -8,7 +8,7 @@ import { getActiveDashboardExtensionRoutes } from '../services/extensions.servic
 import { InstallPage } from '../components/InstallPage'
 import { DashboardLayout } from '../layouts/DashboardLayout'
 import { ImportLayout } from '../layouts/ImportLayout'
-import { ReportsPage } from '../components/ReportsPage'
+import { ReportsPage } from '../components/WeeklyReports/ReportsPage'
 import { HomePage } from '../components/Home/HomePage'
 
 export const AppRoutes = () => {

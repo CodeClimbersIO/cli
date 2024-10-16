@@ -88,6 +88,7 @@ const getProjectsTimeByRange = async (
     projectsTimeSql,
     'getProjectsTimeByRange',
   )
+
   return records
 }
 

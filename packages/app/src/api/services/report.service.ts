@@ -171,7 +171,7 @@ export const getWeeklyScores = async (startDate: Dayjs) => {
   return getScoresFromWeeklySummary(
     deepWorkTime,
     growthTime,
-    projectTime,
+    projectTime.filter(({ name }) => !name.toLowerCase().includes('<<')), // don't include <<LAST PROJECT>>
     socialMedia,
     totalTime,
   )
