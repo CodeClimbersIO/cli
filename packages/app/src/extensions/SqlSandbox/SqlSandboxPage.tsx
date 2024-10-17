@@ -45,7 +45,6 @@ export const SqlSandboxPage = () => {
 
   const onRunSql = async () => {
     const res = await runSql(sql)
-    console.log(res)
     setResults(res)
   }
 
