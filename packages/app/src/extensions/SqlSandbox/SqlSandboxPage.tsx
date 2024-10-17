@@ -45,6 +45,7 @@ export const SqlSandboxPage = () => {
 
   const onRunSql = async () => {
     const res = await runSql(sql)
+    console.log(res)
     setResults(res)
   }
 
@@ -194,7 +195,7 @@ export const SqlSandboxPage = () => {
                           },
                         }}
                       >
-                        {Object.entries(row).map(([value], cellIndex) => (
+                        {Object.entries(row).map(([_, value], cellIndex) => (
                           <TableCell
                             key={cellIndex}
                             sx={{
