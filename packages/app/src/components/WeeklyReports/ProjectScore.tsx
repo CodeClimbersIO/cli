@@ -42,6 +42,7 @@ export const ProjectScore = ({ projectScore }: Props) => {
         >
           {data.length > 0 ? (
             <WeeklyBarGraph
+              rating={projectScore.rating}
               data={data}
               ariaLabel="Project time breakdown"
               barAriaLabel={(e) =>

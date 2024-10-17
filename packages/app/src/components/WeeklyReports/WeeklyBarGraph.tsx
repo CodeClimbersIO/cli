@@ -1,7 +1,10 @@
 import { useTheme } from '@mui/material'
 import { BarDatum, ResponsiveBar, ResponsiveBarSvgProps } from '@nivo/bar'
+import { getColorForRating } from '../../api/services/report.service'
 
-type Props = ResponsiveBarSvgProps<BarDatum>
+type Props = ResponsiveBarSvgProps<BarDatum> & {
+  rating: CodeClimbers.WeeklyScoreRating
+}
 
 export const WeeklyBarGraph = (props: Props) => {
   const formatMinutes = (minutes: number | string) => {
@@ -11,9 +14,17 @@ export const WeeklyBarGraph = (props: Props) => {
     return `${hours}h ${remainingMinutes}m`
   }
   const theme = useTheme()
+  const color = getColorForRating(props.rating)
+  const trimmedData = props.data.map((record) => {
+    if (typeof record.name === 'number') return record
+    const length = record.name.length
+    return {
+      ...record,
+      name: length > 13 ? `${record.name.slice(0, 12)}..` : record.name,
+    }
+  })
   return (
     <ResponsiveBar
-      {...props}
       role="application"
       keys={['minutes']}
       indexBy="name"
@@ -23,7 +34,7 @@ export const WeeklyBarGraph = (props: Props) => {
       isInteractive={false}
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
-      colors={`${theme.palette.graphColors.green}20`}
+      colors={`${color.main}20`}
       axisTop={null}
       axisRight={null}
       layout="vertical"
@@ -39,15 +50,15 @@ export const WeeklyBarGraph = (props: Props) => {
       legends={[]}
       defs={[
         {
-          id: 'greenGradient',
+          id: `${color.main}gradient`,
           type: 'linearGradient',
           colors: [
-            { offset: 0, color: `${theme.palette.graphColors.green}20` },
-            { offset: 100, color: `${theme.palette.graphColors.green}00` },
+            { offset: 0, color: `${color.main}20` },
+            { offset: 100, color: `${color.main}00` },
           ],
         },
       ]}
-      fill={[{ match: '*', id: 'greenGradient' }]}
+      fill={[{ match: '*', id: `${color.main}gradient` }]}
       theme={{
         axis: {
           ticks: {
@@ -90,7 +101,7 @@ export const WeeklyBarGraph = (props: Props) => {
                       y1={0}
                       x2={bar.width}
                       y2={0}
-                      stroke={theme.palette.graphColors.green}
+                      stroke={color.main}
                       strokeWidth={2}
                     />
                   </g>
@@ -100,6 +111,8 @@ export const WeeklyBarGraph = (props: Props) => {
           )
         },
       ]}
+      {...props}
+      data={trimmedData}
     />
   )
 }

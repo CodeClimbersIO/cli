@@ -119,8 +119,9 @@ const getSocialMediaTimeByRange = async (
   ]
 
   const socialMediaTimes = records.filter((row) =>
-    sites.includes(row.entity.toLowerCase()),
+    sites.some((site) => row.entity.toLowerCase().includes(site)),
   )
+
   return socialMediaTimes
 }
 
@@ -154,7 +155,7 @@ const getGrowthAndMasteryScore = async (
   ]
 
   const growthSites = records.filter((row) =>
-    sites.includes(row.entity.toLowerCase()),
+    sites.some((site) => row.entity.toLowerCase().includes(site)),
   )
   return growthSites
 }

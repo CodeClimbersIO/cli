@@ -71,7 +71,7 @@ const getTimeByEntityAndRange = (startDate: string, endDate: string) => {
   select entity, count() * 2 as minutes 
     from get_minutes 
     group by entity 
-    order by entity asc, minutes desc 
+    order by minutes desc 
   `
   return query
 }

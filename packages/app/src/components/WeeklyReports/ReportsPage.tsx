@@ -34,7 +34,7 @@ export const ReportsPage = () => {
             growthScore={{
               ...weeklyScores?.growthScore,
               breakdown: weeklyScores?.growthScore
-                .breakdown as CodeClimbers.PerProjectTimeOverviewDB[],
+                .breakdown as CodeClimbers.EntityTimeOverviewDB[],
             }}
           />
         </Stack>

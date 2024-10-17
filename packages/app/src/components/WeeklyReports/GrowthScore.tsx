@@ -5,16 +5,16 @@ import { EmptyState } from './EmptyState'
 
 interface Props {
   growthScore: CodeClimbers.WeeklyScore & {
-    breakdown: CodeClimbers.PerProjectTimeOverviewDB[]
+    breakdown: CodeClimbers.EntityTimeOverviewDB[]
   }
 }
 
 export const GrowthScore = ({ growthScore }: Props) => {
-  const top5Projects = growthScore.breakdown.slice(0, 5)
+  const top5Sites = growthScore.breakdown.slice(0, 5)
 
-  const data = top5Projects.map((project) => ({
-    name: project.name,
-    minutes: project.minutes,
+  const data = top5Sites.map((site) => ({
+    name: site.entity.split('//')[1] || site.entity,
+    minutes: site.minutes,
   }))
 
   return (
@@ -37,14 +37,16 @@ export const GrowthScore = ({ growthScore }: Props) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            height: '225px',
           }}
         >
           {data.length > 0 ? (
             <WeeklyBarGraph
+              rating={growthScore.rating}
               data={data}
-              ariaLabel="Project time breakdown"
+              ariaLabel="Growth time breakdown"
               barAriaLabel={(e) =>
-                `${e.id}: ${e.formattedValue} in project: ${e.indexValue}`
+                `${e.id}: ${e.formattedValue} in site: ${e.indexValue}`
               }
             />
           ) : (
