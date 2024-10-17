@@ -1,11 +1,12 @@
 import { Dayjs } from 'dayjs'
 import {
   getDeepWorkBetweenDates,
-  getMasteryAndGrowthByRange,
+  getGrowthAndMasteryScore,
   getProjectsTimeByRange,
   getSocialMediaTimeByRange,
   getTotalTimeByRange,
 } from './pulse.service'
+import { useTheme } from '@mui/material'
 
 const defaultScore = {
   score: 0,
@@ -39,7 +40,7 @@ const getScoresFromWeeklySummary = (
   // time is in minutes
   const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
     if (totalTime > 60 * 60) return { score: 0.5, rating: 'Alert' }
-    if (totalTime > 60 * 50) return { score: 2, rating: 'Nuetral' }
+    if (totalTime > 60 * 50) return { score: 2, rating: 'Neutral' }
     if (totalTime > 60 * 20) return { score: 2.5, rating: 'Positive' }
     return { score: 0.5, rating: 'Alert' }
   }
@@ -57,8 +58,8 @@ const getScoresFromWeeklySummary = (
     }
 
     if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time > 180) return { ...defaultScore, score: 2, rating: 'Nuetral' }
-    if (time > 60) return { ...defaultScore, score: 1, rating: 'Nuetral' }
+    if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
+    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
     return defaultScore
   }
 
@@ -72,12 +73,12 @@ const getScoresFromWeeklySummary = (
     const defaultScore: CodeClimbers.WeeklyScore = {
       score: 0.5,
       rating: 'Alert',
-      breakdown: projectTime,
+      breakdown: socialMediaTime,
     }
 
     if (time < 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time < 300) return { ...defaultScore, score: 2, rating: 'Nuetral' }
-    if (time < 420) return { ...defaultScore, score: 1, rating: 'Nuetral' }
+    if (time < 300) return { ...defaultScore, score: 2, rating: 'Neutral' }
+    if (time < 420) return { ...defaultScore, score: 1, rating: 'Neutral' }
     return defaultScore
   }
 
@@ -91,12 +92,12 @@ const getScoresFromWeeklySummary = (
     const defaultScore: CodeClimbers.WeeklyScore = {
       score: 0.5,
       rating: 'Alert',
-      breakdown: projectTime,
+      breakdown: growthTime,
     }
 
-    if (time < 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time < 180) return { ...defaultScore, score: 2, rating: 'Nuetral' }
-    if (time < 60) return { ...defaultScore, score: 1, rating: 'Nuetral' }
+    if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
+    if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
+    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
     return defaultScore
   }
 
@@ -111,12 +112,12 @@ const getScoresFromWeeklySummary = (
     const defaultScore: CodeClimbers.WeeklyScore = {
       score: 0.5,
       rating: 'Alert',
-      breakdown: projectTime,
+      breakdown: deepWorkTime,
     }
 
     if (time > 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time > 120) return { ...defaultScore, score: 2, rating: 'Nuetral' }
-    if (time > 60) return { ...defaultScore, score: 1, rating: 'Nuetral' }
+    if (time > 120) return { ...defaultScore, score: 2, rating: 'Neutral' }
+    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
     return defaultScore
   }
 
@@ -127,7 +128,6 @@ const getScoresFromWeeklySummary = (
   growthScore = growthTimeRubric(growthTime)
 
   const totalScoreRubric = (scoreTotal: number): CodeClimbers.WeeklyScore => {
-    console.log(scoreTotal)
     const defaultScore: CodeClimbers.WeeklyScore = {
       score: 0,
       rating: 'Alert',
@@ -136,7 +136,7 @@ const getScoresFromWeeklySummary = (
     if (scoreTotal > 7.5)
       return { ...defaultScore, rating: 'Positive', score: 2.5 }
     if (scoreTotal > 4)
-      return { ...defaultScore, rating: 'Nuetral', score: 1.5 }
+      return { ...defaultScore, rating: 'Neutral', score: 1.5 }
     return defaultScore
   }
 
@@ -162,7 +162,7 @@ export const getWeeklyScores = async (startDate: Dayjs) => {
   const [deepWorkTime, growthTime, socialMedia, totalTime, projectTime] =
     await Promise.all([
       getDeepWorkBetweenDates(startDate, endDate),
-      getMasteryAndGrowthByRange(startDate, endDate),
+      getGrowthAndMasteryScore(startDate, endDate),
       getSocialMediaTimeByRange(startDate, endDate),
       getTotalTimeByRange(startDate, endDate),
       getProjectsTimeByRange(startDate, endDate),
@@ -175,4 +175,27 @@ export const getWeeklyScores = async (startDate: Dayjs) => {
     socialMedia,
     totalTime,
   )
+}
+
+export const getColorForRating = (
+  rating: CodeClimbers.WeeklyScoreRating,
+): { main: string; accent: string } => {
+  const theme = useTheme()
+  switch (rating) {
+    case 'Positive':
+      return {
+        main: theme.palette.graphColors.green,
+        accent: theme.palette.graphColors.greenAccent,
+      }
+    case 'Alert':
+      return {
+        main: theme.palette.graphColors.orange,
+        accent: theme.palette.graphColors.orangeAccent,
+      }
+    case 'Neutral':
+      return {
+        main: theme.palette.graphColors.grey,
+        accent: theme.palette.graphColors.greyAccent,
+      }
+  }
 }

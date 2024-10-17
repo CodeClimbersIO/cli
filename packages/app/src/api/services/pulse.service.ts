@@ -124,18 +124,17 @@ const getSocialMediaTimeByRange = async (
   return socialMediaTimes
 }
 
-const getMasteryAndGrowthByRange = async (
+const getGrowthAndMasteryScore = async (
   selectedStartDate: Dayjs,
   selectedEndDate: Dayjs,
 ): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
   const startDate = selectedStartDate?.startOf('day').toISOString()
   const endDate = selectedEndDate?.endOf('day').toISOString()
-  console.log('growth')
   const entityTimeSql = getTimeByEntityAndRange(startDate, endDate)
 
   const records: CodeClimbers.EntityTimeOverviewDB[] = await sqlQueryFn(
     entityTimeSql,
-    'getMasteryAndGrowthByRange',
+    'getGrowthAndMasteryScore',
   )
 
   const sites = [
@@ -213,5 +212,5 @@ export {
   getCategoryTimeByRange,
   getTotalTimeByRange,
   getProjectsTimeByRange,
-  getMasteryAndGrowthByRange,
+  getGrowthAndMasteryScore,
 }

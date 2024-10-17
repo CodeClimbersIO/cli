@@ -6,7 +6,11 @@ interface GraphColors {
   blue: string
   purple: string
   green: string
+  greenAccent: string
   orange: string
+  orangeAccent: string
+  grey: string
+  greyAccent: string
   red: string
 }
 
@@ -91,7 +95,11 @@ const lightGraphColors: GraphColors = {
   blue: '#3892F3',
   purple: '#7E84FC',
   green: '#15A46E',
+  greenAccent: '#005132',
   orange: '#1F2122',
+  orangeAccent: '#7A2F00',
+  grey: '#414346',
+  greyAccent: '#1F2122',
   red: '#F75C46',
 }
 
@@ -99,7 +107,11 @@ const darkGraphColors: GraphColors = {
   blue: '#348FF4',
   purple: '#7C81FB',
   green: '#12A26C',
+  greenAccent: '#81E9B8',
   orange: '#E16D00',
+  orangeAccent: '#FDCE88',
+  grey: '#707070',
+  greyAccent: '#EBEBEB',
   red: '#F65843',
 }
 

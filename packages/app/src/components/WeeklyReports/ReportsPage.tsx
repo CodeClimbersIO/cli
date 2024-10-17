@@ -1,11 +1,10 @@
 import dayjs from 'dayjs'
-import { Box } from '@mui/material'
-import { useCategoryTimeByRange } from '../../api/pulse.api'
+import { Box, Stack } from '@mui/material'
 import { DateHeader } from '../Home/DateHeader'
 import { useState } from 'react'
 import { useGetWeeklyReport } from '../../api/report.api'
-import { Bar } from 'react-chartjs-2'
 import { ProjectScore } from './ProjectScore'
+import { GrowthScore } from './GrowthScore'
 
 export const ReportsPage = () => {
   const period = 'week'
@@ -22,13 +21,24 @@ export const ReportsPage = () => {
         period={period}
         title="Reports"
       />
-      <ProjectScore
-        projectScore={{
-          ...weeklyScores?.projectTimeScore,
-          breakdown: weeklyScores?.projectTimeScore
-            .breakdown as CodeClimbers.PerProjectTimeOverviewDB[],
-        }}
-      />
+      <Stack sx={{ alignItems: 'center' }}>
+        <Stack gap={3} sx={{ maxWidth: '500px', width: '100%' }}>
+          <ProjectScore
+            projectScore={{
+              ...weeklyScores?.projectTimeScore,
+              breakdown: weeklyScores?.projectTimeScore
+                .breakdown as CodeClimbers.PerProjectTimeOverviewDB[],
+            }}
+          />
+          <GrowthScore
+            growthScore={{
+              ...weeklyScores?.growthScore,
+              breakdown: weeklyScores?.growthScore
+                .breakdown as CodeClimbers.PerProjectTimeOverviewDB[],
+            }}
+          />
+        </Stack>
+      </Stack>
     </Box>
   )
 }

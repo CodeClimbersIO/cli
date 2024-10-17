@@ -13,7 +13,6 @@ import { dark, light } from './config/theme'
 import { useBrowserPreferences } from './hooks/useBrowserPreferences'
 import { useThemeStorage } from './hooks/useBrowserStorage'
 import { initPosthog } from './utils/posthog.util'
-import { initChartJS } from './utils/chartJs.util'
 
 const queryClient = new QueryClient()
 
@@ -31,7 +30,6 @@ const AppRender = () => {
   const { prefersDark } = useBrowserPreferences()
   const [theme] = useThemeStorage()
   initPosthog()
-  initChartJS()
   useEffect(() => {
     const favicon = document.querySelector(
       'link[rel="icon"]',

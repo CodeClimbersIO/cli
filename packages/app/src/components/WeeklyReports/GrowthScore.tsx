@@ -4,13 +4,13 @@ import { ScoreHeader } from './ScoreHeader'
 import { EmptyState } from './EmptyState'
 
 interface Props {
-  projectScore: CodeClimbers.WeeklyScore & {
+  growthScore: CodeClimbers.WeeklyScore & {
     breakdown: CodeClimbers.PerProjectTimeOverviewDB[]
   }
 }
 
-export const ProjectScore = ({ projectScore }: Props) => {
-  const top5Projects = projectScore.breakdown.slice(0, 5)
+export const GrowthScore = ({ growthScore }: Props) => {
+  const top5Projects = growthScore.breakdown.slice(0, 5)
 
   const data = top5Projects.map((project) => ({
     name: project.name,
@@ -18,11 +18,11 @@ export const ProjectScore = ({ projectScore }: Props) => {
   }))
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box>
       <ScoreHeader
-        title="Coding"
-        score={projectScore.score}
-        rating={projectScore.rating}
+        title="Growth & Mastery"
+        score={growthScore.score}
+        rating={growthScore.rating}
       />
       <Card
         raised={false}
@@ -37,7 +37,6 @@ export const ProjectScore = ({ projectScore }: Props) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: '225px',
           }}
         >
           {data.length > 0 ? (
