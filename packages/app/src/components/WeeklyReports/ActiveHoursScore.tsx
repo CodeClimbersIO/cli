@@ -10,9 +10,11 @@ interface Props {
 }
 export const ActiveHoursScore = ({ activeHoursScore }: Props) => {
   const color = getColorForRating(activeHoursScore.rating)
+
   const hours = Math.floor(activeHoursScore.breakdown / 60)
   const minutes = activeHoursScore.breakdown % 60
   const formattedTime = `${hours}h ${minutes}m`
+
   return (
     <Box>
       <ScoreHeader
@@ -24,7 +26,7 @@ export const ActiveHoursScore = ({ activeHoursScore }: Props) => {
         raised={false}
         sx={{
           boxShadow: 'none',
-          borderRadius: 0,
+          backgroundColor: (theme) => theme.palette.background.paper_raised,
           p: 2,
         }}
       >

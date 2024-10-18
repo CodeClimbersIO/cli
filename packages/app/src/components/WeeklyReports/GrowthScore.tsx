@@ -28,7 +28,7 @@ export const GrowthScore = ({ growthScore }: Props) => {
         raised={false}
         sx={{
           boxShadow: 'none',
-          borderRadius: 0,
+          backgroundColor: (theme) => theme.palette.background.paper_raised,
         }}
       >
         <CardContent

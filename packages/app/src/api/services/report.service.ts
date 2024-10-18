@@ -36,6 +36,7 @@ const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
     return { score: 2.5, rating: 'Positive', breakdown: totalTime }
   return { score: 0.5, rating: 'Alert', breakdown: totalTime }
 }
+
 const projectTimeRubric = (
   data: CodeClimbers.PerProjectTimeOverviewDB[],
 ): CodeClimbers.WeeklyScore => {
@@ -118,13 +119,12 @@ const deepWorkTimeRubric = (
 
 const totalScoreRubric = (scoreTotal: number): CodeClimbers.WeeklyScore => {
   const defaultScore: CodeClimbers.WeeklyScore = {
-    score: 0,
+    score: scoreTotal,
     rating: 'Alert',
     breakdown: null,
   }
-  if (scoreTotal > 7.5)
-    return { ...defaultScore, rating: 'Positive', score: 2.5 }
-  if (scoreTotal > 4) return { ...defaultScore, rating: 'Neutral', score: 1.5 }
+  if (scoreTotal > 7.5) return { ...defaultScore, rating: 'Positive' }
+  if (scoreTotal > 4) return { ...defaultScore, rating: 'Neutral' }
   return defaultScore
 }
 /**
