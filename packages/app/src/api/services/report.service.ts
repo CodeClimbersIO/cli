@@ -27,6 +27,106 @@ let {
   totalScore: defaultScore,
 }
 
+const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
+  if (totalTime > 60 * 60)
+    return { score: 0.5, rating: 'Alert', breakdown: totalTime }
+  if (totalTime > 60 * 50)
+    return { score: 2, rating: 'Neutral', breakdown: totalTime }
+  if (totalTime > 60 * 20)
+    return { score: 2.5, rating: 'Positive', breakdown: totalTime }
+  return { score: 0.5, rating: 'Alert', breakdown: totalTime }
+}
+const projectTimeRubric = (
+  data: CodeClimbers.PerProjectTimeOverviewDB[],
+): CodeClimbers.WeeklyScore => {
+  const time = data.reduce((max, { minutes }) => {
+    return max > minutes ? max : minutes
+  }, 0) // project with the greatest amount of time
+
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0.5,
+    rating: 'Alert',
+    breakdown: data,
+  }
+
+  if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
+  if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
+  return defaultScore
+}
+
+const socialMediaTimeRubric = (
+  data: CodeClimbers.EntityTimeOverviewDB[],
+): CodeClimbers.WeeklyScore => {
+  const time = data.reduce((total, { minutes }) => {
+    return total + minutes
+  }, 0) // total time for all sites
+
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0.5,
+    rating: 'Alert',
+    breakdown: data,
+  }
+
+  if (time < 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  if (time < 300) return { ...defaultScore, score: 2, rating: 'Neutral' }
+  if (time < 420) return { ...defaultScore, score: 1, rating: 'Neutral' }
+  return defaultScore
+}
+
+const growthTimeRubric = (
+  data: CodeClimbers.EntityTimeOverviewDB[],
+): CodeClimbers.WeeklyScore => {
+  const time = data.reduce((total, { minutes }) => {
+    return total + minutes
+  }, 0)
+
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0.5,
+    rating: 'Alert',
+    breakdown: data,
+  }
+
+  if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
+  if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
+  return defaultScore
+}
+
+const deepWorkTimeRubric = (
+  data: CodeClimbers.DeepWorkPeriod[],
+): CodeClimbers.WeeklyScore => {
+  // get the 5 highest time days and take the average
+  const highestDays = data.slice(0, 5)
+
+  const time =
+    highestDays.reduce((sum, { time }) => {
+      return sum + time
+    }, 0) / highestDays.length // average time on deep work each day of the week
+
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0.5,
+    rating: 'Alert',
+    breakdown: data,
+  }
+
+  if (time > 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  if (time > 120) return { ...defaultScore, score: 2, rating: 'Neutral' }
+  if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
+  return defaultScore
+}
+
+const totalScoreRubric = (scoreTotal: number): CodeClimbers.WeeklyScore => {
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0,
+    rating: 'Alert',
+    breakdown: null,
+  }
+  if (scoreTotal > 7.5)
+    return { ...defaultScore, rating: 'Positive', score: 2.5 }
+  if (scoreTotal > 4) return { ...defaultScore, rating: 'Neutral', score: 1.5 }
+  return defaultScore
+}
 /**
  * Calculates the points given the comparison to the rubric
  */
@@ -38,113 +138,11 @@ const getScoresFromWeeklySummary = (
   totalTime: number,
 ): CodeClimbers.WeeklyScores => {
   // time is in minutes
-  const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
-    if (totalTime > 60 * 60)
-      return { score: 0.5, rating: 'Alert', breakdown: totalTime }
-    if (totalTime > 60 * 50)
-      return { score: 2, rating: 'Neutral', breakdown: totalTime }
-    if (totalTime > 60 * 20)
-      return { score: 2.5, rating: 'Positive', breakdown: totalTime }
-    return { score: 0.5, rating: 'Alert', breakdown: totalTime }
-  }
-  const projectTimeRubric = (
-    data: CodeClimbers.PerProjectTimeOverviewDB[],
-  ): CodeClimbers.WeeklyScore => {
-    const time = data.reduce((max, { minutes }) => {
-      return max > minutes ? max : minutes
-    }, 0) // project with the greatest amount of time
-
-    const defaultScore: CodeClimbers.WeeklyScore = {
-      score: 0.5,
-      rating: 'Alert',
-      breakdown: projectTime,
-    }
-
-    if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
-    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
-    return defaultScore
-  }
-
-  const socialMediaTimeRubric = (
-    data: CodeClimbers.EntityTimeOverviewDB[],
-  ): CodeClimbers.WeeklyScore => {
-    const time = data.reduce((total, { minutes }) => {
-      return total + minutes
-    }, 0) // total time for all sites
-
-    const defaultScore: CodeClimbers.WeeklyScore = {
-      score: 0.5,
-      rating: 'Alert',
-      breakdown: socialMediaTime,
-    }
-
-    if (time < 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time < 300) return { ...defaultScore, score: 2, rating: 'Neutral' }
-    if (time < 420) return { ...defaultScore, score: 1, rating: 'Neutral' }
-    return defaultScore
-  }
-
-  const growthTimeRubric = (
-    data: CodeClimbers.EntityTimeOverviewDB[],
-  ): CodeClimbers.WeeklyScore => {
-    const time = data.reduce((total, { minutes }) => {
-      return total + minutes
-    }, 0)
-
-    const defaultScore: CodeClimbers.WeeklyScore = {
-      score: 0.5,
-      rating: 'Alert',
-      breakdown: growthTime,
-    }
-
-    if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
-    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
-    return defaultScore
-  }
-
-  const deepWorkTimeRubric = (
-    data: CodeClimbers.DeepWorkPeriod[],
-  ): CodeClimbers.WeeklyScore => {
-    // get the 5 highest time days and take the average
-    const highestDays = deepWorkTime.slice(0, 5)
-
-    const time =
-      highestDays.reduce((sum, { time }) => {
-        return sum + time
-      }, 0) / highestDays.length // average time on deep work each day of the week
-
-    const defaultScore: CodeClimbers.WeeklyScore = {
-      score: 0.5,
-      rating: 'Alert',
-      breakdown: deepWorkTime,
-    }
-
-    if (time > 180) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-    if (time > 120) return { ...defaultScore, score: 2, rating: 'Neutral' }
-    if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
-    return defaultScore
-  }
-
   totalTimeScore = totalTimeRubric(totalTime)
   projectTimeScore = projectTimeRubric(projectTime)
   socialMediaTimeScore = socialMediaTimeRubric(socialMediaTime)
   deepWorkTimeScore = deepWorkTimeRubric(deepWorkTime)
   growthScore = growthTimeRubric(growthTime)
-
-  const totalScoreRubric = (scoreTotal: number): CodeClimbers.WeeklyScore => {
-    const defaultScore: CodeClimbers.WeeklyScore = {
-      score: 0,
-      rating: 'Alert',
-      breakdown: null,
-    }
-    if (scoreTotal > 7.5)
-      return { ...defaultScore, rating: 'Positive', score: 2.5 }
-    if (scoreTotal > 4)
-      return { ...defaultScore, rating: 'Neutral', score: 1.5 }
-    return defaultScore
-  }
 
   const totalScore =
     projectTimeScore.score +
