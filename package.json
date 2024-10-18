@@ -53,6 +53,7 @@
     "@nestjs/serve-static": "^4.0.2",
     "@nivo/bar": "^0.87.0",
     "@nivo/core": "^0.87.0",
+    "@nivo/line": "^0.87.0",
     "@oclif/core": "^4.0.12",
     "@oclif/plugin-warn-if-update-available": "^3.1.11",
     "@sentry/nestjs": "^8.30.0",

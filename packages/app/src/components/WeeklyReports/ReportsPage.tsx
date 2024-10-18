@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useGetWeeklyReport } from '../../api/report.api'
 import { ProjectScore } from './ProjectScore'
 import { GrowthScore } from './GrowthScore'
+import { DeepWorkScore } from './DeepWorkScore'
+import { ActiveHoursScore } from './ActiveHoursScore'
 
 export const ReportsPage = () => {
   const period = 'week'
@@ -22,7 +24,14 @@ export const ReportsPage = () => {
         title="Reports"
       />
       <Stack sx={{ alignItems: 'center' }}>
-        <Stack gap={3} sx={{ maxWidth: '500px', width: '100%' }}>
+        <Stack gap={4} sx={{ maxWidth: '500px', width: '100%' }}>
+          <DeepWorkScore
+            deepWorkScore={{
+              ...weeklyScores?.deepWorkTimeScore,
+              breakdown: weeklyScores?.deepWorkTimeScore
+                .breakdown as CodeClimbers.DeepWorkPeriod[],
+            }}
+          />
           <ProjectScore
             projectScore={{
               ...weeklyScores?.projectTimeScore,
@@ -35,6 +44,12 @@ export const ReportsPage = () => {
               ...weeklyScores?.growthScore,
               breakdown: weeklyScores?.growthScore
                 .breakdown as CodeClimbers.EntityTimeOverviewDB[],
+            }}
+          />
+          <ActiveHoursScore
+            activeHoursScore={{
+              ...weeklyScores?.totalTimeScore,
+              breakdown: weeklyScores?.totalTimeScore.breakdown as number,
             }}
           />
         </Stack>

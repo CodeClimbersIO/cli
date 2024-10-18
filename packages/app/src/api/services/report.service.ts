@@ -39,10 +39,13 @@ const getScoresFromWeeklySummary = (
 ): CodeClimbers.WeeklyScores => {
   // time is in minutes
   const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
-    if (totalTime > 60 * 60) return { score: 0.5, rating: 'Alert' }
-    if (totalTime > 60 * 50) return { score: 2, rating: 'Neutral' }
-    if (totalTime > 60 * 20) return { score: 2.5, rating: 'Positive' }
-    return { score: 0.5, rating: 'Alert' }
+    if (totalTime > 60 * 60)
+      return { score: 0.5, rating: 'Alert', breakdown: totalTime }
+    if (totalTime > 60 * 50)
+      return { score: 2, rating: 'Neutral', breakdown: totalTime }
+    if (totalTime > 60 * 20)
+      return { score: 2.5, rating: 'Positive', breakdown: totalTime }
+    return { score: 0.5, rating: 'Alert', breakdown: totalTime }
   }
   const projectTimeRubric = (
     data: CodeClimbers.PerProjectTimeOverviewDB[],
@@ -104,10 +107,13 @@ const getScoresFromWeeklySummary = (
   const deepWorkTimeRubric = (
     data: CodeClimbers.DeepWorkPeriod[],
   ): CodeClimbers.WeeklyScore => {
+    // get the 5 highest time days and take the average
+    const highestDays = deepWorkTime.slice(0, 5)
+
     const time =
-      data.reduce((sum, { time }) => {
+      highestDays.reduce((sum, { time }) => {
         return sum + time
-      }, 0) / deepWorkTime.length // average time on deep work each day of the week
+      }, 0) / highestDays.length // average time on deep work each day of the week
 
     const defaultScore: CodeClimbers.WeeklyScore = {
       score: 0.5,
