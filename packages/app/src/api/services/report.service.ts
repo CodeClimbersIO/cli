@@ -28,13 +28,19 @@ let {
 }
 
 const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
+  const defaultScore: CodeClimbers.WeeklyScore = {
+    score: 0.5,
+    actual: totalTime,
+    rating: 'Alert',
+    breakdown: totalTime,
+  }
   if (totalTime > 60 * 60)
-    return { score: 0.5, rating: 'Alert', breakdown: totalTime }
+    return { ...defaultScore, score: 0.5, rating: 'Alert' }
   if (totalTime > 60 * 50)
-    return { score: 2, rating: 'Neutral', breakdown: totalTime }
+    return { ...defaultScore, score: 2, rating: 'Neutral' }
   if (totalTime > 60 * 20)
-    return { score: 2.5, rating: 'Positive', breakdown: totalTime }
-  return { score: 0.5, rating: 'Alert', breakdown: totalTime }
+    return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  return { ...defaultScore, score: 0.5, rating: 'Alert' }
 }
 
 const projectTimeRubric = (
@@ -46,6 +52,7 @@ const projectTimeRubric = (
 
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: 0.5,
+    actual: time,
     rating: 'Alert',
     breakdown: data,
   }
@@ -65,6 +72,7 @@ const socialMediaTimeRubric = (
 
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: 0.5,
+    actual: time,
     rating: 'Alert',
     breakdown: data,
   }
@@ -84,6 +92,7 @@ const growthTimeRubric = (
 
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: 0.5,
+    actual: time,
     rating: 'Alert',
     breakdown: data,
   }
@@ -107,6 +116,7 @@ const deepWorkTimeRubric = (
 
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: 0.5,
+    actual: time,
     rating: 'Alert',
     breakdown: data,
   }
@@ -120,6 +130,7 @@ const deepWorkTimeRubric = (
 const totalScoreRubric = (scoreTotal: number): CodeClimbers.WeeklyScore => {
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: scoreTotal,
+    actual: scoreTotal,
     rating: 'Alert',
     breakdown: null,
   }

@@ -52,11 +52,10 @@ export class WindowsStartupService implements CodeClimbers.StartupService {
       this.service.on('stop', () => {
         Logger.debug(`${this.service.name} stopped`)
       })
-
-      this.service.on('error', (error) => {
-        Logger.error(`${this.service.name} error:`, error)
-      })
     }
+    this.service.on('error', (error) => {
+      Logger.error(`${this.service.name} error:`, error)
+    })
   }
 
   async enableStartup(): Promise<void> {

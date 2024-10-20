@@ -27,3 +27,10 @@ dayjs.updateLocale('en', {
 export const getTimeSince = (utcDateString: string): string => {
   return dayjs(utcDateString).fromNow(true)
 }
+
+export const formatMinutes = (minutes: number | string) => {
+  if (typeof minutes !== 'number') return
+  const hours = Math.floor(minutes / 60)
+  const remainingMinutes = Math.floor(minutes % 60)
+  return `${hours}h ${remainingMinutes}m`
+}

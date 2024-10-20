@@ -1,10 +1,11 @@
-import { Box, Card, CardContent } from '@mui/material'
+import { Box, Card, CardContent, Typography } from '@mui/material'
 import { ScoreHeader } from './ScoreHeader'
 import { EmptyState } from './EmptyState'
 import { WeeklyLineGraph } from './WeeklyLineGraph'
 import { Serie } from '@nivo/line'
 import { getColorForRating } from '../../api/services/report.service'
 import dayjs from 'dayjs'
+import { formatMinutes } from '../../utils/time'
 
 interface Props {
   deepWorkScore: CodeClimbers.WeeklyScore & {
@@ -45,12 +46,16 @@ export const DeepWorkScore = ({ deepWorkScore }: Props) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             height: '225px',
           }}
         >
           {data.length > 0 ? (
-            <WeeklyLineGraph data={data} rating={deepWorkScore.rating} />
+            <>
+              <Typography sx={{ pl: 2, fontSize: '11px' }}>
+                {formatMinutes(deepWorkScore.actual)} avg 5 highest days
+              </Typography>
+              <WeeklyLineGraph data={data} rating={deepWorkScore.rating} />
+            </>
           ) : (
             <EmptyState />
           )}

@@ -1,7 +1,8 @@
-import { Box, Card, CardContent } from '@mui/material'
+import { Box, Card, CardContent, Typography } from '@mui/material'
 import { WeeklyBarGraph } from './WeeklyBarGraph'
 import { ScoreHeader } from './ScoreHeader'
 import { EmptyState } from './EmptyState'
+import { formatMinutes } from '../../utils/time'
 
 interface Props {
   projectScore: CodeClimbers.WeeklyScore & {
@@ -36,19 +37,23 @@ export const ProjectScore = ({ projectScore }: Props) => {
             padding: '20px 30px',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             height: '225px',
           }}
         >
           {data.length > 0 ? (
-            <WeeklyBarGraph
-              rating={projectScore.rating}
-              data={data}
-              ariaLabel="Project time breakdown"
-              barAriaLabel={(e) =>
-                `${e.id}: ${e.formattedValue} in project: ${e.indexValue}`
-              }
-            />
+            <>
+              <Typography sx={{ pl: 2, fontSize: '11px' }}>
+                {formatMinutes(projectScore.actual)} total
+              </Typography>
+              <WeeklyBarGraph
+                rating={projectScore.rating}
+                data={data}
+                ariaLabel="Project time breakdown"
+                barAriaLabel={(e) =>
+                  `${e.id}: ${e.formattedValue} in project: ${e.indexValue}`
+                }
+              />
+            </>
           ) : (
             <EmptyState />
           )}

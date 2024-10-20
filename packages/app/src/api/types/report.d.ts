@@ -3,6 +3,7 @@ namespace CodeClimbers {
   export type WeeklyScoreRating = 'Positive' | 'Neutral' | 'Alert'
   export interface WeeklyScore {
     score: number
+    actual: number // represents the number used to give the rating
     rating: WeeklyScoreRating
     explanation?: string
     breakdown?: unknown

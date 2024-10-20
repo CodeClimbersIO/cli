@@ -1,7 +1,8 @@
-import { Box, Card, CardContent } from '@mui/material'
+import { Box, Card, CardContent, Typography } from '@mui/material'
 import { WeeklyBarGraph } from './WeeklyBarGraph'
 import { ScoreHeader } from './ScoreHeader'
 import { EmptyState } from './EmptyState'
+import { formatMinutes } from '../../utils/time'
 
 interface Props {
   growthScore: CodeClimbers.WeeklyScore & {
@@ -36,19 +37,23 @@ export const GrowthScore = ({ growthScore }: Props) => {
             padding: '20px 30px',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             height: '225px',
           }}
         >
           {data.length > 0 ? (
-            <WeeklyBarGraph
-              rating={growthScore.rating}
-              data={data}
-              ariaLabel="Growth time breakdown"
-              barAriaLabel={(e) =>
-                `${e.id}: ${e.formattedValue} in site: ${e.indexValue}`
-              }
-            />
+            <>
+              <Typography sx={{ pl: 2, fontSize: '11px' }}>
+                {formatMinutes(growthScore.actual)} total
+              </Typography>
+              <WeeklyBarGraph
+                rating={growthScore.rating}
+                data={data}
+                ariaLabel="Growth time breakdown"
+                barAriaLabel={(e) =>
+                  `${e.id}: ${e.formattedValue} in site: ${e.indexValue}`
+                }
+              />
+            </>
           ) : (
             <EmptyState />
           )}

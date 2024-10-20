@@ -1,18 +1,13 @@
 import { useTheme } from '@mui/material'
 import { BarDatum, ResponsiveBar, ResponsiveBarSvgProps } from '@nivo/bar'
 import { getColorForRating } from '../../api/services/report.service'
+import { formatMinutes } from '../../utils/time'
 
 type Props = ResponsiveBarSvgProps<BarDatum> & {
   rating: CodeClimbers.WeeklyScoreRating
 }
 
 export const WeeklyBarGraph = (props: Props) => {
-  const formatMinutes = (minutes: number | string) => {
-    if (typeof minutes !== 'number') return
-    const hours = Math.floor(minutes / 60)
-    const remainingMinutes = minutes % 60
-    return `${hours}h ${remainingMinutes}m`
-  }
   const theme = useTheme()
   const color = getColorForRating(props.rating)
   const trimmedData = props.data.map((record) => {
@@ -23,6 +18,7 @@ export const WeeklyBarGraph = (props: Props) => {
       name: length > 13 ? `${record.name.slice(0, 12)}..` : record.name,
     }
   })
+
   return (
     <ResponsiveBar
       role="application"
