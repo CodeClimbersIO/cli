@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import { useBetterQuery } from '../services'
+import { useBetterQuery } from '..'
 import { pulseKeys } from './keys'
 import {
   getCategoryTimeByRange,

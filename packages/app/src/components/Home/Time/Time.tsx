@@ -8,7 +8,7 @@ import { WeeklyReportDialog } from '../../common/WeeklyReportDialog'
 import { NotificationIcon } from '../../common/Icons/NotificationIcon'
 import { DeepWork } from '../DeepWork'
 import { CategoryChart } from './CategoryChart'
-import { useGetCurrentUser } from '../../../api/user.api'
+import { useGetCurrentUser } from '../../../api/browser/user.api'
 
 type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {

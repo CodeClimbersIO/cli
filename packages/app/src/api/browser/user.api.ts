@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useBetterQuery } from '.'
+import { useBetterQuery } from '..'
 import { userKeys } from './keys'
 import {
   getCurrentUser,

@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import { useBetterQuery } from '../services'
+import { useBetterQuery } from '..'
 import { getWeeklyScores } from './services/report.service'
 import { reportKeys } from './keys'
 

@@ -15,7 +15,10 @@ import { BlockIcon } from './Icons/BlockIcon'
 import { NotificationIcon } from './Icons/NotificationIcon'
 import { CodeClimbersButton } from './CodeClimbersButton'
 import { CodeClimbersIconButton } from './CodeClimbersIconButton'
-import { useUpdateUser, useUpdateUserSettings } from '../../api/user.api'
+import {
+  useUpdateUserSettings,
+  useUpdateUser,
+} from '../../api/browser/user.api'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType

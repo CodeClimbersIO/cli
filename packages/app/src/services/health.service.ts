@@ -1,5 +1,5 @@
 import { BASE_API_URL, useBetterQuery } from '.'
-import { apiRequest } from '../utils/request'
+import { apiRequest } from '../api/request'
 
 export const useGetHealth = (
   {

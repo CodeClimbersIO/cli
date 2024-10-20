@@ -3,9 +3,9 @@ import { ScoreHeader } from './ScoreHeader'
 import { EmptyState } from './EmptyState'
 import { WeeklyLineGraph } from './WeeklyLineGraph'
 import { Serie } from '@nivo/line'
-import { getColorForRating } from '../../api/services/report.service'
 import dayjs from 'dayjs'
 import { formatMinutes } from '../../utils/time'
+import { getColorForRating } from '../../api/browser/services/report.service'
 
 interface Props {
   deepWorkScore: CodeClimbers.WeeklyScore & {

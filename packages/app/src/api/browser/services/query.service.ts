@@ -1,5 +1,5 @@
-import { BASE_API_URL } from '../'
-import { apiRequest } from '../../utils/request'
+import { BASE_API_URL } from '../..'
+import { apiRequest } from '../../request'
 
 // do not use this directly in a component
 const sqlQueryFn = (query: string, name: string) =>

@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Stack, Typography } from '@mui/material'
 
 import { ScoreHeader } from './ScoreHeader'
-import { getColorForRating } from '../../api/services/report.service'
+import { getColorForRating } from '../../api/browser/services/report.service'
 
 interface Props {
   activeHoursScore: CodeClimbers.WeeklyScore & {

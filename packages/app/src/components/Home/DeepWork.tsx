@@ -2,7 +2,7 @@ import { CircularProgress, useTheme } from '@mui/material'
 import { TimeDataChart } from './Time/TimeDataChart'
 import { Dayjs } from 'dayjs'
 import { minutesToHours } from './Time/utils'
-import { useDeepWorkV2 } from '../../api/pulse.api'
+import { useDeepWorkV2 } from '../../api/browser/pulse.api'
 
 interface Props {
   selectedDate: Dayjs

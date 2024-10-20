@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material'
 import { BarDatum, ResponsiveBar, ResponsiveBarSvgProps } from '@nivo/bar'
-import { getColorForRating } from '../../api/services/report.service'
 import { formatMinutes } from '../../utils/time'
+import { getColorForRating } from '../../api/browser/services/report.service'
 
 type Props = ResponsiveBarSvgProps<BarDatum> & {
   rating: CodeClimbers.WeeklyScoreRating

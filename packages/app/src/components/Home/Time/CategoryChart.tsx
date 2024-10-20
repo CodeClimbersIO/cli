@@ -14,7 +14,7 @@ import {
   useCategoryTimeOverview,
   useWeekOverview,
 } from '../../../services/pulse.service'
-import { useProjectsTimeByRangeAndCategory } from '../../../api/pulse.api'
+import { useProjectsTimeByRangeAndCategory } from '../../../api/browser/pulse.api'
 
 const categories = {
   coding: 'coding',

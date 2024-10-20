@@ -1,7 +1,7 @@
 import { LineSvgProps, ResponsiveLine } from '@nivo/line'
-import { getColorForRating } from '../../api/services/report.service'
 import { useTheme } from '@mui/material'
 import { DatumValue } from '@nivo/core'
+import { getColorForRating } from '../../api/browser/services/report.service'
 
 type Props = LineSvgProps & {
   rating: CodeClimbers.WeeklyScoreRating

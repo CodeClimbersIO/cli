@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { BASE_API_URL, useBetterQuery } from '.'
-import { apiRequest } from '../utils/request'
 import { pulseKeys } from './keys'
 import { Dayjs } from 'dayjs'
 import { downloadBlob } from '../utils/csv.util'
+import { apiRequest } from '../api/request'
 
 const useGetSources = () => {
   const queryFn = () =>
@@ -127,7 +127,7 @@ const usePerProjectOverviewTopThree = (selectedStartDate: Dayjs) => {
       url: `${BASE_API_URL}/pulses/perProjectOverview/topThree?startDate=${startDate}&endDate=${endDate}`,
       method: 'GET',
     })
-  return useBetterQuery<CodeClimbers.PerProjectTimeOverview, Error>({
+  return useBetterQuery<CodeClimbers.PerProjectTimeOverviewDB, Error>({
     queryKey: pulseKeys.perProjectOverviewTopThree(startDate, endDate),
     queryFn,
     enabled: !!startDate && !!endDate,

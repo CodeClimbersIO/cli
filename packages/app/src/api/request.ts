@@ -1,5 +1,5 @@
-import { getLocalApiKey } from './auth.util'
-import { isBrowserCli } from './environment.util'
+import { getLocalApiKey } from '../utils/auth.util'
+import { isBrowserCli } from '../utils/environment.util'
 
 const BASE_URL = isBrowserCli ? '' : 'http://localhost:14400'
 
