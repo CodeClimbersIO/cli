@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-namespace CodeClimbers {
+declare namespace CodeClimbers {
   export type WeeklyScoreRating = 'Positive' | 'Neutral' | 'Alert'
   export interface WeeklyScore {
     score: number

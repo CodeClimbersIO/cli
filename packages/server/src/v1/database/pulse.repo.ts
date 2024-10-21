@@ -313,4 +313,98 @@ export class PulseRepo {
       .limit(pageSize)
       .from('getMinutes')
   }
+
+  getTimeByProjectCategoryAndRange = async (
+    startDate: string,
+    endDate: string,
+  ) => {
+    const query = `
+  with get_minutes as 
+  (
+    select category, project from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by category, project, strftime('%s', time) / 120
+  ) 
+  select category, project as name, count() * 2 as minutes 
+    from get_minutes 
+    group by category, project 
+    order by category asc, minutes desc 
+  `
+    const result = await this.knex.raw<
+      CodeClimbers.PerProjectTimeAndCategoryOverviewDB[]
+    >(query, {
+      startDate: startDate,
+      endDate: endDate,
+    })
+    return result
+  }
+
+  getTimeByProjectAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select project from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by  project, strftime('%s', time) / 120
+  ) 
+  select project as name, count() * 2 as minutes 
+    from get_minutes 
+    group by project 
+    order by minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.PerProjectTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
+  }
+
+  getTimeByEntityAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select entity from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by entity, strftime('%s', time) / 120
+  ) 
+  select entity, count() * 2 as minutes 
+    from get_minutes 
+    group by entity 
+    order by minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.EntityTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
+  }
+
+  getTimeByCategoryAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select category from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by category, strftime('%s', time) / 120
+  ) 
+  select category, count() * 2 as minutes 
+    from get_minutes 
+    group by category 
+    order by category asc, minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.CategoryTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
+  }
 }

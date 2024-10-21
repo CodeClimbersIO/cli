@@ -15,6 +15,8 @@ import { LocalAuthService } from './localdb/localAuth.service'
 import { LocalAuthController } from './localdb/localAuth.controller'
 import { LocalAuthGuard } from './localdb/localAuth.guard'
 import { LocalDbRepo } from './localdb/localDb.repo'
+import { ReportService } from './activities/report.service'
+import { ReportController } from './activities/report.controller'
 
 @Module({
   imports: [],
@@ -25,6 +27,7 @@ import { LocalDbRepo } from './localdb/localDb.repo'
     StartupController,
     LocalDbController,
     LocalAuthController,
+    ReportController,
   ],
   providers: [
     ActivitiesService,
@@ -37,6 +40,7 @@ import { LocalDbRepo } from './localdb/localDb.repo'
     LocalAuthService,
     LocalAuthGuard,
     LocalDbRepo,
+    ReportService,
   ],
 })
 export class V1Module {}

@@ -2,8 +2,6 @@ import { Dayjs } from 'dayjs'
 import {
   getDeepWork,
   getTimeByCategoryAndRange,
-  getTimeByEntityAndRange,
-  getTimeByProjectAndRange,
   getTimeByProjectCategoryAndRange,
 } from '../repos/pulse.repo'
 import { sqlQueryFn } from './query.service'
@@ -75,91 +73,6 @@ const getProjectsTimeByRangeAndCategory = async (
   }, {} as CodeClimbers.PerProjectTimeAndCategoryOverview)
 }
 
-const getProjectsTimeByRange = async (
-  selectedStartDate: Dayjs,
-  selectedEndDate: Dayjs,
-): Promise<CodeClimbers.PerProjectTimeOverviewDB[]> => {
-  const startDate = selectedStartDate?.startOf('day').toISOString()
-  const endDate = selectedEndDate?.endOf('day').toISOString()
-
-  const projectsTimeSql = getTimeByProjectAndRange(startDate, endDate)
-
-  const records: CodeClimbers.PerProjectTimeOverviewDB[] = await sqlQueryFn(
-    projectsTimeSql,
-    'getProjectsTimeByRange',
-  )
-
-  return records
-}
-
-const getSocialMediaTimeByRange = async (
-  selectedStartDate: Dayjs,
-  selectedEndDate: Dayjs,
-): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
-  const startDate = selectedStartDate?.startOf('day').toISOString()
-  const endDate = selectedEndDate?.endOf('day').toISOString()
-
-  const entityTimeSql = getTimeByEntityAndRange(startDate, endDate)
-
-  const records: CodeClimbers.EntityTimeOverviewDB[] = await sqlQueryFn(
-    entityTimeSql,
-    'getSocialMediaTimeByRange',
-  )
-
-  const sites = [
-    'facebook',
-    'instagram',
-    'twitter',
-    'linkedin',
-    'tiktok',
-    'snapchat',
-    'youtube',
-    'twitch',
-    'pinterest',
-  ]
-
-  const socialMediaTimes = records.filter((row) =>
-    sites.some((site) => row.entity.toLowerCase().includes(site)),
-  )
-
-  return socialMediaTimes
-}
-
-const getGrowthAndMasteryScore = async (
-  selectedStartDate: Dayjs,
-  selectedEndDate: Dayjs,
-): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
-  const startDate = selectedStartDate?.startOf('day').toISOString()
-  const endDate = selectedEndDate?.endOf('day').toISOString()
-  const entityTimeSql = getTimeByEntityAndRange(startDate, endDate)
-
-  const records: CodeClimbers.EntityTimeOverviewDB[] = await sqlQueryFn(
-    entityTimeSql,
-    'getGrowthAndMasteryScore',
-  )
-
-  const sites = [
-    'mozilla',
-    'stackoverflow',
-    'devdocs',
-    'coursera',
-    'udemy',
-    'codeacademy',
-    'theodinproject',
-    'freecodecamp',
-    'daily.dev',
-    'dev.to',
-    'hackernews',
-    'leetcode',
-    'hackerank',
-  ]
-
-  const growthSites = records.filter((row) =>
-    sites.some((site) => row.entity.toLowerCase().includes(site)),
-  )
-  return growthSites
-}
-
 const getCategoryTimeByRange = async (
   selectedStartDate: Dayjs,
   selectedEndDate: Dayjs,
@@ -209,9 +122,6 @@ const getTotalTimeByRange = async (
 export {
   getDeepWorkBetweenDates,
   getProjectsTimeByRangeAndCategory,
-  getSocialMediaTimeByRange,
   getCategoryTimeByRange,
   getTotalTimeByRange,
-  getProjectsTimeByRange,
-  getGrowthAndMasteryScore,
 }

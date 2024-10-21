@@ -8,12 +8,13 @@ import { DeepWorkScore } from './DeepWorkScore'
 import { ActiveHoursScore } from './ActiveHoursScore'
 import { Logo } from '../common/Logo/Logo'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import { useGetWeeklyReport } from '../../api/browser/report.api'
+import { useGetLocalServerWeeklyReport } from '../../api/localServer/report.localapi'
 
 export const ReportsPage = () => {
   const period = 'week'
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf(period))
-  const { data: weeklyScores, isPending } = useGetWeeklyReport(selectedDate)
+  const { data: weeklyScores, isPending } =
+    useGetLocalServerWeeklyReport(selectedDate)
   if (isPending || !weeklyScores) {
     return <div>Loading</div>
   }
