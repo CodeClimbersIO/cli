@@ -7,12 +7,14 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import { DbModule } from './v1/database/knex'
 import { SentryModule } from '@sentry/nestjs/setup'
 import { APP_DIST_PATH } from '../utils/node.util'
+import { ScheduledTaskModule } from './common/scheduler.module'
 
 @Module({
   imports: [
     SentryModule.forRoot(),
     DbModule,
     V1Module,
+    ScheduledTaskModule,
     RouterModule.register([
       {
         path: '/api/v1',
