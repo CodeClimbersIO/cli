@@ -12,7 +12,9 @@ import { useGetLocalServerWeeklyReport } from '../../api/localServer/report.loca
 
 export const ReportsPage = () => {
   const period = 'week'
-  const [selectedDate, setSelectedDate] = useState(dayjs().startOf(period))
+  const [selectedDate, setSelectedDate] = useState(
+    dayjs().subtract(1, 'week').startOf(period),
+  )
   const { data: weeklyScores, isPending } =
     useGetLocalServerWeeklyReport(selectedDate)
   if (isPending || !weeklyScores) {
