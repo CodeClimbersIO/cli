@@ -11,7 +11,10 @@ interface Props {
 }
 
 export const ProjectScore = ({ projectScore }: Props) => {
-  const top5Projects = projectScore.breakdown.slice(0, 5)
+  const knownProjects = projectScore.breakdown.filter(
+    ({ name }) => !name.toLowerCase().includes('<<'),
+  )
+  const top5Projects = knownProjects.slice(0, 5)
 
   const data = top5Projects.map((project) => ({
     name: project.name,

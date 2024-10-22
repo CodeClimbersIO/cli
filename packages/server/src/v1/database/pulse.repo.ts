@@ -186,7 +186,7 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             userAgent: 'user_agent',
-            totalMinutes: this.knex.raw('count(*) * 2'),
+            totalMinutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -227,13 +227,13 @@ export class PulseRepo {
       'localhost',
     ]
 
-    return await this.knex(this.tableName)
+    return this.knex(this.tableName)
       .with(
         'getSiteMinutes',
         this.knex(this.tableName)
           .select({
             entity: 'entity',
-            minutes: this.knex.raw('count(*) * 2'),
+            minutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -345,6 +345,7 @@ export class PulseRepo {
   (
     select project from activities_pulse 
     where time between '${startDate}' and '${endDate}' 
+    and category = 'coding'
     group by  project, strftime('%s', time) / 120
   ) 
   select project as name, count() * 2 as minutes 

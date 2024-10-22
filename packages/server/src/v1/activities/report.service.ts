@@ -65,20 +65,24 @@ const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
 const projectTimeRubric = (
   data: CodeClimbers.PerProjectTimeOverviewDB[],
 ): CodeClimbers.WeeklyScore => {
-  const time = data.reduce((max, { minutes }) => {
+  const highestTime = data.reduce((max, { minutes }) => {
     return max > minutes ? max : minutes
   }, 0) // project with the greatest amount of time
+  const totalTime = data.reduce((total, { minutes }) => {
+    return total + minutes
+  }, 0)
 
   const defaultScore: CodeClimbers.WeeklyScore = {
     score: 0.5,
-    actual: time,
+    actual: totalTime,
     rating: 'Alert',
     breakdown: data,
   }
 
-  if (time > 300) return { ...defaultScore, score: 2.5, rating: 'Positive' }
-  if (time > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
-  if (time > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
+  if (highestTime > 300)
+    return { ...defaultScore, score: 2.5, rating: 'Positive' }
+  if (highestTime > 180) return { ...defaultScore, score: 2, rating: 'Neutral' }
+  if (highestTime > 60) return { ...defaultScore, score: 1, rating: 'Neutral' }
   return defaultScore
 }
 
@@ -215,7 +219,7 @@ export class ReportService {
     return getScoresFromWeeklySummary(
       deepWorkTime,
       growthTime,
-      projectTime.filter(({ name }) => !name.toLowerCase().includes('<<')), // don't include <<LAST PROJECT>>
+      projectTime, // don't include <<LAST PROJECT>>
       socialMedia,
       totalTime,
     )

@@ -4,6 +4,11 @@ import { ReportService } from '../v1/activities/report.service'
 import dayjs from 'dayjs'
 import { UserService } from '../v1/users/user.service'
 import axios from 'axios'
+import { isProd } from '../../utils/environment.util'
+
+const platformUrl = isProd()
+  ? 'https://platform.codeclimbers.io'
+  : 'http://localhost:8000'
 
 @Injectable()
 export class ScheduledTaskService {
@@ -33,14 +38,11 @@ export class ScheduledTaskService {
     if (user.weeklyReportType === 'none') return
 
     try {
-      const response = await axios.post(
-        'https://platform.codeclimbers.io/weekly-report',
-        {
-          email: user.email,
-          weeklyReport: scores,
-          startOfWeek: startOfWeek.toISOString(),
-        },
-      )
+      const response = await axios.post(`${platformUrl}/weekly-report`, {
+        email: user.email,
+        weeklyReport: scores,
+        startOfWeek: startOfWeek.toISOString(),
+      })
 
       Logger.log(`Weekly report sent successfully for user ${user.email}`)
       Logger.log(`Response status: ${response.status}`)
