@@ -15,6 +15,7 @@ export const ActiveHoursScore = ({ activeHoursScore }: Props) => {
   const minutes = activeHoursScore.breakdown % 60
   const formattedTime = `${hours}h ${minutes}m`
 
+  const [title, description] = activeHoursScore.recommendation?.split('-') ?? []
   return (
     <Box>
       <ScoreHeader
@@ -40,10 +41,8 @@ export const ActiveHoursScore = ({ activeHoursScore }: Props) => {
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ flex: 1 }}>{formattedTime} total</Typography>
             <Stack gap={2} sx={{ flex: 2 }}>
-              <Typography color={color.accent}>Optimal</Typography>
-              <Typography>
-                You are working a solid amount of hours each week. Keep it up!
-              </Typography>
+              <Typography color={color.accent}>{title}</Typography>
+              <Typography>{description}</Typography>
             </Stack>
           </Box>
         </CardContent>

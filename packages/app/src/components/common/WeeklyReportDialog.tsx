@@ -9,7 +9,6 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import { useState } from 'react'
 
-import { BossImage } from './Icons/BossImage'
 import { BarChartIcon } from './Icons/BarChartIcon'
 import { BlockIcon } from './Icons/BlockIcon'
 import { NotificationIcon } from './Icons/NotificationIcon'
@@ -19,6 +18,7 @@ import {
   useUpdateUserSettings,
   useUpdateUser,
 } from '../../api/browser/user.api'
+import { CodeClimbersLink } from './CodeClimbersLink'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
@@ -27,11 +27,11 @@ interface ReportOption {
 }
 
 const ReportOptions: ReportOption[] = [
-  {
-    type: 'ai',
-    img: () => <BossImage width={48} height={48} />,
-    name: 'Big Brother Edition',
-  },
+  // {
+  //   type: 'ai',
+  //   img: () => <BossImage width={48} height={48} />,
+  //   name: 'Big Brother Edition',
+  // },
   {
     type: 'standard',
     img: () => <BarChartIcon width={48} height={48} />,
@@ -132,7 +132,7 @@ export const WeeklyReportDialog = ({
     })
     handleClose()
   }
-  const showNotificationIcon = reportOption === '' || !email
+  const hasNotSelectedItems = reportOption === '' || !email
 
   return (
     <Dialog
@@ -172,13 +172,25 @@ export const WeeklyReportDialog = ({
               <CloseIcon />
             </CodeClimbersIconButton>
           </Box>
-          {showNotificationIcon && (
+          {hasNotSelectedItems ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <NotificationIcon height={16} width={16} />
               <Typography variant="caption">
                 Choose an option for a weekly email report of your coding stats.
               </Typography>
             </Box>
+          ) : (
+            <CodeClimbersLink
+              eventName="weekly-report-dialog-see-past-reports"
+              color="inherit"
+              sx={{
+                cursor: 'pointer',
+                color: (theme) => theme.palette.text.secondary,
+              }}
+              href="/reports"
+            >
+              See past reports
+            </CodeClimbersLink>
           )}
         </Box>
 

@@ -6,6 +6,7 @@ declare namespace CodeClimbers {
     rating: WeeklyScoreRating
     explanation?: string
     breakdown?: unknown
+    recommendation?: string
   }
 
   export interface WeeklyScores {

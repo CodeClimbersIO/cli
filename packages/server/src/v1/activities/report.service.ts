@@ -30,12 +30,36 @@ const totalTimeRubric = (totalTime: number): CodeClimbers.WeeklyScore => {
     breakdown: totalTime,
   }
   if (totalTime > 60 * 60)
-    return { ...defaultScore, score: 0.5, rating: 'Alert' }
+    return {
+      ...defaultScore,
+      score: 0.5,
+      rating: 'Alert',
+      recommendation:
+        'High risk of burnout-You have a high risk of burnout if you continue to work this many hours a week on a screen.',
+    }
   if (totalTime > 60 * 50)
-    return { ...defaultScore, score: 2, rating: 'Neutral' }
+    return {
+      ...defaultScore,
+      score: 2,
+      rating: 'Neutral',
+      recommendation:
+        'Good, but be careful-You’ve been grinding lately. Great work! Just remember to make time for renewal and self-care.',
+    }
   if (totalTime > 60 * 20)
-    return { ...defaultScore, score: 2.5, rating: 'Positive' }
-  return { ...defaultScore, score: 0.5, rating: 'Alert' }
+    return {
+      ...defaultScore,
+      score: 2.5,
+      rating: 'Positive',
+      recommendation:
+        'Optimal-You are working a solid amount of hours each week. Keep it up!',
+    }
+  return {
+    ...defaultScore,
+    score: 0.5,
+    rating: 'Alert',
+    recommendation:
+      'Low amount of hours-Maybe doing a lot of planning or just started out. Hopefully you can get to coding soon!',
+  }
 }
 
 const projectTimeRubric = (

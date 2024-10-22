@@ -140,9 +140,16 @@ const DateHeader = ({
                 <ChevronRight />
               </CodeClimbersButton>
             </Box>
-            <Typography variant="body2" fontWeight={700}>
-              {formatDate()}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" fontWeight={700}>
+                {formatDate()}
+              </Typography>
+              <Typography sx={{ pl: 1, fontSize: 12 }}>
+                {period !== 'day' &&
+                  today.isSame(selectedDate, 'day') &&
+                  `In Progress`}
+              </Typography>
+            </Box>
           </Box>
         </LeftWrapper>
         {title && (
