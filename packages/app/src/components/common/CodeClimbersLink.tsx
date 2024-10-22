@@ -17,7 +17,7 @@ const CodeClimbersLink = ({
     onClick?.(e)
   }
   return (
-    <Link onClick={handleClick} {...props}>
+    <Link onClick={handleClick} {...props} sx={{ cursor: 'pointer' }}>
       {children}
     </Link>
   )

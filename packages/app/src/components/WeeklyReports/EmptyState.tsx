@@ -33,9 +33,9 @@ export const EmptyState = () => {
             eventName="weekly_report_empyt_state_learn_more"
             color="inherit"
             sx={{
-              cursor: 'pointer',
               color: theme.palette.text.secondary,
             }}
+            href="https://codeclimbers.io/blog/weekly-report"
           >
             Learn more about points
           </CodeClimbersLink>

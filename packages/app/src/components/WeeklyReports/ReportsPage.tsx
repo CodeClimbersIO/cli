@@ -9,11 +9,12 @@ import { ActiveHoursScore } from './ActiveHoursScore'
 import { Logo } from '../common/Logo/Logo'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { useGetLocalServerWeeklyReport } from '../../api/localServer/report.localapi'
+import { CodeClimbersLink } from '../common/CodeClimbersLink'
 
 export const ReportsPage = () => {
   const period = 'week'
   const [selectedDate, setSelectedDate] = useState(
-    dayjs().subtract(1, 'week').startOf(period),
+    dayjs().subtract(1, 'week').startOf(period).add(1, 'day'),
   )
   const { data: weeklyScores, isPending } =
     useGetLocalServerWeeklyReport(selectedDate)
@@ -53,7 +54,17 @@ export const ReportsPage = () => {
                     height: 'auto',
                   }}
                 >
-                  <InfoOutlinedIcon fontSize="inherit" /> Overall Score
+                  <InfoOutlinedIcon fontSize="inherit" />{' '}
+                  <CodeClimbersLink
+                    eventName="weekly_report_overall_score_learn_more"
+                    href="https://codeclimbers.io/blog/weekly-report"
+                    sx={{
+                      color: (theme) => theme.palette.text.secondary,
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Overall Score
+                  </CodeClimbersLink>
                 </Typography>
               </Stack>
             </Box>
