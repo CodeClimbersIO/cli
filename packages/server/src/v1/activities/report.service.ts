@@ -203,8 +203,6 @@ export class ReportService {
     // retrieve the project, deep work, social media, and total time for the week from services
     const endDate = startDate.endOf('week')
 
-    console.log(startDate, endDate)
-
     const [deepWorkTime, growthTime, socialMedia, totalTime, projectTime] =
       await Promise.all([
         this.activitiesService.getDeepWorkBetweenDates(startDate, endDate),
