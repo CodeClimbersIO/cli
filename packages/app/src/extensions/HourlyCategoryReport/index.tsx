@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ResponsiveLine } from '@nivo/line'
-import { Box, CircularProgress, useTheme } from '@mui/material'
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material'
 import dayjs from 'dayjs'
 
 import { useGetData } from './hourlyCategoryReport.api'
@@ -25,16 +25,18 @@ export const HourlyCategoryReport = () => {
       console.log('raw', res)
       if (res?.length > 0) {
         const firstHour = dayjs(res[0]?.time).hour()
-        const lastHour = dayjs(res[-1]?.time).hour()
-        console.log(firstHour)
-        console.log(lastHour)
+        const lastHour = dayjs(res[res.length - 1]?.time).hour()
+        if (firstHour < lastHour) {
+          const length = lastHour - firstHour + 1
+          const basicHours = Array.from({ length }, (v, i) => ({
+            x: i + firstHour,
+            y:
+              res.find((hour) => dayjs(hour.time).hour() === i + firstHour)
+                ?.minutes ?? 0,
+          }))
 
-        const blah = res.map((hour) => ({
-          x: dayjs(hour.time).hour(),
-          y: hour.minutes,
-        }))
-        console.log('map', blah)
-        setChartData(blah)
+          setChartData(basicHours)
+        }
       }
     }
     blah()
@@ -56,14 +58,15 @@ export const HourlyCategoryReport = () => {
         justifyContent="center"
         alignItems="center"
       >
+        <Typography variant="h3">Time</Typography>
         <CircularProgress />
       </Box>
     )
 
   return (
     <div>
-      This is a super cool extension!
-      <div style={{ height: 250 }}>
+      <Typography variant="h3">Hourly Category Report</Typography>
+      <div style={{ height: 225 }}>
         <ResponsiveLine
           data={data}
           margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
@@ -107,6 +110,7 @@ export const HourlyCategoryReport = () => {
           pointLabelYOffset={-12}
           enableTouchCrosshair={true}
           useMesh={true}
+          colors={Object.values(theme.palette.graphColors)}
           // legends={[
           //   {
           //     anchor: 'bottom-right',
