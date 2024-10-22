@@ -194,7 +194,7 @@ export const SqlSandboxPage = () => {
                           },
                         }}
                       >
-                        {Object.entries(row).map(([_, value], cellIndex) => (
+                        {Object.entries(row).map(([, value], cellIndex) => (
                           <TableCell
                             key={cellIndex}
                             sx={{
