@@ -13,11 +13,42 @@ export const HourlyCategoryReport = () => {
 
   const [date, setDate] = useState(dayjs().startOf('day'))
   const [chartData, setChartData] = useState<ChartData[]>([])
+  const [yIntervals, setYIntervals] = useState<number[]>([2, 4, 6, 8, 10])
 
   const { mutateAsync: runSql, isPending } = useGetData(
     date.startOf('day').toISOString(),
     date.endOf('day').toISOString(),
   )
+
+  const getYIntervals = (res: Response[]): number[] => {
+    const max = Math.max(...res.map((hour) => hour.minutes))
+
+    if (max <= 5) {
+      const length = max + 1
+      return Array.from({ length }, (v, i) => i)
+    }
+    if (max < 20) {
+      const length = max / 2 + 1
+
+      if (max % 2 > 0) {
+        return Array.from({ length }, (v, i) => {
+          return Math.round(i * 2) + 1
+        })
+      }
+
+      return Array.from({ length }, (v, i) => {
+        return Math.round(i * 2)
+      })
+    }
+
+    const interval = max / 8
+    return Array.from({ length: 9 }, (v, i) => {
+      if (i === 8) {
+        return max
+      }
+      return Math.round(i * interval)
+    })
+  }
 
   useEffect(() => {
     const blah = async () => {
@@ -35,8 +66,12 @@ export const HourlyCategoryReport = () => {
                 ?.minutes ?? 0,
           }))
 
+          setYIntervals(getYIntervals(res))
           setChartData(basicHours)
         }
+        // format the x axis (19 => 7pm)
+        // add other categories?
+        // make date changeable (or use existing?)
       }
     }
     blah()
@@ -98,6 +133,7 @@ export const HourlyCategoryReport = () => {
             legendOffset: -40,
             legendPosition: 'middle',
             truncateTickAt: 0,
+            tickValues: yIntervals,
           }}
           enableGridY={false}
           enableGridX={false}
