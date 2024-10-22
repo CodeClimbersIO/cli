@@ -13,8 +13,8 @@ import { minutesToHours } from './utils'
 import {
   useCategoryTimeOverview,
   useWeekOverview,
-  usePerProjectOverviewTopThree,
 } from '../../../services/pulse.service'
+import { useProjectsTimeByRangeAndCategory } from '../../../api/browser/pulse.api'
 
 const categories = {
   coding: 'coding',
@@ -40,12 +40,8 @@ const CategoryChart = ({ selectedDate }: Props) => {
   const { data: weekOverview = {} as CodeClimbers.WeekOverview } =
     useWeekOverview(selectedDate?.toISOString() ?? '')
 
-  const {
-    data: perProjectTopThree = {} as CodeClimbers.PerProjectTimeOverview,
-    isPending: perProjectOverviewTopThreePending,
-  } = usePerProjectOverviewTopThree(selectedDate)
-  const perProjectOverviewTopThree =
-    perProjectTopThree || ({} as CodeClimbers.PerProjectTimeOverview)
+  const { isLoading: isLoadingProjects, data: projects } =
+    useProjectsTimeByRangeAndCategory(selectedDate, selectedDate.endOf('day'))
 
   useEffect(() => {
     if (todayOverview.length > 0)
@@ -83,18 +79,21 @@ const CategoryChart = ({ selectedDate }: Props) => {
   }
 
   const getPerProjectMinutes = (category = '') => {
-    if (perProjectOverviewTopThree[category]) {
-      return perProjectOverviewTopThree[category].map((project) => ({
-        title: project.name,
-        time: minutesToHours(project.minutes),
-        progress: (project.minutes / (3 * 60)) * 100,
-      }))
+    if (!projects) return []
+    if (projects[category]) {
+      return projects[category]
+        .map((project) => ({
+          title: project.name,
+          time: minutesToHours(project.minutes),
+          progress: (project.minutes / (3 * 60)) * 100,
+        }))
+        .filter(({ title }) => !title.includes('<<'))
+        .slice(0, 3)
     }
     return []
   }
 
-  if (isPending || perProjectOverviewTopThreePending)
-    return <CircularProgress />
+  if (isPending || isLoadingProjects) return <CircularProgress />
   return (
     <>
       <TimeDataChart

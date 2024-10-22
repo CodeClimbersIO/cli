@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateWakatimePulseDto } from '../dtos/createWakatimePulse.dto'
 import { PulseRepo } from '../database/pulse.repo'
 import os from 'node:os'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import { TimePeriodDto } from '../dtos/getCategoryTimeOverview.dto'
 import { PageDto, PageMetaDto, PageOptionsDto } from '../dtos/pagination.dto'
 import {
@@ -12,7 +12,7 @@ import {
   getSourceFromUserAgent,
   calculatePulseHash,
 } from '../../../utils/activities.util'
-import { assert } from 'node:console'
+import assert from 'node:assert'
 
 @Injectable()
 export class ActivitiesService {
@@ -43,9 +43,8 @@ export class ActivitiesService {
   }
 
   async createPulses(pulsesDto: CreateWakatimePulseDto[]) {
-    assert(!pulsesDto, 'pulsesDto required')
-    assert(!Array.isArray(pulsesDto), 'Pulses must be an array')
-
+    assert(pulsesDto, 'pulsesDto required')
+    assert(Array.isArray(pulsesDto), 'Pulses must be an array')
     const latestProject = await this.pulseRepo.getLatestProject()
     const pulses: CodeClimbers.Pulse[] = pulsesDto.map((dto) =>
       this.mapDtoToPulse(dto, latestProject),
@@ -200,6 +199,191 @@ export class ActivitiesService {
     return Buffer.from(csvString, 'utf-8')
   }
 
+  getDeepWorkBetweenDates = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.DeepWorkPeriod[]> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+
+    const records = await this.pulseRepo.getDeepWork(startDate, endDate)
+
+    const periods: CodeClimbers.DeepWorkPeriod[] = []
+    let currentPeriod: CodeClimbers.DeepWorkPeriod | null = null
+
+    const isSameDay = (date1: string, date2: string) => {
+      return new Date(date1).toDateString() === new Date(date2).toDateString()
+    }
+
+    records.forEach((item) => {
+      if (currentPeriod && isSameDay(currentPeriod.startDate, item.flowStart)) {
+        currentPeriod.endDate = item.flowStart
+        currentPeriod.time += item.flowTime
+      } else {
+        if (currentPeriod) {
+          periods.push(currentPeriod)
+        }
+        currentPeriod = {
+          startDate: item.flowStart,
+          endDate: item.flowStart,
+          time: item.flowTime,
+        }
+      }
+    })
+
+    if (currentPeriod) {
+      periods.push(currentPeriod)
+    }
+
+    return periods
+  }
+
+  getProjectsTimeByRangeAndCategory = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.PerProjectTimeAndCategoryOverview> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+
+    const records = await this.pulseRepo.getTimeByProjectCategoryAndRange(
+      startDate,
+      endDate,
+    )
+
+    return records.reduce((acc, row) => {
+      if (!acc[row.category]) {
+        acc[row.category] = []
+      }
+
+      acc[row.category].push({ name: row.name, minutes: row.minutes })
+
+      return acc
+    }, {} as CodeClimbers.PerProjectTimeAndCategoryOverview)
+  }
+
+  getProjectsTimeByRange = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.PerProjectTimeOverviewDB[]> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+
+    const records = await this.pulseRepo.getTimeByProjectAndRange(
+      startDate,
+      endDate,
+    )
+
+    return records
+  }
+
+  getSocialMediaTimeByRange = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+
+    const records = await this.pulseRepo.getTimeByEntityAndRange(
+      startDate,
+      endDate,
+    )
+
+    const sites = [
+      'facebook',
+      'instagram',
+      'twitter',
+      'linkedin',
+      'tiktok',
+      'snapchat',
+      'youtube',
+      'twitch',
+      'pinterest',
+    ]
+
+    const socialMediaTimes = records.filter((row) =>
+      sites.some((site) => row.entity.toLowerCase().includes(site)),
+    )
+
+    return socialMediaTimes
+  }
+
+  getGrowthAndMasteryScore = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.EntityTimeOverviewDB[]> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+    const records = await this.pulseRepo.getTimeByEntityAndRange(
+      startDate,
+      endDate,
+    )
+
+    const sites = [
+      'mozilla',
+      'stackoverflow',
+      'devdocs',
+      'coursera',
+      'udemy',
+      'codeacademy',
+      'theodinproject',
+      'freecodecamp',
+      'daily.dev',
+      'dev.to',
+      'hackernews',
+      'leetcode',
+      'hackerank',
+    ]
+
+    const growthSites = records.filter((row) =>
+      sites.some((site) => row.entity.toLowerCase().includes(site)),
+    )
+    return growthSites
+  }
+
+  getCategoryTimeByRange = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<CodeClimbers.CategoryTimeOverviewDB[]> => {
+    const startDate = selectedStartDate?.startOf('day').toISOString()
+    const endDate = selectedEndDate?.endOf('day').toISOString()
+
+    const records = await this.pulseRepo.getTimeByCategoryAndRange(
+      startDate,
+      endDate,
+    )
+
+    // merge category 'communication' with 'communicating'
+    const mergedRecords = records
+      .map((row) => {
+        if (row.category === 'communication') {
+          return { ...row, category: 'communicating' }
+        }
+        return row
+      })
+      .reduce((acc, row) => {
+        const existingCategory = acc.find((c) => c.category === row.category)
+        if (existingCategory) {
+          existingCategory.minutes += row.minutes
+        } else {
+          acc.push(row)
+        }
+        return acc
+      }, [] as CodeClimbers.CategoryTimeOverviewDB[])
+
+    return mergedRecords
+  }
+
+  getTotalTimeByRange = async (
+    selectedStartDate: Dayjs,
+    selectedEndDate: Dayjs,
+  ): Promise<number> => {
+    const timeRecords = await this.getCategoryTimeByRange(
+      selectedStartDate,
+      selectedEndDate,
+    )
+    return timeRecords.reduce((acc, row) => acc + row.minutes, 0)
+  }
+
   private userAgent() {
     const platform = os.platform()
     const release = os.release()
@@ -255,7 +439,7 @@ export class ActivitiesService {
   async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.PerProjectTimeOverview> {
+  ): Promise<CodeClimbers.PerProjectTimeAndCategoryOverview> {
     return await this.pulseRepo.getPerProjectOverviewTopThree(
       startDate,
       endDate,

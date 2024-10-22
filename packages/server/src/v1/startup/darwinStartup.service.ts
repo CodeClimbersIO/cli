@@ -61,11 +61,11 @@ export class DarwinStartupService implements CodeClimbers.StartupService {
       this.service.on('stop', () => {
         console.log(`${this.service.name} stopped`)
       })
-
-      this.service.on('error', (error) => {
-        console.error(`${this.service.name} error:`, error)
-      })
     }
+
+    this.service.on('error', (error) => {
+      console.error(`${this.service.name} error:`, error)
+    })
   }
 
   async enableStartup(): Promise<void> {

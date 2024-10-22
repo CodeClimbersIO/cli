@@ -6,12 +6,10 @@ import {
 
 export const BASE_API_URL = '/api/v1'
 
-export const useBetterQuery = <TData, TResult = TData, Error = unknown>(
-  options: Omit<UseQueryOptions<TData, Error, TResult>, 'initialData'> & {
-    initialData?: () => undefined
-  },
-): UseQueryResult<TResult, Error> & { isEmpty: boolean } => {
-  const queryResult = useQuery<TData, Error, TResult>(options)
+export const useBetterQuery = <T, Error>(
+  options: UseQueryOptions<T, Error>,
+): UseQueryResult<T, Error> & { isEmpty: boolean } => {
+  const queryResult = useQuery<T, Error>(options)
 
   // Determine if the data is "empty"
   const isEmpty = queryResult.data

@@ -186,7 +186,7 @@ export class PulseRepo {
         this.knex(this.tableName)
           .select({
             userAgent: 'user_agent',
-            totalMinutes: this.knex.raw('count(*) * 2'),
+            totalMinutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -227,13 +227,13 @@ export class PulseRepo {
       'localhost',
     ]
 
-    return await this.knex(this.tableName)
+    return this.knex(this.tableName)
       .with(
         'getSiteMinutes',
         this.knex(this.tableName)
           .select({
             entity: 'entity',
-            minutes: this.knex.raw('count(*) * 2'),
+            minutes: this.knex.raw('count(*)'),
           })
           .from(this.tableName)
           .whereBetween('time', [startDate, endDate])
@@ -254,7 +254,7 @@ export class PulseRepo {
   async getPerProjectOverviewTopThree(
     startDate: string,
     endDate: string,
-  ): Promise<CodeClimbers.PerProjectTimeOverview> {
+  ): Promise<CodeClimbers.PerProjectTimeAndCategoryOverview> {
     const baseQuery = this.knex<MinutesQuery[]>(this.tableName)
       .select(this.knex.raw('category, project, count(*) * 2'))
       .from(this.tableName)
@@ -285,7 +285,7 @@ export class PulseRepo {
       acc[row.category].push({ name: row.name, minutes: row.minutes })
 
       return acc
-    }, {} as CodeClimbers.PerProjectTimeOverview)
+    }, {} as CodeClimbers.PerProjectTimeAndCategoryOverview)
   }
 
   async getPerProjectOverviewByCategory(
@@ -312,5 +312,100 @@ export class PulseRepo {
       .offset(offset)
       .limit(pageSize)
       .from('getMinutes')
+  }
+
+  getTimeByProjectCategoryAndRange = async (
+    startDate: string,
+    endDate: string,
+  ) => {
+    const query = `
+  with get_minutes as 
+  (
+    select category, project from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by category, project, strftime('%s', time) / 120
+  ) 
+  select category, project as name, count() * 2 as minutes 
+    from get_minutes 
+    group by category, project 
+    order by category asc, minutes desc 
+  `
+    const result = await this.knex.raw<
+      CodeClimbers.PerProjectTimeAndCategoryOverviewDB[]
+    >(query, {
+      startDate: startDate,
+      endDate: endDate,
+    })
+    return result
+  }
+
+  getTimeByProjectAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select project from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    and category = 'coding'
+    group by  project, strftime('%s', time) / 120
+  ) 
+  select project as name, count() * 2 as minutes 
+    from get_minutes 
+    group by project 
+    order by minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.PerProjectTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
+  }
+
+  getTimeByEntityAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select entity from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by entity, strftime('%s', time) / 120
+  ) 
+  select entity, count() * 2 as minutes 
+    from get_minutes 
+    group by entity 
+    order by minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.EntityTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
+  }
+
+  getTimeByCategoryAndRange = async (startDate: string, endDate: string) => {
+    const query = `
+  with get_minutes as 
+  (
+    select category from activities_pulse 
+    where time between '${startDate}' and '${endDate}' 
+    group by category, strftime('%s', time) / 120
+  ) 
+  select category, count() * 2 as minutes 
+    from get_minutes 
+    group by category 
+    order by category asc, minutes desc 
+  `
+    const result = await this.knex.raw<CodeClimbers.CategoryTimeOverviewDB[]>(
+      query,
+      {
+        startDate: startDate,
+        endDate: endDate,
+      },
+    )
+    return result
   }
 }

@@ -65,7 +65,7 @@ declare namespace CodeClimbers {
     minutes: number
   }
 
-  export interface PerProjectTimeOverview {
+  export interface PerProjectTimeAndCategoryOverview {
     [key: string]: ProjectTimeOverview[]
   }
 

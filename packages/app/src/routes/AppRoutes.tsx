@@ -5,10 +5,11 @@ import { ExtensionsPage } from '../components/Extensions/ExtensionsPage'
 import { ExtensionsLayout } from '../layouts/ExtensionsLayout'
 import { ContributorsPage } from '../components/ContributorsPage'
 import { getActiveDashboardExtensionRoutes } from '../services/extensions.service'
-import { HomePage } from '../components/Home/HomePage'
 import { InstallPage } from '../components/InstallPage'
 import { DashboardLayout } from '../layouts/DashboardLayout'
 import { ImportLayout } from '../layouts/ImportLayout'
+import { ReportsPage } from '../components/WeeklyReports/ReportsPage'
+import { HomePage } from '../components/Home/HomePage'
 
 export const AppRoutes = () => {
   const extensions = getActiveDashboardExtensionRoutes()
@@ -23,6 +24,7 @@ export const AppRoutes = () => {
             handle={{ title: 'Extensions' }}
           />
           <Route path="/contributors" element={<ContributorsPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
         </Route>
         <Route element={<ExtensionsLayout />}>
           {extensions.map((extension) => {
