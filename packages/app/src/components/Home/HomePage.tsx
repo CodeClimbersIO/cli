@@ -16,11 +16,11 @@ const HomePage = () => {
     retry: false,
     refetchInterval: false,
   })
+  useSetFeaturePreference()
+
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
 
   if (!health && !isHealthPending) return <Navigate to="/install" />
-
-  useSetFeaturePreference()
 
   return (
     <div style={{ padding: '2rem' }}>
