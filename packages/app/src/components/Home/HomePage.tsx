@@ -9,6 +9,7 @@ import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 import { Sources } from './Source/Sources'
 import { DateHeader } from './DateHeader'
+import { useSetFeaturePreference } from '../../hooks/useSetFeaturePreference'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -18,6 +19,8 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
 
   if (!health && !isHealthPending) return <Navigate to="/install" />
+
+  useSetFeaturePreference()
 
   return (
     <div style={{ padding: '2rem' }}>
