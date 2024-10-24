@@ -170,8 +170,16 @@ const lightOptions: ThemeOptions = {
     },
     background: {
       default: '#F5F5F5',
+      paper: '#F8F8F8',
+      paper_raised: '#E6E6E6',
     },
     graphColors: lightGraphColors,
+    text: {
+      primary: '#222222', //default
+      secondary: '#000000', //strong
+      disabled: '#464646', //weak
+
+    },
   },
   typography,
 }
