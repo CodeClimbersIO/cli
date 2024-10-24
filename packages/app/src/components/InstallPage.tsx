@@ -158,7 +158,8 @@ const InstallPage = () => {
                     <Link
                       href="https://nodejs.org/en/download/"
                       target="_blank"
-                      sx={{ textDecoration: 'none', color: 'default' }}
+                      color="text.primary"
+                      sx={{ textDecoration: 'none' }}
                     >
                       Install Node.js ↗
                     </Link>
