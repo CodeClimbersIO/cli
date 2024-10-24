@@ -3,7 +3,7 @@ import { Stack, Typography, useTheme } from '@mui/material'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
 import { SiteDetails } from '../../../utils/supportedSites'
-import { typeColors } from '@app/utils/categories'
+import { typeColors } from '../../../utils/categories'
 
 interface SiteRowProps {
   site: SiteDetails

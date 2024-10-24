@@ -3,7 +3,7 @@ import { AppDetails } from '../../../utils/supportedSources'
 import { getTimeSince } from '../../../utils/time'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
-import { typeColors } from '@app/utils/categories'
+import { typeColors } from '../../../utils/categories'
 
 interface SourceRowProps {
   source: AppDetails
