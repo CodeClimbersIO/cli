@@ -6,12 +6,12 @@ import dayjs from 'dayjs'
 import { useGetData } from './hourlyCategoryReport.api'
 
 type Response = { time: string; minutes: number }
-type ChartData = { x: number; y: number } // x: hours, y: minutes
+type ChartData = { x: string; y: number } // x: hour, y: minutes
 
 export const HourlyCategoryReport = () => {
   const theme = useTheme()
 
-  const [date, setDate] = useState(dayjs().startOf('day'))
+  const [date, setDate] = useState(dayjs('2024-10-21').startOf('day'))
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [yIntervals, setYIntervals] = useState<number[]>([2, 4, 6, 8, 10])
 
@@ -50,28 +50,32 @@ export const HourlyCategoryReport = () => {
     })
   }
 
+  const getXLabel = (hour: number): string => {
+    if (hour < 12) return `${hour} am`
+    if (hour === 12) return `${hour} pm`
+    return `${hour - 12} pm`
+  }
+
   useEffect(() => {
     const blah = async () => {
       const res: Response[] = await runSql()
-      console.log('raw', res)
+
       if (res?.length > 0) {
         const firstHour = dayjs(res[0]?.time).hour()
         const lastHour = dayjs(res[res.length - 1]?.time).hour()
+
         if (firstHour < lastHour) {
           const length = lastHour - firstHour + 1
-          const basicHours = Array.from({ length }, (v, i) => ({
-            x: i + firstHour,
+          const basicHours = Array.from({ length }, (_, index) => ({
+            x: getXLabel(index + firstHour),
             y:
-              res.find((hour) => dayjs(hour.time).hour() === i + firstHour)
+              res.find((hour) => dayjs(hour.time).hour() === index + firstHour)
                 ?.minutes ?? 0,
           }))
 
           setYIntervals(getYIntervals(res))
           setChartData(basicHours)
         }
-        // format the x axis (19 => 7pm)
-        // add other categories?
-        // make date changeable (or use existing?)
       }
     }
     blah()
@@ -120,7 +124,7 @@ export const HourlyCategoryReport = () => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'time (by hour)',
+            legend: 'Time (by hour)',
             legendOffset: 36,
             legendPosition: 'middle',
             truncateTickAt: 0,
@@ -129,7 +133,7 @@ export const HourlyCategoryReport = () => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'minutes',
+            legend: 'Minutes',
             legendOffset: -40,
             legendPosition: 'middle',
             truncateTickAt: 0,
@@ -144,9 +148,33 @@ export const HourlyCategoryReport = () => {
           pointBorderColor={{ from: 'serieColor' }}
           pointLabel="data.yFormatted"
           pointLabelYOffset={-12}
-          enableTouchCrosshair={true}
+          enableTouchCrosshair
+          enablePointLabel
           useMesh={true}
           colors={Object.values(theme.palette.graphColors)}
+          theme={{
+            text: { fill: theme.palette.graphColors.grey },
+            axis: {
+              ticks: {
+                text: {
+                  fill: theme.palette.graphColors.grey,
+                },
+                line: {
+                  stroke: theme.palette.graphColors.grey,
+                },
+              },
+              domain: {
+                line: {
+                  stroke: theme.palette.graphColors.grey,
+                },
+              },
+              legend: {
+                text: {
+                  fill: theme.palette.graphColors.grey,
+                },
+              },
+            },
+          }}
           // legends={[
           //   {
           //     anchor: 'bottom-right',
