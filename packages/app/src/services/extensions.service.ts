@@ -66,7 +66,10 @@ const extensions: (Extension | DashboardExtension)[] = [
     name: 'Hourly Category Report',
     authorName: 'Danielle Hovley',
     authorUrl: 'https://github.com/danzjamz',
-    description: 'View how your time has been spent for each category over the day. Helps you easily be able to determine which hours in the day you were most productive - or most distracted.',
+    description:
+      'View how your time has been spent for each category over the day. Helps you easily be able to determine which hours in the day you were most productive - or most distracted.',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Fhourly-category-extension.png?alt=media',
     createdAt: new Date('2024-10-24'),
     isPopular: false,
     component: HourlyCategoryReport,
