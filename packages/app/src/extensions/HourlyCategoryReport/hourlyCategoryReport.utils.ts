@@ -1,4 +1,4 @@
-import { GraphColors } from '@app/config/theme';
+import { GraphColors } from '@app/config/theme'
 import {
   categories,
   simplifiedCategories,
@@ -28,8 +28,8 @@ export const formatData = (
 ): ChartData[] => {
   if (hourlyData?.length === 0) return []
 
-  const timeByCategory = Object.values(simplifiedCategories).map(
-    (category) => ({
+  const timeByCategory = Object.values(simplifiedCategories)
+    .map((category) => ({
       id: category,
       color:
         typeColors(theme).find((typeColor) => typeColor.category === category)
@@ -42,8 +42,8 @@ export const formatData = (
         return item.category === category
       }),
       data: [] as DataPoint[],
-    }),
-  )
+    }))
+    .filter((category) => category.rawData.length > 0)
 
   const firstHour = dayjs(hourlyData[0]?.time).hour()
   const lastHour = dayjs(hourlyData[hourlyData.length - 1]?.time).hour()
