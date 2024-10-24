@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
-import { useSelectedDate } from '@app/hooks/useSelectedDate'
+import { useSelectedDate } from '../../hooks/useSelectedDate'
 import { Time } from './Time/Time'
 import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'

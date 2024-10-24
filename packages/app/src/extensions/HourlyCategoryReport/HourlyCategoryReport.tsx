@@ -2,10 +2,20 @@ import { useEffect, useState } from 'react'
 import { ResponsiveLine } from '@nivo/line'
 import { Box, CircularProgress, useTheme } from '@mui/material'
 
-import { useSelectedDate } from '@app/hooks/useSelectedDate'
-import { useGetBrowsingData, useGetCodingData, useGetCommunicatingData, useGetDesigningData } from './hourlyCategoryReport.api'
-import { ChartData, formatData, getChartTheme, getYIntervals, HourlyResponse } from './hourlyCategoryReport.utils'
-
+import { useSelectedDate } from '../../hooks/useSelectedDate'
+import {
+  useGetBrowsingData,
+  useGetCodingData,
+  useGetCommunicatingData,
+  useGetDesigningData,
+} from './hourlyCategoryReport.api'
+import {
+  ChartData,
+  formatData,
+  getChartTheme,
+  getYIntervals,
+  HourlyResponse,
+} from './hourlyCategoryReport.utils'
 
 export const HourlyCategoryReportChart = () => {
   const theme = useTheme()
@@ -38,9 +48,12 @@ export const HourlyCategoryReportChart = () => {
       const browsing: HourlyResponse[] = await getBrowsingData()
       const communicating: HourlyResponse[] = await getCommunicatingData()
       const designing: HourlyResponse[] = await getDesigningData()
-      
-      const formattedData = formatData([...coding, ...browsing, ...communicating, ...designing], theme)
-      
+
+      const formattedData = formatData(
+        [...coding, ...browsing, ...communicating, ...designing],
+        theme,
+      )
+
       setYIntervals(getYIntervals([...coding, ...browsing]))
       setChartData(formattedData)
     }
@@ -91,7 +104,12 @@ export const HourlyCategoryReportChart = () => {
       enableTouchCrosshair
       enablePointLabel
       useMesh={true}
-      colors={[graphColors.blue, graphColors.green, graphColors.purple, graphColors.orange]}
+      colors={[
+        graphColors.blue,
+        graphColors.green,
+        graphColors.purple,
+        graphColors.orange,
+      ]}
       legends={[
         {
           anchor: 'top',

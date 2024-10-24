@@ -7,7 +7,7 @@ import posthog from 'posthog-js'
 import { SqlSandbox } from '../extensions/SqlSandbox'
 import { SqlSandboxPage } from '../extensions/SqlSandbox/SqlSandboxPage'
 import { onAdd } from '../extensions/SqlSandbox/sqlSandbox.service'
-import { HourlyCategoryReport } from '@app/extensions/HourlyCategoryReport'
+import { HourlyCategoryReport } from '../extensions/HourlyCategoryReport'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 

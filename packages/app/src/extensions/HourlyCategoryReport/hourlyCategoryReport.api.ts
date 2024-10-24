@@ -1,7 +1,7 @@
-import { sqlQueryFn } from '@app/api/browser/services/query.service'
+import { sqlQueryFn } from '../../api/browser/services/query.service'
 import { useMutation } from '@tanstack/react-query'
 
-const getQuery = (startDate: string, endDate: string, category: string) => 
+const getQuery = (startDate: string, endDate: string, category: string) =>
   `WITH getMinutes (category, time) AS (
     SELECT category, time
     FROM activities_pulse
@@ -14,7 +14,11 @@ const getQuery = (startDate: string, endDate: string, category: string) =>
   ORDER BY time;`
 
 export const useGetCodingData = (startDate: string, endDate: string) => {
-  const query = getQuery(startDate, endDate, "(category is 'coding' or category is 'debugging')")
+  const query = getQuery(
+    startDate,
+    endDate,
+    "(category is 'coding' or category is 'debugging')",
+  )
 
   return useMutation({
     mutationFn: () => sqlQueryFn(query, 'hourlyCategoryReport-coding'),

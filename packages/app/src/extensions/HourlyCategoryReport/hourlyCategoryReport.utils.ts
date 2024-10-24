@@ -1,9 +1,9 @@
-import { GraphColors } from '@app/config/theme'
+import { GraphColors } from '../../config/theme'
 import {
   categories,
   simplifiedCategories,
   typeColors,
-} from '@app/utils/categories'
+} from '../../utils/categories'
 import { Theme } from '@mui/material'
 import dayjs from 'dayjs'
 
