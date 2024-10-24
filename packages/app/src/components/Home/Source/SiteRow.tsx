@@ -3,6 +3,7 @@ import { Stack, Typography, useTheme } from '@mui/material'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
 import { SiteDetails } from '../../../utils/supportedSites'
+import { typeColors } from '@app/utils/categories'
 
 interface SiteRowProps {
   site: SiteDetails
@@ -13,27 +14,9 @@ export const SiteRow = ({ site, minutes }: SiteRowProps) => {
   const theme = useTheme()
   const compareTime = 90
 
-  const typeColors = [
-    {
-      type: 'code',
-      color: theme.palette.graphColors.blue,
-    },
-    {
-      type: 'design',
-      color: theme.palette.graphColors.orange,
-    },
-    {
-      type: 'communication',
-      color: theme.palette.graphColors.purple,
-    },
-    {
-      type: 'misc',
-      color: theme.palette.graphColors.green,
-    },
-  ]
   const sourceCategoryColor =
-    typeColors.find((typeColor) => typeColor.type === site.type)?.color ??
-    theme.palette.graphColors.blue
+    typeColors(theme).find((typeColor) => typeColor.type === site.type)
+      ?.color ?? theme.palette.graphColors.blue
 
   return (
     <Stack
