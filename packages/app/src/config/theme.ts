@@ -178,7 +178,6 @@ const lightOptions: ThemeOptions = {
       primary: '#222222', //default
       secondary: '#000000', //strong
       disabled: '#464646', //weak
-
     },
   },
   typography,
