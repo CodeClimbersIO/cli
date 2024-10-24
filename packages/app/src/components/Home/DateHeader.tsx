@@ -76,7 +76,7 @@ const DateHeader = ({
   const formatDate = () => {
     if (period === 'week') {
       // week formated as "Oct 7 - Oct 13"
-      return `${selectedDate.format('MMM D')} - ${selectedDate.endOf('week').format('MMM D')}`
+      return `${selectedDate.format('MMM D')} - ${selectedDate.endOf('week').add(1, 'day').format('MMM D')}`
     }
     return selectedDate.format('MMMM D, YYYY')
   }

@@ -1,13 +1,14 @@
 import { Box } from '@mui/material'
-
-import { Time } from './Time/Time'
 import { Navigate } from 'react-router-dom'
+
+import { useSelectedDate } from '@app/hooks/useSelectedDate'
+import { Time } from './Time/Time'
 import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 import { Sources } from './Source/Sources'
 import { DateHeader } from './DateHeader'
-import { useSelectedDate } from '@app/hooks/useSelectedDate'
+import { useSetFeaturePreference } from '../../hooks/useSetFeaturePreference'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -15,6 +16,7 @@ const HomePage = () => {
     refetchInterval: false,
   })
   const { selectedDate, setSelectedDate } = useSelectedDate()
+  useSetFeaturePreference()
 
   if (!health && !isHealthPending) return <Navigate to="/install" />
 

@@ -19,6 +19,7 @@ import {
   useUpdateUser,
 } from '../../api/browser/user.api'
 import { CodeClimbersLink } from './CodeClimbersLink'
+import { setFeatureEnabled } from '../../services/feature.service'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
@@ -130,6 +131,7 @@ export const WeeklyReportDialog = ({
         email: email,
       },
     })
+    setFeatureEnabled('weekly-report', reportOption)
     handleClose()
   }
   const hasNotSelectedItems = reportOption === '' || !email
