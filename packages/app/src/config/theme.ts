@@ -2,7 +2,7 @@ import '@mui/lab/themeAugmentation'
 import { ThemeOptions, createTheme } from '@mui/material'
 import { TypographyOptions } from '@mui/material/styles/createTypography'
 
-interface GraphColors {
+export interface GraphColors {
   blue: string
   purple: string
   green: string

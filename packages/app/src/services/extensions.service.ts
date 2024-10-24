@@ -7,6 +7,7 @@ import posthog from 'posthog-js'
 import { SqlSandbox } from '../extensions/SqlSandbox'
 import { SqlSandboxPage } from '../extensions/SqlSandbox/SqlSandboxPage'
 import { onAdd } from '../extensions/SqlSandbox/sqlSandbox.service'
+import { HourlyCategoryReport } from '../extensions/HourlyCategoryReport'
 
 const EXTENSIONS_KEY = 'activated-extensions'
 
@@ -59,6 +60,19 @@ const extensions: (Extension | DashboardExtension)[] = [
       "We've been working on a Direct Query API for providing data for the reports. Try it out and let us know if you have any bugs. This is how the app will get data in the future",
     createdAt: new Date('2024-09-17'),
     isPopular: true,
+  },
+  {
+    id: 'HourlyCategoryReport',
+    name: 'Hourly Category Report',
+    authorName: 'Danielle Hovley',
+    authorUrl: 'https://github.com/danzjamz',
+    description:
+      'View how your time has been spent for each category over the day. Helps you easily be able to determine which hours in the day you were most productive - or most distracted.',
+    image:
+      'https://firebasestorage.googleapis.com/v0/b/codeclimbersio.appspot.com/o/public%2Fhourly-category-extension.png?alt=media',
+    createdAt: new Date('2024-10-24'),
+    isPopular: false,
+    component: HourlyCategoryReport,
   },
 ]
 

@@ -3,6 +3,7 @@ import { AppDetails } from '../../../utils/supportedSources'
 import { getTimeSince } from '../../../utils/time'
 import { minutesToHours } from '../Time/utils'
 import { SourceTimeChart } from './SourceTimeChart'
+import { typeColors } from '../../../utils/categories'
 
 interface SourceRowProps {
   source: AppDetails
@@ -13,17 +14,6 @@ interface SourceRowProps {
 export const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
   const theme = useTheme()
   const compareTime = 90
-
-  const typeColors = [
-    {
-      type: 'code',
-      color: theme.palette.graphColors.blue,
-    },
-    {
-      type: 'web',
-      color: theme.palette.graphColors.green,
-    },
-  ]
 
   return (
     <Stack
@@ -51,8 +41,9 @@ export const SourceRow = ({ source, lastActive, minutes }: SourceRowProps) => {
               time={minutesToHours(minutes)}
               progress={Math.floor((minutes / compareTime) * 100)}
               color={
-                typeColors.find((typeColor) => typeColor.type === source.type)
-                  ?.color ?? theme.palette.graphColors.blue
+                typeColors(theme).find(
+                  (typeColor) => typeColor.type === source.type,
+                )?.color ?? theme.palette.graphColors.blue
               }
             />
           )}

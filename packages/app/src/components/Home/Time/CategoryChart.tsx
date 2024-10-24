@@ -15,14 +15,7 @@ import {
   useWeekOverview,
 } from '../../../services/pulse.service'
 import { useProjectsTimeByRangeAndCategory } from '../../../api/browser/pulse.api'
-
-const categories = {
-  coding: 'coding',
-  browsing: 'browsing',
-  debugging: 'debugging',
-  communicating: 'communicating',
-  designing: 'designing', // verify
-}
+import { categories } from '../../../utils/categories'
 
 interface Props {
   selectedDate: Dayjs
