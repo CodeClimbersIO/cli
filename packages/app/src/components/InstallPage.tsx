@@ -35,7 +35,7 @@ const InstallPage = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#1d1d1d',
+        backgroundColor: 'default',
         height: '100%',
       }}
     >
@@ -54,7 +54,6 @@ const InstallPage = () => {
             flexDirection: 'column',
             justifyContent: 'space-between',
             p: 8,
-            background: `url(${installBackground}) repeat center center`,
             ...borderObject,
           }}
         >
@@ -111,7 +110,7 @@ const InstallPage = () => {
               </CodeClimbersButton>
             </Box>
             {isMobile() && (
-              <Paper sx={{ p: 4, mt: 8, backgroundColor: '#262626' }}>
+              <Paper sx={{ p: 4, mt: 8, backgroundColor: 'background.paper' }}>
                 <Typography>
                   Open this page on a computer to install CodeClimbers.
                 </Typography>
@@ -144,7 +143,7 @@ const InstallPage = () => {
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   p: 3,
-                  backgroundColor: '#262626',
+                  backgroundColor: 'background.paper',
                   height: '300px',
                 }}
               >
@@ -159,7 +158,7 @@ const InstallPage = () => {
                     <Link
                       href="https://nodejs.org/en/download/"
                       target="_blank"
-                      sx={{ textDecoration: 'none', color: 'white' }}
+                      sx={{ textDecoration: 'none', color: 'default' }}
                     >
                       Install Node.js ↗
                     </Link>
@@ -176,7 +175,7 @@ const InstallPage = () => {
               <Paper
                 sx={{
                   p: 3,
-                  backgroundColor: '#262626',
+                  backgroundColor: 'background.paper',
                   height: '300px',
                   display: 'flex',
                   flex: 1,
@@ -207,11 +206,11 @@ const InstallPage = () => {
                       Run
                     </Typography>
                     {isWaiting ? (
-                      <Typography variant="body2" color="#FFC9BD">
+                      <Typography variant="body2" color="text.secondary">
                         <CircularProgress size={16} /> waiting for install
                       </Typography>
                     ) : (
-                      <Typography variant="body2" color="#FFC9BD">
+                      <Typography variant="body2" color="text.secondary">
                         not installed
                       </Typography>
                     )}
