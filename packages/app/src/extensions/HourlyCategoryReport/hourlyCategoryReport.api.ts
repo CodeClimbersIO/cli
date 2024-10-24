@@ -8,7 +8,7 @@ export const useGetData = (startDate: string, endDate: string) => {
       WHERE activities_pulse.time BETWEEN '${startDate}' AND '${endDate}'
         and (category is 'coding' or category is 'debugging')
       GROUP BY strftime('%s', time) / 120)
-  SELECT time, count() as minutes
+  SELECT time, count() * 2 as minutes
   FROM getMinutes
   GROUP BY strftime('%s', time) / 3600
   ORDER BY time;`

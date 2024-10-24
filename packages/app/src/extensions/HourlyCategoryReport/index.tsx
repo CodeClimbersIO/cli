@@ -4,6 +4,7 @@ import { Box, CircularProgress, Typography, useTheme } from '@mui/material'
 import dayjs from 'dayjs'
 
 import { useGetData } from './hourlyCategoryReport.api'
+import { useSelectedDate } from '@app/hooks/useSelectedDate'
 
 type Response = { time: string; minutes: number }
 type ChartData = { x: string; y: number } // x: hour, y: minutes
@@ -11,13 +12,14 @@ type ChartData = { x: string; y: number } // x: hour, y: minutes
 export const HourlyCategoryReport = () => {
   const theme = useTheme()
 
-  const [date, setDate] = useState(dayjs('2024-10-21').startOf('day'))
+  const { selectedDate } = useSelectedDate()
+
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [yIntervals, setYIntervals] = useState<number[]>([2, 4, 6, 8, 10])
 
   const { mutateAsync: runSql, isPending } = useGetData(
-    date.startOf('day').toISOString(),
-    date.endOf('day').toISOString(),
+    selectedDate.startOf('day').toISOString(),
+    selectedDate.endOf('day').toISOString(),
   )
 
   const getYIntervals = (res: Response[]): number[] => {
@@ -83,7 +85,7 @@ export const HourlyCategoryReport = () => {
 
   const data = [
     {
-      id: 'japan',
+      id: 'Coding',
       color: theme.palette.graphColors.blue,
       data: chartData,
     },
@@ -97,7 +99,7 @@ export const HourlyCategoryReport = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <Typography variant="h3">Time</Typography>
+        <Typography variant="h3">Hourly Category Report</Typography>
         <CircularProgress />
       </Box>
     )
@@ -177,8 +179,8 @@ export const HourlyCategoryReport = () => {
           }}
           // legends={[
           //   {
-          //     anchor: 'bottom-right',
-          //     direction: 'column',
+          //     anchor: 'top',
+          //     direction: 'row',
           //     justify: false,
           //     translateX: 100,
           //     translateY: 0,

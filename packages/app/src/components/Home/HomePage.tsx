@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import { Box } from '@mui/material'
-import dayjs from 'dayjs'
 
 import { Time } from './Time/Time'
 import { Navigate } from 'react-router-dom'
@@ -9,13 +7,14 @@ import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 import { Sources } from './Source/Sources'
 import { DateHeader } from './DateHeader'
+import { useSelectedDate } from '@app/hooks/useSelectedDate'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
     retry: false,
     refetchInterval: false,
   })
-  const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
+  const { selectedDate, setSelectedDate } = useSelectedDate()
 
   if (!health && !isHealthPending) return <Navigate to="/install" />
 
