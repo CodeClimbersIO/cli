@@ -1,4 +1,4 @@
-import { useBetterQuery } from '..'
+import { PLATFORM_API_URL, useBetterQuery } from '..'
 import { gamemakerKeys } from './keys'
 import { platformApiRequest } from '../request'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 const useGetGameSettings = (id: string) => {
   const queryFn = () =>
     platformApiRequest({
-      url: `/game-maker/settings/${id}`,
+      url: `${PLATFORM_API_URL}/game-maker/settings/${id}`,
       method: 'GET',
     })
   return useBetterQuery({
@@ -19,7 +19,7 @@ const useGetGameSettings = (id: string) => {
 const useGetAiWeeklyReports = () => {
   const queryFn = () =>
     platformApiRequest({
-      url: `/game-maker/ai-weekly-reports`,
+      url: `${PLATFORM_API_URL}/game-maker/ai-weekly-reports`,
       method: 'GET',
     })
   return useBetterQuery<
@@ -27,7 +27,7 @@ const useGetAiWeeklyReports = () => {
     Error
   >({
     queryKey: gamemakerKeys.aiWeeklyReports,
-    select: (data) => data.reverse(),
+    select: (data) => data.reverse().slice(0, 10),
     queryFn,
   })
 }
@@ -39,7 +39,7 @@ type UpdateGameSettingsProps = {
 const useUpdateGameSettings = () => {
   const mutationFn = ({ id, settings }: UpdateGameSettingsProps) =>
     platformApiRequest({
-      url: `/game-maker/settings/${id}`,
+      url: `${PLATFORM_API_URL}/game-maker/settings/${id}`,
       method: 'POST',
       body: settings,
     })
@@ -56,7 +56,7 @@ const useRunAiWeeklyReport = () => {
     weeklyReport: CodeClimbers.WeeklyScores
   }) =>
     platformApiRequest({
-      url: `/game-maker/ai-weekly-reports`,
+      url: `${PLATFORM_API_URL}/game-maker/ai-weekly-reports`,
       method: 'POST',
       body,
     })
