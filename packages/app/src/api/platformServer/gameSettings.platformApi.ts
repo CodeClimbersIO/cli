@@ -27,6 +27,7 @@ const useGetAiWeeklyReports = () => {
     Error
   >({
     queryKey: gamemakerKeys.aiWeeklyReports,
+    select: (data) => data.reverse(),
     queryFn,
   })
 }

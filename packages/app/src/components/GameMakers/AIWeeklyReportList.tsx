@@ -16,16 +16,14 @@ export const AiWeeklyReportList = () => {
       }}
     >
       <Box sx={{ overflow: 'auto' }}>
-        {data
-          ?.reverse()
-          .map((report, index) => (
-            <Chip
-              key={index}
-              label={index + 1}
-              variant={selectedReport === index ? 'filled' : 'outlined'}
-              onClick={() => setSelectedReport(index)}
-            />
-          ))}
+        {data?.map((report, index) => (
+          <Chip
+            key={index}
+            label={index + 1}
+            variant={selectedReport === index ? 'filled' : 'outlined'}
+            onClick={() => setSelectedReport(index)}
+          />
+        ))}
       </Box>
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <PerformanceReviewFax
