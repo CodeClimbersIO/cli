@@ -88,6 +88,27 @@ const getContributors = (): Contributor[] => {
       githubUrl: 'https://github.com/tanner-scadden',
       shouldSpotlight: true,
     },
+    {
+      name: 'Jesco',
+      subTitle: 'Favorite Villain: Lloyd from Legend of Dragoon',
+      profileUrl: `${baseFirebaseUrl}jesco.png?alt=media`,
+      githubUrl: 'https://github.com/rpdevjesco',
+      shouldSpotlight: true,
+    },
+    {
+      name: 'Dan Ebeling',
+      subTitle: 'Improve yourself with Log.coach 📈',
+      profileUrl: `${baseFirebaseUrl}DanEbeling.jpeg?alt=media`,
+      githubUrl: 'https://github.com/tekel527',
+      shouldSpotlight: true,
+    },
+    {
+      name: 'K. Boopathi',
+      subTitle: 'Programmer with Curiosity',
+      profileUrl: `${baseFirebaseUrl}K.Boopathi.jpeg?alt=media`,
+      githubUrl: 'https://github.com/programmerraja',
+      shouldSpotlight: true,
+    },
   ]
 }
 
