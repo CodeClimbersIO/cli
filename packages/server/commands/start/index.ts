@@ -121,14 +121,19 @@ export default class Start extends Command {
   🎉 Visit ${pc.cyan(appUrl)} to begin  
       `)
     this.log(WELCOME_LOGO)
-    const startupService = StartupServiceFactory.buildStartupService()
-    if (args.firstArg !== 'server') {
-      await startupService.launchAndEnableStartup()
+
+    try {
+      const startupService = StartupServiceFactory.buildStartupService()
+      if (args.firstArg !== 'server') {
+        await startupService.launchAndEnableStartup()
+      }
+      if (args.firstArg === 'server') {
+        await bootstrap()
+      }
+      const serverAlive = await this.waitForServer()
+      if (serverAlive) this.log(WELCOME_MESSAGE)
+    } catch (error) {
+      this.error(error)
     }
-    if (args.firstArg === 'server') {
-      await bootstrap()
-    }
-    const serverAlive = await this.waitForServer()
-    if (serverAlive) this.log(WELCOME_MESSAGE)
   }
 }
