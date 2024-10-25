@@ -10,6 +10,7 @@ import { DashboardLayout } from '../layouts/DashboardLayout'
 import { ImportLayout } from '../layouts/ImportLayout'
 import { ReportsPage } from '../components/WeeklyReports/ReportsPage'
 import { HomePage } from '../components/Home/HomePage'
+import { GameMakersPage } from '../components/GameMakers/GameMakersPage'
 
 export const AppRoutes = () => {
   const extensions = getActiveDashboardExtensionRoutes()
@@ -25,6 +26,7 @@ export const AppRoutes = () => {
           />
           <Route path="/contributors" element={<ContributorsPage />} />
           <Route path="/reports" element={<ReportsPage />} />
+          <Route path="/gamemakers" element={<GameMakersPage />} />
         </Route>
         <Route element={<ExtensionsLayout />}>
           {extensions.map((extension) => {
