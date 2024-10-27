@@ -12,9 +12,8 @@ import { useGetLocalServerWeeklyReport } from '../../api/localServer/report.loca
 import { CodeClimbersLink } from '../common/CodeClimbersLink'
 
 export const ReportsPage = () => {
-  const period = 'week'
   const [selectedDate, setSelectedDate] = useState(
-    dayjs().subtract(1, 'week').startOf(period).add(1, 'day'),
+    dayjs().subtract(1, 'week').startOf('isoWeek'),
   )
   const { data: weeklyScores, isPending } =
     useGetLocalServerWeeklyReport(selectedDate)
@@ -26,7 +25,7 @@ export const ReportsPage = () => {
       <DateHeader
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-        period={period}
+        period={'week'}
         title="Reports"
       />
       <Stack sx={{ alignItems: 'center' }}>

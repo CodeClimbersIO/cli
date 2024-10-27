@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { ReportService } from '../v1/activities/report.service'
-import dayjs from 'dayjs'
+import dayjs, { extend } from 'dayjs'
+import isoWeek from 'dayjs/plugin/isoWeek'
+extend(isoWeek)
+
 import { UserService } from '../v1/users/user.service'
 import axios from 'axios'
 import { isProd } from '../../utils/environment.util'
@@ -32,7 +35,7 @@ export class ScheduledTaskService {
   }
 
   private async sendWeeklyReport() {
-    const startOfWeek = dayjs().subtract(1, 'week').startOf('week')
+    const startOfWeek = dayjs().subtract(1, 'week').startOf('isoWeek')
     const scores = await this.reportService.getWeeklyScores(startOfWeek)
     const user = await this.userService.getCurrentUser()
     if (user.weeklyReportType === 'none') return

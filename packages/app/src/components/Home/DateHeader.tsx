@@ -7,7 +7,9 @@ import {
   styled,
   Typography,
 } from '@mui/material'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs, { Dayjs, extend } from 'dayjs'
+import isoWeek from 'dayjs/plugin/isoWeek'
+extend(isoWeek)
 
 import { Logo } from '../common/Logo/Logo'
 import {
@@ -59,7 +61,7 @@ const DateHeader = ({
   period = 'day',
   title,
 }: Props) => {
-  const today = dayjs().startOf(period)
+  const today = dayjs().startOf(period === 'week' ? 'isoWeek' : period)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const navigate = useNavigate()

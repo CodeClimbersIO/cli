@@ -205,7 +205,7 @@ export class ReportService {
 
   getWeeklyScores = async (startDate: Dayjs) => {
     // retrieve the project, deep work, social media, and total time for the week from services
-    const endDate = startDate.endOf('week').add(1, 'day')
+    const endDate = startDate.endOf('isoWeek')
 
     const [deepWorkTime, growthTime, socialMedia, totalTime, projectTime] =
       await Promise.all([
