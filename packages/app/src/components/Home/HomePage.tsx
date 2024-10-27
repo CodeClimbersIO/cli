@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import { Box } from '@mui/material'
-import dayjs from 'dayjs'
-
-import { Time } from './Time/Time'
 import { Navigate } from 'react-router-dom'
+
+import { useSelectedDate } from '../../hooks/useSelectedDate'
+import { Time } from './Time/Time'
 import { useGetHealth } from '../../services/health.service'
 import { ExtensionsDashboard } from '../Extensions/ExtensionsDashboard'
 import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
@@ -16,9 +15,8 @@ const HomePage = () => {
     retry: false,
     refetchInterval: false,
   })
+  const { selectedDate, setSelectedDate } = useSelectedDate()
   useSetFeaturePreference()
-
-  const [selectedDate, setSelectedDate] = useState(dayjs().startOf('day'))
 
   if (!health && !isHealthPending) return <Navigate to="/install" />
 
