@@ -20,7 +20,7 @@ export const setFeatureEnabled = (feature: FeatureKey, state: FeatureState) => {
   const newEnabledFeatures = { ...enabledFeatures, [feature]: state }
   localStorage.setItem('enabled-features', JSON.stringify(newEnabledFeatures))
   posthog.capture('$set', {
-    $set: newEnabledFeatures,
+    $set: { 'enabled-features': newEnabledFeatures },
   })
 }
 
