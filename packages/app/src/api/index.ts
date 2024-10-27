@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query'
 
 export const BASE_API_URL = '/api/v1'
+export const PLATFORM_API_URL = '/api'
 
 export const useBetterQuery = <T, Error>(
   options: UseQueryOptions<T, Error>,

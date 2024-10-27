@@ -7,8 +7,8 @@ import axios from 'axios'
 import { isProd } from '../../utils/environment.util'
 
 const platformUrl = isProd()
-  ? 'https://platform.codeclimbers.io'
-  : 'http://localhost:8000'
+  ? 'https://platform.codeclimbers.io/api'
+  : 'http://localhost:8000/api'
 
 @Injectable()
 export class ScheduledTaskService {
