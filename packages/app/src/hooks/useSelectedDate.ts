@@ -14,4 +14,22 @@ const useSelectedDate = () => {
   return { selectedDate, setSelectedDate }
 }
 
-export { useSelectedDate }
+const weekAppStore = create<{
+  selectedDate: dayjs.Dayjs
+  setSelectedDate: (date: dayjs.Dayjs) => void
+  isCurrentWeek: () => boolean
+}>((set, get) => ({
+  selectedDate: dayjs().startOf('week').subtract(1, 'week').add(1, 'day'),
+  setSelectedDate: (date) => set({ selectedDate: date }),
+  isCurrentWeek: () => {
+    const state = get()
+    return state.selectedDate.isSame(dayjs().startOf('isoWeek'), 'week')
+  },
+}))
+
+const useSelectedWeekDate = () => {
+  const { selectedDate, setSelectedDate, isCurrentWeek } = weekAppStore()
+  return { selectedDate, setSelectedDate, isCurrentWeek }
+}
+
+export { useSelectedDate, useSelectedWeekDate }

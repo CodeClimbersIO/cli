@@ -35,25 +35,49 @@ export class ScheduledTaskService {
   }
 
   private async sendWeeklyReport() {
-    const startOfWeek = dayjs().subtract(1, 'week').startOf('isoWeek')
+    const startOfWeek = dayjs()
+      .startOf('week')
+      .subtract(1, 'week')
+      .add(1, 'day')
     const scores = await this.reportService.getWeeklyScores(startOfWeek)
     const user = await this.userService.getCurrentUser()
+
     if (user.weeklyReportType === 'none') return
 
-    try {
-      const response = await axios.post(`${platformUrl}/weekly-report`, {
-        email: user.email,
-        weeklyReport: scores,
-        startOfWeek: startOfWeek.toISOString(),
-      })
+    if (user.weeklyReportType === 'ai') {
+      try {
+        const response = await axios.post(`${platformUrl}/ai-weekly-report`, {
+          email: user.email,
+          weeklyReport: scores,
+          startOfWeek: startOfWeek.toISOString(),
+        })
 
-      Logger.log(`Weekly report sent successfully for user ${user.email}`)
-      Logger.log(`Response status: ${response.status}`)
-    } catch (error) {
-      Logger.error(
-        `Error sending weekly report for user ${user.email}:`,
-        error.message,
-      )
+        Logger.log(`Weekly report sent successfully for user ${user.email}`)
+        Logger.log(`Response status: ${response.status}`)
+      } catch (error) {
+        Logger.error(
+          `Error sending weekly report for user ${user.email}:`,
+          error.message,
+        )
+      }
+    }
+
+    if (user.weeklyReportType === 'standard') {
+      try {
+        const response = await axios.post(`${platformUrl}/weekly-report`, {
+          email: user.email,
+          weeklyReport: scores,
+          startOfWeek: startOfWeek.toISOString(),
+        })
+
+        Logger.log(`Weekly report sent successfully for user ${user.email}`)
+        Logger.log(`Response status: ${response.status}`)
+      } catch (error) {
+        Logger.error(
+          `Error sending weekly report for user ${user.email}:`,
+          error.message,
+        )
+      }
     }
 
     Logger.log(scores.totalScore)

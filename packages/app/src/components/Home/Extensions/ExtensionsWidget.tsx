@@ -101,7 +101,10 @@ export const ExtensionsWidget = () => {
           </Stack>
           <Stack spacing={2}>
             {extensionCardData.map((extension) => (
-              <SimpleInfoCard key={extension.title} {...extension} />
+              <SimpleInfoCard
+                key={`${extension.title}-${extension.callout}`}
+                {...extension}
+              />
             ))}
           </Stack>
         </Stack>

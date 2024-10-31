@@ -20,6 +20,7 @@ import {
 } from '../../api/browser/user.api'
 import { CodeClimbersLink } from './CodeClimbersLink'
 import { setFeatureEnabled } from '../../services/feature.service'
+import { BossImage } from './Icons/BossImage'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
@@ -28,11 +29,11 @@ interface ReportOption {
 }
 
 const ReportOptions: ReportOption[] = [
-  // {
-  //   type: 'ai',
-  //   img: () => <BossImage width={48} height={48} />,
-  //   name: 'Big Brother Edition',
-  // },
+  {
+    type: 'ai',
+    img: () => <BossImage width={48} height={48} />,
+    name: 'Big Brother Edition',
+  },
   {
     type: 'standard',
     img: () => <BarChartIcon width={48} height={48} />,

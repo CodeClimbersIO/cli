@@ -1,6 +1,5 @@
 import '@mui/lab/themeAugmentation'
 import { ThemeOptions, createTheme } from '@mui/material'
-import { TypographyOptions } from '@mui/material/styles/createTypography'
 
 export interface GraphColors {
   blue: string
@@ -30,9 +29,21 @@ declare module '@mui/material/styles' {
   interface TypeText {
     actionDown?: string
   }
+  interface TypographyVariants {
+    monospace: React.CSSProperties
+    body3: React.CSSProperties
+  }
+
+  interface TypographyVariantsOptions {
+    monospace?: React.CSSProperties
+    body3?: React.CSSProperties
+  }
 }
-interface ExtendedTypographyOptions extends TypographyOptions {
-  body3: React.CSSProperties
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    monospace: true
+    body3: true
+  }
 }
 
 const typography = {
@@ -63,7 +74,7 @@ const typography = {
   },
   h5: {
     fontFamily: 'Roboto',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const,
     fontSize: '14px',
     lineHeight: '120%',
     fontWeight: 500,
@@ -89,7 +100,13 @@ const typography = {
     lineHeight: '16px',
     fontWeight: 400,
   },
-} as ExtendedTypographyOptions
+  monospace: {
+    fontFamily: 'monospace',
+    fontSize: '12px',
+    lineHeight: '16px',
+    fontWeight: 400,
+  },
+}
 
 const lightGraphColors: GraphColors = {
   blue: '#3892F3',
