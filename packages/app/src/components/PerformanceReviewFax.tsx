@@ -7,7 +7,13 @@ interface Props {
 
 export const PerformanceReviewFax = ({ performanceReview }: Props) => {
   return (
-    <Box sx={{ backgroundColor: '#FAF7F7', color: '#000', p: 6 }}>
+    <Box
+      sx={{
+        backgroundColor: (theme) => theme.palette.background.fax,
+        color: (theme) => theme.palette.text.fax,
+        p: 6,
+      }}
+    >
       <Stack>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <BossImage variant="happy" width={64} height={64} />
