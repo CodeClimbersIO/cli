@@ -35,6 +35,7 @@ abstract class BaseNodeUtil implements INodeUtil {
     : path.join(__dirname, '..', '..', '..')
   BIN_PATH = path.join(this.PROJECT_ROOT, 'bin')
   HOME_DIR = os.homedir()
+  
   abstract START_ERR_LOG_MESSAGE: string
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
@@ -87,7 +88,7 @@ class WindowsNodeUtil extends BaseNodeUtil {
   START_ERR_LOG_MESSAGE: string = pc.red(`      
     It seems the server is having trouble starting. Run the command in cmd (not powershell)
   
-    ${pc.white('more ' + this.CODE_CLIMBER_META_DIR + '\\codeclimbers.error.log')} 
+    ${pc.white('more ' + this.CODE_CLIMBER_META_DIR + '\\codeclimbers.err.log')} 
     
     to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
         `)
