@@ -1,19 +1,19 @@
 # Code Climbers CLI
 
-A command-line interface tool for climbers to track their daily coding achievements. Made up of 3 pieces. A Node server
+A command-line interface tool for climbers to track their daily coding stats. Made up of 3 pieces. A Node server
 with a restful api that delivers a Single Page application and a CLI that allows the user to turn the server on and off
 and control some of their preferences.
 
 The goal is to allow the user to be able to run the command `npx codeclimbers start` and not have to do anything else
 after that point. They could then view their dashboard and install sources from their browser
-at `localhost:14400`
+at `local.codeclimbers.io`
 
 ## Features
 
 - Measure daily work
-- (Future) Measure deep work
-- (Future) View progress over time
-- (Future) Community mods like gamification or interruptions manager
+- Measure deep work
+- View progress over time
+- Community mods like gamification or interruptions manager
 
 ## Quickstart
 
