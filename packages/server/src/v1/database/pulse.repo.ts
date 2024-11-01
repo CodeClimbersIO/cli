@@ -90,6 +90,9 @@ export class PulseRepo {
   }
 
   async createPulse(pulse: CodeClimbers.Pulse) {
+    if (process.env.EMULATE_ONBOARDING) {
+      return
+    }
     try {
       Logger.log('Creating pulse', 'pulse.repo')
       const res = await this.knex<CodeClimbers.Pulse>(this.tableName)
@@ -106,6 +109,9 @@ export class PulseRepo {
   }
 
   async createPulses(pulses: CodeClimbers.Pulse[]) {
+    if (process.env.EMULATE_ONBOARDING) {
+      return
+    }
     try {
       Logger.log('Creating pulses', 'pulse.repo')
       const res = await this.knex<CodeClimbers.Pulse>(this.tableName)

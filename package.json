@@ -23,6 +23,7 @@
     "check-deps": "node scripts/checkDependencies.js",
     "build": "npm run clean && npm ci && npm run build:app && npm run build:server",
     "dev:server": "cd packages/server && npm run start",
+    "dev:server:onboarding": "cd packages/server && EMULATE_ONBOARDING=true npm run start",
     "dev:app": "cd packages/app && npm run start",
     "package": "npm run build && copyfiles -u 1 \\\"packages/**/*\\\" tmp/codeclimbers/packages && oclif pack tarballs",
     "lint": "eslint --ext .ts,.tsx .",

@@ -6,6 +6,11 @@ import { Logger } from '@nestjs/common'
 import { isProd, isTest } from './environment.util'
 import { execSync } from 'node:child_process'
 
+const EMULATE_ONBOARDING = process.env.EMULATE_ONBOARDING
+const dbName = EMULATE_ONBOARDING
+  ? 'codeclimber.onboarding.sqlite'
+  : 'codeclimber.sqlite'
+
 const areWeInDist = () => {
   // returns if part of our path is in the dist folder
   return __dirname.includes('dist')
@@ -53,7 +58,7 @@ class DarwinNodeUtil extends BaseNodeUtil {
   )
   DB_PATH = path.join(
     this.CODE_CLIMBER_META_DIR,
-    isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
+    isTest() ? 'codeclimber.test.sqlite' : dbName,
   )
   START_ERR_LOG_MESSAGE = pc.red(`      
     It seems the server is having trouble starting. Run the command 
