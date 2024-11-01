@@ -13,6 +13,7 @@ import { BigBrotherReview } from './BigBrotherReview'
 import agi2024 from '../../assets/agi_2048.png'
 import { posthog } from 'posthog-js'
 import { useGetCurrentUser } from '../../api/browser/user.api'
+import { LoadingScreen } from '../LoadingScreen'
 
 export const ReportsPage = () => {
   const { selectedDate, setSelectedDate } = useSelectedWeekDate()
@@ -23,7 +24,11 @@ export const ReportsPage = () => {
   const { data: user } = useGetCurrentUser()
 
   if (isPending || !weeklyScores || !user) {
-    return <div>Loading</div>
+    return <LoadingScreen />
+  }
+
+  if (!weeklyScores || !user) {
+    return <div>No weekly scores or no user found</div>
   }
 
   const reportOff = user?.weeklyReportType !== 'ai'
