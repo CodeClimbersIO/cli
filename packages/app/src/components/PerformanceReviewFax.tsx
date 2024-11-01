@@ -9,8 +9,8 @@ export const PerformanceReviewFax = ({ performanceReview }: Props) => {
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.background.fax,
-        color: (theme) => theme.palette.text.fax,
+        backgroundColor: (theme) => theme.palette.common.white,
+        color: (theme) => theme.palette.common.black,
         p: 6,
       }}
     >

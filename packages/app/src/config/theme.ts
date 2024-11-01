@@ -25,12 +25,10 @@ declare module '@mui/material/styles' {
     paper_raised: string
     medium: string
     border: string
-    fax: string
     inverted: string
   }
   interface TypeText {
     actionDown?: string
-    fax?: string
     inverted?: string
   }
   interface TypographyVariants {
@@ -146,7 +144,6 @@ const darkOptions: ThemeOptions = {
       default: '#1D1D1D',
       paper: BASE_THEME_GREYS[900],
       paper_raised: '#323232',
-      fax: '#FAF7F7',
       medium: '#3F3F3F',
       border: '#707070',
       inverted: '#F8F8F8',
@@ -156,7 +153,6 @@ const darkOptions: ThemeOptions = {
     },
     text: {
       actionDown: '#AEDBFE',
-      fax: '#222222',
       inverted: '#222222',
     },
     graphColors: darkGraphColors,
@@ -194,9 +190,9 @@ const lightOptions: ThemeOptions = {
       main: '#769E68',
     },
     background: {
-      default: '#F5F5F5',
-      paper: '#F8F8F8',
-      paper_raised: '#E6E6E6',
+      default: '#F6F7F8',
+      paper: '#FFFFFF',
+      paper_raised: '#F6F7F8',
       inverted: '#323232',
     },
     graphColors: lightGraphColors,

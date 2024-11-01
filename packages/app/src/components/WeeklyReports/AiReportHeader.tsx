@@ -54,8 +54,8 @@ export const AiReportHeader = (props: {
     <Box
       sx={{
         display: 'flex',
-        backgroundColor: '#FAF7F7',
-        color: '#000',
+        backgroundColor: (theme) => theme.palette.common.white,
+        color: (theme) => theme.palette.common.black,
         justifyContent: 'center',
         p: 4,
       }}
