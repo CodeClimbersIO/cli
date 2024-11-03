@@ -35,7 +35,7 @@ abstract class BaseNodeUtil implements INodeUtil {
     : path.join(__dirname, '..', '..', '..')
   BIN_PATH = path.join(this.PROJECT_ROOT, 'bin')
   HOME_DIR = os.homedir()
-  
+
   abstract START_ERR_LOG_MESSAGE: string
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
