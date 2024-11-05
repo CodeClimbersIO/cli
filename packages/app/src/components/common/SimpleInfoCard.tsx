@@ -10,6 +10,7 @@ export interface SimpleInfoCardProps {
   subTitle: string
   callout: string
   href?: string
+  backgroundColor?: string
 }
 export const SimpleInfoCard = ({
   subjectUrl,
@@ -17,6 +18,7 @@ export const SimpleInfoCard = ({
   subTitle,
   callout,
   href,
+  backgroundColor,
 }: SimpleInfoCardProps) => {
   const isGithubUrl = subjectUrl?.includes('github.com')
   return (
@@ -37,7 +39,8 @@ export const SimpleInfoCard = ({
         sx={{
           border: '1px solid',
           borderColor: 'transparent',
-          backgroundColor: (theme) => theme.palette.background.paper_raised,
+          backgroundColor: (theme) =>
+            backgroundColor || theme.palette.background.paper_raised,
           '&:hover': {
             borderColor: (theme) => theme.palette.primary.main,
           },

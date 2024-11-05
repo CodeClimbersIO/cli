@@ -3,38 +3,100 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Dayjs } from 'dayjs'
 
 import { BossImage } from '../../common/Icons/BossImage'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { WeeklyReportDialog } from '../../common/WeeklyReportDialog'
 import { NotificationIcon } from '../../common/Icons/NotificationIcon'
 import { DeepWork } from '../DeepWork'
 import { CategoryChart } from './CategoryChart'
 import { useGetCurrentUser } from '../../../api/browser/user.api'
+import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 
 type Props = { selectedDate: Dayjs }
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
+  const iconRef = useRef<HTMLImageElement>(null)
   const { data: user } = useGetCurrentUser()
+  const [dismissedInfo, setDismissedInfo] = useBrowserStorage({
+    key: 'weekly-report-dismissed',
+    value: {
+      dismissed: false,
+      dismissedAt: null as number | null,
+    },
+  })
+  const [iconPosition, setIconPosition] = useState<DOMRect | null>(null)
+  const updateIconPosition = () => {
+    if (!iconRef.current) return
+    const newPosition = iconRef.current.getBoundingClientRect()
+    setIconPosition(newPosition)
+  }
+  useEffect(() => {
+    updateIconPosition()
+    // Add resize event listener
+    window.addEventListener('resize', updateIconPosition)
 
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateIconPosition)
+    }
+  }, [iconRef])
   const WeeklyReportSettings = () => {
-    const showNotificationIcon = user?.weeklyReportType === '' && !user?.email
+    const showNotification =
+      (user?.weeklyReportType === '' && !user?.email) ||
+      !dismissedInfo?.dismissed
     return (
       <Box
-        sx={{ position: 'relative', padding: 0.5, cursor: 'pointer' }}
+        ref={iconRef}
+        sx={{
+          padding: 0.5,
+          cursor: 'pointer',
+        }}
         onClick={() => {
           setIsWeeklyReportModalOpen(true)
+          setDismissedInfo({ dismissed: true, dismissedAt: Date.now() })
         }}
       >
         <BossImage />
-        {showNotificationIcon && (
-          <NotificationIcon
-            height={16}
-            width={16}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-            }}
-          />
+        {showNotification && (
+          <>
+            <NotificationIcon
+              height={16}
+              width={16}
+              sx={{
+                position: 'absolute',
+                top: iconPosition?.top,
+                left: (iconPosition?.left || 0) + 25,
+              }}
+            />
+            <Box
+              sx={{
+                position: 'absolute',
+                top: (iconPosition?.top || 0) - 40,
+                left: (iconPosition?.left || 0) - 45,
+                borderRadius: 1,
+                padding: 0.5,
+                background: (theme) => theme.palette.background.inverted,
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: -6,
+                  right: 10,
+                  width: 0,
+                  height: 0,
+                  borderLeft: '6px solid transparent',
+                  borderRight: '6px solid transparent',
+                  borderTop: (theme) =>
+                    `6px solid ${theme.palette.background.inverted}`,
+                },
+              }}
+            >
+              <Typography
+                variant="monospace"
+                sx={{ color: (theme) => theme.palette.text.inverted }}
+              >
+                Hey sport!
+              </Typography>
+            </Box>
+          </>
         )}
       </Box>
     )

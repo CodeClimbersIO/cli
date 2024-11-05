@@ -37,7 +37,7 @@ export const GrowthScore = ({ growthScore }: Props) => {
             padding: '20px 30px',
             display: 'flex',
             flexDirection: 'column',
-            height: '225px',
+            height: '250px',
           }}
         >
           {data.length > 0 ? (

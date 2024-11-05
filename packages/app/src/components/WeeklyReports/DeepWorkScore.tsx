@@ -28,6 +28,7 @@ export const DeepWorkScore = ({ deepWorkScore }: Props) => {
     },
   ]
 
+  const hasNoDeepWork = data.length === 0 || data[0].data.length === 0
   return (
     <Box>
       <ScoreHeader
@@ -46,10 +47,10 @@ export const DeepWorkScore = ({ deepWorkScore }: Props) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            height: '225px',
+            height: '250px',
           }}
         >
-          {data.length > 0 ? (
+          {!hasNoDeepWork ? (
             <>
               <Typography sx={{ pl: 2, fontSize: '11px' }}>
                 {formatMinutes(deepWorkScore.actual)} avg 5 highest days

@@ -15,7 +15,7 @@ export const WeeklyBarGraph = (props: Props) => {
     const length = record.name.length
     return {
       ...record,
-      name: length > 13 ? `${record.name.slice(0, 12)}..` : record.name,
+      name: length > 11 ? `${record.name.slice(0, 10)}..` : record.name,
     }
   })
 

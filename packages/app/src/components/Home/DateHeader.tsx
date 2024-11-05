@@ -62,6 +62,7 @@ const DateHeader = ({
   title,
 }: Props) => {
   const today = dayjs().startOf(period === 'week' ? 'isoWeek' : period)
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const navigate = useNavigate()

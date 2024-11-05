@@ -20,6 +20,7 @@ import {
 } from '../../api/browser/user.api'
 import { CodeClimbersLink } from './CodeClimbersLink'
 import { setFeatureEnabled } from '../../services/feature.service'
+import { BossImage } from './Icons/BossImage'
 
 interface ReportOption {
   type: CodeClimbers.WeeklyReportType
@@ -28,11 +29,11 @@ interface ReportOption {
 }
 
 const ReportOptions: ReportOption[] = [
-  // {
-  //   type: 'ai',
-  //   img: () => <BossImage width={48} height={48} />,
-  //   name: 'Big Brother Edition',
-  // },
+  {
+    type: 'ai',
+    img: () => <BossImage width={48} height={48} />,
+    name: 'Big Brother Edition',
+  },
   {
     type: 'standard',
     img: () => <BarChartIcon width={48} height={48} />,
@@ -112,9 +113,17 @@ export const WeeklyReportDialog = ({
   const [reportOption, setReportOption] =
     useState<CodeClimbers.WeeklyReportType>(user.weeklyReportType)
   const [email, setEmail] = useState(user.email || '')
+  const [emailError, setEmailError] = useState('')
 
   const handleOptionClick = (option: CodeClimbers.WeeklyReportType) => {
     setReportOption(option)
+    if (!user.id) return
+    updateUserSettings({
+      user_id: user.id,
+      settings: {
+        weekly_report_type: option,
+      },
+    })
   }
 
   const handleSave = () => {
@@ -134,7 +143,31 @@ export const WeeklyReportDialog = ({
     setFeatureEnabled('weekly-report', reportOption)
     handleClose()
   }
-  const hasNotSelectedItems = reportOption === '' || !email
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value
+    setEmail(newEmail)
+    if (newEmail && !validateEmail(newEmail)) {
+      setEmailError('Please enter a valid email address')
+    } else {
+      setEmailError('')
+    }
+  }
+
+  let errorMessage =
+    'Choose an option for a weekly email report of your coding stats.'
+  const emailInvalid =
+    (reportOption === 'standard' || reportOption === 'ai') &&
+    (!email || !!emailError)
+
+  if (emailInvalid) {
+    errorMessage = 'Enter an email to be sent your weekly report.'
+  }
+  const isInvalid = reportOption === '' || emailInvalid
 
   return (
     <Dialog
@@ -174,12 +207,10 @@ export const WeeklyReportDialog = ({
               <CloseIcon />
             </CodeClimbersIconButton>
           </Box>
-          {hasNotSelectedItems ? (
+          {isInvalid ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <NotificationIcon height={16} width={16} />
-              <Typography variant="caption">
-                Choose an option for a weekly email report of your coding stats.
-              </Typography>
+              <Typography variant="caption">{errorMessage}</Typography>
             </Box>
           ) : (
             <CodeClimbersLink
@@ -211,8 +242,10 @@ export const WeeklyReportDialog = ({
           label="Your Email"
           variant="outlined"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           fullWidth
+          error={!!emailError}
+          helperText={emailError}
           inputProps={{
             'data-lpignore': 'true',
             'data-form-type': 'other',
@@ -224,6 +257,7 @@ export const WeeklyReportDialog = ({
           onClick={handleSave}
           variant="contained"
           sx={{ ml: 0 }}
+          disabled={isInvalid}
         >
           Save
         </CodeClimbersButton>

@@ -1,6 +1,5 @@
 import '@mui/lab/themeAugmentation'
 import { ThemeOptions, createTheme } from '@mui/material'
-import { TypographyOptions } from '@mui/material/styles/createTypography'
 
 export interface GraphColors {
   blue: string
@@ -26,13 +25,27 @@ declare module '@mui/material/styles' {
     paper_raised: string
     medium: string
     border: string
+    inverted: string
   }
   interface TypeText {
     actionDown?: string
+    inverted?: string
+  }
+  interface TypographyVariants {
+    monospace: React.CSSProperties
+    body3: React.CSSProperties
+  }
+
+  interface TypographyVariantsOptions {
+    monospace?: React.CSSProperties
+    body3?: React.CSSProperties
   }
 }
-interface ExtendedTypographyOptions extends TypographyOptions {
-  body3: React.CSSProperties
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    monospace: true
+    body3: true
+  }
 }
 
 const typography = {
@@ -63,7 +76,7 @@ const typography = {
   },
   h5: {
     fontFamily: 'Roboto',
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const,
     fontSize: '14px',
     lineHeight: '120%',
     fontWeight: 500,
@@ -89,7 +102,13 @@ const typography = {
     lineHeight: '16px',
     fontWeight: 400,
   },
-} as ExtendedTypographyOptions
+  monospace: {
+    fontFamily: 'monospace',
+    fontSize: '12px',
+    lineHeight: '16px',
+    fontWeight: 400,
+  },
+}
 
 const lightGraphColors: GraphColors = {
   blue: '#3892F3',
@@ -127,12 +146,14 @@ const darkOptions: ThemeOptions = {
       paper_raised: '#323232',
       medium: '#3F3F3F',
       border: '#707070',
+      inverted: '#F8F8F8',
     },
     primary: {
       main: '#72B7F9',
     },
     text: {
       actionDown: '#AEDBFE',
+      inverted: '#222222',
     },
     graphColors: darkGraphColors,
     // Much better readability in dark modes and accessibility
@@ -169,15 +190,17 @@ const lightOptions: ThemeOptions = {
       main: '#769E68',
     },
     background: {
-      default: '#F5F5F5',
-      paper: '#F8F8F8',
-      paper_raised: '#E6E6E6',
+      default: '#F6F7F8',
+      paper: '#FFFFFF',
+      paper_raised: '#F6F7F8',
+      inverted: '#323232',
     },
     graphColors: lightGraphColors,
     text: {
       primary: '#222222', //default
       secondary: '#000000', //strong
       disabled: '#464646', //weak
+      inverted: '#FAF7F7',
     },
   },
   typography,

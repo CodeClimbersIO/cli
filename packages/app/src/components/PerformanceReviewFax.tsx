@@ -1,4 +1,4 @@
-import { Box, Divider, Stack } from '@mui/material'
+import { Box, Divider, Stack, Typography } from '@mui/material'
 import { BossImage } from './common/Icons/BossImage'
 
 interface Props {
@@ -7,24 +7,38 @@ interface Props {
 
 export const PerformanceReviewFax = ({ performanceReview }: Props) => {
   return (
-    <Box sx={{ backgroundColor: '#FAF7F7', m: 2, color: '#000', p: 8 }}>
+    <Box
+      sx={{
+        backgroundColor: (theme) => theme.palette.common.white,
+        color: (theme) => theme.palette.common.black,
+        p: 6,
+      }}
+    >
       <Stack>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <BossImage variant="happy" width={96} height={96} />
+          <BossImage variant="happy" width={64} height={64} />
           <Stack>
-            <pre style={{ margin: 0, marginBottom: '24px' }}>
+            <Typography
+              variant="monospace"
+              style={{ margin: 0, marginBottom: '12px' }}
+            >
               From: Timothy Brother
-            </pre>
-            <pre style={{ margin: 0 }}>Subject: Comments on Your Week</pre>
+            </Typography>
+            <Typography variant="monospace" style={{ margin: 0 }}>
+              Subject: Comments on Your Week
+            </Typography>
           </Stack>
         </Box>
         <Divider
           sx={{ my: 4, backgroundColor: '#000', borderBottomWidth: 2 }}
         />
       </Stack>
-      <pre style={{ whiteSpace: 'pre-wrap', margin: 0 }}>
+      <Typography
+        variant="monospace"
+        style={{ whiteSpace: 'pre-wrap', margin: 0 }}
+      >
         {performanceReview}
-      </pre>
+      </Typography>
     </Box>
   )
 }
