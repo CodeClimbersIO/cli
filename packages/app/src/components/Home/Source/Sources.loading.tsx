@@ -13,7 +13,7 @@ const SourcesLoading = () => {
   const theme = useTheme()
 
   return (
-    <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 262 }}>
+    <Card sx={{ boxShadow: 'none', borderRadius: 0, flex: 1 }}>
       <CardContent sx={{ padding: '24px', height: '100%', display: 'flex' }}>
         <Stack direction="column" flex={1}>
           <Stack direction="row" justifyContent="space-between">

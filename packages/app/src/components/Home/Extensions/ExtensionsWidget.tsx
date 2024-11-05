@@ -64,7 +64,7 @@ export const ExtensionsWidget = () => {
   }
 
   return (
-    <Card sx={{ flex: 1, minWidth: 330, boxShadow: 'none', borderRadius: 0 }}>
+    <Card sx={{ flex: 1, boxShadow: 'none', borderRadius: 0 }}>
       <CardContent
         sx={{
           p: 3,

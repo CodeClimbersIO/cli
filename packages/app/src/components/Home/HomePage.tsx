@@ -38,6 +38,7 @@ const HomePage = () => {
         <Box
           sx={{
             display: 'flex',
+            flex: 3,
             flexDirection: { xs: 'column', md: 'row' },
             gap: 4,
           }}

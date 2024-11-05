@@ -64,7 +64,7 @@ const Sources = ({ selectedDate }: SourcesProps) => {
 
   return (
     <>
-      <Card sx={{ boxShadow: 'none', borderRadius: 0, minWidth: 335, flex: 1 }}>
+      <Card sx={{ boxShadow: 'none', borderRadius: 0, flex: 1 }}>
         <CardContent sx={{ padding: '24px', height: '100%', display: 'flex' }}>
           <Stack direction="column" justifyContent={'space-between'} flex={1}>
             <div>

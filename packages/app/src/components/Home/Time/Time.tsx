@@ -12,6 +12,67 @@ import { useGetCurrentUser } from '../../../api/browser/user.api'
 import { useBrowserStorage } from '../../../hooks/useBrowserStorage'
 
 type Props = { selectedDate: Dayjs }
+
+const useTrackPosition = (ref: React.RefObject<HTMLElement>) => {
+  const [position, setPosition] = useState<DOMRect | null>(null)
+  const observerRef = useRef<ResizeObserver | null>(null)
+  const mutationObserverRef = useRef<MutationObserver | null>(null)
+
+  useEffect(() => {
+    if (!ref.current) return
+
+    const updatePosition = () => {
+      if (ref.current) {
+        const newPosition = ref.current.getBoundingClientRect()
+        setPosition((prevPosition) => {
+          // Only update if position actually changed
+          if (!prevPosition) return newPosition
+          if (
+            prevPosition.top !== newPosition.top ||
+            prevPosition.left !== newPosition.left
+          ) {
+            return newPosition
+          }
+          return prevPosition
+        })
+      }
+    }
+
+    // Set up ResizeObserver for the element and its parent
+    observerRef.current = new ResizeObserver(updatePosition)
+    observerRef.current.observe(ref.current)
+    if (ref.current.parentElement) {
+      observerRef.current.observe(ref.current.parentElement)
+    }
+
+    // Set up MutationObserver to watch for DOM changes
+    mutationObserverRef.current = new MutationObserver(updatePosition)
+    mutationObserverRef.current.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    })
+
+    // Handle scroll events
+    const handleScroll = () => {
+      requestAnimationFrame(updatePosition)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    // Initial position
+    updatePosition()
+
+    return () => {
+      observerRef.current?.disconnect()
+      mutationObserverRef.current?.disconnect()
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [ref])
+
+  return position
+}
+
 export const Time = ({ selectedDate }: Props) => {
   const [isWeeklyReportModalOpen, setIsWeeklyReportModalOpen] = useState(false)
   const iconRef = useRef<HTMLImageElement>(null)
@@ -23,22 +84,8 @@ export const Time = ({ selectedDate }: Props) => {
       dismissedAt: null as number | null,
     },
   })
-  const [iconPosition, setIconPosition] = useState<DOMRect | null>(null)
-  const updateIconPosition = () => {
-    if (!iconRef.current) return
-    const newPosition = iconRef.current.getBoundingClientRect()
-    setIconPosition(newPosition)
-  }
-  useEffect(() => {
-    updateIconPosition()
-    // Add resize event listener
-    window.addEventListener('resize', updateIconPosition)
+  const position = useTrackPosition(iconRef)
 
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', updateIconPosition)
-    }
-  }, [iconRef])
   const WeeklyReportSettings = () => {
     const showNotification =
       (user?.weeklyReportType === '' && !user?.email) ||
@@ -63,15 +110,15 @@ export const Time = ({ selectedDate }: Props) => {
               width={16}
               sx={{
                 position: 'absolute',
-                top: iconPosition?.top,
-                left: (iconPosition?.left || 0) + 25,
+                top: position?.top,
+                left: (position?.left || 0) + 25,
               }}
             />
             <Box
               sx={{
                 position: 'absolute',
-                top: (iconPosition?.top || 0) - 40,
-                left: (iconPosition?.left || 0) - 45,
+                top: (position?.top || 0) - 40,
+                left: (position?.left || 0) - 45,
                 borderRadius: 1,
                 padding: 0.5,
                 background: (theme) => theme.palette.background.inverted,
@@ -109,6 +156,7 @@ export const Time = ({ selectedDate }: Props) => {
         boxShadow: 'none',
         borderRadius: 0,
         width: '100%',
+        flex: 3,
       }}
     >
       <CardContent
