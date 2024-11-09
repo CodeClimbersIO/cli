@@ -40,7 +40,7 @@ export const bootstrap = async () => {
         ]
       : [
           'https://codeclimbers.io',
-          'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
+          /chrome-extension.+$/,
           'http://localhost:5173',
           /\.codeclimbers\.io$/,
           /\.web\.app$/,
