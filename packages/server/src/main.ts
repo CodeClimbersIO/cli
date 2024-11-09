@@ -1,5 +1,3 @@
-// Import this first!
-import './sentry'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger, ValidationPipe } from '@nestjs/common'
@@ -40,7 +38,7 @@ export const bootstrap = async () => {
         ]
       : [
           'https://codeclimbers.io',
-          'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
+          /chrome-extension.+$/,
           'http://localhost:5173',
           /\.codeclimbers\.io$/,
           /\.web\.app$/,

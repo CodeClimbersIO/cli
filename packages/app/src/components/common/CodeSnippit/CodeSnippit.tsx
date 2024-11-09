@@ -28,22 +28,40 @@ export const CodeSnippit = ({ code, onCopy }: CodeSnippitProps) => {
     }
   }, [])
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     if (errored || copied) return
     if (onCopy) onCopy()
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      handleTimer(() => {
+        setCopied(false)
+      })
+    } else {
+      const textArea = document.createElement('textarea')
+      textArea.value = code
 
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(code)?.then(() => {
+      textArea.style.position = 'absolute'
+      textArea.style.left = '-999999px'
+
+      document.body.prepend(textArea)
+      textArea.select()
+
+      try {
+        document.execCommand('copy')
         setCopied(true)
         handleTimer(() => {
           setCopied(false)
         })
-      })
-    } else {
-      setErrored(true)
-      handleTimer(() => {
-        setErrored(false)
-      })
+      } catch (error) {
+        setErrored(true)
+        handleTimer(() => {
+          setErrored(false)
+        })
+        console.error(error)
+      } finally {
+        textArea.remove()
+      }
     }
   }
 

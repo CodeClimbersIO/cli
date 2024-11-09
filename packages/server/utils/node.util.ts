@@ -20,6 +20,8 @@ interface INodeUtil {
   PROJECT_ROOT: string
   BIN_PATH: string
   START_ERR_LOG_MESSAGE: string
+  LOG_NAME: string
+  ERROR_LOG_NAME: string
   HOME_DIR: string
   CODE_CLIMBER_META_DIR: string
   DB_PATH: string
@@ -35,8 +37,15 @@ abstract class BaseNodeUtil implements INodeUtil {
     : path.join(__dirname, '..', '..', '..')
   BIN_PATH = path.join(this.PROJECT_ROOT, 'bin')
   HOME_DIR = os.homedir()
-
-  abstract START_ERR_LOG_MESSAGE: string
+  LOG_NAME = 'codeclimbers.log'
+  ERROR_LOG_NAME = 'codeclimbers_error.log'
+  START_ERR_LOG_MESSAGE = pc.red(`      
+    It seems the server is having trouble starting. Run the command 
+  
+    npx codeclimbers log:error -l 50 
+    
+    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
+        `)
   abstract CODE_CLIMBER_META_DIR: string
   abstract DB_PATH: string
   APP_DIST_PATH = path.join(this.PROJECT_ROOT, 'packages', 'app', 'dist')
@@ -61,13 +70,6 @@ class DarwinNodeUtil extends BaseNodeUtil {
     this.CODE_CLIMBER_META_DIR,
     isTest() ? 'codeclimber.test.sqlite' : dbName,
   )
-  START_ERR_LOG_MESSAGE = pc.red(`      
-    It seems the server is having trouble starting. Run the command 
-  
-    ${pc.white('cat ' + this.CODE_CLIMBER_META_DIR + '/codeclimbers_error.log')} 
-    
-    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
-        `)
 
   NODE_PATH = (): string => {
     const result = execSync('which node').toString().trim()
@@ -85,13 +87,8 @@ class WindowsNodeUtil extends BaseNodeUtil {
     this.CODE_CLIMBER_META_DIR,
     isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
   )
-  START_ERR_LOG_MESSAGE: string = pc.red(`      
-    It seems the server is having trouble starting. Run the command in cmd (not powershell)
-  
-    ${pc.white('more ' + this.CODE_CLIMBER_META_DIR + '\\codeclimbers.err.log')} 
-    
-    to investigate the issue further. You can also refer to https://github.com/CodeClimbersIO/cli/blob/release/docs/Troubleshooting.md or message us on our Discord
-        `)
+  LOG_NAME = 'codeclimbers.out.log'
+  ERROR_LOG_NAME = 'codeclimbers.err.log'
 
   NODE_PATH = (): string => {
     const result = execSync('where node').toString().trim()
@@ -109,13 +106,7 @@ class LinuxNodeUtil extends BaseNodeUtil {
     this.CODE_CLIMBER_META_DIR,
     isTest() ? 'codeclimber.test.sqlite' : 'codeclimber.sqlite',
   )
-  START_ERR_LOG_MESSAGE = pc.red(`      
-    It seems the server is having trouble starting. Run the command 
-  
-    ${pc.white('cat ' + this.CODE_CLIMBER_META_DIR + '/codeclimbers_error.log')} 
-    
-    to investigate the issue further
-        `)
+
   NODE_PATH = (): string => {
     const result = execSync('which node').toString().trim()
     return path.dirname(result)
@@ -146,6 +137,8 @@ export const CODE_CLIMBER_META_DIR = nodeUtil.CODE_CLIMBER_META_DIR
 export const DB_PATH = nodeUtil.DB_PATH
 export const APP_DIST_PATH = nodeUtil.APP_DIST_PATH
 export const CODE_CLIMBER_INI_PATH = nodeUtil.CODE_CLIMBER_INI_PATH
+export const LOG_NAME = nodeUtil.LOG_NAME
+export const ERROR_LOG_NAME = nodeUtil.ERROR_LOG_NAME
 export const NODE_PATH = nodeUtil.NODE_PATH
 export const initDBDir = nodeUtil.initDBDir
 
@@ -160,6 +153,8 @@ const logPaths = () => {
   Logger.debug(HOME_DIR, 'HOME_DIR')
   Logger.debug(APP_DIST_PATH, 'APP_DIST_PATH')
   Logger.debug(CODE_CLIMBER_INI_PATH, 'CODE_CLIMBER_INI_PATH')
+  Logger.debug(LOG_NAME, 'LOG_NAME')
+  Logger.debug(ERROR_LOG_NAME, 'ERROR_LOG_NAME')
 }
 
 logPaths()

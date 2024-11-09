@@ -41,7 +41,7 @@ export const SourceTimeChart = ({
         />
       </Grid2>
       <Grid2>
-        <Typography variant="body1" color={theme.palette.grey[300]}>
+        <Typography variant="body1" fontWeight="bold" color="text.secondary">
           {time}
         </Typography>
       </Grid2>
