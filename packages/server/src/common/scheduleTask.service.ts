@@ -22,10 +22,18 @@ export class ScheduledTaskService {
     this.reportService = reportService
     this.userService = userService
   }
-  @Cron('0 8 * * 1')
+  // every hour on monday
+  @Cron('0 * * * 1')
   handleWeeklyReport() {
-    this.sendWeeklyReport()
-    // Add your actual function logic here
+    // if it's after 8am, send the report
+    if (dayjs().hour() < 8) {
+      return
+    }
+    // wait a random amount of seconds between 0 and 600 to help spread out the load
+    const waitTime = Math.floor(Math.random() * 600)
+    setTimeout(() => {
+      this.sendWeeklyReport()
+    }, waitTime * 1000)
   }
 
   @Cron(CronExpression.EVERY_10_SECONDS)
