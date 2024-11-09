@@ -8,25 +8,20 @@ export const isFeatureEnabled = (
   state: FeatureState,
 ): boolean => {
   const enabledFeatures = JSON.parse(
-    localStorage.getItem('enabled-features') || '{}',
+    localStorage.getItem(`enabled-features-${feature}`) || '',
   )
-  return enabledFeatures[feature] === state
+  return enabledFeatures === state
 }
 
 export const setFeatureEnabled = (feature: FeatureKey, state: FeatureState) => {
-  const enabledFeatures = JSON.parse(
-    localStorage.getItem('enabled-features') || '{}',
-  )
-  const newEnabledFeatures = { ...enabledFeatures, [feature]: state }
-  localStorage.setItem('enabled-features', JSON.stringify(newEnabledFeatures))
-  posthog.capture('$set', {
-    $set: { 'enabled-features': newEnabledFeatures },
-  })
-}
-
-export const getFeaturePreferences = (): Record<FeatureKey, FeatureState> => {
-  const enabledFeatures = JSON.parse(
-    localStorage.getItem('enabled-features') || '{}',
-  )
-  return enabledFeatures
+  let stringState = ''
+  try {
+    stringState = JSON.stringify(state)
+    localStorage.setItem(`enabled-features-${feature}`, stringState)
+    posthog.capture('$set', {
+      $set: { [`enabled-features-${feature}`]: state },
+    })
+  } catch (error) {
+    console.error(`Error setting feature enabled-features-${feature}`, error)
+  }
 }
