@@ -4,7 +4,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { CODE_CLIMBER_META_DIR, LOG_NAME } from '../../utils/node.util'
 
-export default class Log extends Command {
+export default class LogOut extends Command {
   static description = 'Get the latest 50 lines of error logs'
 
   static flags = {
@@ -16,9 +16,9 @@ export default class Log extends Command {
   }
 
   async run() {
-    const { flags } = await this.parse(Log)
+    const { flags } = await this.parse(LogOut)
     const lines = flags.lines || 50
-    this.log(`Getting latest ${lines} lines of error logs...`)
+    this.log(`Getting latest ${lines} lines of logs...`)
     const logPath = path.join(CODE_CLIMBER_META_DIR, LOG_NAME)
     const logContent = fs.readFileSync(logPath, 'utf8')
     this.log(logContent.split('\n').slice(-lines).join('\n'))
