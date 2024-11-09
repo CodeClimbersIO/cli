@@ -19,13 +19,11 @@ export const useGetAiWeeklyReport = (startOfWeek: string, email?: string) => {
 
 export const useGenerateAiWeeklyReport = () => {
   const queryClient = useQueryClient()
-  let startOfWeek: string
   const mutationFn = (body: {
     email: string
     startOfWeek: string
     weeklyReport: CodeClimbers.WeeklyScores
   }) => {
-    startOfWeek = body.startOfWeek
     return platformApiRequest({
       url: `${PLATFORM_API_URL}/ai-weekly-report`,
       method: 'POST',
@@ -34,9 +32,9 @@ export const useGenerateAiWeeklyReport = () => {
   }
   return useMutation({
     mutationFn,
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: weeklyReportKeys.aiWeeklyReports(startOfWeek),
+        queryKey: weeklyReportKeys.aiWeeklyReports(variables.startOfWeek),
       })
     },
   })
