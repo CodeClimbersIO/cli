@@ -44,7 +44,6 @@ const Sources = ({ selectedDate }: SourcesProps) => {
   const { exportPulses } = useExportPulses()
   const [exportingPulses, setExportingPulses] = useState(false)
   const [addSourcesOpen, setAddSourcesOpen] = useState(false)
-
   const theme = useTheme()
 
   const handleExportPulses = async () => {

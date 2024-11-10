@@ -74,10 +74,15 @@ const requestFn = (apiType: apiType) => {
     })
       .then(async (response) => {
         if (!response.ok) {
-          const responseObject = await response.json()
+          let responseObject
+          const responseClone = response.clone()
+          try {
+            responseObject = await responseClone.json()
+          } catch (err) {
+            responseObject = await response.text()
+          }
           throw new ApiError(responseObject?.message, response.status)
         }
-
         switch (responseType) {
           case 'blob':
             return response.blob()

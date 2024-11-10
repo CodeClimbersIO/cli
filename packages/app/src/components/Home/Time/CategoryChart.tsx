@@ -44,7 +44,6 @@ const CategoryChart = ({ selectedDate }: Props) => {
         }, 0),
       )
   }, [todayOverview])
-
   const getCategoryMinutes = (
     overview: CodeClimbers.TimeOverview[],
     category = '',
