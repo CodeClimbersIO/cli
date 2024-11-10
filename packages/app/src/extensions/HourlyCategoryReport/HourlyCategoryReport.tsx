@@ -25,29 +25,37 @@ export const HourlyCategoryReportChart = () => {
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [yIntervals, setYIntervals] = useState<number[]>([2, 4, 6, 8, 10])
 
-  const { mutateAsync: getCodingData, isPending } = useGetCodingData(
+  const { data: codingData, isPending: isCodingPending } = useGetCodingData(
     selectedDate.startOf('day').toISOString(),
     selectedDate.endOf('day').toISOString(),
   )
-  const { mutateAsync: getBrowsingData } = useGetBrowsingData(
-    selectedDate.startOf('day').toISOString(),
-    selectedDate.endOf('day').toISOString(),
-  )
-  const { mutateAsync: getCommunicatingData } = useGetCommunicatingData(
-    selectedDate.startOf('day').toISOString(),
-    selectedDate.endOf('day').toISOString(),
-  )
-  const { mutateAsync: getDesigningData } = useGetDesigningData(
-    selectedDate.startOf('day').toISOString(),
-    selectedDate.endOf('day').toISOString(),
-  )
+  const { data: browsingData, isPending: isBrowsingPending } =
+    useGetBrowsingData(
+      selectedDate.startOf('day').toISOString(),
+      selectedDate.endOf('day').toISOString(),
+    )
+  const { data: communicatingData, isPending: isCommunicatingPending } =
+    useGetCommunicatingData(
+      selectedDate.startOf('day').toISOString(),
+      selectedDate.endOf('day').toISOString(),
+    )
+  const { data: designingData, isPending: isDesigningPending } =
+    useGetDesigningData(
+      selectedDate.startOf('day').toISOString(),
+      selectedDate.endOf('day').toISOString(),
+    )
 
+  const isPending =
+    isCodingPending ||
+    isBrowsingPending ||
+    isCommunicatingPending ||
+    isDesigningPending
   useEffect(() => {
     const getData = async () => {
-      const coding: HourlyResponse[] = await getCodingData()
-      const browsing: HourlyResponse[] = await getBrowsingData()
-      const communicating: HourlyResponse[] = await getCommunicatingData()
-      const designing: HourlyResponse[] = await getDesigningData()
+      const coding: HourlyResponse[] = codingData || []
+      const browsing: HourlyResponse[] = browsingData || []
+      const communicating: HourlyResponse[] = communicatingData || []
+      const designing: HourlyResponse[] = designingData || []
 
       const formattedData = formatData(
         [...coding, ...browsing, ...communicating, ...designing],
@@ -57,8 +65,10 @@ export const HourlyCategoryReportChart = () => {
       setYIntervals(getYIntervals([...coding, ...browsing]))
       setChartData(formattedData)
     }
-    getData()
-  }, [])
+    if (!isPending) {
+      getData()
+    }
+  }, [isPending])
 
   if (isPending)
     return (
