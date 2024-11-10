@@ -9,6 +9,8 @@ import { ExtensionsWidget } from './Extensions/ExtensionsWidget'
 import { Sources } from './Source/Sources'
 import { DateHeader } from './DateHeader'
 import { useSetFeaturePreference } from '../../hooks/useSetFeaturePreference'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from '../ErrorFallback'
 
 const HomePage = () => {
   const { data: health, isPending: isHealthPending } = useGetHealth({
@@ -34,7 +36,9 @@ const HomePage = () => {
           mb: 4,
         }}
       >
-        <Time selectedDate={selectedDate} />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Time selectedDate={selectedDate} />
+        </ErrorBoundary>
         <Box
           sx={{
             display: 'flex',
@@ -43,11 +47,17 @@ const HomePage = () => {
             gap: 4,
           }}
         >
-          <Sources selectedDate={selectedDate} />
-          <ExtensionsWidget />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Sources selectedDate={selectedDate} />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <ExtensionsWidget />
+          </ErrorBoundary>
         </Box>
       </Box>
-      <ExtensionsDashboard />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ExtensionsDashboard />
+      </ErrorBoundary>
     </div>
   )
 }
