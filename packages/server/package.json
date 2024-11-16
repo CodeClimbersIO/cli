@@ -33,9 +33,9 @@
     "db:seed:make": "knex seed:make $(date +%s)_${npm_config_name}"
   },
   "optionalDependencies": {
-    "node-linux": "^0.1.7",
+    "@codeclimbers/node-linux": "^0.1.14",
     "node-mac": "^1.0.1",
-    "node-windows": "^1.0.0-beta.8"
+    "@codeclimbers/node-windows": "^1.0.0"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

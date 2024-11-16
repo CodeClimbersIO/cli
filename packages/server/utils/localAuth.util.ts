@@ -21,6 +21,11 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const isValidLocalApiKey = async (apiKey: string): Promise<boolean> => {
   try {
+    if (!existsSync(CODE_CLIMBER_INI_PATH)) {
+      const iniContent = stringifyIni({ settings: {} })
+      await fs.writeFile(CODE_CLIMBER_INI_PATH, iniContent, 'utf8')
+    }
+    console.log(CODE_CLIMBER_INI_PATH)
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
     if (iniConfig.settings.local_api_key !== apiKey) {
       throw new CodeClimberError.ApiKeyInvalid()
@@ -37,6 +42,10 @@ export const isValidLocalApiKey = async (apiKey: string): Promise<boolean> => {
 
 export const setLocalApiKey = async (apiKey: string): Promise<void> => {
   try {
+    if (!existsSync(CODE_CLIMBER_INI_PATH)) {
+      const iniContent = stringifyIni({ settings: {} })
+      await fs.writeFile(CODE_CLIMBER_INI_PATH, iniContent, 'utf8')
+    }
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
     iniConfig.settings.local_api_key = apiKey
     iniConfig.settings.local_api_key_readable = 'false'
@@ -56,7 +65,6 @@ export const getLocalApiKey = async (
       await fs.writeFile(CODE_CLIMBER_INI_PATH, iniContent, 'utf8')
     }
     const iniConfig = await readIniFile(CODE_CLIMBER_INI_PATH)
-
     if (!iniConfig.settings.local_api_key) {
       // generate a new key as guid
       const newKey = uuidv4()

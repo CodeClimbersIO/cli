@@ -34,6 +34,7 @@ export const bootstrap = async () => {
       ? [
           'https://codeclimbers.io',
           /\.codeclimbers\.io$/,
+          'http://localhost:5173',
           'chrome-extension://fdmoefklpgbjapealpjfailnmalbgpbe',
         ]
       : [

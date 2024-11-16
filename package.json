@@ -82,7 +82,7 @@
   "optionalDependencies": {
     "@codeclimbers/node-linux": "^0.1.14",
     "node-mac": "^1.0.1",
-    "node-windows": "^1.0.0-beta.8"
+    "@codeclimbers/node-windows": "^1.0.0"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",

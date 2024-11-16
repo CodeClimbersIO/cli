@@ -54,7 +54,7 @@ export const ImportPage = () => {
           mt: 2,
         }}
       >
-        {hasValidLocalAuthCookie ? (
+        {hasValidLocalAuthCookie?.isValid ? (
           <CardContent
             sx={{
               padding: '24px',

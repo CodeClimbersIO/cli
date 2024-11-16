@@ -4,14 +4,15 @@ import { Args, Command, Flags } from '@oclif/core'
 // eslint-disable-next-line import/no-unresolved
 import find from 'find-process'
 import pc from 'picocolors'
+import os from 'os'
 
 import http from 'http'
 import { StartupServiceFactory } from '../../src/v1/startup/startupService.factory'
 import { bootstrap } from '../../src/main'
 import { PROCESS_NAME } from '../../utils/constants'
 import { START_ERR_LOG_MESSAGE } from '../../utils/node.util'
+const MAX_ATTEMPTS = os.platform() === 'win32' ? 20 : 10
 
-const MAX_ATTEMPTS = 10
 const POLL_INTERVAL = 3000 // 3 seconds
 
 const checkServerAvailability = (url: string): Promise<boolean> => {

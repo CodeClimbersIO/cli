@@ -10,7 +10,7 @@ const getServiceLib = () => {
     case 'linux':
       return require('@codeclimbers/node-linux')
     case 'win32':
-      return require('node-windows')
+      return require('@codeclimbers/node-windows')
     default:
       throw new Error('Unsupported platform')
   }
