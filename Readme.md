@@ -4,10 +4,6 @@ A command-line interface tool for climbers to track their daily coding stats. Ma
 with a restful api that delivers a Single Page application and a CLI that allows the user to turn the server on and off
 and control some of their preferences.
 
-The goal is to allow the user to be able to run the command `npx codeclimbers start` and not have to do anything else
-after that point. They could then view their dashboard and install sources from their browser
-at `local.codeclimbers.io`
-
 ## Features
 
 - Measure daily work
@@ -43,3 +39,6 @@ Come help contribute to making it easier for coders to focus on doing what they 
 ## Licensing
 
 This project is licensed under the MIT License.
+
+## Thank you
+Big thanks to all of our contributors and to the open source community. Our extensions currently make use of [wakatime](https://github.com/wakatime) for time tracking functionality. Thank you!
