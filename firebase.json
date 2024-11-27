@@ -1,15 +1,15 @@
 {
   "hosting": {
     "public": "packages/app/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api/v1/wakatime/users/current/heartbeats",
+        "function": "blockWakatimeRequests"
       }
     ]
   }
